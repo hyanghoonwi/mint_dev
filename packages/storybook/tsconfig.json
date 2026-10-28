@@ -1,0 +1,9 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "paths": {
+      "@futurewiz-rms/mint": ["../core/src/index.ts"]
+    }
+  },
+  "include": ["stories", ".storybook", "vitest.shims.d.ts"]
+}
