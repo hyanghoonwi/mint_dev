@@ -67,6 +67,10 @@ function GridItem({ span = fullRow, className, style, ...props }: GridItemProps)
   );
 }
 
+// `Grid.Item`은 함수에 속성을 붙인 방식이다. 이 파일에 "use client"를 붙이면 Next.js의 서버 컴포넌트에서 `Grid.Item`처럼
+// 점으로 접근할 수 없게 된다(클라이언트 모듈은 참조로만 전달되어 안의 속성을 읽지 못한다).
+// 그래서 `Grid`는 상태나 이벤트 없이 서버 컴포넌트로 유지한다. 부득이하게 클라이언트 컴포넌트가 필요하면
+// `GridItem`을 별도 이름으로도 내보내고 사용처를 `GridItem`으로 바꾼다.
 Grid.Item = GridItem;
 
 export interface ContainerProps extends ComponentProps<"div"> {}
