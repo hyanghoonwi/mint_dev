@@ -1,0 +1,67 @@
+{
+  "name": "@futurewiz-rms/mint",
+  "version": "0.1.0",
+  "description": "MINT Design System — 크립토랩(Next.js 반응형 사이트)용 React 컴포넌트와 디자인 토큰",
+  "license": "UNLICENSED",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/futurewiz-rms/MINT.git",
+    "directory": "packages/core"
+  },
+  "type": "module",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./style.css": "./dist/style.css",
+    "./style.no-reset.css": "./dist/style.no-reset.css",
+    "./theme.css": "./dist/theme.css"
+  },
+  "files": [
+    "dist",
+    "guide",
+    "AGENTS.md",
+    "CHANGELOG.md",
+    "THIRD_PARTY_LICENSES.md"
+  ],
+  "sideEffects": [
+    "**/*.css"
+  ],
+  "scripts": {
+    "tokens:utilities": "node scripts/generate-token-utilities.mjs",
+    "build": "node scripts/generate-token-utilities.mjs && tsc --noEmit && vite build && npm run build:css && node scripts/build-theme.mjs && node scripts/check-use-client.mjs",
+    "build:css": "tailwindcss -i src/index.css -o dist/style.css --minify && tailwindcss -i src/index.no-reset.css -o dist/style.no-reset.css --minify",
+    "guide:check": "node scripts/check-guide-index.mjs",
+    "icons:generate": "node scripts/generate-icons.mjs"
+  },
+  "peerDependencies": {
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8"
+  },
+  "dependencies": {
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "tailwind-merge": "^3.6.0"
+  },
+  "devDependencies": {
+    "@phosphor-icons/core": "2.1.1",
+    "@tailwindcss/cli": "^4.3.3",
+    "@tailwindcss/vite": "^4.3.3",
+    "@types/node": "^24.13.3",
+    "@types/react": "^19.2.18",
+    "@types/react-dom": "^19.2.4",
+    "@vitejs/plugin-react": "^6.1.0",
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8",
+    "tailwindcss": "^4.3.3",
+    "vite": "^8.2.2",
+    "vite-plugin-dts": "^5.1.0"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com",
+    "access": "restricted"
+  }
+}

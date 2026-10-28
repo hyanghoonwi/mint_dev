@@ -1,0 +1,298 @@
+/*
+ * 타이포그래피 토큰 — Figma "Typography" (Specimen node 32:61, Token node 33:7)
+ *
+ * 이름은 역할-번호-웨이트다: `text-title-1-bold`, `text-body-2-regular` (Figma 스타일 "Typography/Title 1/Bold").
+ * 역할마다 허용된 웨이트만 만든다. 없는 조합(예: Display의 regular)은 일부러 없다.
+ *   Display: semibold · bold            Title·Heading·Label: medium · semibold · bold
+ *   Body: regular · medium · semibold · bold        Caption: regular · medium · semibold
+ *
+ * 원칙 (Figma 가이드)
+ *  - 컴포넌트는 역할 스타일만 쓰고 크기 숫자를 직접 지정하지 않는다.
+ *  - 크기·줄 간격은 화면 크기와 상관없이 하나의 체계다. 글자 크기는 반응형으로 바뀌지 않고, 반응형은 레이아웃(그리드·여백·열 수)에서 처리한다.
+ *  - 크기 이름은 웨이트 이름 medium과 겹치지 않도록 번호(1이 가장 큼)로 정했다.
+ *
+ * 자간은 Figma의 퍼센트 값을 em으로 옮긴 것이다(-2% → -0.02em). 줄 간격은 px이다.
+ * 이 파일은 scripts가 아니라 손으로 고치는 파일이지만, 스타일을 추가하면 src/utils/cn.ts의 판별식(정규식)이 새 이름을 알아보는지 확인한다.
+ */
+@theme {
+  /* Figma typography-font-family-sans: Pretendard. 불러오지 못하면 기기 기본 폰트로 대체한다 (영문 system-ui, 한글 Apple SD Gothic Neo → Noto Sans KR → Malgun Gothic) */
+  --font-mint:
+    "Pretendard Variable", Pretendard, system-ui, "Apple SD Gothic Neo", "Noto Sans KR",
+    "Malgun Gothic", sans-serif;
+  /* 페이지 전체의 기본 폰트도 Pretendard로 한다. Tailwind 리셋(preflight)이 html에 이 값을 쓴다 */
+  --default-font-family: var(--font-mint);
+
+  /* Display 1: 52px / 68px, 자간 -2% — semibold · bold */
+  --text-display-1-semibold: 52px;
+  --text-display-1-semibold--line-height: 68px;
+  --text-display-1-semibold--letter-spacing: -0.02em;
+  --text-display-1-semibold--font-weight: 600;
+  --text-display-1-bold: 52px;
+  --text-display-1-bold--line-height: 68px;
+  --text-display-1-bold--letter-spacing: -0.02em;
+  --text-display-1-bold--font-weight: 700;
+
+  /* Display 2: 40px / 52px, 자간 -2% — semibold · bold */
+  --text-display-2-semibold: 40px;
+  --text-display-2-semibold--line-height: 52px;
+  --text-display-2-semibold--letter-spacing: -0.02em;
+  --text-display-2-semibold--font-weight: 600;
+  --text-display-2-bold: 40px;
+  --text-display-2-bold--line-height: 52px;
+  --text-display-2-bold--letter-spacing: -0.02em;
+  --text-display-2-bold--font-weight: 700;
+
+  /* Display 3: 36px / 48px, 자간 -2% — semibold · bold */
+  --text-display-3-semibold: 36px;
+  --text-display-3-semibold--line-height: 48px;
+  --text-display-3-semibold--letter-spacing: -0.02em;
+  --text-display-3-semibold--font-weight: 600;
+  --text-display-3-bold: 36px;
+  --text-display-3-bold--line-height: 48px;
+  --text-display-3-bold--letter-spacing: -0.02em;
+  --text-display-3-bold--font-weight: 700;
+
+  /* Title 1: 32px / 44px, 자간 -2% — medium · semibold · bold */
+  --text-title-1-medium: 32px;
+  --text-title-1-medium--line-height: 44px;
+  --text-title-1-medium--letter-spacing: -0.02em;
+  --text-title-1-medium--font-weight: 500;
+  --text-title-1-semibold: 32px;
+  --text-title-1-semibold--line-height: 44px;
+  --text-title-1-semibold--letter-spacing: -0.02em;
+  --text-title-1-semibold--font-weight: 600;
+  --text-title-1-bold: 32px;
+  --text-title-1-bold--line-height: 44px;
+  --text-title-1-bold--letter-spacing: -0.02em;
+  --text-title-1-bold--font-weight: 700;
+
+  /* Title 2: 28px / 38px, 자간 -1.5% — medium · semibold · bold */
+  --text-title-2-medium: 28px;
+  --text-title-2-medium--line-height: 38px;
+  --text-title-2-medium--letter-spacing: -0.015em;
+  --text-title-2-medium--font-weight: 500;
+  --text-title-2-semibold: 28px;
+  --text-title-2-semibold--line-height: 38px;
+  --text-title-2-semibold--letter-spacing: -0.015em;
+  --text-title-2-semibold--font-weight: 600;
+  --text-title-2-bold: 28px;
+  --text-title-2-bold--line-height: 38px;
+  --text-title-2-bold--letter-spacing: -0.015em;
+  --text-title-2-bold--font-weight: 700;
+
+  /* Title 3: 24px / 34px, 자간 -1.5% — medium · semibold · bold */
+  --text-title-3-medium: 24px;
+  --text-title-3-medium--line-height: 34px;
+  --text-title-3-medium--letter-spacing: -0.015em;
+  --text-title-3-medium--font-weight: 500;
+  --text-title-3-semibold: 24px;
+  --text-title-3-semibold--line-height: 34px;
+  --text-title-3-semibold--letter-spacing: -0.015em;
+  --text-title-3-semibold--font-weight: 600;
+  --text-title-3-bold: 24px;
+  --text-title-3-bold--line-height: 34px;
+  --text-title-3-bold--letter-spacing: -0.015em;
+  --text-title-3-bold--font-weight: 700;
+
+  /* Heading 1: 22px / 32px, 자간 -1% — medium · semibold · bold */
+  --text-heading-1-medium: 22px;
+  --text-heading-1-medium--line-height: 32px;
+  --text-heading-1-medium--letter-spacing: -0.01em;
+  --text-heading-1-medium--font-weight: 500;
+  --text-heading-1-semibold: 22px;
+  --text-heading-1-semibold--line-height: 32px;
+  --text-heading-1-semibold--letter-spacing: -0.01em;
+  --text-heading-1-semibold--font-weight: 600;
+  --text-heading-1-bold: 22px;
+  --text-heading-1-bold--line-height: 32px;
+  --text-heading-1-bold--letter-spacing: -0.01em;
+  --text-heading-1-bold--font-weight: 700;
+
+  /* Heading 2: 20px / 30px, 자간 -1% — medium · semibold · bold */
+  --text-heading-2-medium: 20px;
+  --text-heading-2-medium--line-height: 30px;
+  --text-heading-2-medium--letter-spacing: -0.01em;
+  --text-heading-2-medium--font-weight: 500;
+  --text-heading-2-semibold: 20px;
+  --text-heading-2-semibold--line-height: 30px;
+  --text-heading-2-semibold--letter-spacing: -0.01em;
+  --text-heading-2-semibold--font-weight: 600;
+  --text-heading-2-bold: 20px;
+  --text-heading-2-bold--line-height: 30px;
+  --text-heading-2-bold--letter-spacing: -0.01em;
+  --text-heading-2-bold--font-weight: 700;
+
+  /* Heading 3: 18px / 26px, 자간 -0.5% — medium · semibold · bold */
+  --text-heading-3-medium: 18px;
+  --text-heading-3-medium--line-height: 26px;
+  --text-heading-3-medium--letter-spacing: -0.005em;
+  --text-heading-3-medium--font-weight: 500;
+  --text-heading-3-semibold: 18px;
+  --text-heading-3-semibold--line-height: 26px;
+  --text-heading-3-semibold--letter-spacing: -0.005em;
+  --text-heading-3-semibold--font-weight: 600;
+  --text-heading-3-bold: 18px;
+  --text-heading-3-bold--line-height: 26px;
+  --text-heading-3-bold--letter-spacing: -0.005em;
+  --text-heading-3-bold--font-weight: 700;
+
+  /* Body 1: 17px / 28px, 자간 0% — regular · medium · semibold · bold */
+  --text-body-1-regular: 17px;
+  --text-body-1-regular--line-height: 28px;
+  --text-body-1-regular--letter-spacing: 0;
+  --text-body-1-regular--font-weight: 400;
+  --text-body-1-medium: 17px;
+  --text-body-1-medium--line-height: 28px;
+  --text-body-1-medium--letter-spacing: 0;
+  --text-body-1-medium--font-weight: 500;
+  --text-body-1-semibold: 17px;
+  --text-body-1-semibold--line-height: 28px;
+  --text-body-1-semibold--letter-spacing: 0;
+  --text-body-1-semibold--font-weight: 600;
+  --text-body-1-bold: 17px;
+  --text-body-1-bold--line-height: 28px;
+  --text-body-1-bold--letter-spacing: 0;
+  --text-body-1-bold--font-weight: 700;
+
+  /* Body 2: 16px / 24px, 자간 0% — regular · medium · semibold · bold */
+  --text-body-2-regular: 16px;
+  --text-body-2-regular--line-height: 24px;
+  --text-body-2-regular--letter-spacing: 0;
+  --text-body-2-regular--font-weight: 400;
+  --text-body-2-medium: 16px;
+  --text-body-2-medium--line-height: 24px;
+  --text-body-2-medium--letter-spacing: 0;
+  --text-body-2-medium--font-weight: 500;
+  --text-body-2-semibold: 16px;
+  --text-body-2-semibold--line-height: 24px;
+  --text-body-2-semibold--letter-spacing: 0;
+  --text-body-2-semibold--font-weight: 600;
+  --text-body-2-bold: 16px;
+  --text-body-2-bold--line-height: 24px;
+  --text-body-2-bold--letter-spacing: 0;
+  --text-body-2-bold--font-weight: 700;
+
+  /* Body 3: 15px / 22px, 자간 0% — regular · medium · semibold · bold */
+  --text-body-3-regular: 15px;
+  --text-body-3-regular--line-height: 22px;
+  --text-body-3-regular--letter-spacing: 0;
+  --text-body-3-regular--font-weight: 400;
+  --text-body-3-medium: 15px;
+  --text-body-3-medium--line-height: 22px;
+  --text-body-3-medium--letter-spacing: 0;
+  --text-body-3-medium--font-weight: 500;
+  --text-body-3-semibold: 15px;
+  --text-body-3-semibold--line-height: 22px;
+  --text-body-3-semibold--letter-spacing: 0;
+  --text-body-3-semibold--font-weight: 600;
+  --text-body-3-bold: 15px;
+  --text-body-3-bold--line-height: 22px;
+  --text-body-3-bold--letter-spacing: 0;
+  --text-body-3-bold--font-weight: 700;
+
+  /* Body 4: 14px / 22px, 자간 0% — regular · medium · semibold · bold */
+  --text-body-4-regular: 14px;
+  --text-body-4-regular--line-height: 22px;
+  --text-body-4-regular--letter-spacing: 0;
+  --text-body-4-regular--font-weight: 400;
+  --text-body-4-medium: 14px;
+  --text-body-4-medium--line-height: 22px;
+  --text-body-4-medium--letter-spacing: 0;
+  --text-body-4-medium--font-weight: 500;
+  --text-body-4-semibold: 14px;
+  --text-body-4-semibold--line-height: 22px;
+  --text-body-4-semibold--letter-spacing: 0;
+  --text-body-4-semibold--font-weight: 600;
+  --text-body-4-bold: 14px;
+  --text-body-4-bold--line-height: 22px;
+  --text-body-4-bold--letter-spacing: 0;
+  --text-body-4-bold--font-weight: 700;
+
+  /* Body 5: 13px / 20px, 자간 0% — regular · medium · semibold · bold */
+  --text-body-5-regular: 13px;
+  --text-body-5-regular--line-height: 20px;
+  --text-body-5-regular--letter-spacing: 0;
+  --text-body-5-regular--font-weight: 400;
+  --text-body-5-medium: 13px;
+  --text-body-5-medium--line-height: 20px;
+  --text-body-5-medium--letter-spacing: 0;
+  --text-body-5-medium--font-weight: 500;
+  --text-body-5-semibold: 13px;
+  --text-body-5-semibold--line-height: 20px;
+  --text-body-5-semibold--letter-spacing: 0;
+  --text-body-5-semibold--font-weight: 600;
+  --text-body-5-bold: 13px;
+  --text-body-5-bold--line-height: 20px;
+  --text-body-5-bold--letter-spacing: 0;
+  --text-body-5-bold--font-weight: 700;
+
+  /* Label 1: 16px / 20px, 자간 0% — medium · semibold · bold */
+  --text-label-1-medium: 16px;
+  --text-label-1-medium--line-height: 20px;
+  --text-label-1-medium--letter-spacing: 0;
+  --text-label-1-medium--font-weight: 500;
+  --text-label-1-semibold: 16px;
+  --text-label-1-semibold--line-height: 20px;
+  --text-label-1-semibold--letter-spacing: 0;
+  --text-label-1-semibold--font-weight: 600;
+  --text-label-1-bold: 16px;
+  --text-label-1-bold--line-height: 20px;
+  --text-label-1-bold--letter-spacing: 0;
+  --text-label-1-bold--font-weight: 700;
+
+  /* Label 2: 14px / 20px, 자간 0% — medium · semibold · bold */
+  --text-label-2-medium: 14px;
+  --text-label-2-medium--line-height: 20px;
+  --text-label-2-medium--letter-spacing: 0;
+  --text-label-2-medium--font-weight: 500;
+  --text-label-2-semibold: 14px;
+  --text-label-2-semibold--line-height: 20px;
+  --text-label-2-semibold--letter-spacing: 0;
+  --text-label-2-semibold--font-weight: 600;
+  --text-label-2-bold: 14px;
+  --text-label-2-bold--line-height: 20px;
+  --text-label-2-bold--letter-spacing: 0;
+  --text-label-2-bold--font-weight: 700;
+
+  /* Label 3: 12px / 16px, 자간 0% — medium · semibold · bold */
+  --text-label-3-medium: 12px;
+  --text-label-3-medium--line-height: 16px;
+  --text-label-3-medium--letter-spacing: 0;
+  --text-label-3-medium--font-weight: 500;
+  --text-label-3-semibold: 12px;
+  --text-label-3-semibold--line-height: 16px;
+  --text-label-3-semibold--letter-spacing: 0;
+  --text-label-3-semibold--font-weight: 600;
+  --text-label-3-bold: 12px;
+  --text-label-3-bold--line-height: 16px;
+  --text-label-3-bold--letter-spacing: 0;
+  --text-label-3-bold--font-weight: 700;
+
+  /* Caption 1: 12px / 18px, 자간 0% — regular · medium · semibold */
+  --text-caption-1-regular: 12px;
+  --text-caption-1-regular--line-height: 18px;
+  --text-caption-1-regular--letter-spacing: 0;
+  --text-caption-1-regular--font-weight: 400;
+  --text-caption-1-medium: 12px;
+  --text-caption-1-medium--line-height: 18px;
+  --text-caption-1-medium--letter-spacing: 0;
+  --text-caption-1-medium--font-weight: 500;
+  --text-caption-1-semibold: 12px;
+  --text-caption-1-semibold--line-height: 18px;
+  --text-caption-1-semibold--letter-spacing: 0;
+  --text-caption-1-semibold--font-weight: 600;
+
+  /* Caption 2: 11px / 16px, 자간 0% — regular · medium · semibold */
+  --text-caption-2-regular: 11px;
+  --text-caption-2-regular--line-height: 16px;
+  --text-caption-2-regular--letter-spacing: 0;
+  --text-caption-2-regular--font-weight: 400;
+  --text-caption-2-medium: 11px;
+  --text-caption-2-medium--line-height: 16px;
+  --text-caption-2-medium--letter-spacing: 0;
+  --text-caption-2-medium--font-weight: 500;
+  --text-caption-2-semibold: 11px;
+  --text-caption-2-semibold--line-height: 16px;
+  --text-caption-2-semibold--letter-spacing: 0;
+  --text-caption-2-semibold--font-weight: 600;
+}

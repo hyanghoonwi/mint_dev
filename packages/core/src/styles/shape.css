@@ -1,0 +1,12 @@
+/*
+ * 라디우스 토큰
+ * 사용 예) rounded-4 / rounded-8 / rounded-full
+ * 간격(padding·gap)은 Tailwind 기본 스케일(4px 단위)을 그대로 쓴다.
+ */
+@theme {
+  --radius-4: 4px;
+  --radius-8: 8px;
+  --radius-12: 12px;
+  --radius-16: 16px;
+  --radius-full: 999px;
+}

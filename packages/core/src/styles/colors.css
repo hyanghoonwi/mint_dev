@@ -1,0 +1,95 @@
+/*
+ * 시맨틱 컬러 토큰
+ *
+ * ⚠️ 임시값: Figma에 시맨틱 컬러가 아직 없다. 정의되면 값을 아토믹 컬러(atomic.css)의
+ * var(--color-atomic-*) 참조로 바꾼다. 그 전까지 이름·값은 바뀔 수 있다.
+ *
+ * 시맨틱 컬러는 --mint-* 변수 하나에 라이트 값을 두고, [data-theme="dark"]에서 값만 덮어쓴다.
+ * Tailwind 유틸리티(--color-*)는 이 변수를 참조하므로 컴포넌트에 `dark:` 클래스를 붙일 필요가 없다.
+ *   예) bg-bg-surface / text-text-primary / border-border-default
+ *
+ * 글자색은 배경 위에서 WCAG 4.5:1 이상을 지킨다(text-text-caption은 보조 정보용으로 예외).
+ * 시세 색은 한국 시장 관례(상승 빨강, 하락 파랑)를 따른다. 브랜드 민트와 섞어 쓰지 않는다.
+ */
+:root {
+  --mint-text-primary: #191f28;
+  --mint-text-secondary: #4e5968;
+  --mint-text-caption: #8b95a1;
+  --mint-text-disabled: #b0b8c1;
+  --mint-text-inverse: #ffffff;
+  /* 브랜드 배경(bg-brand-primary) 위의 글자 */
+  --mint-text-on-brand: #ffffff;
+
+  --mint-brand-primary: #00856f;
+  --mint-brand-primary-hover: #00715e;
+  --mint-brand-tint: #e6f7f3;
+  --mint-brand-error: #d92d3e;
+
+  --mint-bg-page: #f2f4f6;
+  --mint-bg-surface: #ffffff;
+  --mint-bg-elevated: #f9fafb;
+  --mint-bg-overlay: #000000;
+
+  --mint-border-subtle: #f2f4f6;
+  --mint-border-default: #e5e8eb;
+  --mint-border-strong: #d1d6db;
+
+  /* 시세: 상승·하락·보합 */
+  --mint-price-up: #d7263a;
+  --mint-price-down: #1b64da;
+  --mint-price-flat: #4e5968;
+}
+
+[data-theme="dark"] {
+  --mint-text-primary: #f2f4f6;
+  --mint-text-secondary: #aeb5bf;
+  --mint-text-caption: #7d8693;
+  --mint-text-disabled: #4e5968;
+  --mint-text-inverse: #191f28;
+  --mint-text-on-brand: #0b1f1a;
+
+  --mint-brand-primary: #2dd4b4;
+  --mint-brand-primary-hover: #5ee0c7;
+  --mint-brand-tint: #12302a;
+  --mint-brand-error: #ff5c69;
+
+  --mint-bg-page: #15171a;
+  --mint-bg-surface: #1e2024;
+  --mint-bg-elevated: #262a31;
+  --mint-bg-overlay: #000000;
+
+  --mint-border-subtle: #262a31;
+  --mint-border-default: #33363b;
+  --mint-border-strong: #4b4e53;
+
+  --mint-price-up: #ff5c69;
+  --mint-price-down: #5a9bf8;
+  --mint-price-flat: #aeb5bf;
+}
+
+@theme inline {
+  --color-text-primary: var(--mint-text-primary);
+  --color-text-secondary: var(--mint-text-secondary);
+  --color-text-caption: var(--mint-text-caption);
+  --color-text-disabled: var(--mint-text-disabled);
+  --color-text-inverse: var(--mint-text-inverse);
+  --color-text-on-brand: var(--mint-text-on-brand);
+
+  --color-brand-primary: var(--mint-brand-primary);
+  --color-brand-primary-hover: var(--mint-brand-primary-hover);
+  --color-brand-tint: var(--mint-brand-tint);
+  --color-brand-error: var(--mint-brand-error);
+
+  --color-bg-page: var(--mint-bg-page);
+  --color-bg-surface: var(--mint-bg-surface);
+  --color-bg-elevated: var(--mint-bg-elevated);
+  --color-bg-overlay: var(--mint-bg-overlay);
+
+  --color-border-subtle: var(--mint-border-subtle);
+  --color-border-default: var(--mint-border-default);
+  --color-border-strong: var(--mint-border-strong);
+
+  --color-price-up: var(--mint-price-up);
+  --color-price-down: var(--mint-price-down);
+  --color-price-flat: var(--mint-price-flat);
+}

@@ -1,0 +1,145 @@
+/*
+ * 아토믹(원시) 컬러 — Figma "Color - Atomic" (node 6:2), "Token" (node 18:2)
+ *
+ * 이름은 Figma Dev Mode의 코드 문법(--color-atomic-*)과 똑같이 맞춘다. Figma에서 복사한 변수를 그대로 쓸 수 있다.
+ * 라이트·다크와 무관한 고정값이다. 화면에서는 시맨틱 토큰(colors.css)을 쓰고, 아토믹은 시맨틱 토큰의 재료로 쓴다.
+ * `static`: 컴포넌트가 아직 쓰지 않는 값도 CSS 변수로 모두 내보낸다.
+ */
+@theme static {
+  --color-atomic-white: #ffffff;
+  --color-atomic-black: #000000;
+
+  --color-atomic-gray-50: #f9f9fb;
+  --color-atomic-gray-100: #f3f4f7;
+  --color-atomic-gray-200: #e4e7ec;
+  --color-atomic-gray-300: #cdd1db;
+  --color-atomic-gray-400: #a2aab9;
+  --color-atomic-gray-500: #7e889a;
+  --color-atomic-gray-600: #5e6778;
+  --color-atomic-gray-700: #444b5a;
+  --color-atomic-gray-800: #2d333e;
+  --color-atomic-gray-900: #191d24;
+  --color-atomic-gray-950: #0e1115;
+
+  /* 같은 색(#0a1226)에 투명도만 다르다. 배경 위에 겹쳐도 색조가 유지된다 */
+  --color-atomic-grayAlpha-50: #0a122608;
+  --color-atomic-grayAlpha-100: #0a12260d;
+  --color-atomic-grayAlpha-200: #0a12261a;
+  --color-atomic-grayAlpha-300: #0a12262e;
+  --color-atomic-grayAlpha-400: #0a122657;
+  --color-atomic-grayAlpha-500: #0a12267a;
+  --color-atomic-grayAlpha-600: #0a12269e;
+  --color-atomic-grayAlpha-700: #0a1226bd;
+  --color-atomic-grayAlpha-800: #0a1226d9;
+  --color-atomic-grayAlpha-900: #0a1226f0;
+
+  --color-atomic-blue-50: #eaf4ff;
+  --color-atomic-blue-100: #cae3ff;
+  --color-atomic-blue-200: #93c5ff;
+  --color-atomic-blue-300: #63aafe;
+  --color-atomic-blue-400: #3b93fe;
+  --color-atomic-blue-500: #007eff;
+  --color-atomic-blue-600: #0070e3;
+  --color-atomic-blue-700: #0163d2;
+  --color-atomic-blue-800: #0855b9;
+  --color-atomic-blue-900: #11499e;
+
+  --color-atomic-red-50: #ffefef;
+  --color-atomic-red-100: #ffd7d6;
+  --color-atomic-red-200: #ffb1b0;
+  --color-atomic-red-300: #fd8a85;
+  --color-atomic-red-400: #f86860;
+  --color-atomic-red-500: #f73631;
+  --color-atomic-red-600: #e60f09;
+  --color-atomic-red-700: #c8231d;
+  --color-atomic-red-800: #b01f1d;
+  --color-atomic-red-900: #981e1e;
+
+  --color-atomic-orange-50: #fff4e1;
+  --color-atomic-orange-100: #ffe1b0;
+  --color-atomic-orange-200: #ffce80;
+  --color-atomic-orange-300: #ffbe53;
+  --color-atomic-orange-400: #feab2e;
+  --color-atomic-orange-500: #fd9a13;
+  --color-atomic-orange-600: #f98b13;
+  --color-atomic-orange-700: #e78016;
+  --color-atomic-orange-800: #ac590c;
+  --color-atomic-orange-900: #994c09;
+
+  --color-atomic-yellow-50: #fdfbec;
+  --color-atomic-yellow-100: #fbf2c0;
+  --color-atomic-yellow-200: #fbe895;
+  --color-atomic-yellow-300: #fcdd6e;
+  --color-atomic-yellow-400: #fed253;
+  --color-atomic-yellow-500: #fdc822;
+  --color-atomic-yellow-600: #f6bf1e;
+  --color-atomic-yellow-700: #efb61c;
+  --color-atomic-yellow-800: #e6ac19;
+  --color-atomic-yellow-900: #dea21b;
+
+  --color-atomic-green-50: #effaf5;
+  --color-atomic-green-100: #aff1d3;
+  --color-atomic-green-200: #79e6b5;
+  --color-atomic-green-300: #45d796;
+  --color-atomic-green-400: #1cc67d;
+  --color-atomic-green-500: #17b46b;
+  --color-atomic-green-600: #15a45f;
+  --color-atomic-green-700: #129456;
+  --color-atomic-green-800: #0f814a;
+  --color-atomic-green-900: #0c7443;
+
+  --color-atomic-lime-50: #f4f9ef;
+  --color-atomic-lime-100: #d0ecb8;
+  --color-atomic-lime-200: #b2de8c;
+  --color-atomic-lime-300: #96ce64;
+  --color-atomic-lime-400: #75c218;
+  --color-atomic-lime-500: #69b415;
+  --color-atomic-lime-600: #5ea614;
+  --color-atomic-lime-700: #539912;
+  --color-atomic-lime-800: #488c0d;
+  --color-atomic-lime-900: #3e7e0b;
+
+  --color-atomic-teal-50: #edfaf8;
+  --color-atomic-teal-100: #a6f2eb;
+  --color-atomic-teal-200: #5fe6df;
+  --color-atomic-teal-300: #0ad5d0;
+  --color-atomic-teal-400: #1cc1be;
+  --color-atomic-teal-500: #19afae;
+  --color-atomic-teal-600: #169e9e;
+  --color-atomic-teal-700: #148d8e;
+  --color-atomic-teal-800: #0e7c7e;
+  --color-atomic-teal-900: #0c6e71;
+
+  --color-atomic-violet-50: #f6f6ff;
+  --color-atomic-violet-100: #e0ddff;
+  --color-atomic-violet-200: #cbc6ff;
+  --color-atomic-violet-300: #b7affe;
+  --color-atomic-violet-400: #a59afc;
+  --color-atomic-violet-500: #8c77fb;
+  --color-atomic-violet-600: #7454ef;
+  --color-atomic-violet-700: #6746df;
+  --color-atomic-violet-800: #5b36d0;
+  --color-atomic-violet-900: #4f24c1;
+
+  --color-atomic-purple-50: #fbf4fd;
+  --color-atomic-purple-100: #f8d2ff;
+  --color-atomic-purple-200: #f1b4fd;
+  --color-atomic-purple-300: #e599f6;
+  --color-atomic-purple-400: #e174fc;
+  --color-atomic-purple-500: #c859e5;
+  --color-atomic-purple-600: #ad3fcc;
+  --color-atomic-purple-700: #9e2fbe;
+  --color-atomic-purple-800: #8f1cb0;
+  --color-atomic-purple-900: #7e0ba0;
+
+  --color-atomic-pink-50: #fff3f7;
+  --color-atomic-pink-100: #ffd4e3;
+  --color-atomic-pink-200: #ffb5d1;
+  --color-atomic-pink-300: #ff93c1;
+  --color-atomic-pink-400: #fc71b3;
+  --color-atomic-pink-500: #ed439e;
+  --color-atomic-pink-600: #cf2187;
+  --color-atomic-pink-700: #bc0f7b;
+  --color-atomic-pink-800: #a70c6e;
+  --color-atomic-pink-900: #910a61;
+}

@@ -1,0 +1,92 @@
+# 설치·스타일·토큰
+
+> 색인: [`../AGENTS.md`](../AGENTS.md)
+
+## 1. 설치
+
+private 패키지(GitHub Packages)입니다. 프로젝트 루트의 `.npmrc`에 아래를 넣습니다.
+
+```
+@futurewiz-rms:registry=https://npm.pkg.github.com
+//npm.pkg.github.com/:_authToken=${GITHUB_PACKAGES_TOKEN}
+```
+
+```bash
+npm install @futurewiz-rms/mint
+```
+
+> `GITHUB_PACKAGES_TOKEN`은 npm 사이트 토큰이 아니라 **GitHub 개인 액세스 토큰(classic)**이고, 권한은 `read:packages`만 있으면 됩니다. 토큰 값을 파일에 직접 쓰거나 커밋하지 않습니다.
+> 요구 사항: React 19 (`react`, `react-dom` ^19.2.8). Next.js는 App Router 기준입니다.
+
+## 2. 스타일 불러오기
+
+```tsx
+// app/layout.tsx
+import "@futurewiz-rms/mint/style.css";
+```
+
+- 컴포넌트 스타일, 디자인 토큰(`--mint-*` 변수), 토큰 유틸리티 클래스(글자·색·반경), Pretendard 폰트가 들어 있어서 **사용하는 프로젝트에 Tailwind 설정이 없어도 됩니다.**
+- 자체 리셋 CSS가 있는 앱은 리셋이 빠진 `@futurewiz-rms/mint/style.no-reset.css`를 대신 씁니다.
+- 둘 중 **하나만** import합니다.
+- 앱이 Tailwind v4를 쓰면 `@import "@futurewiz-rms/mint/theme.css";`로 토큰만 가져와 `bg-brand-primary` 같은 클래스를 앱에서 만들 수 있습니다.
+
+## 3. 토큰 클래스
+
+| 종류   | 클래스 예                                                         |
+| ------ | ----------------------------------------------------------------- |
+| 글자   | `text-title-1-bold` `text-body-2-regular` `text-label-2-semibold` |
+| 글자색 | `text-text-primary` `text-text-secondary` `text-text-caption`     |
+| 배경   | `bg-bg-page` `bg-bg-surface` `bg-brand-primary` `bg-brand-tint`   |
+| 테두리 | `border-border-default`                                           |
+| 시세   | `text-price-up` `text-price-down` `text-price-flat`               |
+| 반경   | `rounded-4` `rounded-8` `rounded-12` `rounded-16` `rounded-full`  |
+
+### 글자 스타일
+
+- 이름은 `text-<역할>-<번호>-<웨이트>`입니다. 크기·줄 간격·자간·웨이트가 클래스 하나로 정해지므로 `font-bold`, `text-[15px]`를 따로 붙이지 않습니다.
+- 역할(번호): `display`(1~3) · `title`(1~3) · `heading`(1~3) · `body`(1~5) · `label`(1~3) · `caption`(1~2). 숫자가 작을수록 큽니다.
+- 웨이트는 역할마다 허용된 것만 있습니다. `display`: `semibold` `bold` / `title` `heading` `label`: `medium` `semibold` `bold` / `body`: `regular` `medium` `semibold` `bold` / `caption`: `regular` `medium` `semibold`. 없는 조합(예: `text-display-1-regular`)은 클래스가 없습니다.
+- 용도: `display` 랜딩·히어로(한 화면에 하나) · `title` 페이지·큰 섹션 제목 · `heading` 섹션·카드·모달 제목 · `body-2` 기본 본문 · `body-1` 아티클 긴 글 · `body-4` 밀도 높은 UI·표 · `label` 버튼·탭·칩·입력 라벨(한 줄 전제) · `caption` 날짜·도움말·각주.
+- **글자 크기는 화면 폭에 따라 바뀌지 않습니다.** 반응형은 레이아웃(그리드·여백·열 수)으로 처리합니다.
+- 폰트는 Pretendard이고, 불러오지 못하면 기기 기본 폰트로 대체됩니다(영문 `system-ui`, 한글 Apple SD Gothic Neo → Noto Sans KR → Malgun Gothic). 글자 클래스는 크기·웨이트만 정하고 폰트는 페이지 기본 폰트를 따릅니다. `style.css`는 `html`의 기본 폰트를 이 순서로 정해 두었습니다. `style.no-reset.css`는 전역 폰트를 정하지 않으니 앱 최상단 요소에 `font-mint` 클래스를 답니다.
+
+색은 위의 시맨틱 클래스를 씁니다. 시맨틱 색은 아직 임시값이라 바뀔 수 있습니다.
+
+### 아토믹 컬러
+
+- Figma `Atomic` 변수와 같은 원시 색입니다. CSS 변수 `--color-atomic-<이름>`으로만 들어 있고 클래스는 없습니다: `style={{ color: "var(--color-atomic-blue-500)" }}`.
+- 이름: `white` · `black` · `gray-50`~`gray-950` · `grayAlpha-50`~`900`(같은 색에 투명도만 다름) · `blue` `red` `orange` `yellow` `green` `lime` `teal` `violet` `purple` `pink`의 `50`~`900`.
+- 라이트·다크와 상관없이 고정입니다. 다크 모드를 따라야 하는 곳에는 쓰지 않습니다.
+- 시맨틱 색으로 표현할 수 있으면 시맨틱 색을 씁니다.
+
+## 4. 반응형 그리드·간격
+
+페이지는 `div`에 클래스를 직접 쓰지 않고 [`Container`·`Grid`](layout.md) 컴포넌트로 짭니다. 컬럼 수·거터·여백·최대 폭은 구간에 맞게 알아서 바뀝니다.
+
+| 구간    | 화면 폭      | 컬럼 | 거터 | 좌우 여백 |
+| ------- | ------------ | ---- | ---- | --------- |
+| Mobile  | 0 ~ 767px    | 4    | 20   | 20        |
+| Tablet  | 768 ~ 1023px | 8    | 20   | 20        |
+| Desktop | 1024px ~     | 12   | 20   | 20        |
+
+- **글자 크기는 구간과 상관없이 고정**입니다. 반응형은 컬럼 수·거터·여백(레이아웃)에서만 처리합니다.
+- 콘텐츠 최대 폭은 1440px(안쪽 여백 포함)이고, 더 넓은 화면에서는 콘텐츠를 가운데에 고정하고 바깥 여백만 늘어납니다. 폰 가로 화면(약 800~900px)은 태블릿(8컬럼)입니다.
+- 컴포넌트로 만들 수 없는 레이아웃에서만 CSS 변수를 직접 읽습니다: `--mint-grid-columns`(4 → 8 → 12), `--mint-grid-gutter`(20px), `--mint-grid-margin`(20px, 화면 좌우 여백), `--mint-content-max`(모바일·태블릿 `none`, 1024px부터 `1440px`).
+- 브레이크포인트 접두어는 `tablet:`과 `desktop:`만 있습니다. Tailwind 기본(`sm:` `md:` `lg:` `xl:` `2xl:`)은 없습니다.
+
+### 간격 스케일
+
+4px 단위의 12단계이고 이 밖의 값은 쓰지 않습니다. Figma의 `spacing-N`(N은 px)과 이름·값이 같습니다.
+
+| 쓰는 곳              | 방법                                                                                  |
+| -------------------- | ------------------------------------------------------------------------------------- |
+| CSS                  | `padding: var(--mint-spacing-20)`                                                     |
+| 클래스 (`style.css`) | `p-5` `px-5` `m-5` `gap-5` … 번호는 px ÷ 4입니다. `p-` `m-` `gap-` 계열 모두 같습니다 |
+
+`spacing-4` = `p-1` · `spacing-8` = `p-2` · `spacing-12` = `p-3` · `spacing-16` = `p-4` · `spacing-20` = `p-5` · `spacing-24` = `p-6` · `spacing-32` = `p-8` · `spacing-40` = `p-10` · `spacing-48` = `p-12` · `spacing-64` = `p-16` · `spacing-80` = `p-20` · `spacing-96` = `p-24`. 이 밖의 값(`p-7`, `p-9`, `p-0.5`)은 쓰지 않습니다.
+
+- 앱이 Tailwind v4를 쓰고 `theme.css`를 불러오면 Tailwind 기본 브레이크포인트가 `tablet`·`desktop` 두 개로 **바뀝니다.**
+
+## 5. 다크 모드
+
+`<html data-theme="dark">`이면 토큰 값이 다크로 바뀝니다. 테마를 바꾸는 Provider는 아직 없습니다.

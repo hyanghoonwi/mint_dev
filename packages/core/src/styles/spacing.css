@@ -1,0 +1,21 @@
+/*
+ * 간격 스케일 — Figma "Grid 가이드"(node 43:60)의 spacing-4 ~ spacing-96 (4px 단위, 12단계)
+ *
+ * 이름은 Figma와 같다(spacing-20 → --mint-spacing-20). 이 12단계만 쓴다.
+ * Tailwind 클래스 번호는 px ÷ 4다: spacing-4 = p-1, spacing-20 = p-5, spacing-96 = p-24 (Tailwind 기본 간격 스케일과 같은 값).
+ * 클래스는 token-utilities.css(자동 생성)가 이 목록으로 p-·m-·gap- 계열을 만든다. 단계를 추가하면 `npm run tokens:utilities`를 다시 실행한다.
+ */
+:root {
+  --mint-spacing-4: 4px;
+  --mint-spacing-8: 8px;
+  --mint-spacing-12: 12px;
+  --mint-spacing-16: 16px;
+  --mint-spacing-20: 20px;
+  --mint-spacing-24: 24px;
+  --mint-spacing-32: 32px;
+  --mint-spacing-40: 40px;
+  --mint-spacing-48: 48px;
+  --mint-spacing-64: 64px;
+  --mint-spacing-80: 80px;
+  --mint-spacing-96: 96px;
+}

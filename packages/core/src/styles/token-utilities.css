@@ -1,0 +1,31 @@
+/*
+ * 자동 생성: node scripts/generate-token-utilities.mjs — 직접 고치지 않는다.
+ * 토큰마다 유틸리티 클래스를 style.css에 포함시킨다. 앱의 일반 HTML에서도 Tailwind 없이 다음처럼 쓸 수 있다.
+ *   색: bg-/text-/border-/ring-<토큰>  (20개)  예) bg-bg-surface text-text-primary border-border-default
+ *   글자: text-<스타일>  (59개)  예) text-body-2-regular text-title-1-bold text-label-2-semibold
+ *   반경: rounded-<값>  (5개)  예) rounded-8 rounded-12 rounded-full
+ *   간격: p-/m-/gap- 계열 <번호>  (12단계)  예) p-5 gap-3 mt-8  (번호 = px ÷ 4, spacing-20 = p-5)
+ */
+@source inline("bg-{text-primary,text-secondary,text-caption,text-disabled,text-inverse,text-on-brand,brand-primary,brand-primary-hover,brand-tint,brand-error,bg-page,bg-surface,bg-elevated,bg-overlay,border-subtle,border-default,border-strong,price-up,price-down,price-flat}");
+@source inline("text-{text-primary,text-secondary,text-caption,text-disabled,text-inverse,text-on-brand,brand-primary,brand-primary-hover,brand-tint,brand-error,bg-page,bg-surface,bg-elevated,bg-overlay,border-subtle,border-default,border-strong,price-up,price-down,price-flat}");
+@source inline("border-{text-primary,text-secondary,text-caption,text-disabled,text-inverse,text-on-brand,brand-primary,brand-primary-hover,brand-tint,brand-error,bg-page,bg-surface,bg-elevated,bg-overlay,border-subtle,border-default,border-strong,price-up,price-down,price-flat}");
+@source inline("ring-{text-primary,text-secondary,text-caption,text-disabled,text-inverse,text-on-brand,brand-primary,brand-primary-hover,brand-tint,brand-error,bg-page,bg-surface,bg-elevated,bg-overlay,border-subtle,border-default,border-strong,price-up,price-down,price-flat}");
+@source inline("text-{display-1-semibold,display-1-bold,display-2-semibold,display-2-bold,display-3-semibold,display-3-bold,title-1-medium,title-1-semibold,title-1-bold,title-2-medium,title-2-semibold,title-2-bold,title-3-medium,title-3-semibold,title-3-bold,heading-1-medium,heading-1-semibold,heading-1-bold,heading-2-medium,heading-2-semibold,heading-2-bold,heading-3-medium,heading-3-semibold,heading-3-bold,body-1-regular,body-1-medium,body-1-semibold,body-1-bold,body-2-regular,body-2-medium,body-2-semibold,body-2-bold,body-3-regular,body-3-medium,body-3-semibold,body-3-bold,body-4-regular,body-4-medium,body-4-semibold,body-4-bold,body-5-regular,body-5-medium,body-5-semibold,body-5-bold,label-1-medium,label-1-semibold,label-1-bold,label-2-medium,label-2-semibold,label-2-bold,label-3-medium,label-3-semibold,label-3-bold,caption-1-regular,caption-1-medium,caption-1-semibold,caption-2-regular,caption-2-medium,caption-2-semibold}");
+@source inline("rounded-{4,8,12,16,full}");
+@source inline("p-{1,2,3,4,5,6,8,10,12,16,20,24}");
+@source inline("px-{1,2,3,4,5,6,8,10,12,16,20,24}");
+@source inline("py-{1,2,3,4,5,6,8,10,12,16,20,24}");
+@source inline("pt-{1,2,3,4,5,6,8,10,12,16,20,24}");
+@source inline("pr-{1,2,3,4,5,6,8,10,12,16,20,24}");
+@source inline("pb-{1,2,3,4,5,6,8,10,12,16,20,24}");
+@source inline("pl-{1,2,3,4,5,6,8,10,12,16,20,24}");
+@source inline("m-{1,2,3,4,5,6,8,10,12,16,20,24}");
+@source inline("mx-{1,2,3,4,5,6,8,10,12,16,20,24}");
+@source inline("my-{1,2,3,4,5,6,8,10,12,16,20,24}");
+@source inline("mt-{1,2,3,4,5,6,8,10,12,16,20,24}");
+@source inline("mr-{1,2,3,4,5,6,8,10,12,16,20,24}");
+@source inline("mb-{1,2,3,4,5,6,8,10,12,16,20,24}");
+@source inline("ml-{1,2,3,4,5,6,8,10,12,16,20,24}");
+@source inline("gap-{1,2,3,4,5,6,8,10,12,16,20,24}");
+@source inline("gap-x-{1,2,3,4,5,6,8,10,12,16,20,24}");
+@source inline("gap-y-{1,2,3,4,5,6,8,10,12,16,20,24}");

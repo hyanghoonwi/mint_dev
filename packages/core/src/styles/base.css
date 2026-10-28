@@ -1,0 +1,9 @@
+/* 컴포넌트가 공통으로 쓰는 키프레임 등. 토큰은 colors·typography·shape·layout.css에 둔다. */
+@keyframes mint-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
