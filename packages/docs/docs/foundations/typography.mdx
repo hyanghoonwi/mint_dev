@@ -1,0 +1,78 @@
+---
+sidebar_position: 2
+---
+
+# Typography
+
+Pretendard 기반의 역할별 글자 스타일입니다. 크기와 줄 간격은 하나의 체계이고, 웨이트는 역할마다 허용된 범위 안에서 고릅니다. Figma의 `Typography/<역할>/<웨이트>` 스타일과 이름·값이 같습니다.
+
+## 기본 원칙
+
+| 원칙               | 내용                                                                                                                       |
+| ------------------ | -------------------------------------------------------------------------------------------------------------------------- |
+| 폰트               | Pretendard 하나로 한글, 영문, 숫자를 모두 처리합니다.                                                                      |
+| 역할 스타일만 사용 | 컴포넌트는 역할 스타일만 쓰고 크기 숫자를 직접 지정하지 않습니다.                                                          |
+| 이름 규칙          | `text-<역할>-<번호>-<웨이트>` 형식입니다. 크기 이름은 웨이트 이름 `medium`과 겹치지 않도록 번호(1이 가장 큼)로 정했습니다. |
+| 반응형             | 화면 크기에 따라 글자 크기는 바뀌지 않습니다. 반응형은 레이아웃(그리드, 여백, 열 수)에서 처리합니다.                       |
+
+## 사용
+
+<Example name="typography/Usage" />
+
+## 스타일
+
+<Example name="typography/Styles" hideCode />
+
+```tsx
+<h2 className="text-title-2-bold">오늘의 시세</h2>
+<p className="text-body-2-regular">기본 본문입니다.</p>
+```
+
+## 역할별 용도
+
+| 역할    | 용도                                                                                   | 웨이트                               |
+| ------- | -------------------------------------------------------------------------------------- | ------------------------------------ |
+| Display | 랜딩, 히어로 등 가장 큰 문구. 한 화면에 하나만 씁니다.                                 | `semibold` `bold`                    |
+| Title   | 페이지 제목, 큰 섹션 제목                                                              | `medium` `semibold` `bold`           |
+| Heading | 섹션, 카드, 모달 제목                                                                  | `medium` `semibold` `bold`           |
+| Body 1  | 아티클 등 읽기 중심의 긴 글. 행간을 넉넉하게 1.65로 잡았습니다.                        | `regular` `medium` `semibold` `bold` |
+| Body 2  | 기본 본문                                                                              | `regular` `medium` `semibold` `bold` |
+| Body 3  | 카드, 리스트의 설명 문구                                                               | `regular` `medium` `semibold` `bold` |
+| Body 4  | 밀도 높은 UI, 표                                                                       | `regular` `medium` `semibold` `bold` |
+| Body 5  | 보조 본문                                                                              | `regular` `medium` `semibold` `bold` |
+| Label   | 버튼, 탭, 칩, 입력 라벨. 한 줄이 전제이며 두 줄로 넘어갈 수 있는 곳에는 Body를 씁니다. | `medium` `semibold` `bold`           |
+| Caption | 날짜, 도움말, 각주                                                                     | `regular` `medium` `semibold`        |
+
+없는 조합(예: Display의 `regular`, Caption의 `bold`)은 클래스가 없습니다.
+
+## 토큰
+
+크기 / 줄 간격 / 자간입니다. 같은 역할 안에서는 웨이트와 상관없이 값이 같습니다.
+
+| 역할 · 번호 | 크기 | 줄 간격 | 자간  |
+| ----------- | ---- | ------- | ----- |
+| Display 1   | 52px | 68px    | -2%   |
+| Display 2   | 40px | 52px    | -2%   |
+| Display 3   | 36px | 48px    | -2%   |
+| Title 1     | 32px | 44px    | -2%   |
+| Title 2     | 28px | 38px    | -1.5% |
+| Title 3     | 24px | 34px    | -1.5% |
+| Heading 1   | 22px | 32px    | -1%   |
+| Heading 2   | 20px | 30px    | -1%   |
+| Heading 3   | 18px | 26px    | -0.5% |
+| Body 1      | 17px | 28px    | 0     |
+| Body 2      | 16px | 24px    | 0     |
+| Body 3      | 15px | 22px    | 0     |
+| Body 4      | 14px | 22px    | 0     |
+| Body 5      | 13px | 20px    | 0     |
+| Label 1     | 16px | 20px    | 0     |
+| Label 2     | 14px | 20px    | 0     |
+| Label 3     | 12px | 16px    | 0     |
+| Caption 1   | 12px | 18px    | 0     |
+| Caption 2   | 11px | 16px    | 0     |
+
+웨이트는 `regular` 400 · `medium` 500 · `semibold` 600 · `bold` 700입니다.
+
+## 폴백
+
+Pretendard를 불러오지 못했을 때는 사용자 기기의 기본 폰트로 대체합니다. 영문은 `system-ui`, 한글은 Apple SD Gothic Neo → Noto Sans KR → Malgun Gothic 순이고 마지막은 `sans-serif`입니다. `style.css`는 페이지 기본 폰트를 이 순서로 정해 두었습니다. 자체 리셋이 있는 앱에서 쓰는 `style.no-reset.css`는 전역 폰트를 정하지 않으니, 앱 최상단 요소에 `font-mint` 클래스를 달면 같은 순서가 적용됩니다.

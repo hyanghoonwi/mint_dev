@@ -1,0 +1,9 @@
+{
+  "extends": "@docusaurus/tsconfig",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "ignoreDeprecations": "6.0"
+  },
+  "exclude": [".docusaurus", "build"],
+  "include": ["docs/**/*", "src/**/*", "plugins/**/*", "*.ts"]
+}

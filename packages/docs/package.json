@@ -1,0 +1,41 @@
+{
+  "name": "@mint/docs",
+  "private": true,
+  "version": "0.0.0",
+  "scripts": {
+    "predev": "npm run build -w @futurewiz-rms/mint && node scripts/sync-changelog.mjs",
+    "prebuild": "npm run build -w @futurewiz-rms/mint && node scripts/sync-changelog.mjs",
+    "dev": "docusaurus start --port 3000",
+    "build": "docusaurus build",
+    "serve": "docusaurus serve",
+    "preview": "npm run build && docusaurus serve --port 3000",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@docusaurus/core": "^3.10.2",
+    "@docusaurus/preset-classic": "^3.10.2",
+    "@easyops-cn/docusaurus-search-local": "^0.55.3",
+    "@futurewiz-rms/mint": "*",
+    "@mdx-js/react": "^3.0.0",
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8"
+  },
+  "devDependencies": {
+    "@docusaurus/module-type-aliases": "^3.10.2",
+    "@docusaurus/tsconfig": "^3.10.2",
+    "@docusaurus/types": "^3.10.2"
+  },
+  "browserslist": {
+    "production": [
+      "last 3 chrome version",
+      "last 3 firefox version",
+      "last 5 safari version",
+      "last 3 edge version"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}

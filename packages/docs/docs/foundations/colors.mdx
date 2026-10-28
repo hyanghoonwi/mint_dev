@@ -1,0 +1,52 @@
+---
+sidebar_position: 1
+---
+
+# Colors
+
+색은 두 단계입니다. **아토믹 컬러**는 이름 그대로의 원시 색(`blue-500`)이고, **시맨틱 컬러**는 역할 이름(`text-primary`, `brand-primary`)으로 아토믹 컬러를 가리킵니다. 화면에서는 시맨틱 컬러를 쓰고, 다크 모드에서는 시맨틱 컬러의 값이 자동으로 바뀝니다.
+
+## Atomic
+
+Figma의 `Atomic` 변수와 같은 값·이름입니다. 라이트·다크와 상관없는 고정값이고, CSS 변수 `--color-atomic-<이름>`으로 들어 있습니다(예: `var(--color-atomic-blue-500)`). Figma Dev Mode에 보이는 변수 이름을 그대로 쓰면 됩니다.
+
+<Example name="colors/Atomic" hideCode />
+
+```tsx
+<div style={{ color: "var(--color-atomic-blue-500)" }}>…</div>
+```
+
+`grayAlpha`는 같은 색(`#0a1226`)에 투명도만 다른 단계입니다. 어떤 배경 위에 겹쳐도 색조가 유지되어 구분선·오버레이에 씁니다.
+
+아토믹 컬러로는 토큰 클래스(`bg-atomic-blue-500`)를 미리 만들어 두지 않습니다. 시맨틱 컬러가 생기면 그것을 쓰고, 꼭 필요하면 `var(--color-atomic-*)`를 씁니다. 앱이 Tailwind v4를 쓰고 `theme.css`를 불러오면 앱에서 `bg-atomic-blue-500` 같은 클래스를 쓸 수 있습니다.
+
+## Semantic
+
+:::caution 임시
+시맨틱 컬러는 아직 Figma에 정의되지 않았습니다. 아래 값은 임시이며, Figma에 정의되면 아토믹 컬러를 가리키도록 바뀝니다.
+:::
+
+<Example name="colors/Palette" hideCode />
+
+```tsx
+<div className="bg-brand-primary text-text-on-brand">…</div>
+```
+
+### 시세 색
+
+한국 시장 관례에 따라 상승은 빨강, 하락은 파랑입니다. 브랜드 민트(`brand-primary`)를 상승·하락 표시에 쓰지 않습니다.
+
+<Example name="colors/Price" />
+
+### 토큰
+
+| 클래스                                                                    | 용도                               |
+| ------------------------------------------------------------------------- | ---------------------------------- |
+| `text-text-primary` · `text-text-secondary` · `text-text-caption`         | 본문 · 보조 · 부가 정보 글자       |
+| `text-text-disabled`                                                      | 비활성 글자                        |
+| `bg-brand-primary` · `text-brand-primary` · `bg-brand-tint`               | 브랜드 강조                        |
+| `text-text-on-brand`                                                      | `bg-brand-primary` 위 글자         |
+| `bg-brand-error`                                                          | 오류·위험                          |
+| `bg-bg-page` · `bg-bg-surface` · `bg-bg-elevated`                         | 페이지 · 카드 면 · 한 단계 띄운 면 |
+| `border-border-subtle` · `border-border-default` · `border-border-strong` | 테두리                             |
+| `text-price-up` · `text-price-down` · `text-price-flat`                   | 시세 상승 · 하락 · 보합            |

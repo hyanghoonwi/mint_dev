@@ -1,0 +1,79 @@
+---
+sidebar_position: 3
+---
+
+# Icon
+
+Phosphor Icons 기반의 아이콘 183개입니다. **아이콘마다 컴포넌트가 하나씩** 있고(`ArrowLeftIcon`, `HouseIcon`…), 쓰는 것만 번들에 들어갑니다. 상태가 없어서 서버 컴포넌트에서 그대로 쓸 수 있습니다.
+
+```tsx
+import { ArrowLeftIcon } from "@futurewiz-rms/mint";
+```
+
+## Usage
+
+크기는 24px, 모양은 선(`line`)이 기본입니다. 색은 글자색을 따라가서 `currentColor`로 지정합니다.
+
+<Example name="icon/Basic" />
+
+## Sizes
+
+`size`는 `16` · `20` · `24`px 중에서 고르고 기본값은 `24`입니다. 16과 20은 24px 아이콘을 비율대로 줄인 것입니다.
+
+<Example name="icon/Sizes" />
+
+## Variants
+
+`variant`로 선(`line`, Regular 굵기)과 채움(`fill`)을 고릅니다. 기본값은 `line`입니다.
+
+<Example name="icon/Variants" />
+
+## Color
+
+아이콘은 글자색을 따라갑니다. 글자색 토큰 클래스로 색을 지정합니다.
+
+<Example name="icon/Color" />
+
+## Button 안에서
+
+`Button`의 `leftAddon`, `rightAddon`에 넣으면 버튼 크기에 맞게 크기가 자동으로 조절됩니다.
+
+<Example name="icon/WithButton" />
+
+## 접근성
+
+아이콘은 기본적으로 장식용이라 스크린 리더가 읽지 않습니다(`aria-hidden`). **아이콘만으로 뜻을 전하는 곳**에는 `aria-label`을 줍니다.
+
+<Example name="icon/Label" />
+
+## 이름 규칙
+
+Figma의 아이콘 이름(`Icon/arrow-left`)을 PascalCase로 바꾸고 `Icon`을 붙입니다.
+
+| Figma 이름         | 컴포넌트              |
+| ------------------ | --------------------- |
+| `arrow-left`       | `ArrowLeftIcon`       |
+| `magnifying-glass` | `MagnifyingGlassIcon` |
+| `x`                | `XIcon`               |
+
+## 아이콘 목록
+
+183개를 분류별로 모았습니다. 왼쪽이 `line`, 오른쪽이 `fill`입니다.
+
+<Example name="icon/Gallery" hideCode />
+
+## Props
+
+| Prop         | 타입                 | 기본값   | 설명                                                |
+| ------------ | -------------------- | -------- | --------------------------------------------------- |
+| `size`       | `16 \| 20 \| 24`     | `24`     | 크기(px)                                            |
+| `variant`    | `"line" \| "fill"`   | `"line"` | 선 또는 채움                                        |
+| `aria-label` | `string`             | -        | 접근 가능한 이름. 주면 `role="img"`가 되고 읽힙니다 |
+| `className`  | `string`             | -        | 추가 클래스. 색은 글자색 클래스로 지정합니다        |
+| `ref`        | `Ref<SVGSVGElement>` | -        | React 19 `ref` prop                                 |
+
+나머지 `<svg>` 속성은 그대로 전달됩니다.
+
+## 출처
+
+Phosphor Icons(MIT License, Copyright (c) 2023 Phosphor Icons)입니다. [phosphoricons.com](https://phosphoricons.com)
