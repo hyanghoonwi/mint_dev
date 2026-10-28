@@ -1,0 +1,24 @@
+{
+  "name": "mint-monorepo",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "npm run storybook",
+    "build": "npm run build -w @futurewiz-rms/mint",
+    "storybook": "npm run storybook -w @mint/storybook",
+    "docs": "npm run dev -w @mint/docs",
+    "docs:preview": "npm run preview -w @mint/docs",
+    "build-storybook": "npm run build-storybook -w @mint/storybook",
+    "lint": "oxlint",
+    "format:docs": "prettier --write \"packages/docs/docs/**/*.{md,mdx}\" && node scripts/format-docs-snippets.mjs",
+    "format": "prettier --write \"packages/core/src/**/*.{ts,tsx}\" \"packages/storybook/{stories,.storybook}/**/*.{ts,tsx}\" \"packages/docs/{src,}/**/*.{ts,tsx}\" \"packages/docs/*.ts\" \"packages/core/*.ts\" \"packages/*/vite*.ts\" \"scripts/*.mjs\" \"packages/core/scripts/*.mjs\"",
+    "format:check": "prettier --check \"packages/core/src/**/*.{ts,tsx}\" \"packages/storybook/{stories,.storybook}/**/*.{ts,tsx}\" \"packages/docs/{src,}/**/*.{ts,tsx}\" \"packages/docs/*.ts\" \"packages/core/*.ts\" \"packages/*/vite*.ts\" \"scripts/*.mjs\" \"packages/core/scripts/*.mjs\""
+  },
+  "devDependencies": {
+    "oxlint": "^1.79.0",
+    "prettier": "^3.9.9",
+    "typescript": "~6.0.2"
+  }
+}

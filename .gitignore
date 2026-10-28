@@ -1,0 +1,25 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+
+node_modules
+dist
+*.local
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea/workspace.xml
+.idea/shelf
+.DS_Store
+*.sw?
+
+*storybook.log
+storybook-static
+
+.docusaurus
+build
+
+# 자동 생성: packages/docs/scripts/sync-changelog.mjs (원본은 packages/core/CHANGELOG.md)
+packages/docs/docs/changelog.md

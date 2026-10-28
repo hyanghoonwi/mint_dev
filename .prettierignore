@@ -1,0 +1,12 @@
+node_modules
+dist
+build
+storybook-static
+.docusaurus
+package-lock.json
+
+# 자동 생성
+packages/docs/docs/changelog.md
+
+# 자동 생성 (generate-icons.mjs 출력. path 데이터가 길어서 포맷하지 않는다)
+packages/core/src/components/icon/*.generated.ts
