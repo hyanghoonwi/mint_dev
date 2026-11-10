@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { fn } from "storybook/test";
-import { Button } from "@futurewiz-rms/mint";
+import { ArrowRightIcon, Button, PlusIcon } from "@futurewiz-rms/mint";
 
 const meta = {
   title: "Components/Actions/Button",
@@ -10,18 +10,21 @@ const meta = {
     layout: "centered",
   },
   argTypes: {
-    variant: {
+    variant: { control: "inline-radio", options: ["solid", "outline", "ghost"] },
+    color: {
       control: "select",
-      options: ["primary", "tint", "line", "danger"],
+      options: ["primary", "neutral", "secondary", "destructive"],
+      description: "outline은 neutral·primary, ghost는 neutral만 쓸 수 있어요",
     },
-    size: { control: "inline-radio", options: ["sm", "md", "lg", "xl"] },
+    size: { control: "inline-radio", options: ["xs", "sm", "md", "lg"] },
+    loading: { control: "boolean" },
     fullWidth: { control: "boolean" },
     disabled: { control: "boolean" },
     leftAddon: { control: false },
     rightAddon: { control: false },
   },
   args: {
-    children: "시세 보기",
+    children: "확인",
     onClick: fn(),
   },
 } satisfies Meta<typeof Button>;
@@ -29,34 +32,99 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const Primary: Story = {
-  args: { variant: "primary" },
+export const Primary: Story = {};
+
+export const Neutral: Story = {
+  args: { color: "neutral" },
 };
 
-export const Tint: Story = {
-  args: { variant: "tint" },
+export const Secondary: Story = {
+  args: { color: "secondary" },
 };
 
-export const Line: Story = {
-  args: { variant: "line" },
+export const Destructive: Story = {
+  args: { color: "destructive", children: "삭제하기" },
 };
 
-export const Danger: Story = {
-  args: { variant: "danger", children: "탈퇴하기" },
+export const Outline: Story = {
+  args: { variant: "outline" },
+};
+
+export const OutlinePrimary: Story = {
+  args: { variant: "outline", color: "primary" },
+};
+
+export const Ghost: Story = {
+  args: { variant: "ghost" },
+};
+
+// 위계별 전체: 강(solid primary·neutral·destructive) · 중(secondary) · 약(outline·ghost)
+export const Hierarchy: Story = {
+  render: () => (
+    <div style={{ display: "flex", flexWrap: "wrap", alignItems: "center", gap: 12 }}>
+      <Button>Primary</Button>
+      <Button color="neutral">Neutral</Button>
+      <Button color="destructive">삭제</Button>
+      <Button color="secondary">Secondary</Button>
+      <Button variant="outline">Outline</Button>
+      <Button variant="outline" color="primary">
+        Outline
+      </Button>
+      <Button variant="ghost">Ghost</Button>
+    </div>
+  ),
+};
+
+// 높이 28 · 32 · 40 · 48px. 모서리는 xs만 8
+export const Sizes: Story = {
+  render: () => (
+    <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+      <Button size="xs">xs</Button>
+      <Button size="sm">sm</Button>
+      <Button size="md">md</Button>
+      <Button size="lg">lg</Button>
+    </div>
+  ),
+};
+
+// 아이콘은 앞 또는 뒤 중 하나만. xs는 아이콘이 없다
+export const WithIcon: Story = {
+  render: () => (
+    <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+      <Button leftAddon={<PlusIcon />}>추가</Button>
+      <Button rightAddon={<ArrowRightIcon />}>더 보기</Button>
+    </div>
+  ),
 };
 
 export const Disabled: Story = {
-  args: { disabled: true },
+  render: () => (
+    <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+      <Button disabled>Primary</Button>
+      <Button variant="outline" disabled>
+        Outline
+      </Button>
+      <Button variant="ghost" disabled>
+        Ghost
+      </Button>
+    </div>
+  ),
 };
 
-export const Sizes: Story = {
-  render: (args) => (
+// 레이블은 숨기고 크기는 그대로 유지하며 클릭은 막힌다
+export const Loading: Story = {
+  render: () => (
     <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-      {(["sm", "md", "lg", "xl"] as const).map((size) => (
-        <Button key={size} {...args} size={size}>
-          {size}
-        </Button>
-      ))}
+      <Button loading>Primary</Button>
+      <Button color="secondary" loading>
+        Secondary
+      </Button>
+      <Button variant="outline" loading>
+        Outline
+      </Button>
+      <Button variant="ghost" loading>
+        Ghost
+      </Button>
     </div>
   ),
 };
@@ -65,4 +133,24 @@ export const Sizes: Story = {
 export const FullWidth: Story = {
   args: { fullWidth: true, size: "lg" },
   parameters: { layout: "padded" },
+};
+
+// 닫기 + 확인은 3:7 폭 비율. 모바일(360)에서 확인한다
+export const Pair: Story = {
+  parameters: { layout: "padded" },
+  globals: { viewport: { value: "mobile" } },
+  render: () => (
+    <div style={{ display: "flex", gap: 8 }}>
+      <div style={{ flex: 3 }}>
+        <Button color="secondary" size="lg" fullWidth>
+          닫기
+        </Button>
+      </div>
+      <div style={{ flex: 7 }}>
+        <Button size="lg" fullWidth>
+          참여하기
+        </Button>
+      </div>
+    </div>
+  ),
 };
