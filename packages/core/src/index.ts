@@ -11,5 +11,13 @@ export * from "./components/circular/Circular";
 
 export * from "./components/grid/Grid";
 export * from "./components/icon/Icon";
+export * from "./components/overlay/OverlayProvider";
+export * from "./components/overlay/useOverlay";
+export type {
+  OverlayApi,
+  OverlayOptions,
+  OverlayRender,
+  OverlayRenderProps,
+} from "./components/overlay/overlay-context";
 export * from "./components/icon/icons.generated";
 export * from "./components/icon/iconCatalog.generated";
