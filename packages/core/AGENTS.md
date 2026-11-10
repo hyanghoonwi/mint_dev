@@ -19,14 +19,18 @@ grep -n -A12 '\*\*`Button`\*\*' node_modules/@futurewiz-rms/mint/guide/actions.m
 3. **서버 컴포넌트에서 바로 import해도 됩니다.** 상태가 필요한 컴포넌트는 라이브러리가 `"use client"`를 달아 두었습니다. 사용하는 쪽이 감쌀 필요가 없습니다. 단, `onClick` 같은 함수 prop은 서버 컴포넌트에서 넘길 수 없으니 그 부분만 클라이언트 컴포넌트로 뺍니다.
 4. **크기는 `size="sm" | "md" | "lg" | "xl"`, 기본 `md`.** 터치 화면에서 누르는 요소는 `md`(40px) 이상을 씁니다. 예외는 아이콘으로, `size`가 `16 | 20 | 24`(기본 24)입니다.
 5. **반응형 레이아웃은 `Container`·`Grid`로 합니다.** `div`에 그리드 클래스를 직접 쓰지 않습니다([레이아웃](guide/layout.md)). 구간은 모바일·`tablet:`(768px~)·`desktop:`(1024px~) 3단계뿐입니다(`sm:` `md:` `lg:`는 없음). 글자 크기는 구간과 상관없이 고정이고 컬럼 수·거터·여백만 바뀝니다. `window.innerWidth`나 미디어 쿼리 훅으로 렌더를 나누지 않습니다(서버·클라이언트 결과가 달라짐).
-6. **색은 토큰 클래스**(`bg-brand-primary`, `text-text-primary` 등)로 씁니다. hex 값과 `dark:` 클래스를 쓰지 않습니다.
-7. **시세 색은 `text-price-up`(상승, 빨강)·`text-price-down`(하락, 파랑)·`text-price-flat`** 입니다. 브랜드 민트를 상승·하락 표시에 쓰지 않습니다.
+6. **색은 시맨틱 토큰 클래스**(`bg-fill-brand`, `text-text-primary`, `border-border-default`, `text-icon-brand` 등)로 씁니다. hex 값과 `dark:` 클래스를 쓰지 않습니다. 지금은 Light 값만 있고 브랜드색은 임시 파랑입니다([색 상세](guide/setup.md)).
 
 ---
 
 ## 무엇을 쓸까
 
 - 사용자의 동작을 받는 버튼 → `Button`
+- 흐름을 멈추고 확인을 받는 대화상자 → `Alert`(열 때는 `useOverlay`)
+- 짧은 로딩 표시 → `Circular`(버튼 로딩은 `Button`의 `loading`)
+- 콘텐츠가 들어올 자리 미리 보여 주기 → `SkeletonText` · `SkeletonRectangle` · `SkeletonCircle`
+- 사용자·대상의 프로필 칸 → `Avatar`(여러 명은 `AvatarGroup`)
+- 상태·종류를 짧게 알리는 라벨(눌리지 않음) → `Badge`
 - 페이지 틀·반응형 컬럼 배치 → `Container` + `Grid`(`Grid.Item`). `div`에 그리드 클래스를 직접 쓰지 않습니다
 - 아이콘 → 이름에 맞는 아이콘 컴포넌트(`ArrowLeftIcon` 등). `<svg>`를 직접 그리지 않습니다
 
@@ -41,6 +45,24 @@ grep -n -A12 '\*\*`Button`\*\*' node_modules/@futurewiz-rms/mint/guide/actions.m
 ### [액션](guide/actions.md)
 
 - `Button` — 텍스트 버튼
+
+### [표시](guide/display.md)
+
+- `Avatar` — 프로필 칸(이미지·이름 첫 글자·아이콘, 배지, 눌림)
+- `AvatarGroup` — 아바타를 겹쳐 놓는 묶음(넘치면 `+N`)
+- `Badge` — 상태·종류를 알리는 표시 전용 라벨(fill·weak, 5색, 3크기)
+
+### [로딩](guide/loading.md)
+
+- `Circular` — 원형 로딩(색 3종, 크기 지정)
+- `SkeletonText` — 텍스트 한 줄 자리(길이 4단계, 정렬)
+- `SkeletonRectangle` — 네모난 콘텐츠 자리(모서리 둥글게)
+- `SkeletonCircle` — 동그란 콘텐츠 자리(Avatar 크기)
+
+### [오버레이](guide/overlay.md)
+
+- `Alert` — 꼭 확인해야 하는 일을 알리는 대화상자(제목·본문·버튼 1~2개). `useOverlay`로 열기를 권장
+- `useOverlay` — 오버레이(Alert 등)를 함수 호출로 여는 훅. 앱 최상단에 `OverlayProvider` 필요
 
 ### [레이아웃](guide/layout.md)
 

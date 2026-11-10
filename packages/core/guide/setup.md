@@ -32,14 +32,15 @@ import "@futurewiz-rms/mint/style.css";
 
 ## 3. 토큰 클래스
 
-| 종류   | 클래스 예                                                         |
-| ------ | ----------------------------------------------------------------- |
-| 글자   | `text-title-1-bold` `text-body-2-regular` `text-label-2-semibold` |
-| 글자색 | `text-text-primary` `text-text-secondary` `text-text-caption`     |
-| 배경   | `bg-bg-page` `bg-bg-surface` `bg-brand-primary` `bg-brand-tint`   |
-| 테두리 | `border-border-default`                                           |
-| 시세   | `text-price-up` `text-price-down` `text-price-flat`               |
-| 반경   | `rounded-4` `rounded-8` `rounded-12` `rounded-16` `rounded-full`  |
+| 종류   | 클래스 예                                                                       |
+| ------ | ------------------------------------------------------------------------------- |
+| 글자   | `text-title-1-bold` `text-body-2-regular` `text-label-2-semibold`               |
+| 배경   | `bg-background-default` `bg-background-lower` `bg-background-floated`           |
+| 면     | `bg-fill-brand` `bg-fill-brand-weak` `bg-fill-neutral-weak` `bg-fill-danger`    |
+| 글자색 | `text-text-primary` `text-text-secondary` `text-text-brand` `text-text-on-fill` |
+| 아이콘 | `text-icon-default` `text-icon-brand` `text-icon-danger`                        |
+| 테두리 | `border-border-default` `border-border-strong`                                  |
+| 반경   | `rounded-4` `rounded-8` `rounded-12` `rounded-16` `rounded-full`                |
 
 ### 글자 스타일
 
@@ -50,13 +51,30 @@ import "@futurewiz-rms/mint/style.css";
 - **글자 크기는 화면 폭에 따라 바뀌지 않습니다.** 반응형은 레이아웃(그리드·여백·열 수)으로 처리합니다.
 - 폰트는 Pretendard이고, 불러오지 못하면 기기 기본 폰트로 대체됩니다(영문 `system-ui`, 한글 Apple SD Gothic Neo → Noto Sans KR → Malgun Gothic). 글자 클래스는 크기·웨이트만 정하고 폰트는 페이지 기본 폰트를 따릅니다. `style.css`는 `html`의 기본 폰트를 이 순서로 정해 두었습니다. `style.no-reset.css`는 전역 폰트를 정하지 않으니 앱 최상단 요소에 `font-mint` 클래스를 답니다.
 
-색은 위의 시맨틱 클래스를 씁니다. 시맨틱 색은 아직 임시값이라 바뀔 수 있습니다.
+색은 위의 시맨틱 클래스를 씁니다. 시맨틱 컬러는 Figma `Color - Semantic` 57개이고, 아토믹 색을 가리키는 별칭입니다.
+
+### 시맨틱 컬러
+
+이름은 `<분류>-<이름>`이고 클래스 접두어는 분류가 정합니다: 배경·면은 `bg-`, 글자·아이콘은 `text-`, 테두리는 `border-`. (`bg-background-*` `bg-fill-*` `text-text-*` `text-icon-*` `border-border-*`)
+
+- **background**(5): `default` 기본 화면 · `lower` 한 단계 낮은 영역(섹션 구분) · `upper` 카드 위 약한 배경 · `floated` 모달·시트 · `dim` 모달 뒤 막
+- **border**(7): `default` 기본 구분선 · `strong` 입력창·Outline 버튼 · `thick` 두꺼운 구분 · `focus` 포커스 링 · `disabled` · `brand` · `selected`
+- **text**(13): `strong` 제목 · `primary` 본문 · `secondary` 보조 · `tertiary` 부가 정보 · `subtle` 플레이스홀더 · `disabled` · `brand` · `brand-pressed` · `danger` · `success` · `warning` · `on-fill`(채움 위 글자) · `on-fill-warning`
+- **fill**(21): `brand` `neutral` `danger` `success` `warning`(채움)과 변형 `brand-pressed` `brand-weak` `brand-weak-pressed` `neutral-pressed` `neutral-weak` `neutral-weak-pressed` `neutral-medium` `neutral-medium-pressed` `danger-pressed` `danger-weak` `success-weak` `warning-weak` · `pressed` 누름 오버레이 · `disabled` · `inverse` · `white`
+- **icon**(11): `default` `strong` `secondary` `tertiary` `disabled` `brand` `brand-pressed` `danger` `success` `warning` `on-fill`
+
+사용 규칙:
+
+- 본문 글자에는 `text-text-tertiary`(gray-600) 이상만 씁니다. `subtle`·`disabled`는 대비가 낮아 힌트·비활성용입니다.
+- 채움(`fill-*`) 배경 위 글자·아이콘은 `text-text-on-fill`·`text-icon-on-fill`, 경고 채움(`fill-warning`) 위는 `text-text-on-fill-warning`입니다.
+- 브랜드(`brand`)는 지금 임시로 파랑(`blue-600`)입니다. 이름은 그대로고 값만 바뀝니다.
+- **Light 모드만 정의**되어 있습니다. 다크 테마에서도 같은 색이 나옵니다.
 
 ### 아토믹 컬러
 
 - Figma `Atomic` 변수와 같은 원시 색입니다. CSS 변수 `--color-atomic-<이름>`으로만 들어 있고 클래스는 없습니다: `style={{ color: "var(--color-atomic-blue-500)" }}`.
 - 이름: `white` · `black` · `gray-50`~`gray-950` · `grayAlpha-50`~`900`(같은 색에 투명도만 다름) · `blue` `red` `orange` `yellow` `green` `lime` `teal` `violet` `purple` `pink`의 `50`~`900`.
-- 라이트·다크와 상관없이 고정입니다. 다크 모드를 따라야 하는 곳에는 쓰지 않습니다.
+- 값이 고정입니다. 시맨틱 컬러가 정해 둔 역할에는 시맨틱 색을 씁니다.
 - 시맨틱 색으로 표현할 수 있으면 시맨틱 색을 씁니다.
 
 ## 4. 반응형 그리드·간격
@@ -89,4 +107,26 @@ import "@futurewiz-rms/mint/style.css";
 
 ## 5. 다크 모드
 
-`<html data-theme="dark">`이면 토큰 값이 다크로 바뀝니다. 테마를 바꾸는 Provider는 아직 없습니다.
+시맨틱 컬러는 지금 Light 값만 있습니다. `<html data-theme="dark">`로 바꿔도 색이 달라지지 않습니다(Figma에 Dark가 생기면 추가). 테마를 바꾸는 Provider는 아직 없습니다.
+
+## Provider
+
+- **`OverlayProvider`**: `useOverlay`(Alert 열기)를 쓰려면 `app/layout.tsx`에서 앱을 한 번 감쌉니다. 다른 컴포넌트는 Provider가 필요 없습니다.
+
+```tsx filename="app/layout.tsx"
+import { OverlayProvider } from "@futurewiz-rms/mint";
+
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  return (
+    <html lang="ko">
+      <body>
+        <OverlayProvider>{children}</OverlayProvider>
+      </body>
+    </html>
+  );
+}
+```

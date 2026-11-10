@@ -6,11 +6,27 @@
 
 ## 미배포
 
+### 변경
+
+- **색 토큰 이름**: 시맨틱 컬러 이름이 Figma 변수와 같아졌어요. `text-text-primary`·`text-text-secondary`·`text-text-disabled`·`border-border-default`는 이름은 같고 값이 Figma 값으로 바뀌었어요.
+
+### 삭제 (브레이킹)
+
+- **이전 임시 색 토큰**: `text-caption`·`text-inverse`·`text-on-brand`, `brand-primary`·`brand-primary-hover`·`brand-tint`·`brand-error`, `bg-page`·`bg-surface`·`bg-elevated`·`bg-overlay`, `border-subtle`, 시세 색(`price-up`·`price-down`·`price-flat`)을 없앴어요. 다크 모드 값도 Figma에 Dark가 생길 때까지 없어요.
+  업그레이드: `bg-brand-primary`→`bg-fill-brand`, `text-text-on-brand`→`text-text-on-fill`, `bg-brand-tint`→`bg-fill-brand-weak`, `text-brand-primary`→`text-text-brand`, `bg-brand-error`→`bg-fill-danger`, `bg-bg-surface`→`bg-background-default`, `bg-bg-page`·`bg-bg-elevated`→`bg-background-lower`, `text-text-caption`→`text-text-tertiary`, `border-border-subtle`→`border-border-default`로 바꾸세요. 시세 색은 대체가 없어서 `text-text-danger` 등을 상황에 맞게 쓰거나 앱에서 직접 정하세요.
+
 ### 추가
 
+- **`SkeletonText`·`SkeletonRectangle`·`SkeletonCircle`**: 콘텐츠를 불러오는 동안 들어올 자리를 회색 덩어리로 보여 줄 수 있어요. 텍스트 줄은 `length`·`align`, 네모는 `radius`, 원은 `size`(Avatar 크기)를 고르고, 회색 바탕 위에서는 `color="white"`를 써요.
+- **`useOverlay`·`OverlayProvider`**: FDS와 같은 API로 Alert 같은 오버레이를 함수 안에서 열 수 있어요. `open`·`openAsync`(`await`로 결과 받기)·`close(id)`·`exit(id)`·`closeAll`을 쓰고, `overlayId`로 중복 열림을 막을 수 있어요. 앱 최상단(`app/layout.tsx`)을 `OverlayProvider`로 한 번 감싸요.
+- **`Circular`**: 로드 시간이 짧은 일반적인 상황에 쓰는 원형 로딩이에요. `size`(기본 28)와 `color`(`default`·`brand`·`on-fill`)를 지원하고, 서버 컴포넌트에서도 쓸 수 있어요.
+- **`Badge`**: 상태·종류를 짧게 알리는 표시 전용 라벨이에요. `variant`(`fill`·`weak`), `color`(`brand`·`neutral`·`danger`·`success`·`warning`), `size`(`sm`·`md`·`lg`)를 지원하고, 서버 컴포넌트에서도 쓸 수 있어요.
+- **`Avatar`·`AvatarGroup`**: 사용자나 대상을 나타내는 프로필 칸이에요. `src`·`name`·`icon` 중 있는 것으로 이미지, 이름 첫 글자, 아이콘을 알아서 보여 주고, `size`(24·32·40·48·64), `variant`(`person`·`brand`), `badge`(크기는 `badgeSize`로 따로 고를 수 있어요), `disabled`, `onClick`을 지원해요. `AvatarGroup`은 겹쳐 놓고 넘치면 `+N`을 보여 줘요. 서버 컴포넌트에서도 쓸 수 있어요.
+- **`Alert`**: 꼭 확인하고 넘어가야 하는 상황에 쓰는 대화상자예요. `open`·`onClose`로 열고 닫고, `heading`, `body`, 하단 버튼 영역 `action`(`Button`을 1~2개 직접 넣어요)을 props로 받아서 `<Alert ... />`처럼 자식 없이 써요. Tab·Enter·Esc로 조작하고 열리면 포커스가 안에 머물러요.
 - **아이콘**: Phosphor 기반 아이콘 183개를 `ArrowLeftIcon`처럼 아이콘마다 컴포넌트로 쓸 수 있어요. `size`(16·20·24)와 `variant`(`line`·`fill`)를 지원하고, 쓰는 아이콘만 번들에 들어가요.
-- **`Button`**: 텍스트 버튼이에요. `primary`·`tint`·`line`·`danger` 변형과 `fullWidth`를 지원하고, 서버 컴포넌트에서도 쓸 수 있어요.
-- **토큰**: 색(다크 모드, 시세 상승·하락 색 포함)과 모서리 토큰을 추가했어요.
+- **`Button`**: 텍스트 버튼이에요. `variant`(`solid`·`outline`·`ghost`)와 `color`(`primary`·`neutral`·`secondary`·`destructive`)로 위계를 고르고, `size`(`xs`·`sm`·`md`·`lg`), `leftAddon`·`rightAddon`, `loading`(원 크기는 버튼 크기를 따라요), `fullWidth`를 지원해요. 서버 컴포넌트에서도 쓸 수 있어요.
+- **시맨틱 컬러**: Figma `Color - Semantic`의 57개를 `bg-background-default`, `text-text-primary`, `bg-fill-brand`, `border-border-strong`, `text-icon-brand`처럼 클래스로 쓸 수 있어요. 지금은 Light 모드만 있어요.
+- **토큰**: 모서리 토큰을 추가했어요.
 - **`Container`·`Grid`**: 반응형 페이지 레이아웃이에요. `Container`가 좌우 여백과 최대 폭(1440px)을 맡고, `Grid.Item`의 `span={{ base, tablet, desktop }}`로 구간별 차지할 컬럼 수를 정해요(모바일 4·태블릿 8·데스크톱 12컬럼, 거터·여백 20). 서버 컴포넌트에서 쓸 수 있어요.
 - **간격 스케일**: Figma와 같은 12단계(4~96px)를 `--mint-spacing-20` 변수와 `p-5`·`gap-3` 같은 클래스로 쓸 수 있어요.
 - **브레이크포인트**: `tablet:`(768px)과 `desktop:`(1024px) 접두어를 쓸 수 있어요. Tailwind 기본 `sm:`·`md:` 등은 없어요.
