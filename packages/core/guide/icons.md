@@ -15,9 +15,8 @@ import { ArrowLeftIcon, HouseIcon } from "@futurewiz-rms/mint";
 - **이름 규칙**: 아래 목록의 이름(kebab-case)을 PascalCase로 바꾸고 `Icon`을 붙입니다. `arrow-left` → `ArrowLeftIcon`, `magnifying-glass` → `MagnifyingGlassIcon`, `x` → `XIcon`.
 - **`size`**: `16` · `20` · `24`(기본 `24`)만 됩니다. `size`는 컨트롤 크기(`sm|md|lg|xl`)와 달리 아이콘만 숫자입니다.
 - **`variant`**: `"line"`(선, 기본) · `"fill"`(채움).
-- **색**: 글자색을 따라갑니다. 글자색 토큰 클래스로 지정합니다(`className="text-brand-error"`). hex를 쓰지 않습니다.
+- **색**: 글자색을 따라갑니다. 글자색 토큰 클래스로 지정합니다(`className="text-icon-danger"`). hex를 쓰지 않습니다.
 - **접근성**: 기본은 장식용(`aria-hidden`)입니다. 아이콘만으로 뜻을 전하는 곳에는 `aria-label="검색"`을 줍니다.
-- **`Button` 안**: `leftAddon={<PlusIcon />}`처럼 넣으면 버튼 크기에 맞게 크기가 자동으로 조절됩니다.
 - 없는 아이콘은 만들지 않습니다. 필요하면 Figma `Icon / Components`에 먼저 추가를 요청합니다.
 
 ## 아이콘 목록 (분류별)

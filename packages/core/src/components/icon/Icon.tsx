@@ -22,7 +22,7 @@ export type IconComponent = (props: IconProps) => ReactElement;
 
 /**
  * 아이콘 컴포넌트를 만든다. 아이콘마다 선(line)·채움(fill) path 하나씩을 가진다.
- *  - 색은 `currentColor`라서 글자색 클래스로 지정한다(예: `text-text-secondary`).
+ *  - 색은 `currentColor`라서 글자색 클래스로 지정한다(예: `text-icon-secondary`).
  *  - `aria-label`이 없으면 장식용으로 보고 스크린리더가 읽지 않게 한다(`aria-hidden`).
  *    아이콘만으로 뜻을 전하는 곳(아이콘 버튼 등)에는 `aria-label`을 준다.
  */

@@ -2,8 +2,8 @@
 // Figma 가이드의 분류와 아이콘 이름. 이름은 kebab-case이고, 컴포넌트 이름은 `<PascalCase>Icon`이다(arrow-left → ArrowLeftIcon).
 export const iconCatalog = [
   {
-    "category": "방향, 이동",
-    "icons": [
+    category: "방향, 이동",
+    icons: [
       "arrow-left",
       "arrow-right",
       "arrow-up",
@@ -12,12 +12,12 @@ export const iconCatalog = [
       "caret-left",
       "caret-right",
       "caret-up",
-      "caret-down"
-    ]
+      "caret-down",
+    ],
   },
   {
-    "category": "기본 동작",
-    "icons": [
+    category: "기본 동작",
+    icons: [
       "x",
       "list",
       "dots-three",
@@ -34,12 +34,12 @@ export const iconCatalog = [
       "download-simple",
       "upload-simple",
       "arrows-clockwise",
-      "link"
-    ]
+      "link",
+    ],
   },
   {
-    "category": "상태, 알림",
-    "icons": [
+    category: "상태, 알림",
+    icons: [
       "bell",
       "info",
       "warning",
@@ -49,12 +49,12 @@ export const iconCatalog = [
       "question",
       "lock",
       "eye",
-      "eye-slash"
-    ]
+      "eye-slash",
+    ],
   },
   {
-    "category": "사용자, 일반",
-    "icons": [
+    category: "사용자, 일반",
+    icons: [
       "house",
       "user",
       "users",
@@ -66,12 +66,12 @@ export const iconCatalog = [
       "clock",
       "chat-circle",
       "envelope",
-      "phone"
-    ]
+      "phone",
+    ],
   },
   {
-    "category": "데이터, 금융",
-    "icons": [
+    category: "데이터, 금융",
+    icons: [
       "chart-line",
       "chart-bar",
       "wallet",
@@ -79,34 +79,28 @@ export const iconCatalog = [
       "trend-up",
       "trend-down",
       "receipt",
-      "bank"
-    ]
+      "bank",
+    ],
   },
   {
-    "category": "파일, 기타",
-    "icons": [
-      "file",
-      "folder",
-      "image",
-      "paperclip",
-      "globe"
-    ]
+    category: "파일, 기타",
+    icons: ["file", "folder", "image", "paperclip", "globe"],
   },
   {
-    "category": "위치, 지도",
-    "icons": [
+    category: "위치, 지도",
+    icons: [
       "map-pin",
       "map-trifold",
       "navigation-arrow",
       "compass",
       "crosshair",
       "buildings",
-      "house-line"
-    ]
+      "house-line",
+    ],
   },
   {
-    "category": "메시지, 소셜",
-    "icons": [
+    category: "메시지, 소셜",
+    icons: [
       "paper-plane-tilt",
       "chat-text",
       "megaphone",
@@ -114,12 +108,12 @@ export const iconCatalog = [
       "thumbs-up",
       "at",
       "hash",
-      "share-fat"
-    ]
+      "share-fat",
+    ],
   },
   {
-    "category": "미디어",
-    "icons": [
+    category: "미디어",
+    icons: [
       "play",
       "pause",
       "speaker-high",
@@ -129,12 +123,12 @@ export const iconCatalog = [
       "camera",
       "video-camera",
       "music-note",
-      "headphones"
-    ]
+      "headphones",
+    ],
   },
   {
-    "category": "금융",
-    "icons": [
+    category: "금융",
+    icons: [
       "currency-krw",
       "currency-btc",
       "arrows-left-right",
@@ -148,12 +142,12 @@ export const iconCatalog = [
       "chart-line-up",
       "chart-donut",
       "currency-circle-dollar",
-      "coin-vertical"
-    ]
+      "coin-vertical",
+    ],
   },
   {
-    "category": "채팅",
-    "icons": [
+    category: "채팅",
+    icons: [
       "chat",
       "chat-dots",
       "chat-centered",
@@ -165,12 +159,12 @@ export const iconCatalog = [
       "chat-teardrop-text",
       "chat-slash",
       "chat-circle-slash",
-      "chat-centered-slash"
-    ]
+      "chat-centered-slash",
+    ],
   },
   {
-    "category": "쇼핑, 결제",
-    "icons": [
+    category: "쇼핑, 결제",
+    icons: [
       "shopping-cart",
       "shopping-bag",
       "tag",
@@ -178,12 +172,12 @@ export const iconCatalog = [
       "gift",
       "percent",
       "storefront",
-      "ticket"
-    ]
+      "ticket",
+    ],
   },
   {
-    "category": "계정, 보안",
-    "icons": [
+    category: "계정, 보안",
+    icons: [
       "user-circle",
       "user-plus",
       "sign-in",
@@ -191,12 +185,12 @@ export const iconCatalog = [
       "shield-check",
       "key",
       "fingerprint",
-      "identification-card"
-    ]
+      "identification-card",
+    ],
   },
   {
-    "category": "기기, 연결",
-    "icons": [
+    category: "기기, 연결",
+    icons: [
       "wifi-high",
       "wifi-slash",
       "device-mobile",
@@ -204,12 +198,12 @@ export const iconCatalog = [
       "qr-code",
       "cloud",
       "printer",
-      "cloud-arrow-up"
-    ]
+      "cloud-arrow-up",
+    ],
   },
   {
-    "category": "동작, 보기",
-    "icons": [
+    category: "동작, 보기",
+    icons: [
       "arrow-counter-clockwise",
       "arrow-clockwise",
       "arrows-out-simple",
@@ -223,36 +217,36 @@ export const iconCatalog = [
       "faders",
       "list-checks",
       "trash-simple",
-      "push-pin"
-    ]
+      "push-pin",
+    ],
   },
   {
-    "category": "알림, 시간",
-    "icons": [
+    category: "알림, 시간",
+    icons: [
       "bell-ringing",
       "bell-slash",
       "timer",
       "hourglass",
       "calendar-check",
       "alarm",
-      "clock-counter-clockwise"
-    ]
+      "clock-counter-clockwise",
+    ],
   },
   {
-    "category": "문서, 편집",
-    "icons": [
+    category: "문서, 편집",
+    icons: [
       "file-text",
       "clipboard",
       "note-pencil",
       "archive",
       "folder-open",
       "table",
-      "translate"
-    ]
+      "translate",
+    ],
   },
   {
-    "category": "상태, 기타",
-    "icons": [
+    category: "상태, 기타",
+    icons: [
       "seal-check",
       "prohibit",
       "lightbulb",
@@ -265,20 +259,13 @@ export const iconCatalog = [
       "thumbs-down",
       "target",
       "rocket-launch",
-      "siren"
-    ]
+      "siren",
+    ],
   },
   {
-    "category": "그 외",
-    "icons": [
-      "cursor",
-      "hand-pointing",
-      "robot",
-      "text-aa",
-      "microphone-stage",
-      "briefcase"
-    ]
-  }
+    category: "그 외",
+    icons: ["cursor", "hand-pointing", "robot", "text-aa", "microphone-stage", "briefcase"],
+  },
 ] as const;
 
 export type IconName = (typeof iconCatalog)[number]["icons"][number];

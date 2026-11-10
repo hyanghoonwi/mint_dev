@@ -60,9 +60,9 @@ export const Variants: Story = {
 export const Colors: Story = {
   render: () => (
     <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
-      <CheckCircleIcon className="text-brand-primary" variant="fill" />
-      <WarningCircleIcon className="text-brand-error" variant="fill" />
-      <WarningCircleIcon className="text-text-secondary" />
+      <CheckCircleIcon className="text-icon-brand" variant="fill" />
+      <WarningCircleIcon className="text-icon-danger" variant="fill" />
+      <WarningCircleIcon className="text-icon-secondary" />
     </div>
   ),
 };
@@ -75,7 +75,7 @@ export const InButton: Story = {
         추가
       </Button>
       <Button leftAddon={<PlusIcon />}>추가</Button>
-      <Button size="lg" variant="line" rightAddon={<ArrowRightIcon />}>
+      <Button size="lg" variant="outline" rightAddon={<ArrowRightIcon />}>
         더보기
       </Button>
     </div>
@@ -124,7 +124,7 @@ export const Gallery: Story = {
                   style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 8 }}
                 >
                   <div
-                    className="rounded-8 bg-bg-elevated"
+                    className="rounded-8 bg-background-lower"
                     style={{ display: "flex", gap: 8, padding: 12 }}
                   >
                     <Icon />

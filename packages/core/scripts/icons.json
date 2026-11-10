@@ -82,13 +82,7 @@
   },
   {
     "category": "파일, 기타",
-    "icons": [
-      "file",
-      "folder",
-      "image",
-      "paperclip",
-      "globe"
-    ]
+    "icons": ["file", "folder", "image", "paperclip", "globe"]
   },
   {
     "category": "위치, 지도",
@@ -268,13 +262,6 @@
   },
   {
     "category": "그 외",
-    "icons": [
-      "cursor",
-      "hand-pointing",
-      "robot",
-      "text-aa",
-      "microphone-stage",
-      "briefcase"
-    ]
+    "icons": ["cursor", "hand-pointing", "robot", "text-aa", "microphone-stage", "briefcase"]
   }
 ]
