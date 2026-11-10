@@ -42,7 +42,18 @@ const preview: Preview = {
         order: [
           "Foundations",
           "Components",
-          ["Actions", ["Button"], "Display", ["Icon"], "Layout", ["Grid"]],
+          [
+            "Actions",
+            ["Button"],
+            "Display",
+            ["Avatar", "Badge", "Icon"],
+            "Layout",
+            ["Grid"],
+            "Loading",
+            ["Circular", "Skeleton"],
+            "Overlay",
+            ["Alert"],
+          ],
           "Hooks",
         ],
       },
@@ -114,7 +125,7 @@ const preview: Preview = {
           style={{
             minHeight: "100%",
             padding: 24,
-            background: "var(--mint-bg-surface)",
+            background: "var(--mint-background-default)",
             color: "var(--mint-text-primary)",
             transition: "background-color 0.15s ease, color 0.15s ease",
           }}
