@@ -1,0 +1,102 @@
+# useOverlay
+
+Alert 같은 대화상자를 열림 상태 없이 함수 호출로 여는 훅이에요.
+
+<ComponentBadges />
+
+## Usage
+
+앱 최상단(`app/layout.tsx`)을 `OverlayProvider`로 한 번 감싸요. 연 오버레이는 이 자리에 그려져요.
+
+```tsx filename="app/layout.tsx"
+import { OverlayProvider } from "@futurewiz-rms/mint";
+
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  return (
+    <html lang="ko">
+      <body>
+        <OverlayProvider>{children}</OverlayProvider>
+      </body>
+    </html>
+  );
+}
+```
+
+그다음 클라이언트 컴포넌트에서 `overlay.open`에 오버레이를 그리는 함수를 넘겨요. 함수는 `isOpen`과 `close`를 받아요.
+
+```tsx
+const overlay = useOverlay();
+
+overlay.open(({ isOpen, close }) => (
+  <Alert open={isOpen} onClose={close} body="…" action={…} />
+));
+```
+
+사용하는 쪽이 고른 결과가 필요하면 `overlay.openAsync`를 써요. `close(value)`로 닫으면 `await`가 그 값을 돌려줘요. 값 없이 닫히면 `undefined`예요.
+
+```tsx
+const confirmed = await overlay.openAsync<boolean>(({ isOpen, close }) => (
+  <Alert open={isOpen} onClose={() => close(false)} body="…" action={…} />
+));
+```
+
+## Examples
+
+<ExampleTabs
+  items={[
+    { title: "Alert 열기", name: "use-overlay/Confirm" },
+    { title: "확인하고 실행하기", name: "use-overlay/Action" },
+    { title: "결과 기다리기", name: "use-overlay/Async" },
+    { title: "겹쳐 열기", name: "use-overlay/Stacked" },
+    { title: "중복 열림 막기", name: "use-overlay/SameId" },
+  ]}
+/>
+
+- **Alert 열기**: 버튼의 `onClick`에서 `overlay.open`을 불러요. 열림 상태(`useState`)를 따로 두지 않아요.
+- **확인하고 실행하기**: 주된 버튼에서 할 일을 한 뒤 `close`를 불러요.
+- **결과 기다리기**: `openAsync`로 열고 `await`로 고른 값(`true`·`false`)을 받아요. Esc로 닫을 때도 `onClose`에서 값을 넘겨요.
+- **겹쳐 열기**: 열린 Alert에서 다시 `open`을 부르면 그 위에 쌓여요. Esc는 맨 위 하나만 닫고, `overlay.closeAll()`은 열린 것을 모두 닫아요.
+- **중복 열림 막기**: `overlayId`를 주면 같은 id가 열려 있는 동안 다시 열지 않아요. 버튼을 여러 번 눌러도 Alert는 하나예요.
+
+## API
+
+`useOverlay()`가 돌려주는 값이에요.\
+클라이언트 컴포넌트에서 쓰고, 앱 최상단에 `OverlayProvider`가 있어야 해요.
+
+| 이름        | 타입                                                                              | 설명                                                                                    |
+| ----------- | --------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------- |
+| `open`      | `(render: OverlayRender<T>, options?: OverlayOptions) => string`                  | 오버레이를 열고 id를 돌려줘요. 열린 것이 있으면 그 위에 쌓여요                          |
+| `openAsync` | `(render: OverlayRender<T>, options?: OverlayOptions) => Promise<T \| undefined>` | 오버레이를 열고, 닫힐 때 `close(value)`의 값을 돌려줘요. 값 없이 닫히면 `undefined`예요 |
+| `close`     | `(overlayId: string) => void`                                                     | id에 해당하는 오버레이를 닫아요                                                         |
+| `exit`      | `(overlayId: string) => void`                                                     | id에 해당하는 오버레이를 바로 화면에서 빼요                                             |
+| `closeAll`  | `() => void`                                                                      | 열린 오버레이를 모두 닫아요                                                             |
+
+`options`로 넘기는 값이에요.
+
+| 이름        | 타입     | 기본값 | 설명                                                             |
+| ----------- | -------- | ------ | ---------------------------------------------------------------- |
+| `overlayId` | `string` | -      | 오버레이 id. 같은 id가 열려 있으면 새로 열지 않아요              |
+| `exitDelay` | `number` | `0`    | 닫은 뒤 화면에서 빼기까지 기다리는 시간(ms). 닫히는 효과용이에요 |
+
+`render` 함수가 받는 값이에요.
+
+| 이름        | 타입                  | 설명                                                               |
+| ----------- | --------------------- | ------------------------------------------------------------------ |
+| `isOpen`    | `boolean`             | 지금 열려 있는지. 오버레이의 `open`에 넘겨요                       |
+| `close`     | `(value?: T) => void` | 이 오버레이를 닫아요. `openAsync`로 열었다면 넘긴 값이 결과가 돼요 |
+| `exit`      | `() => void`          | 이 오버레이를 바로 화면에서 빼요                                   |
+| `overlayId` | `string`              | 이 오버레이의 id                                                   |
+
+## Guidelines
+
+- Alert처럼 화면 위에 뜨는 오버레이는 `useOverlay`로 열어요. 페이지마다 열림 상태와 오버레이 JSX를 들고 있지 않아도 돼요.
+- `OverlayProvider`는 앱에 한 번만 둬요. 없으면 `useOverlay`가 오류를 알려요.
+- 결과에 따라 다음 일을 해야 하면 `openAsync`를 써요. Esc(`onClose`)로 닫을 때 넘길 값도 정해요.
+- 버튼의 `onClick`에는 `() => close()`처럼 감싸서 넘겨요. `onClick={close}`로 넘기면 누른 이벤트가 결과값이 돼요.
+- `render`는 열 때의 값을 기억해요. 오버레이 안에서 바뀌는 상태가 필요하면 상태를 가진 컴포넌트를 돌려줘요.
+- 연타로 여러 번 열릴 수 있는 곳에는 `overlayId`를 줘요.
+- 겹쳐 여는 것은 두 겹까지만 써요. 더 깊어지면 흐름을 한 화면으로 나눠요.

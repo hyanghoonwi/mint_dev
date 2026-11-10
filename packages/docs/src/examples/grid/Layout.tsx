@@ -6,10 +6,10 @@ export default function Layout() {
     <Container>
       <Grid>
         <Grid.Item span={{ base: 4, tablet: 8, desktop: 3 }}>
-          <aside className="rounded-8 bg-bg-elevated p-5 text-body-3-medium">사이드</aside>
+          <aside className="rounded-8 bg-background-lower p-5 text-body-3-medium">사이드</aside>
         </Grid.Item>
         <Grid.Item span={{ base: 4, tablet: 8, desktop: 9 }}>
-          <main className="rounded-8 bg-bg-elevated p-5 text-body-3-medium">본문</main>
+          <main className="rounded-8 bg-background-lower p-5 text-body-3-medium">본문</main>
         </Grid.Item>
       </Grid>
     </Container>

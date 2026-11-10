@@ -2,14 +2,13 @@ node_modules
 dist
 build
 storybook-static
-.docusaurus
+.next
+out
+packages/docs/public/_pagefind
 package-lock.json
 
 # 자동 생성
-packages/docs/docs/changelog.md
+packages/docs/content/getting-started/changelog.mdx
 
 # 자동 생성 (generate-icons.mjs 출력. path 데이터가 길어서 포맷하지 않는다)
 packages/core/src/components/icon/*.generated.ts
-
-# 참고용 자료(받아 온 문서·로고 원본). 우리 코드가 아니라서 포맷·lint 대상이 아니다
-packages/docs_ref

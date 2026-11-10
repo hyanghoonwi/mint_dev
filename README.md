@@ -8,7 +8,7 @@
 | -------------------------------------------- | -------------------------------- |
 | [`packages/core`](./packages/core)           | `@futurewiz-rms/mint` 라이브러리 |
 | [`packages/storybook`](./packages/storybook) | 개발용 Storybook                 |
-| [`packages/docs`](./packages/docs)           | Docusaurus 문서 사이트           |
+| [`packages/docs`](./packages/docs)           | Nextra(Next.js) 문서 사이트           |
 
 ```bash
 npm install

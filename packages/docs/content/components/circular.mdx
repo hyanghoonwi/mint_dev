@@ -1,0 +1,50 @@
+# Circular
+
+로드 시간이 짧은 일반적인 상황에서 쓰는 원형 로딩이에요.
+
+<ComponentBadges />
+
+<Figure height={240} />
+
+## Playground
+
+오른쪽에서 props를 바꾸면 로딩과 아래 코드가 함께 바뀌어요. 회전은 CSS로 돌아서 JS가 필요 없어요.
+
+<CircularPlayground />
+
+## Examples
+
+<ExampleTabs
+  items={[
+    { title: "크기", name: "circular/Sizes" },
+    { title: "버튼 안에서", name: "circular/InButton" },
+    { title: "진한 배경 위", name: "circular/OnFill" },
+    { title: "영역 불러오기", name: "circular/Section" },
+  ]}
+/>
+
+- **크기**: `size`로 지름(px)을 정해요. 기본은 28이에요.
+- **버튼 안에서**: `Button`의 `loading`이 이 컴포넌트를 써요. 원 크기는 버튼 크기를 따라요(`xs` 12 · `sm`·`md` 16 · `lg` 20px).
+- **진한 배경 위**: 진한 배경 위에서는 `color="on-fill"`(흰색)을 써요.
+- **영역 불러오기**: 카드나 목록 같은 영역을 불러올 때는 가운데에 두고, 아래에 무엇을 불러오는지 짧게 적어요.
+
+## Props
+
+나머지 `<svg>` 속성도 그대로 받아요.\
+서버 컴포넌트에서 바로 쓸 수 있어요.
+
+| 이름    | 타입                                | 기본값      | 설명                                                    |
+| ------- | ----------------------------------- | ----------- | ------------------------------------------------------- |
+| `size`  | `number`                            | `28`        | 지름(px)                                                |
+| `color` | `"default" \| "brand" \| "on-fill"` | `"default"` | 회색 · 브랜드색 · 진한 배경 위의 흰색                   |
+| `label` | `string`                            | `"로딩 중"` | 스크린리더가 읽을 이름. 장식용이면 `aria-hidden`을 줘요 |
+
+## Guidelines
+
+<CircularGuide />
+
+- 로드 시간이 짧은 일반적인 상황에 써요.
+- 버튼의 로딩은 따로 그리지 않고 `Button`의 `loading`을 써요.
+- 기본으로 `role="status"`와 이름(`로딩 중`)이 붙어서 스크린리더가 로딩 중인 걸 알 수 있어요. 다른 문구로 바꾸려면 `label`을 줘요.
+- 이미 다른 문구가 있는 곳에서는 `aria-hidden`을 주고 부모가 상태를 알려요.
+- 움직임 줄이기 설정을 켠 사용자에게는 회전이 멈춰요.

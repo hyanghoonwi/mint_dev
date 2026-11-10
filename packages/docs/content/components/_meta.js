@@ -1,0 +1,16 @@
+export default {
+  overview: "Overview",
+  "---actions": { type: "separator", title: "Actions" },
+  button: "Button",
+  "---contents": { type: "separator", title: "Contents" },
+  avatar: "Avatar",
+  "avatar-group": "Avatar group",
+  badge: "Badge",
+  "---feedback": { type: "separator", title: "Feedback" },
+  alert: "Alert",
+  "---loading": { type: "separator", title: "Loading" },
+  circular: "Circular",
+  skeleton: "Skeleton",
+  "---layout": { type: "separator", title: "Layout" },
+  "container-grid": "Container · Grid",
+};

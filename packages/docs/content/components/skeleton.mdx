@@ -1,0 +1,78 @@
+# Skeleton
+
+콘텐츠를 불러오는 동안 들어올 자리를 미리 보여 주는 회색 덩어리예요.
+
+<ComponentBadges />
+
+<Figure height={240} />
+
+대기 시간과 위치에 맞춰 `Circular`와 골라 써요.
+
+|         | Circular                   | Skeleton                          |
+| ------- | -------------------------- | --------------------------------- |
+| 쓰는 곳 | 대기 시간이 짧은 일반 상황 | 콘텐츠가 들어올 자리              |
+| 모양    | 원형이 돌아가요            | 글자, 사각형, 원 모양의 자리 표시 |
+| 예시    | 버튼 안, 새로고침          | 목록, 카드, 프로필 불러오기       |
+
+## Playground
+
+모양에 따라 컴포넌트가 셋이에요. 오른쪽에서 props를 바꾸면 미리보기와 아래 코드가 함께 바뀌어요.
+
+텍스트 한 줄 자리는 `SkeletonText`예요.
+
+<SkeletonTextPlayground />
+
+이미지·썸네일·카드처럼 네모난 자리는 `SkeletonRectangle`이에요.
+
+<SkeletonRectanglePlayground />
+
+아바타처럼 동그란 자리는 `SkeletonCircle`이에요.
+
+<SkeletonCirclePlayground />
+
+## Examples
+
+<ExampleTabs
+  items={[
+    { title: "여러 줄", name: "skeleton/Lines" },
+    { title: "목록 한 줄", name: "skeleton/ListItem" },
+    { title: "카드", name: "skeleton/Card" },
+    { title: "가운데 정렬", name: "skeleton/Centered" },
+    { title: "회색 바탕 위", name: "skeleton/OnGray" },
+  ]}
+/>
+
+- **여러 줄**: `SkeletonText`를 쌓아요. 마지막 줄은 짧게 둬요.
+- **목록 한 줄**: `SkeletonCircle`과 `SkeletonText`를 실제 목록과 같은 배치로 둬요. 보조 줄은 `height`를 낮춰요.
+- **카드**: 썸네일은 `SkeletonRectangle`(`radius`), 제목과 가격은 `SkeletonText`로 둬요.
+- **가운데 정렬**: 가운데 정렬된 글은 `align="center"`로 짧은 줄도 가운데에 둬요.
+- **회색 바탕 위**: 회색 바탕 위에서는 `color="white"`를 써요.
+
+## Props
+
+나머지 `<div>` 속성도 그대로 받아요.\
+서버 컴포넌트에서 바로 쓸 수 있어요.
+
+| 이름     | 타입                                  | 기본값      | 설명                                                              |
+| -------- | ------------------------------------- | ----------- | ----------------------------------------------------------------- |
+| `length` | `"100%" \| "75%" \| "50%" \| "25%"`   | `"100%"`    | `SkeletonText`의 줄 길이(칸 폭에 대한 비율)                       |
+| `align`  | `"leading" \| "center" \| "trailing"` | `"leading"` | `SkeletonText`의 짧은 줄 위치                                     |
+| `radius` | `boolean \| number`                   | `false`     | `SkeletonRectangle`의 둥근 모서리. `true`는 8px, 숫자는 그 값(px) |
+| `size`   | `24 \| 32 \| 40 \| 48 \| 64`          | `40`        | `SkeletonCircle`의 지름(px). `Avatar` 크기와 같아요               |
+| `color`  | `"normal" \| "white"`                 | `"normal"`  | 흰 바탕 위 회색 · 회색 바탕 위 흰색                               |
+| `width`  | `number \| string`                    | `"100%"`    | 폭. 숫자는 px예요(`SkeletonText`·`SkeletonRectangle`)             |
+| `height` | `number \| string`                    | `16` · `80` | 높이. `SkeletonText`는 16, `SkeletonRectangle`은 80이에요         |
+
+## Guidelines
+
+<SkeletonGuide />
+
+- 실제 콘텐츠의 크기와 줄 수에 맞춰 쌓아요. 콘텐츠가 들어와도 화면이 밀리지 않아요.
+- 여러 줄 글은 `SkeletonText`를 쌓고, 마지막 줄은 `75%`나 `50%`로 짧게 둬요.
+- 아바타 자리는 `SkeletonCircle`을 같은 `size`로 둬요.
+- 버튼 안이나 새로고침처럼 좁은 곳, 대기 시간이 짧은 곳에는 `Circular`를 써요.
+- 3초 넘게 보여 주지 않아요. 더 걸리면 진행 상황을 글로 알려요.
+- 한 화면에 `Circular`와 Skeleton을 섞어 쓰지 않아요.
+- 회색 바탕처럼 어두운 배경에서는 `color="white"`를 써요.
+- Skeleton은 스크린리더가 읽지 않아요(`aria-hidden`). 불러오는 영역에 `aria-busy="true"`를 주고, 다 불러오면 지워요.
+- 색이나 투명도를 바꿔야 하면 `className`이나 `style`로 덮어써요.

@@ -8,7 +8,7 @@ export default function WithButton() {
         추가
       </Button>
       <Button leftAddon={<PlusIcon />}>추가</Button>
-      <Button size="lg" variant="line" rightAddon={<ArrowRightIcon />}>
+      <Button size="lg" variant="outline" rightAddon={<ArrowRightIcon />}>
         더보기
       </Button>
     </>

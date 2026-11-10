@@ -13,7 +13,7 @@ import { readdir, readFile, writeFile } from "node:fs/promises";
 import { join } from "node:path";
 import prettier from "prettier";
 
-const ROOT = "packages/docs/docs";
+const ROOT = "packages/docs/content";
 const WIDTH = 80;
 const FENCE = /```(tsx|jsx)\n([\s\S]*?)\n```/g;
 

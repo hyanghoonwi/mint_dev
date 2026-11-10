@@ -18,8 +18,11 @@ dist
 *storybook.log
 storybook-static
 
-.docusaurus
-build
+.next
+out
+next-env.d.ts
+packages/docs/public/_pagefind
+*.tsbuildinfo
 
 # 자동 생성: packages/docs/scripts/sync-changelog.mjs (원본은 packages/core/CHANGELOG.md)
-packages/docs/docs/changelog.md
+packages/docs/content/getting-started/changelog.mdx

@@ -6,7 +6,7 @@ export default function Cards() {
     <Grid>
       {Array.from({ length: 8 }, (_, index) => (
         <Grid.Item key={index} span={{ base: 4, tablet: 4, desktop: 3 }}>
-          <div className="rounded-8 bg-brand-tint p-5 text-label-2-semibold text-brand-primary">
+          <div className="rounded-8 bg-fill-brand-weak p-5 text-label-2-semibold text-text-brand">
             카드 {index + 1}
           </div>
         </Grid.Item>
