@@ -4,6 +4,7 @@
 export * from "./utils/cn";
 
 export * from "./components/alert/Alert";
+export * from "./components/avatar/Avatar";
 export * from "./components/button/Button";
 export * from "./components/circular/Circular";
 

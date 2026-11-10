@@ -3,3 +3,9 @@ declare module "*?raw" {
   const content: string;
   export default content;
 }
+
+// 이미지 import: 빌드된 파일 주소(문자열)를 가져온다
+declare module "*.jpg" {
+  const src: string;
+  export default src;
+}
