@@ -4,6 +4,7 @@
 export * from "./utils/cn";
 
 export * from "./components/button/Button";
+export * from "./components/circular/Circular";
 
 export * from "./components/grid/Grid";
 export * from "./components/icon/Icon";
