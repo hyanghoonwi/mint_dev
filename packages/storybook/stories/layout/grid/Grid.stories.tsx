@@ -19,7 +19,7 @@ export const Cards: Story = {
       <Grid>
         {Array.from({ length: 8 }, (_, index) => (
           <Grid.Item key={index} span={{ base: 4, tablet: 4, desktop: 3 }}>
-            <div className="rounded-8 bg-brand-tint p-5 text-label-2-semibold text-brand-primary">
+            <div className="rounded-8 bg-fill-brand-weak p-5 text-label-2-semibold text-text-brand">
               카드 {index + 1}
             </div>
           </Grid.Item>
@@ -35,10 +35,10 @@ export const PageLayout: Story = {
     <Container>
       <Grid>
         <Grid.Item span={{ base: 4, tablet: 8, desktop: 3 }}>
-          <aside className="rounded-8 bg-bg-elevated p-5 text-body-3-medium">사이드</aside>
+          <aside className="rounded-8 bg-background-lower p-5 text-body-3-medium">사이드</aside>
         </Grid.Item>
         <Grid.Item span={{ base: 4, tablet: 8, desktop: 9 }}>
-          <main className="rounded-8 bg-bg-elevated p-5 text-body-3-medium">본문</main>
+          <main className="rounded-8 bg-background-lower p-5 text-body-3-medium">본문</main>
         </Grid.Item>
       </Grid>
     </Container>
@@ -51,7 +51,7 @@ export const FullRow: Story = {
     <Container>
       <Grid>
         <Grid.Item>
-          <div className="rounded-8 bg-bg-elevated p-5 text-body-3-medium">한 줄 전체</div>
+          <div className="rounded-8 bg-background-lower p-5 text-body-3-medium">한 줄 전체</div>
         </Grid.Item>
       </Grid>
     </Container>

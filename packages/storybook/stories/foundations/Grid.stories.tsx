@@ -14,7 +14,7 @@ type Story = StoryObj<typeof meta>;
 // 컬럼 수는 4 → 8 → 12로 바뀌고 거터와 좌우 여백은 20px 그대로다. 사용법은 Components/Layout/Grid를 본다.
 export const Columns: Story = {
   render: () => (
-    <div style={{ background: "var(--mint-bg-elevated)", padding: "24px 0" }}>
+    <div style={{ background: "var(--mint-background-lower)", padding: "24px 0" }}>
       {/* 칸은 12개를 만들어 두고 첫 줄만 보이게 해서(나머지 줄은 높이 0) 현재 구간의 컬럼 수만 나오게 한다 */}
       <Container>
         <Grid style={{ gridTemplateRows: "96px", gridAutoRows: 0, overflow: "hidden" }}>
@@ -22,7 +22,7 @@ export const Columns: Story = {
             <Grid.Item
               key={index}
               span={{ base: 1 }}
-              className="rounded-4 bg-brand-tint text-label-3-semibold text-brand-primary"
+              className="rounded-4 bg-fill-brand-weak text-label-3-semibold text-text-brand"
               style={{ display: "flex", alignItems: "center", justifyContent: "center" }}
             >
               {index + 1}

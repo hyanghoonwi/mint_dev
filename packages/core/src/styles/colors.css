@@ -1,95 +1,143 @@
 /*
- * 시맨틱 컬러 토큰
+ * 시맨틱 컬러 토큰 — Figma "Color - Semantic" (node 2135:4212), 57개
  *
- * ⚠️ 임시값: Figma에 시맨틱 컬러가 아직 없다. 정의되면 값을 아토믹 컬러(atomic.css)의
- * var(--color-atomic-*) 참조로 바꾼다. 그 전까지 이름·값은 바뀔 수 있다.
+ * 역할 이름으로 색을 묶는 레이어다. 값은 아토믹 색(atomic.css)을 가리키는 별칭이고, 컴포넌트는 이 토큰으로만 색을 쓴다.
+ * 이름은 Figma 변수 이름의 `/`를 `-`로 바꾼 것이다: `fill/brand-weak` → `--mint-fill-brand-weak` → 클래스 `bg-fill-brand-weak`.
+ *   배경 `bg-background-*` · 테두리 `border-border-*` · 글자 `text-text-*` · 면 `bg-fill-*` · 아이콘 `text-icon-*`
  *
- * 시맨틱 컬러는 --mint-* 변수 하나에 라이트 값을 두고, [data-theme="dark"]에서 값만 덮어쓴다.
- * Tailwind 유틸리티(--color-*)는 이 변수를 참조하므로 컴포넌트에 `dark:` 클래스를 붙일 필요가 없다.
- *   예) bg-bg-surface / text-text-primary / border-border-default
- *
- * 글자색은 배경 위에서 WCAG 4.5:1 이상을 지킨다(text-text-caption은 보조 정보용으로 예외).
- * 시세 색은 한국 시장 관례(상승 빨강, 하락 파랑)를 따른다. 브랜드 민트와 섞어 쓰지 않는다.
+ * 지금은 Light 모드만 정의되어 있다. Figma에 Dark가 생기면 [data-theme="dark"]에서 --mint-* 값만 덮어쓴다.
+ * 브랜드색(brand)은 임시로 blue-600을 연결했다. 브랜드 컬러가 확정되면 `brand` 변수의 참조만 바꾼다.
+ * Figma에 없는 색(시세 상승·하락 등)은 시맨틱에 두지 않는다.
  */
 :root {
-  --mint-text-primary: #191f28;
-  --mint-text-secondary: #4e5968;
-  --mint-text-caption: #8b95a1;
-  --mint-text-disabled: #b0b8c1;
-  --mint-text-inverse: #ffffff;
-  /* 브랜드 배경(bg-brand-primary) 위의 글자 */
-  --mint-text-on-brand: #ffffff;
+  /* 배경 — 화면과 영역의 바탕색. lower → default → upper 순으로 한 단계씩 쌓아 위계를 만든다 */
+  --mint-background-default: var(--color-atomic-white);
+  --mint-background-lower: var(--color-atomic-gray-100);
+  --mint-background-upper: var(--color-atomic-grayAlpha-50);
+  --mint-background-floated: var(--color-atomic-white);
+  --mint-background-dim: var(--color-atomic-grayAlpha-300);
 
-  --mint-brand-primary: #00856f;
-  --mint-brand-primary-hover: #00715e;
-  --mint-brand-tint: #e6f7f3;
-  --mint-brand-error: #d92d3e;
+  /* 테두리 — 구분선·포커스·비활성·선택 상태에 맞춰 고른다 */
+  --mint-border-default: var(--color-atomic-grayAlpha-200);
+  --mint-border-strong: var(--color-atomic-gray-300);
+  --mint-border-thick: var(--color-atomic-gray-100);
+  --mint-border-focus: var(--color-atomic-gray-900);
+  --mint-border-disabled: var(--color-atomic-gray-200);
+  --mint-border-brand: var(--color-atomic-blue-600);
+  --mint-border-selected: var(--color-atomic-gray-900);
 
-  --mint-bg-page: #f2f4f6;
-  --mint-bg-surface: #ffffff;
-  --mint-bg-elevated: #f9fafb;
-  --mint-bg-overlay: #000000;
+  /* 글자색 — strong → primary → secondary → tertiary → subtle 순으로 약해진다. 본문에는 tertiary(gray-600) 이상만 쓴다. 채움 배경 위 글자는 on-fill */
+  --mint-text-strong: var(--color-atomic-gray-900);
+  --mint-text-primary: var(--color-atomic-gray-800);
+  --mint-text-secondary: var(--color-atomic-gray-700);
+  --mint-text-tertiary: var(--color-atomic-gray-600);
+  --mint-text-subtle: var(--color-atomic-gray-500);
+  --mint-text-disabled: var(--color-atomic-gray-400);
+  --mint-text-brand: var(--color-atomic-blue-600);
+  --mint-text-brand-pressed: var(--color-atomic-blue-700);
+  --mint-text-danger: var(--color-atomic-red-600);
+  --mint-text-success: var(--color-atomic-green-800);
+  --mint-text-warning: var(--color-atomic-orange-800);
+  --mint-text-on-fill: var(--color-atomic-white);
+  --mint-text-on-fill-warning: var(--color-atomic-gray-900);
 
-  --mint-border-subtle: #f2f4f6;
-  --mint-border-default: #e5e8eb;
-  --mint-border-strong: #d1d6db;
+  /* 면 — 버튼·칩·배지의 색. 같은 의미를 기본 / weak(옅은 배경) / pressed(눌림)로 나눈다 */
+  --mint-fill-brand: var(--color-atomic-blue-600);
+  --mint-fill-brand-pressed: var(--color-atomic-blue-700);
+  --mint-fill-brand-weak: var(--color-atomic-blue-50);
+  --mint-fill-brand-weak-pressed: var(--color-atomic-blue-100);
+  --mint-fill-neutral: var(--color-atomic-gray-900);
+  --mint-fill-neutral-pressed: var(--color-atomic-gray-800);
+  --mint-fill-neutral-weak: var(--color-atomic-gray-100);
+  --mint-fill-neutral-weak-pressed: var(--color-atomic-gray-200);
+  --mint-fill-neutral-medium: var(--color-atomic-gray-200);
+  --mint-fill-neutral-medium-pressed: var(--color-atomic-gray-300);
+  --mint-fill-danger: var(--color-atomic-red-600);
+  --mint-fill-danger-pressed: var(--color-atomic-red-700);
+  --mint-fill-danger-weak: var(--color-atomic-red-50);
+  --mint-fill-success: var(--color-atomic-green-500);
+  --mint-fill-success-weak: var(--color-atomic-green-50);
+  --mint-fill-warning: var(--color-atomic-orange-500);
+  --mint-fill-warning-weak: var(--color-atomic-orange-50);
+  --mint-fill-pressed: var(--color-atomic-grayAlpha-100);
+  --mint-fill-disabled: var(--color-atomic-gray-100);
+  --mint-fill-inverse: var(--color-atomic-white);
+  --mint-fill-white: var(--color-atomic-white);
 
-  /* 시세: 상승·하락·보합 */
-  --mint-price-up: #d7263a;
-  --mint-price-down: #1b64da;
-  --mint-price-flat: #4e5968;
-}
-
-[data-theme="dark"] {
-  --mint-text-primary: #f2f4f6;
-  --mint-text-secondary: #aeb5bf;
-  --mint-text-caption: #7d8693;
-  --mint-text-disabled: #4e5968;
-  --mint-text-inverse: #191f28;
-  --mint-text-on-brand: #0b1f1a;
-
-  --mint-brand-primary: #2dd4b4;
-  --mint-brand-primary-hover: #5ee0c7;
-  --mint-brand-tint: #12302a;
-  --mint-brand-error: #ff5c69;
-
-  --mint-bg-page: #15171a;
-  --mint-bg-surface: #1e2024;
-  --mint-bg-elevated: #262a31;
-  --mint-bg-overlay: #000000;
-
-  --mint-border-subtle: #262a31;
-  --mint-border-default: #33363b;
-  --mint-border-strong: #4b4e53;
-
-  --mint-price-up: #ff5c69;
-  --mint-price-down: #5a9bf8;
-  --mint-price-flat: #aeb5bf;
+  /* 아이콘 색 — 글자와 같은 위계를 따르고, 채움 배경 위에서는 on-fill */
+  --mint-icon-default: var(--color-atomic-gray-700);
+  --mint-icon-strong: var(--color-atomic-gray-900);
+  --mint-icon-secondary: var(--color-atomic-gray-600);
+  --mint-icon-tertiary: var(--color-atomic-gray-500);
+  --mint-icon-disabled: var(--color-atomic-gray-400);
+  --mint-icon-brand: var(--color-atomic-blue-600);
+  --mint-icon-brand-pressed: var(--color-atomic-blue-700);
+  --mint-icon-danger: var(--color-atomic-red-600);
+  --mint-icon-success: var(--color-atomic-green-600);
+  --mint-icon-warning: var(--color-atomic-orange-700);
+  --mint-icon-on-fill: var(--color-atomic-white);
 }
 
 @theme inline {
-  --color-text-primary: var(--mint-text-primary);
-  --color-text-secondary: var(--mint-text-secondary);
-  --color-text-caption: var(--mint-text-caption);
-  --color-text-disabled: var(--mint-text-disabled);
-  --color-text-inverse: var(--mint-text-inverse);
-  --color-text-on-brand: var(--mint-text-on-brand);
+  --color-background-default: var(--mint-background-default);
+  --color-background-lower: var(--mint-background-lower);
+  --color-background-upper: var(--mint-background-upper);
+  --color-background-floated: var(--mint-background-floated);
+  --color-background-dim: var(--mint-background-dim);
 
-  --color-brand-primary: var(--mint-brand-primary);
-  --color-brand-primary-hover: var(--mint-brand-primary-hover);
-  --color-brand-tint: var(--mint-brand-tint);
-  --color-brand-error: var(--mint-brand-error);
-
-  --color-bg-page: var(--mint-bg-page);
-  --color-bg-surface: var(--mint-bg-surface);
-  --color-bg-elevated: var(--mint-bg-elevated);
-  --color-bg-overlay: var(--mint-bg-overlay);
-
-  --color-border-subtle: var(--mint-border-subtle);
   --color-border-default: var(--mint-border-default);
   --color-border-strong: var(--mint-border-strong);
+  --color-border-thick: var(--mint-border-thick);
+  --color-border-focus: var(--mint-border-focus);
+  --color-border-disabled: var(--mint-border-disabled);
+  --color-border-brand: var(--mint-border-brand);
+  --color-border-selected: var(--mint-border-selected);
 
-  --color-price-up: var(--mint-price-up);
-  --color-price-down: var(--mint-price-down);
-  --color-price-flat: var(--mint-price-flat);
+  --color-text-strong: var(--mint-text-strong);
+  --color-text-primary: var(--mint-text-primary);
+  --color-text-secondary: var(--mint-text-secondary);
+  --color-text-tertiary: var(--mint-text-tertiary);
+  --color-text-subtle: var(--mint-text-subtle);
+  --color-text-disabled: var(--mint-text-disabled);
+  --color-text-brand: var(--mint-text-brand);
+  --color-text-brand-pressed: var(--mint-text-brand-pressed);
+  --color-text-danger: var(--mint-text-danger);
+  --color-text-success: var(--mint-text-success);
+  --color-text-warning: var(--mint-text-warning);
+  --color-text-on-fill: var(--mint-text-on-fill);
+  --color-text-on-fill-warning: var(--mint-text-on-fill-warning);
+
+  --color-fill-brand: var(--mint-fill-brand);
+  --color-fill-brand-pressed: var(--mint-fill-brand-pressed);
+  --color-fill-brand-weak: var(--mint-fill-brand-weak);
+  --color-fill-brand-weak-pressed: var(--mint-fill-brand-weak-pressed);
+  --color-fill-neutral: var(--mint-fill-neutral);
+  --color-fill-neutral-pressed: var(--mint-fill-neutral-pressed);
+  --color-fill-neutral-weak: var(--mint-fill-neutral-weak);
+  --color-fill-neutral-weak-pressed: var(--mint-fill-neutral-weak-pressed);
+  --color-fill-neutral-medium: var(--mint-fill-neutral-medium);
+  --color-fill-neutral-medium-pressed: var(--mint-fill-neutral-medium-pressed);
+  --color-fill-danger: var(--mint-fill-danger);
+  --color-fill-danger-pressed: var(--mint-fill-danger-pressed);
+  --color-fill-danger-weak: var(--mint-fill-danger-weak);
+  --color-fill-success: var(--mint-fill-success);
+  --color-fill-success-weak: var(--mint-fill-success-weak);
+  --color-fill-warning: var(--mint-fill-warning);
+  --color-fill-warning-weak: var(--mint-fill-warning-weak);
+  --color-fill-pressed: var(--mint-fill-pressed);
+  --color-fill-disabled: var(--mint-fill-disabled);
+  --color-fill-inverse: var(--mint-fill-inverse);
+  --color-fill-white: var(--mint-fill-white);
+
+  --color-icon-default: var(--mint-icon-default);
+  --color-icon-strong: var(--mint-icon-strong);
+  --color-icon-secondary: var(--mint-icon-secondary);
+  --color-icon-tertiary: var(--mint-icon-tertiary);
+  --color-icon-disabled: var(--mint-icon-disabled);
+  --color-icon-brand: var(--mint-icon-brand);
+  --color-icon-brand-pressed: var(--mint-icon-brand-pressed);
+  --color-icon-danger: var(--mint-icon-danger);
+  --color-icon-success: var(--mint-icon-success);
+  --color-icon-warning: var(--mint-icon-warning);
+  --color-icon-on-fill: var(--mint-icon-on-fill);
 }

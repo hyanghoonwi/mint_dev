@@ -3,7 +3,7 @@ import { extendTailwindMerge } from "tailwind-merge";
 
 /**
  * 타이포 토큰(styles/typography.css의 `--text-*`)이 만드는 `text-title-1-bold`, `text-caption-1-regular` 같은 유틸리티 이름.
- * tailwind-merge는 이 이름을 모르면 글자 색(`text-text-caption`)과 같은 그룹으로 보고 앞의 것을 지워 버린다.
+ * tailwind-merge는 이 이름을 모르면 글자 색(`text-text-tertiary`)과 같은 그룹으로 보고 앞의 것을 지워 버린다.
  * 그래서 글자 크기(font-size) 그룹으로 등록한다. 이름 규칙은 `<역할>-<번호>-<웨이트>`라서 목록 대신 규칙으로 알아본다.
  * 역할이나 웨이트가 늘어나면 이 정규식도 고친다.
  */

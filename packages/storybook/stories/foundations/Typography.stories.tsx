@@ -48,7 +48,7 @@ export const AllStyles: Story = {
           </code>
           {weights.map((weight) => (
             <div key={weight} style={{ display: "flex", alignItems: "baseline", gap: 16 }}>
-              <span className="text-caption-1-regular text-text-caption" style={{ width: 72 }}>
+              <span className="text-caption-1-regular text-text-tertiary" style={{ width: 72 }}>
                 {weight}
               </span>
               <span className={`text-${name}-${weight}`}>{sample}</span>
