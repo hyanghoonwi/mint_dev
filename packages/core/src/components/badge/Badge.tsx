@@ -1,24 +1,38 @@
 // 상태·이벤트가 없어서 "use client"를 붙이지 않는다. 서버 컴포넌트에서도 그대로 쓸 수 있다.
 // 표시 전용이다. 눌러도 아무 동작이 없고, 값을 골라 조건을 바꾸는 일은 Chip이 한다.
 import type { ComponentProps } from "react";
-import { cva } from "class-variance-authority";
 import { cn } from "../../utils/cn";
+import {
+  responsiveClasses,
+  type Responsive,
+  type ResponsiveClassTable,
+} from "../../utils/responsive";
 
 export type BadgeVariant = "fill" | "weak";
 export type BadgeColor = "brand" | "neutral" | "danger" | "success" | "warning";
 
 // 높이 20 · 24 · 28px은 패딩과 글자 줄 높이로 정해진다(별도 높이 값 없음).
 // 글자: sm 11 · md 12 · lg 14. 모서리는 sm·md가 8, lg만 12. 6·7px 패딩은 Figma 수치를 그대로 옮긴 임의 값이다.
-const badgeVariants = cva("inline-flex items-center justify-center whitespace-nowrap select-none", {
-  variants: {
-    size: {
-      sm: "rounded-8 px-[6px] py-[2px] text-caption-2-semibold",
-      md: "rounded-8 px-[7px] py-[3px] text-caption-1-semibold",
-      lg: "rounded-12 px-2 py-1 text-label-2-semibold",
-    },
+export type BadgeSize = "sm" | "md" | "lg";
+
+// 값 하나 또는 구간별 객체를 받는다(utils/responsive.ts)
+const sizeClasses: ResponsiveClassTable<BadgeSize> = {
+  base: {
+    sm: "rounded-8 px-[6px] py-[2px] text-caption-2-semibold",
+    md: "rounded-8 px-[7px] py-[3px] text-caption-1-semibold",
+    lg: "rounded-12 px-2 py-1 text-label-2-semibold",
   },
-  defaultVariants: { size: "md" },
-});
+  tablet: {
+    sm: "tablet:rounded-8 tablet:px-[6px] tablet:py-[2px] tablet:text-caption-2-semibold",
+    md: "tablet:rounded-8 tablet:px-[7px] tablet:py-[3px] tablet:text-caption-1-semibold",
+    lg: "tablet:rounded-12 tablet:px-2 tablet:py-1 tablet:text-label-2-semibold",
+  },
+  desktop: {
+    sm: "desktop:rounded-8 desktop:px-[6px] desktop:py-[2px] desktop:text-caption-2-semibold",
+    md: "desktop:rounded-8 desktop:px-[7px] desktop:py-[3px] desktop:text-caption-1-semibold",
+    lg: "desktop:rounded-12 desktop:px-2 desktop:py-1 desktop:text-label-2-semibold",
+  },
+};
 
 // 채움(fill)은 진한 배경에 흰 글자로 가장 눈에 띄고, weak는 연한 배경에 색 글자로 부드럽다.
 // danger·warning의 fill은 Figma가 시맨틱이 아닌 아토믹 색(red-500·yellow-500)을 직접 써서, 같은 값을 그대로 쓴다.
@@ -44,8 +58,8 @@ export interface BadgeProps extends ComponentProps<"span"> {
   variant?: BadgeVariant;
   /** 의미로 고른다: `brand` 강조 · `neutral` 일반 · `danger` 오류·임박 · `success` 완료 · `warning` 주의. 기본 `brand` */
   color?: BadgeColor;
-  /** 높이 `sm` 20 · `md` 24 · `lg` 28px. 같은 화면에서는 하나로 맞춘다. 기본 `md` */
-  size?: "sm" | "md" | "lg";
+  /** 높이 `sm` 20 · `md` 24 · `lg` 28px. 같은 화면에서는 하나로 맞춘다. 기본 `md`. 구간별로 바꾸려면 `{ base: "sm", tablet: "md" }` */
+  size?: Responsive<BadgeSize>;
 }
 
 /** 문구는 `children`으로 넣는다. 1~4자로 짧게(lg는 1~8자까지) 쓴다. */
@@ -58,7 +72,15 @@ export function Badge({
   ...props
 }: BadgeProps) {
   return (
-    <span className={cn(badgeVariants({ size }), tones[variant][color], className)} {...props}>
+    <span
+      className={cn(
+        "inline-flex items-center justify-center whitespace-nowrap select-none",
+        responsiveClasses<BadgeSize>(size, "md", sizeClasses),
+        tones[variant][color],
+        className,
+      )}
+      {...props}
+    >
       {children}
     </span>
   );

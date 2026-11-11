@@ -7,7 +7,7 @@ import { jsx, Playground, type Control, type Values } from "./Playground";
 const sample = "/img/avatar-sample.jpg";
 
 const avatarControls: Control[] = [
-  { prop: "size", type: "select", options: [24, 32, 40, 48, 64], default: 48 },
+  { prop: "size", type: "select", options: [16, 24, 32, 40, 48, 64], default: 48 },
   { prop: "variant", type: "select", options: ["person", "brand"], default: "person" },
   { prop: "content", type: "select", options: ["image", "name", "icon"], default: "image" },
   { prop: "name", type: "text", default: "김민수" },
@@ -53,7 +53,7 @@ export function AvatarPlayground() {
 }
 
 const groupControls: Control[] = [
-  { prop: "size", type: "select", options: [24, 32, 40, 48, 64], default: 40 },
+  { prop: "size", type: "select", options: [16, 24, 32, 40, 48, 64], default: 40 },
   { prop: "items", type: "select", options: [2, 3, 4, 5, 6], default: 5 },
   { prop: "max", type: "select", options: [2, 3, 4, 5], default: 3 },
 ];

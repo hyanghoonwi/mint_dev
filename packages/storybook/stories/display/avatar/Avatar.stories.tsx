@@ -1,10 +1,10 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import { fn } from "storybook/test";
+import { expect, fn } from "storybook/test";
 import { Avatar, AvatarGroup, BellIcon } from "@futurewiz-rms/mint";
 // 스토리용 샘플 이미지(Figma Avatar 이미지 노드 2200:3344의 캐릭터)
 import sample from "./avatar-sample.jpg";
 
-const sizes = [24, 32, 40, 48, 64] as const;
+const sizes = [16, 24, 32, 40, 48, 64] as const;
 
 const meta = {
   title: "Components/Display/Avatar",
@@ -51,7 +51,7 @@ export const Brand: Story = {
   args: { variant: "brand", name: "코인" },
 };
 
-// 24 · 32 · 40 · 48 · 64px
+// 16 · 24 · 32 · 40 · 48 · 64px
 export const Sizes: Story = {
   render: () => (
     <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
@@ -143,4 +143,58 @@ export const Group: Story = {
       />
     </div>
   ),
+};
+
+// 구간별 값: 모바일 32 → 태블릿(768px~) 48. 배지 위치·자동 배지 크기도 따라간다
+export const Responsive: Story = {
+  args: { name: "김민수", size: { base: 32, tablet: 48 }, badge: 3 },
+  play: async ({ canvasElement }) => {
+    const root = canvasElement.querySelector("[role=img]") as HTMLElement;
+    await expect(root).toHaveClass("size-8", "tablet:size-12");
+    const badge = root.querySelector("span[aria-hidden]") as HTMLElement;
+    await expect(badge).toHaveClass("h-[14px]", "tablet:h-[18px]", "tablet:-top-[6px]");
+  },
+};
+
+// AvatarGroup도 같은 방식: 겹침 폭·+N 칸이 함께 바뀐다
+export const GroupResponsive: Story = {
+  render: () => (
+    <AvatarGroup
+      aria-label="참여자 5명"
+      size={{ base: 24, tablet: 40 }}
+      items={[
+        { name: "김민수" },
+        { name: "이서연" },
+        { name: "박지훈" },
+        { name: "최유진" },
+        { name: "정하늘" },
+      ]}
+    />
+  ),
+  play: async ({ canvas }) => {
+    const group = canvas.getByRole("group", { name: "참여자 5명" });
+    await expect(group).toHaveClass(
+      "[&>*:not(:first-child)]:-ml-[10px]",
+      "tablet:[&>*:not(:first-child)]:-ml-[12px]",
+    );
+  },
+};
+
+// 16px: 글자 한 줄 옆의 작은 표시(작성자·댓글). 자동 배지는 8px 점
+export const Size16: Story = {
+  render: () => (
+    <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+      <Avatar size={16} name="김민수" badge="dot" />
+      <span className="text-body-4-medium text-text-primary">김민수</span>
+      <AvatarGroup
+        size={16}
+        items={[{ name: "민" }, { name: "코" }, { name: "랩" }, { name: "인" }]}
+      />
+    </div>
+  ),
+  play: async ({ canvasElement }) => {
+    const avatar = canvasElement.querySelector<HTMLElement>("[class*='size-4']");
+    await expect(avatar).not.toBeNull();
+    await expect(avatar!.getBoundingClientRect().width).toBe(16);
+  },
 };

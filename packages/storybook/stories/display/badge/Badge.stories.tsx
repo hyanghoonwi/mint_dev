@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
+import { expect } from "storybook/test";
 import { Badge } from "@futurewiz-rms/mint";
 
 const colors = ["brand", "neutral", "danger", "success", "warning"] as const;
@@ -55,4 +56,15 @@ export const Sizes: Story = {
       <Badge size="lg">NEW</Badge>
     </div>
   ),
+};
+
+// 구간별 값: 모바일 sm(20) → 태블릿(768px~) md(24)
+export const Responsive: Story = {
+  args: { size: { base: "sm", tablet: "md" }, children: "NEW" },
+  play: async ({ canvas }) => {
+    await expect(canvas.getByText("NEW")).toHaveClass(
+      "text-caption-2-semibold",
+      "tablet:text-caption-1-semibold",
+    );
+  },
 };

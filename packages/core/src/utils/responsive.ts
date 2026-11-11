@@ -10,7 +10,7 @@ export type Breakpoint = "base" | "tablet" | "desktop";
 /** 값 하나, 또는 구간별 값. `base`를 빼면 컴포넌트 기본값을 쓴다 */
 export type Responsive<T> = T | Partial<Record<Breakpoint, T>>;
 
-/** 구간별 클래스 표. 키는 값(boolean은 "true"/"false")이고, tablet·desktop 칸에는 접두어가 붙은 클래스를 그대로 적는다 */
+/** 구간별 클래스 표. 키는 값(숫자는 "40", boolean은 "true"/"false")이고, tablet·desktop 칸에는 접두어가 붙은 클래스를 그대로 적는다 */
 export type ResponsiveClassTable<K extends string> = Record<Breakpoint, Record<K, string>>;
 
 export function isResponsiveObject<T>(
@@ -29,7 +29,7 @@ export function resolveResponsive<T>(
 }
 
 /** 반응형 값을 구간별 클래스로 바꾼다. 앞 구간과 같은 값이면 클래스를 다시 붙이지 않는다 */
-export function responsiveClasses<T extends string | boolean>(
+export function responsiveClasses<T extends string | number | boolean>(
   value: Responsive<T> | undefined,
   fallback: T,
   table: ResponsiveClassTable<`${T}`>,
