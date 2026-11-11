@@ -11,6 +11,9 @@ import {
 import { DoDont } from "./DoDont";
 import { jsx, Playground, type Control, type Values } from "./Playground";
 
+const animate: Control = { prop: "animate", type: "boolean", default: true };
+const animateAttr = (v: Values) => (v.animate ? undefined : { expr: "false" });
+
 const color: Control = {
   prop: "color",
   type: "select",
@@ -42,6 +45,7 @@ export function SkeletonTextPlayground() {
           default: "leading",
         },
         color,
+        animate,
       ]}
       render={(v) =>
         stage(
@@ -51,6 +55,7 @@ export function SkeletonTextPlayground() {
             length={v.length as SkeletonTextLength}
             align={v.align as SkeletonTextAlign}
             color={v.color as SkeletonColor}
+            animate={v.animate as boolean}
           />,
         )
       }
@@ -59,6 +64,7 @@ export function SkeletonTextPlayground() {
           length: v.length !== "100%" ? (v.length as string) : undefined,
           align: v.align !== "leading" ? (v.align as string) : undefined,
           color: colorAttr(v),
+          animate: animateAttr(v),
         })
       }
     />
@@ -69,7 +75,7 @@ export function SkeletonRectanglePlayground() {
   return (
     <Playground
       stageMinHeight={200}
-      controls={[{ prop: "radius", type: "boolean", default: false }, color]}
+      controls={[{ prop: "radius", type: "boolean", default: false }, color, animate]}
       render={(v) =>
         stage(
           v,
@@ -78,6 +84,7 @@ export function SkeletonRectanglePlayground() {
             height={80}
             radius={v.radius as boolean}
             color={v.color as SkeletonColor}
+            animate={v.animate as boolean}
           />,
         )
       }
@@ -87,6 +94,7 @@ export function SkeletonRectanglePlayground() {
           height: 80,
           radius: v.radius ? true : undefined,
           color: colorAttr(v),
+          animate: animateAttr(v),
         })
       }
     />
@@ -100,14 +108,23 @@ export function SkeletonCirclePlayground() {
       controls={[
         { prop: "size", type: "select", options: [24, 32, 40, 48, 64], default: 40 },
         color,
+        animate,
       ]}
       render={(v) =>
-        stage(v, <SkeletonCircle size={v.size as number} color={v.color as SkeletonColor} />)
+        stage(
+          v,
+          <SkeletonCircle
+            size={v.size as number}
+            color={v.color as SkeletonColor}
+            animate={v.animate as boolean}
+          />,
+        )
       }
       code={(v) =>
         jsx("SkeletonCircle", {
           size: v.size !== 40 ? (v.size as number) : undefined,
           color: colorAttr(v),
+          animate: animateAttr(v),
         })
       }
     />

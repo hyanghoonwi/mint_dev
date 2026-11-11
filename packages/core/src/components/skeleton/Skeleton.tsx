@@ -1,6 +1,7 @@
 // 상태·이벤트가 없어서 "use client"를 붙이지 않는다. 서버 컴포넌트(loading.tsx 등)에서 그대로 쓸 수 있다.
 // 콘텐츠가 들어올 자리를 미리 보여 주는 회색 덩어리. Figma `Skeleton Text`(2200:2694) · `Skeleton Rectangle`(2200:2807) · `Skeleton Circle`(2200:2859).
 // 모양만 보여 주는 장식이라 모두 aria-hidden이다. 불러오는 중이라는 사실은 감싸는 영역(aria-busy)이 알린다.
+// 깜빡임(pulse)은 CSS 애니메이션이라 JS가 필요 없다. 같은 때 그려진 스켈레톤은 함께 깜빡인다. 움직임 줄이기 설정이면 멈춘다.
 import type { ComponentProps, CSSProperties } from "react";
 import { cn } from "../../utils/cn";
 
@@ -18,7 +19,11 @@ type Length = number | string;
 interface SkeletonBaseProps extends Omit<ComponentProps<"div">, "children" | "color"> {
   /** `normal` 흰 바탕 위 회색 · `white` 회색 바탕 위 흰색. 기본 `normal` */
   color?: SkeletonColor;
+  /** 밝아졌다 흐려지는 효과. 기본 `true`. 움직임 줄이기 설정을 켠 사용자에게는 멈춘다 */
+  animate?: boolean;
 }
+
+const pulse = "animate-[mint-pulse_1.6s_ease-in-out_infinite] motion-reduce:animate-none";
 
 export type SkeletonTextLength = "100%" | "75%" | "50%" | "25%";
 export type SkeletonTextAlign = "leading" | "center" | "trailing";
@@ -45,6 +50,7 @@ export function SkeletonText({
   length = "100%",
   align = "leading",
   color = "normal",
+  animate = true,
   width = "100%",
   height = 16,
   className,
@@ -58,7 +64,10 @@ export function SkeletonText({
       style={{ width, ...style }}
       {...props}
     >
-      <div className={cn("rounded-4", colors[color])} style={{ width: length, height }} />
+      <div
+        className={cn("rounded-4", colors[color], animate && pulse)}
+        style={{ width: length, height }}
+      />
     </div>
   );
 }
@@ -76,6 +85,7 @@ export interface SkeletonRectangleProps extends SkeletonBaseProps {
 export function SkeletonRectangle({
   radius = false,
   color = "normal",
+  animate = true,
   width = "100%",
   height = 80,
   className,
@@ -89,6 +99,7 @@ export function SkeletonRectangle({
       className={cn(
         "max-w-full shrink-0",
         colors[color],
+        animate && pulse,
         radius === true && "rounded-8",
         className,
       )}
@@ -109,6 +120,7 @@ export interface SkeletonCircleProps extends SkeletonBaseProps {
 export function SkeletonCircle({
   size = 40,
   color = "normal",
+  animate = true,
   className,
   style,
   ...props
@@ -116,7 +128,7 @@ export function SkeletonCircle({
   return (
     <div
       aria-hidden="true"
-      className={cn("shrink-0 rounded-full", colors[color], className)}
+      className={cn("shrink-0 rounded-full", colors[color], animate && pulse, className)}
       style={{ width: size, height: size, ...style }}
       {...props}
     />

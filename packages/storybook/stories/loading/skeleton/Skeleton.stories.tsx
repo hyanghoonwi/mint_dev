@@ -14,6 +14,7 @@ const meta = {
     color: { control: "inline-radio", options: ["normal", "white"] },
     width: { control: "text" },
     height: { control: "number" },
+    animate: { control: "boolean" },
   },
   args: { width: 240 },
 } satisfies Meta<typeof SkeletonText>;
@@ -44,6 +45,11 @@ export const TextAligns: Story = {
       <SkeletonText {...args} length="50%" align="trailing" />
     </div>
   ),
+};
+
+// animate={false}: 깜빡임 없이 멈춘 모양(움직임 줄이기 설정에서도 이렇게 보인다)
+export const Static: Story = {
+  args: { animate: false },
 };
 
 export const Rectangle: Story = {

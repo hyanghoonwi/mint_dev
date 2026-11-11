@@ -7,3 +7,14 @@
     transform: rotate(360deg);
   }
 }
+
+/* Skeleton: 밝아졌다 흐려지며 불러오는 중임을 보여 준다(투명도만 바뀌어 배경색과 상관없이 쓴다) */
+@keyframes mint-pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.4;
+  }
+}

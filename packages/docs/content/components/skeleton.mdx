@@ -16,7 +16,7 @@
 
 ## Playground
 
-모양에 따라 컴포넌트가 셋이에요. 오른쪽에서 props를 바꾸면 미리보기와 아래 코드가 함께 바뀌어요.
+모양에 따라 컴포넌트가 셋이에요. 오른쪽에서 props를 바꾸면 미리보기와 아래 코드가 함께 바뀌어요. 깜빡임은 CSS로 움직여서 JS가 필요 없어요.
 
 텍스트 한 줄 자리는 `SkeletonText`예요.
 
@@ -53,15 +53,16 @@
 나머지 `<div>` 속성도 그대로 받아요.\
 서버 컴포넌트에서 바로 쓸 수 있어요.
 
-| 이름     | 타입                                  | 기본값      | 설명                                                              |
-| -------- | ------------------------------------- | ----------- | ----------------------------------------------------------------- |
-| `length` | `"100%" \| "75%" \| "50%" \| "25%"`   | `"100%"`    | `SkeletonText`의 줄 길이(칸 폭에 대한 비율)                       |
-| `align`  | `"leading" \| "center" \| "trailing"` | `"leading"` | `SkeletonText`의 짧은 줄 위치                                     |
-| `radius` | `boolean \| number`                   | `false`     | `SkeletonRectangle`의 둥근 모서리. `true`는 8px, 숫자는 그 값(px) |
-| `size`   | `24 \| 32 \| 40 \| 48 \| 64`          | `40`        | `SkeletonCircle`의 지름(px). `Avatar` 크기와 같아요               |
-| `color`  | `"normal" \| "white"`                 | `"normal"`  | 흰 바탕 위 회색 · 회색 바탕 위 흰색                               |
-| `width`  | `number \| string`                    | `"100%"`    | 폭. 숫자는 px예요(`SkeletonText`·`SkeletonRectangle`)             |
-| `height` | `number \| string`                    | `16` · `80` | 높이. `SkeletonText`는 16, `SkeletonRectangle`은 80이에요         |
+| 이름      | 타입                                  | 기본값      | 설명                                                              |
+| --------- | ------------------------------------- | ----------- | ----------------------------------------------------------------- |
+| `length`  | `"100%" \| "75%" \| "50%" \| "25%"`   | `"100%"`    | `SkeletonText`의 줄 길이(칸 폭에 대한 비율)                       |
+| `align`   | `"leading" \| "center" \| "trailing"` | `"leading"` | `SkeletonText`의 짧은 줄 위치                                     |
+| `radius`  | `boolean \| number`                   | `false`     | `SkeletonRectangle`의 둥근 모서리. `true`는 8px, 숫자는 그 값(px) |
+| `size`    | `24 \| 32 \| 40 \| 48 \| 64`          | `40`        | `SkeletonCircle`의 지름(px). `Avatar` 크기와 같아요               |
+| `animate` | `boolean`                             | `true`      | 밝아졌다 흐려지는 효과. 움직임 줄이기 설정이면 멈춰요             |
+| `color`   | `"normal" \| "white"`                 | `"normal"`  | 흰 바탕 위 회색 · 회색 바탕 위 흰색                               |
+| `width`   | `number \| string`                    | `"100%"`    | 폭. 숫자는 px예요(`SkeletonText`·`SkeletonRectangle`)             |
+| `height`  | `number \| string`                    | `16` · `80` | 높이. `SkeletonText`는 16, `SkeletonRectangle`은 80이에요         |
 
 ## Guidelines
 
@@ -74,5 +75,6 @@
 - 3초 넘게 보여 주지 않아요. 더 걸리면 진행 상황을 글로 알려요.
 - 한 화면에 `Circular`와 Skeleton을 섞어 쓰지 않아요.
 - 회색 바탕처럼 어두운 배경에서는 `color="white"`를 써요.
+- 밝아졌다 흐려지며 불러오는 중임을 보여 줘요. 같은 때 그린 Skeleton은 함께 깜빡이고, 움직임 줄이기 설정을 켠 사용자에게는 멈춰요.
 - Skeleton은 스크린리더가 읽지 않아요(`aria-hidden`). 불러오는 영역에 `aria-busy="true"`를 주고, 다 불러오면 지워요.
-- 색이나 투명도를 바꿔야 하면 `className`이나 `style`로 덮어써요.
+- 색을 바꿔야 하면 `className`이나 `style`로 덮어써요. 투명도를 직접 정하려면 `animate={false}`로 깜빡임을 꺼요.
