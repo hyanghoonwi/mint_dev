@@ -9,6 +9,7 @@ export * from "./components/badge/Badge";
 export * from "./components/button/Button";
 export * from "./components/circular/Circular";
 export * from "./components/skeleton/Skeleton";
+export * from "./components/text/Text";
 
 export * from "./components/grid/Grid";
 export * from "./components/icon/Icon";
