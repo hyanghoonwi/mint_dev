@@ -45,7 +45,7 @@ const markClasses: ResponsiveClassTable<CheckboxSize> = {
   },
 };
 
-// 레이블(CheckMark와 같은 크기 대응). Figma 14/20·18/28·20/30 Regular는 MINT 글자 표에 없어서 가장 가까운 스타일을 쓴다
+// 레이블(Figma Checkbox 2278:30242, 글자 토큰): XSmall body-4 · Small body-2 · Medium body-1 Regular · Large heading-2 Medium
 const labelClasses: ResponsiveClassTable<CheckboxSize> = {
   base: {
     xs: "text-body-4-regular",
@@ -67,29 +67,51 @@ const labelClasses: ResponsiveClassTable<CheckboxSize> = {
   },
 };
 
-// bold(SemiBold) 레이블
+// bold(SemiBold) 레이블(Figma): XSmall label-2 · Small body-2 · Medium heading-3 · Large heading-2. 일반 레이블과 스타일 줄이 다르다
 const boldLabelClasses: ResponsiveClassTable<CheckboxSize> = {
   base: {
-    xs: "text-body-4-semibold",
+    xs: "text-label-2-semibold",
     sm: "text-body-2-semibold",
-    md: "text-body-1-semibold",
+    md: "text-heading-3-semibold",
     lg: "text-heading-2-semibold",
   },
   tablet: {
-    xs: "tablet:text-body-4-semibold",
+    xs: "tablet:text-label-2-semibold",
     sm: "tablet:text-body-2-semibold",
-    md: "tablet:text-body-1-semibold",
+    md: "tablet:text-heading-3-semibold",
     lg: "tablet:text-heading-2-semibold",
   },
   desktop: {
-    xs: "desktop:text-body-4-semibold",
+    xs: "desktop:text-label-2-semibold",
     sm: "desktop:text-body-2-semibold",
-    md: "desktop:text-body-1-semibold",
+    md: "desktop:text-heading-3-semibold",
     lg: "desktop:text-heading-2-semibold",
   },
 };
 
-// 기본 모양의 높이(Figma: XSmall·Small·Medium 40 · Large 48). tight는 내용 높이를 따른다
+// 기본 모양의 높이(Figma: XSmall·Small·Medium 40 · Large 48)
+// tight 높이(Figma 고정 값): XSmall 20 · Small 24 · Medium 28 · Large 32. 레이블 줄 간격이 더 커도(XSmall Body 4 = 22) 틀은 이 높이로 둔다
+const tightHeightClasses: ResponsiveClassTable<CheckboxSize> = {
+  base: {
+    xs: "h-5",
+    sm: "h-6",
+    md: "h-7",
+    lg: "h-8",
+  },
+  tablet: {
+    xs: "tablet:h-5",
+    sm: "tablet:h-6",
+    md: "tablet:h-7",
+    lg: "tablet:h-8",
+  },
+  desktop: {
+    xs: "desktop:h-5",
+    sm: "desktop:h-6",
+    md: "desktop:h-7",
+    lg: "desktop:h-8",
+  },
+};
+
 const heightClasses: ResponsiveClassTable<CheckboxSize> = {
   base: {
     xs: "h-10",
@@ -162,7 +184,9 @@ export function Checkbox({
     <label
       className={cn(
         "group/control relative inline-flex items-center gap-2",
-        tight ? "p-0" : cn("px-2", responsiveClasses<CheckboxSize>(size, "sm", heightClasses)),
+        tight
+          ? cn("p-0", responsiveClasses<CheckboxSize>(size, "sm", tightHeightClasses))
+          : cn("px-2", responsiveClasses<CheckboxSize>(size, "sm", heightClasses)),
         disabled ? "cursor-not-allowed" : "cursor-pointer",
         // Figma 접근성: 박스가 20px이라도 레이블을 포함해 영역을 넓힌다. 터치 화면에서는 눌림 영역을 44px 이상으로
         "pointer-coarse:before:absolute pointer-coarse:before:inset-x-0 pointer-coarse:before:top-1/2 pointer-coarse:before:h-11 pointer-coarse:before:-translate-y-1/2",

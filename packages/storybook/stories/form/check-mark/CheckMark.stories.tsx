@@ -182,9 +182,12 @@ export const Sizes: Story = {
     await expect([height("xs"), height("sm"), height("md"), height("lg")]).toEqual([
       40, 40, 40, 48,
     ]);
-    await expect([height("sm tight"), height("md tight"), height("lg tight")]).toEqual([
-      24, 28, 32,
-    ]);
+    await expect([
+      height("xs tight"),
+      height("sm tight"),
+      height("md tight"),
+      height("lg tight"),
+    ]).toEqual([20, 24, 28, 32]);
   },
 };
 

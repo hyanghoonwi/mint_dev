@@ -203,7 +203,35 @@ export const Sizes: Story = {
     await expect([check("xs 체크"), check("sm 체크"), check("md 체크"), check("lg 체크")]).toEqual([
       12, 16, 20, 26,
     ]);
-    await expect([height("sm 일부"), height("md 일부"), height("lg 일부")]).toEqual([24, 28, 32]);
+    await expect([
+      height("xs 일부"),
+      height("sm 일부"),
+      height("md 일부"),
+      height("lg 일부"),
+    ]).toEqual([20, 24, 28, 32]);
+  },
+};
+
+// bold 레이블(Figma): xs Label 2 · sm Body 2 · md Heading 3 · lg Heading 2 SemiBold
+export const BoldSizes: Story = {
+  render: (args) => (
+    <div style={{ display: "grid", gap: 8 }}>
+      {(["xs", "sm", "md", "lg"] as const).map((size) => (
+        <Checkbox key={size} {...args} size={size} bold defaultChecked>
+          {`${size} 전체 동의`}
+        </Checkbox>
+      ))}
+    </div>
+  ),
+  play: async ({ canvas }) => {
+    const label = (size: string) =>
+      canvas
+        .getByRole("checkbox", { name: `${size} 전체 동의` })
+        .closest("label")!
+        .querySelector("span:last-child")!;
+    await expect(label("xs")).toHaveClass("text-label-2-semibold");
+    await expect(label("md")).toHaveClass("text-heading-3-semibold");
+    await expect(getComputedStyle(label("md")).fontSize).toBe("18px");
   },
 };
 

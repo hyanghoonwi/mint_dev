@@ -37,9 +37,8 @@ export interface CheckMarkProps extends Omit<
   role?: CheckMarkRole;
 }
 
-// 크기별 아이콘·글자(Figma 2258:28358). 글자 크기는 MINT 글자 스타일 중 Figma 값에 가장 가까운 것을 쓴다:
-// XSmall 14/20 → body-4(14/22) · Small 16/24 → body-2 · Medium 18/28 → body-1(17/28) · Large 20/30 → heading-2-medium(20/30)
-// (Figma가 18·20px Regular를 쓰지만 MINT 글자 표에 같은 굵기·크기가 없다)
+// 크기별 아이콘·글자(Figma Check Mark 2278:31457, 레이블은 글자 토큰): XSmall body-4-regular · Small body-2-regular ·
+// Medium body-1-regular · Large heading-2-medium
 const lookClasses: ResponsiveClassTable<CheckMarkSize> = {
   base: {
     xs: "[&_svg]:size-4 text-body-4-regular",
@@ -61,7 +60,29 @@ const lookClasses: ResponsiveClassTable<CheckMarkSize> = {
   },
 };
 
-// 기본 모양의 높이(Figma: XSmall·Small·Medium 40 · Large 48). tight는 높이를 정하지 않고 내용 높이를 따른다
+// 기본 모양의 높이(Figma: XSmall·Small·Medium 40 · Large 48)
+// tight 높이(Figma 고정 값): XSmall 20 · Small 24 · Medium 28 · Large 32. 레이블 줄 간격이 더 커도(XSmall Body 4 = 22) 틀은 이 높이로 둔다
+const tightHeightClasses: ResponsiveClassTable<CheckMarkSize> = {
+  base: {
+    xs: "h-5",
+    sm: "h-6",
+    md: "h-7",
+    lg: "h-8",
+  },
+  tablet: {
+    xs: "tablet:h-5",
+    sm: "tablet:h-6",
+    md: "tablet:h-7",
+    lg: "tablet:h-8",
+  },
+  desktop: {
+    xs: "desktop:h-5",
+    sm: "desktop:h-6",
+    md: "desktop:h-7",
+    lg: "desktop:h-8",
+  },
+};
+
 const heightClasses: ResponsiveClassTable<CheckMarkSize> = {
   base: {
     xs: "h-10",
@@ -140,7 +161,9 @@ export function CheckMark({
   const layout = cn(
     "group/check inline-flex items-center gap-2 text-left",
     responsiveClasses<CheckMarkSize>(size, "sm", lookClasses),
-    tight ? "p-0" : cn("px-2", responsiveClasses<CheckMarkSize>(size, "sm", heightClasses)),
+    tight
+      ? cn("p-0", responsiveClasses<CheckMarkSize>(size, "sm", tightHeightClasses))
+      : cn("px-2", responsiveClasses<CheckMarkSize>(size, "sm", heightClasses)),
     className,
   );
 

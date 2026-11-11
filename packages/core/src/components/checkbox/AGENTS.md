@@ -33,13 +33,13 @@
 - **색**: 체크 안 됨은 흰 상자·회색 테두리(`border-strong`), 체크·일부 선택은 브랜드 상자에 흰 체크·막대입니다. 누르는 동안과 hover는 한 단계 진해지고(`fill-neutral-weak` · `fill-brand-pressed`), `disabled`는 회색 상자(`fill-disabled`) 또는 연한 파랑 상자(`fill-brand-weak-pressed`)에 회색 글자(`text-disabled`)입니다.
 - **크기(`size`)**: Figma Size(2026-11-11 추가)와 같습니다. 모서리는 모두 4, 사이 간격 8, 기본 모양의 좌우 여백 8입니다.
 
-  | `size`     | 상자 · 체크 · 막대 | 레이블(`bold`면 SemiBold)              | 높이(기본 · `tight`) |
-  | ---------- | ------------------ | -------------------------------------- | -------------------- |
-  | `xs`       | 16 · 12 · 8×1.5    | Body 4(14/22, Figma 14/20)             | 40 · 22              |
-  | `sm`(기본) | 20 · 16 · 10×2     | Body 2(16/24)                          | 40 · 24              |
-  | `md`       | 24 · 20 · 12×2.5   | Body 1(17/28, Figma 18/28)             | 40 · 28              |
-  | `lg`       | 32 · 26 · 16×3     | Heading 2 Medium(20/30, Figma Regular) | 48 · 32              |
-  - 레이블 글자는 `CheckMark`와 같은 대응입니다(Figma의 14/20·18/28·20/30 Regular는 MINT 글자 표에 없음).
+  | `size`     | 상자 · 체크 · 막대 | 레이블                  | `bold` 레이블             | 높이(기본 · `tight`) |
+  | ---------- | ------------------ | ----------------------- | ------------------------- | -------------------- |
+  | `xs`       | 16 · 12 · 8×1.5    | Body 4 Regular(14/22)   | Label 2 SemiBold(14/20)   | 40 · 22(bold 20)     |
+  | `sm`(기본) | 20 · 16 · 10×2     | Body 2 Regular(16/24)   | Body 2 SemiBold(16/24)    | 40 · 24              |
+  | `md`       | 24 · 20 · 12×2.5   | Body 1 Regular(17/28)   | Heading 3 SemiBold(18/26) | 40 · 28(bold 26)     |
+  | `lg`       | 32 · 26 · 16×3     | Heading 2 Medium(20/30) | Heading 2 SemiBold(20/30) | 48 · 32              |
+  - 레이블은 Figma(2278:30242)가 글자 토큰에 맞춘 그대로입니다(2026-11-11). `bold` 레이블은 일반 레이블과 스타일 줄이 다릅니다(XSmall은 Label 2, Medium은 Heading 3).
   - 구간별 값도 받습니다(`size={{ base: "md", desktop: "sm" }}`). 같은 목록에서는 크기를 하나로 맞춥니다.
   - `FramedCheckbox`의 상자는 지금처럼 Small(20) 하나입니다.
 

@@ -40,7 +40,7 @@
 - **하나만 고르기**: 정렬처럼 하나만 고르는 목록이에요. `role="radio"`를 주고, 항목 폭으로 넓혀(`className="w-full"`) 항목 전체를 누르게 해요.
 - **여러 개 고르기**: 필터처럼 여러 개를 고르는 목록이에요. 기본 역할(`checkbox`)로 읽혀요.
 - **크기**: `size`는 `xs`(16) · `sm`(20, 기본) · `md`(24) · `lg`(32)예요. 레이블 글자와 높이도 함께 바뀌어요.
-- **촘촘한 목록**: `tight`는 바깥 여백을 없애요(높이는 내용만큼, `sm`은 24). 선택 목록(listbox) 안에서는 `role="option"`을 줘요.
+- **촘촘한 목록**: `tight`는 바깥 여백을 없애요(높이 20·24·28·32, `sm`은 24). 선택 목록(listbox) 안에서는 `role="option"`을 줘요.
 - **상태**: 체크 안 됨은 회색, 체크됨은 브랜드 색이에요. `disabled`는 연한 회색 체크와 회색 글자예요.
 - **반응형**: `size`는 구간별 값도 받아요. `{ base: "md", desktop: "sm" }`면 모바일·태블릿은 체크 24, 데스크톱(1024px)부터 20이에요. 창 폭을 바꿔 보세요.
 
@@ -55,7 +55,7 @@
 | `size`       | `"xs" \| "sm" \| "md" \| "lg"` 또는 `{ base, tablet, desktop }`              | `"sm"`       | 체크 16 · 20 · 24 · 32. 레이블과 높이도 따라가요. 객체로 주면 구간마다 달라져요 |
 | `children`   | `ReactNode`                                                                  | -            | 레이블. 없으면 `aria-label`을 줘요                                              |
 | `disabled`   | `boolean`                                                                    | `false`      | 누를 수 없는 상태                                                               |
-| `tight`      | `boolean`                                                                    | `false`      | 바깥 여백을 없앤 촘촘한 모양(높이 40 → 내용 높이)                               |
+| `tight`      | `boolean`                                                                    | `false`      | 바깥 여백을 없앤 촘촘한 모양(높이 40 → 크기별 20·24·28·32)                      |
 | `role`       | `"checkbox" \| "radio" \| "option" \| "menuitemcheckbox" \| "menuitemradio"` | `"checkbox"` | 눌릴 때 스크린리더가 읽는 역할. `option`은 `aria-selected`로 알려요             |
 | `aria-label` | `string`                                                                     | -            | 레이블 없이 쓸 때의 이름                                                        |
 | `onClick`    | `(event) => void`                                                            | -            | 주면 항목 전체가 눌리는 버튼이 돼요. 없으면 표시용이에요                        |
