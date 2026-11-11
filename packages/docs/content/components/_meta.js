@@ -10,6 +10,7 @@ export default {
   pagination: "Pagination",
   "segmented-control": "Segmented control",
   "---selection": { type: "separator", title: "Selection" },
+  calendar: "Calendar",
   "check-mark": "Check mark",
   checkbox: "Checkbox",
   chip: "Chip",

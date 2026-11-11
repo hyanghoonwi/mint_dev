@@ -32,6 +32,7 @@ grep -n -A12 '\*\*`Button`\*\*' node_modules/@futurewiz-rms/mint/guide/actions.m
 - 많은 목록을 페이지로 나눠 이동 → `Pagination`(링크는 `getHref`+`linkComponent`, 버튼은 `onChange`)
 - 배너·캐러셀·갤러리의 현재 위치 표시 → 점 `PageDots`(2~7개) · 숫자 `PageCounter`(8개 이상)
 - 필터·조건 칩 하나(선택 상태 있음, 여러 개 고르기 등) → `Chip`(행동은 `Button`)
+- 날짜 고르기·일정 있는 날 점 표시(달력) → `Calendar`(임시, 날짜는 `YYYY-MM-DD` 문자열, `today` 필수)
 - 목록에서 선택된 항목에 체크 표시(Menu, Select Item) → `CheckMark`
 - 여러 개 고르기·한 항목 켜고 끄기(폼, 제출할 때 적용) → `Checkbox`(전체 선택은 `indeterminate`)
 - 2~4개 중 하나만 고르기(폼) → `RadioGroup` + `Radio`
@@ -71,6 +72,7 @@ grep -n -A12 '\*\*`Button`\*\*' node_modules/@futurewiz-rms/mint/guide/actions.m
 
 ### [선택](guide/selection.md)
 
+- `Calendar` — 날짜 선택 달력(일정 점, 공휴일, min·max, 키보드 이동, 임시)
 - `CheckMark` — 목록의 선택 표시(체크 아이콘 + 레이블, 4크기·구간별 객체, 항목 전체를 누름)
 - `Checkbox` — 체크박스(체크·일부 선택, 레이블을 눌러도 선택, 폼 제출, 4크기·구간별 객체)
 - `RadioGroup` — 라디오 묶음(세로 나열, 하나만 선택, 값·onChange)

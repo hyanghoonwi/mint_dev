@@ -21,6 +21,7 @@ import {
 import { AlertGuide, AlertPlayground } from "./src/components/site/AlertDocs";
 import { BadgeGuide, BadgePlayground } from "./src/components/site/BadgeDocs";
 import { CategoryGuide, CategoryPlayground } from "./src/components/site/CategoryDocs";
+import { CalendarGuide, CalendarPlayground } from "./src/components/site/CalendarDocs";
 import {
   SegmentedControlGuide,
   SegmentedControlPlayground,
@@ -121,6 +122,8 @@ export function useMDXComponents(components?: MDXComponents) {
     PageIndicatorGuide,
     CategoryPlayground,
     CategoryGuide,
+    CalendarPlayground,
+    CalendarGuide,
     SegmentedControlPlayground,
     SegmentedControlGuide,
     FramedPlayground,

@@ -7,6 +7,7 @@ export * from "./components/alert/Alert";
 export * from "./components/avatar/Avatar";
 export * from "./components/badge/Badge";
 export * from "./components/button/Button";
+export * from "./components/calendar/Calendar";
 export * from "./components/category/Category";
 export * from "./components/page-indicator/PageIndicator";
 export * from "./components/pagination/Pagination";

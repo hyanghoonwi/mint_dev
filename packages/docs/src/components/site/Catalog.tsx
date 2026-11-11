@@ -5,6 +5,7 @@ import {
   AvatarGroup,
   Badge,
   Button,
+  Calendar,
   Category,
   PageCounter,
   PageDots,
@@ -158,6 +159,21 @@ const components: { name: string; group: string; to: string; preview: ReactNode 
         ]}
         style={{ width: 220, background: "transparent" }}
       />
+    ),
+  },
+  {
+    name: "Calendar",
+    group: "Selection",
+    to: "/components/calendar",
+    preview: (
+      <span aria-hidden="true" style={{ width: 220, pointerEvents: "none" }}>
+        <Calendar
+          today="2026-11-11"
+          defaultValue="2026-11-12"
+          marks={{ "2026-11-20": [{ color: "brand" }] }}
+          inert
+        />
+      </span>
     ),
   },
   {

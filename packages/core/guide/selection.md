@@ -2,6 +2,16 @@
 
 > 색인: [`../AGENTS.md`](../AGENTS.md)
 
+- **`Calendar`** — 날짜를 고르고, 일정이 있는 날을 점으로 보여 주는 달력. **임시 컴포넌트**입니다(Figma 시안 전, 모양은 바뀔 수 있고 API는 유지). 클라이언트 컴포넌트입니다(`"use client"`가 달려 있어 서버 컴포넌트에서 import해도 됩니다. 단 `onChange`·`onMonthChange`는 클라이언트 컴포넌트에서 넘깁니다).
+  - 날짜는 모두 문자열(`YYYY-MM-DD`, 달은 `YYYY-MM`). `Date`를 넘기지 않습니다. 날짜 라이브러리는 필요 없고, 쓰는 중이면 이 형식으로 바꿔 넘깁니다
+  - `today`(필수): 오늘. 렌더 중 `new Date()`로 만들지 말고 서버에서 한 번 만들어 넘깁니다(`new Intl.DateTimeFormat("sv-SE", { timeZone: "Asia/Seoul" }).format(new Date())`)
+  - `value`·`onChange`(제어) 또는 `defaultValue`. 보이는 달은 `month`·`onMonthChange`(제어) 또는 `defaultMonth`(기본: 선택한 날 → 오늘의 달)
+  - `marks`: 날짜별 점 `{ "2026-11-12": [{ color: "brand", label: "결제일" }] }`. 최대 3개 보임. `color`: `brand`(기본)·`danger`·`success`·`neutral`. `label`은 스크린리더용(없으면 "일정 N개"). 달이 바뀌면 `onMonthChange`에서 그 달의 일정을 불러와 바꿉니다
+  - `holidays`: 공휴일(날짜 → 이름). 계산할 수 없어서 서비스 데이터로 넘깁니다. 일요일·공휴일 빨강, 토요일 파랑
+  - `min`·`max`·`disabledDates`: 고를 수 없는 날. `weekStartsOn`: 0 일요일(기본)·1 월요일
+  - `size`: `md`(칸 48, 기본)·`lg`(56). 폭은 부모를 꽉 채움. 구간별 객체도 받음(`{ base: "lg", desktop: "md" }`)
+  - 접근성: `role="grid"`, 오늘 `aria-current="date"`, 선택 `aria-selected`. 키보드 ←→↑↓(하루·한 주), PageUp·PageDown(달), Home·End(주의 처음·끝). Tab은 선택한 날(없으면 오늘) 하나에만 들어옵니다
+  - 금지: 점으로 내용 전하기(점은 표시만, 내용은 달력 아래), 기간 선택(아직 없음)
 - **`CheckMark`** — 목록에서 선택된 항목을 표시하는 체크 표시(체크 아이콘 + 레이블). 서버 컴포넌트에서도 쓸 수 있습니다(`onClick`을 넘길 때만 클라이언트 컴포넌트 안에서 씁니다). 값을 고르는 폼 컨트롤은 `Checkbox`입니다.
   - `checked`: 선택 여부(기본 `false`). 체크 안 됨은 회색 체크, 체크됨은 브랜드 색 체크. hover·누름은 한 단계 진하게
   - `children`: 레이블. 없으면 체크만 보이므로 `aria-label`을 줍니다

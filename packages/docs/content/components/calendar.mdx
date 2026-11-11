@@ -1,0 +1,66 @@
+# Calendar
+
+날짜를 고르고, 일정이 있는 날을 점으로 보여 주는 달력이에요.
+
+<ComponentBadges />
+
+<Figure height={240} />
+
+<Callout type="warning">
+  **임시 컴포넌트예요.** Figma 시안 전이라 칸 크기, 점, 색은 바뀔 수 있어요.
+  props(API)는 그대로 유지할 예정이에요.
+</Callout>
+
+## Playground
+
+오른쪽에서 props를 바꾸면 미리보기와 아래 코드가 함께 바뀌어요. 날짜를 누르거나 화살표 키로 옮겨 볼 수 있어요.
+
+<CalendarPlayground />
+
+## Examples
+
+<ExampleTabs
+  items={[
+    { title: "일정 표시", name: "calendar/Schedule" },
+    { title: "공휴일", name: "calendar/Holidays" },
+    { title: "고를 수 있는 범위", name: "calendar/Range" },
+    { title: "반응형", name: "calendar/Responsive" },
+  ]}
+/>
+
+- **일정 표시**: `marks`에 날짜별 점을 넘겨요(최대 3개까지 보여요). 달을 넘기면 `onMonthChange`로 그 달의 일정을 불러와요.
+- **공휴일**: 공휴일은 계산할 수 없어서 `holidays`로 넘겨요. 일요일처럼 빨간 글자로 보여요. `weekStartsOn={1}`이면 월요일부터 시작해요.
+- **고를 수 있는 범위**: `min`·`max` 밖의 날과 `disabledDates`는 누를 수 없어요.
+- **반응형**: `size`는 구간별 값도 받아요. `{ base: "lg", desktop: "md" }`면 모바일·태블릿은 칸 56, 데스크톱(1024px)부터 48이에요. 창 폭을 바꿔 보세요.
+
+## Props
+
+나머지 `<div>` 속성도 그대로 받아요.\
+클라이언트 컴포넌트라서 `onChange`·`onMonthChange`는 클라이언트 컴포넌트 안에서 넘겨요.
+
+| 이름            | 타입                                            | 기본값              | 설명                                                       |
+| --------------- | ----------------------------------------------- | ------------------- | ---------------------------------------------------------- |
+| `size`          | `"md" \| "lg"` 또는 `{ base, tablet, desktop }` | `"md"`              | 칸 높이 48 · 56. 폭은 부모를 꽉 채워요                     |
+| `today`         | `string`                                        | -                   | 오늘(`YYYY-MM-DD`, 필수). 서버에서 만들어 넘겨요           |
+| `marks`         | `Record<string, { color?, label? }[]>`          | -                   | 날짜별 점. 색은 `brand`·`danger`·`success`·`neutral`이에요 |
+| `holidays`      | `Record<string, string>`                        | -                   | 공휴일(날짜 → 이름). 빨간 글자로 보여요                    |
+| `value`         | `string \| null`                                | -                   | 선택한 날(제어)                                            |
+| `defaultValue`  | `string`                                        | -                   | 처음 선택한 날(비제어)                                     |
+| `month`         | `string`                                        | -                   | 보이는 달(`YYYY-MM`, 제어)                                 |
+| `defaultMonth`  | `string`                                        | 선택한 날·오늘의 달 | 처음 보이는 달(비제어)                                     |
+| `min` · `max`   | `string`                                        | -                   | 고를 수 있는 처음·마지막 날                                |
+| `disabledDates` | `string[]`                                      | -                   | 고를 수 없는 날                                            |
+| `weekStartsOn`  | `0 \| 1`                                        | `0`                 | 주의 시작 요일. 0 일요일 · 1 월요일                        |
+| `onChange`      | `(date: string) => void`                        | -                   | 날짜를 누르면 불려요                                       |
+| `onMonthChange` | `(month: string) => void`                       | -                   | 보이는 달이 바뀌면 불려요. 그 달의 일정을 불러와요         |
+
+## Guidelines
+
+<CalendarGuide />
+
+- 날짜는 모두 `YYYY-MM-DD` 문자열이에요. 날짜 라이브러리를 쓰면 이 형식으로 바꿔 넘겨요.
+- `today`는 렌더 중 `new Date()`로 만들지 않아요. 서버에서 한 번 만들어 넘겨요(예: `Intl.DateTimeFormat("sv-SE", { timeZone: "Asia/Seoul" }).format(new Date())`).
+- 점은 일정이 있다는 표시예요. 내용은 날짜를 누른 뒤 달력 아래에 보여 줘요.
+- 점 색은 일정 종류 2\~3가지에만 써요. 색의 의미는 화면 안에서 같게 유지해요.
+- 일요일·공휴일은 빨간 글자, 토요일은 파란 글자예요. 오늘은 테두리로도 구분돼요.
+- 키보드는 ←→↑↓로 하루·한 주, PageUp·PageDown으로 이전·다음 달, Home·End로 주의 처음·끝으로 옮겨요.
