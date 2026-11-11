@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import { fn } from "storybook/test";
+import { expect, fn } from "storybook/test";
 import { ArrowRightIcon, Button, PlusIcon } from "@futurewiz-rms/mint";
 
 const meta = {
@@ -16,7 +16,11 @@ const meta = {
       options: ["primary", "neutral", "secondary", "destructive"],
       description: "outline은 neutral·primary, ghost는 neutral만 쓸 수 있어요",
     },
-    size: { control: "inline-radio", options: ["xs", "sm", "md", "lg"] },
+    size: {
+      control: "inline-radio",
+      options: ["xs", "sm", "md", "lg"],
+      description: '값 하나 또는 구간별 객체 `{ base: "lg", tablet: "md" }`',
+    },
     loading: { control: "boolean" },
     fullWidth: { control: "boolean" },
     disabled: { control: "boolean" },
@@ -153,4 +157,33 @@ export const Pair: Story = {
       </div>
     </div>
   ),
+};
+
+// 구간별 값: 모바일 lg·가로 꽉 채움 → 태블릿(768px~)부터 md·내용 폭. 툴바의 뷰포트를 바꿔 확인한다
+export const Responsive: Story = {
+  args: {
+    children: "참여하기",
+    size: { base: "lg", tablet: "md" },
+    fullWidth: { base: true, tablet: false },
+  },
+  parameters: { layout: "padded" },
+  play: async ({ canvas }) => {
+    const button = canvas.getByRole("button", { name: "참여하기" });
+    // 구간마다 클래스가 붙었는지(화면 폭과 상관없이 같은 HTML이라 서버 렌더와 어긋나지 않는다)
+    await expect(button).toHaveClass("h-12", "w-full", "tablet:h-10", "tablet:w-auto");
+  },
+};
+
+export const ResponsiveMobile: Story = {
+  ...Responsive,
+  globals: { viewport: { value: "mobile" } },
+};
+
+// xs에서는 아이콘을 그리지 않는다(구간별 크기여도 CSS로 숨김)
+export const XsHidesAddon: Story = {
+  args: { size: "xs", leftAddon: <PlusIcon />, children: "추가" },
+  play: async ({ canvasElement }) => {
+    const addon = canvasElement.querySelector("button svg")?.parentElement as HTMLElement;
+    await expect(getComputedStyle(addon).display).toBe("none");
+  },
 };
