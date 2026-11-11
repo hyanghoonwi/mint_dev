@@ -10,6 +10,7 @@ export * from "./components/button/Button";
 export * from "./components/category/Category";
 export * from "./components/page-indicator/PageIndicator";
 export * from "./components/pagination/Pagination";
+export * from "./components/segmented-control/SegmentedControl";
 export * from "./components/check-mark/CheckMark";
 export * from "./components/checkbox/Checkbox";
 export * from "./components/chip/Chip";

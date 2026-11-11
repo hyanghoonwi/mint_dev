@@ -1,0 +1,73 @@
+# Segmented control
+
+여러 옵션 중 하나를 바로 바꾸는 토글형 선택 컨트롤이에요.
+
+<ComponentBadges />
+
+<Figure height={240} />
+
+회색 트랙 위에서 선택된 항목이 흰 칩으로 보여요.\
+화면 전체가 아니라 같은 영역의 보기 방식만 바뀌어요. 화면의 내용(섹션)이 바뀌면 Tab을 써요.
+
+|      | Segmented control              | Tab                        |
+| ---- | ------------------------------ | -------------------------- |
+| 목적 | 같은 내용을 보는 방식을 바꿔요 | 화면의 내용(섹션)을 바꿔요 |
+| 개수 | 2\~6개                         | 2\~6개                     |
+| 모양 | 트랙 위에 선택된 칩            | 밑줄형                     |
+| 예시 | 목록/격자, 일/주/월            | 홈, 시세, 내 자산          |
+
+## Playground
+
+오른쪽에서 props를 바꾸면 미리보기와 아래 코드가 함께 바뀌어요. 항목을 누르면 흰 칩이 옆으로 미끄러져요.
+
+<SegmentedControlPlayground />
+
+## Examples
+
+<ExampleTabs
+  items={[
+    {
+      title: "보기 방식",
+      name: "segmented-control/ViewMode",
+      style: { flexDirection: "column", gap: 12 },
+    },
+    { title: "차트 기간", name: "segmented-control/Period" },
+    {
+      title: "꽉 채우기",
+      name: "segmented-control/FullWidth",
+      style: { maxWidth: 375 },
+    },
+    { title: "반응형", name: "segmented-control/Responsive" },
+  ]}
+/>
+
+- **보기 방식**: `value`와 `onChange`로 고른 값을 받아 같은 영역의 보기 방식을 바꿔요. 이름이 짧을 때 `icon`을 보조로 붙여요.
+- **차트 기간**: 촘촘한 영역에서는 `size="sm"`을 써요. 처음 선택은 `defaultValue`로 정해요.
+- **꽉 채우기**: `fullWidth`면 부모 폭을 꽉 채우고 항목을 같은 폭으로 나눠요.
+- **반응형**: `size`와 `fullWidth`는 구간별 값도 받아요. 모바일은 크게 꽉 채우고, 태블릿부터 내용 폭이에요. 창 폭을 바꿔 보세요.
+
+## Props
+
+나머지 `<div>` 속성도 그대로 받아요.\
+클라이언트 컴포넌트라서 `onChange`는 클라이언트 컴포넌트 안에서 넘겨요.
+
+| 이름           | 타입                                                    | 기본값  | 설명                                                        |
+| -------------- | ------------------------------------------------------- | ------- | ----------------------------------------------------------- |
+| `size`         | `"sm" \| "md" \| "lg"` 또는 `{ base, tablet, desktop }` | `"md"`  | 높이 32 · 40 · 48. 객체로 주면 구간마다 달라져요            |
+| `items`        | `{ value, label, icon?, disabled? }[]`                  | -       | 항목 목록. 2\~6개, 이름은 1\~4자로 써요                     |
+| `value`        | `string`                                                | -       | 선택된 값(제어)                                             |
+| `defaultValue` | `string`                                                | 첫 항목 | 처음 선택 값(비제어)                                        |
+| `fullWidth`    | `boolean` 또는 `{ base, tablet, desktop }`              | `false` | 부모 폭을 꽉 채워요. 끄면 가장 긴 항목 폭으로 같은 폭이에요 |
+| `aria-label`   | `string`                                                | -       | 묶음의 이름. 꼭 줘요                                        |
+| `onChange`     | `(value: string) => void`                               | -       | 다른 항목을 눌렀을 때 새 값으로 불려요                      |
+
+## Guidelines
+
+<SegmentedControlGuide />
+
+- 항상 하나가 선택돼 있어야 해요. 선택 없음 상태를 만들지 않아요.
+- 옵션 이름은 1\~4자로 짧게 써요. 아이콘은 레이블이 짧을 때 보조로만 써요.
+- 처음에는 기본값 하나를 선택해 둬요. `defaultValue`를 생략하면 첫 항목이에요.
+- 4개가 넘으면 한 줄에 들어가는지 확인해요. 들어가지 않으면 Select나 Tab으로 바꿔요.
+- 크기는 기본 `md`를 쓰고, 촘촘한 영역은 `sm`, 모바일 주요 영역은 `lg`를 써요.
+- 묶음에 `aria-label`로 이름을 줘요. 키보드는 ←·→로 옆 항목을, Home·End로 처음·끝 항목을 골라요.
