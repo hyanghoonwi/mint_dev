@@ -40,8 +40,6 @@ import { IconGallery } from "./src/components/site/IconGallery";
 import {
   ComponentCards,
   FoundationCards,
-  LogoHero,
-  LogoVariants,
 } from "./src/components/site/Catalog";
 import { Home } from "./src/components/site/Home";
 
@@ -111,8 +109,6 @@ export function useMDXComponents(components?: MDXComponents) {
     ComponentCards,
     FoundationCards,
     Home,
-    LogoHero,
-    LogoVariants,
     ...components,
   };
 }

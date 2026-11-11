@@ -135,9 +135,6 @@ export function DocsFooter() {
           <li>
             <Link href="/getting-started/changelog">변경 이력</Link>
           </li>
-          <li>
-            <Link href="/getting-started/brand">브랜드 로고</Link>
-          </li>
         </ul>
       </details>
     </footer>

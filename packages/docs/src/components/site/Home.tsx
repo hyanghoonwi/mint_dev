@@ -24,10 +24,10 @@ const starts = [
     to: "/foundations/overview",
   },
   {
-    title: "브랜드 로고",
-    description: "로고 사용 규칙과 파일 다운로드",
-    meta: "Resources",
-    to: "/getting-started/brand",
+    title: "컴포넌트 살펴보기",
+    description: "버튼, 입력, 목록처럼 화면을 이루는 단위",
+    meta: "Components",
+    to: "/components/overview",
   },
 ];
 
