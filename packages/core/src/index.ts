@@ -12,6 +12,7 @@ export * from "./components/page-indicator/PageIndicator";
 export * from "./components/pagination/Pagination";
 export * from "./components/check-mark/CheckMark";
 export * from "./components/checkbox/Checkbox";
+export * from "./components/radio/Radio";
 export * from "./components/circular/Circular";
 export * from "./components/skeleton/Skeleton";
 export * from "./components/text/Text";
