@@ -1,0 +1,64 @@
+# Radio
+
+여러 선택지 중에서 하나만 고르는 컨트롤이에요.
+
+<ComponentBadges />
+
+<Figure height={240} />
+
+선택지가 많으면 Select를, 켜고 끄는 설정이면 Switch를 써요. 여러 개를 고르면 [Checkbox](/components/checkbox)를 써요.
+
+|             | Radio                     | Select             | Chip              |
+| ----------- | ------------------------- | ------------------ | ----------------- |
+| 선택지 수   | 2\~4개                    | 5개 이상           | 2\~4개 짧은 옵션  |
+| 설명        | 설명이 긴 선택지도 담아요 | 한 줄 레이블이에요 | 짧은 레이블이에요 |
+| 보이는 방식 | 항상 모두 보여요          | 눌러야 펼쳐져요    | 항상 모두 보여요  |
+
+## Playground
+
+오른쪽에서 props를 바꾸면 미리보기와 아래 코드가 함께 바뀌어요. 미리보기의 라디오는 직접 누르거나 방향키로 옮겨 볼 수 있어요.
+
+<RadioPlayground />
+
+## Examples
+
+<ExampleTabs
+  items={[
+    { title: "기본", name: "radio/Sort" },
+    { title: "값 받기", name: "radio/Controlled" },
+    { title: "촘촘한 목록", name: "radio/Tight" },
+    { title: "상태", name: "radio/States" },
+  ]}
+/>
+
+- **기본**: `RadioGroup`으로 묶고 `defaultValue`로 처음 선택을 정해요. `name`을 주면 폼을 제출할 때 고른 값이 넘어가요.
+- **값 받기**: `value`와 `onChange`로 고른 값을 받아 화면에 반영해요.
+- **촘촘한 목록**: `tight`는 바깥 여백을 없애요(높이 24). 줄 간격은 그룹에서 정해요.
+- **상태**: 안 고름·고름과 각각의 비활성 모양이에요. `RadioGroup`에 `disabled`를 주면 그룹 전체가 비활성이 돼요.
+
+## Props
+
+`RadioGroup`은 나머지 `<div>` 속성을, `Radio`는 나머지 `<input>` 속성을 받아요.\
+클라이언트 컴포넌트라서 `onChange`는 클라이언트 컴포넌트 안에서 넘겨요.
+
+| 이름           | 타입                      | 기본값  | 설명                                                 |
+| -------------- | ------------------------- | ------- | ---------------------------------------------------- |
+| `tight`        | `boolean`                 | `false` | `Radio`의 바깥 여백을 없앤 모양(높이 40 → 24)        |
+| `children`     | `ReactNode`               | -       | `Radio`의 레이블. 없으면 `aria-label`을 줘요         |
+| `value`        | `string`                  | -       | `Radio`의 선택 값 · `RadioGroup`의 선택된 값(제어)   |
+| `defaultValue` | `string`                  | -       | `RadioGroup`의 처음 선택 값(비제어)                  |
+| `disabled`     | `boolean`                 | `false` | 누를 수 없는 상태. `RadioGroup`에 주면 그룹 전체예요 |
+| `name`         | `string`                  | 자동    | `RadioGroup`의 폼 제출 이름                          |
+| `aria-label`   | `string`                  | -       | `RadioGroup`의 그룹 이름. 꼭 줘요                    |
+| `onChange`     | `(value: string) => void` | -       | `RadioGroup`에서 다른 선택지를 고르면 불려요         |
+
+## Guidelines
+
+<RadioGuide />
+
+- 그룹 안에서는 항상 하나가 선택돼 있어요. 처음부터 기본값 하나를 선택해 두어요.
+- 선택지는 세로로 나열해서 비교하기 쉽게 해요.
+- 같은 그룹에서 선택을 해제할 수 있게 하지 않아요. 필요하면 "선택 안 함" 선택지를 둬요.
+- 선택지가 5개 이상이면 Radio를 쓰지 않아요. Select를 써요.
+- 방향키로 선택을 옮기고 Space로 선택해요. 레이블을 눌러도 선택돼요.
+- `RadioGroup`에 `aria-label`로 그룹 이름을 줘요.

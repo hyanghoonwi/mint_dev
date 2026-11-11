@@ -1,10 +1,49 @@
 # Components
 
-사용자 화면을 이루는, 다시 쓸 수 있는 UI 단위입니다. 반응형 웹(모바일웹 ~ PC)에서 같은 컴포넌트를 쓰고, React로 바로 가져다 씁니다. 카드를 누르면 사용법으로 이동합니다.
+사용자 화면을 이루는, 다시 쓸 수 있는 UI 단위예요. React로 바로 가져다 쓰고, 카드를 누르면 사용법으로 이동해요.
+
+## Responsive
+
+반응형 웹(모바일웹 \~ PC)에서 같은 컴포넌트를 써요. 화면 폭은 세 구간으로 나눠요.
+
+| 구간     | 화면 폭       | 접두어       | 그리드 컬럼 |
+| -------- | ------------- | ------------ | ----------- |
+| 모바일   | 0 \~ 767px    | 없음(기본값) | 4           |
+| 태블릿   | 768 \~ 1023px | `tablet:`    | 8           |
+| 데스크톱 | 1024px \~     | `desktop:`   | 12          |
+
+모바일을 기본으로 두고, 넓은 화면에서 달라지는 값만 덧붙여요. 구간 숫자는 MINT가 정하고, 모든 서비스가 같은 구간을 써요.
+
+반응형은 CSS로만 처리해요. 서버는 화면 폭을 모르지만 결과가 같아서 첫 화면이 깜빡이지 않아요. 그래서 화면 폭을 읽는 훅(`useMediaQuery`)으로 컴포넌트를 바꾸지 않아요.
+
+- **배치**는 [Container · Grid](/components/container-grid)가 맡아요. 구간마다 컬럼 수가 4 → 8 → 12로 바뀌고, 거터와 좌우 여백은 20px로 같아요.
+- **크기와 폭**은 구간별 값으로 바꿔요. 값 하나를 주면 모든 화면에서 같고, 객체를 주면 구간마다 달라져요.
+- **색과 위계**(`variant`, `color`)는 구간마다 바꾸지 않아요. 화면 폭에 따라 버튼의 중요도가 바뀌면 헷갈리기 때문이에요.
+- **글자 크기**는 화면 폭과 상관없이 같은 스타일을 써요. 글자는 [Text](/components/text)로 그려요.
+
+구간별 값을 받는 prop은 각 컴포넌트의 Props 표에 `{ base, tablet, desktop }`으로 적혀 있어요. 빈 구간은 앞 구간 값을 이어받고, `base`를 빼면 기본값을 써요.
+
+```tsx
+// 모바일은 크고 가로를 꽉 채우고, 태블릿부터 기본 크기·내용 폭
+<Button
+  size={{ base: "lg", tablet: "md" }}
+  fullWidth={{ base: true, tablet: false }}
+>
+  참여하기
+</Button>
+```
 
 ## Actions
 
 <ComponentCards group="Actions" />
+
+## Navigation
+
+<ComponentCards group="Navigation" />
+
+## Selection
+
+<ComponentCards group="Selection" />
 
 ## Contents
 

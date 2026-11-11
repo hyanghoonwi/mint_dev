@@ -5,13 +5,26 @@ import {
   AvatarGroup,
   Badge,
   Button,
+  Category,
+  PageCounter,
+  PageDots,
+  Pagination,
+  CheckMark,
+  Checkbox,
+  Chip,
+  FramedRadio,
+  Radio,
+  RadioGroup,
   Circular,
   Grid,
   HeartIcon,
   HouseIcon,
+  IconButton,
+  PlusIcon,
   SkeletonCircle,
   SkeletonText,
   StarIcon,
+  Text,
 } from "@futurewiz-rms/mint";
 
 const components: { name: string; group: string; to: string; preview: ReactNode }[] = [
@@ -32,6 +45,19 @@ const components: { name: string; group: string; to: string; preview: ReactNode 
           <SkeletonText length="75%" height={12} />
           <SkeletonText length="50%" height={12} />
         </span>
+      </span>
+    ),
+  },
+  {
+    name: "Text",
+    group: "Contents",
+    to: "/components/text",
+    preview: (
+      <span style={{ display: "flex", flexDirection: "column", gap: 4 }}>
+        <Text variant="heading-2-bold">비트코인</Text>
+        <Text variant="body-4-regular" color="tertiary">
+          시가총액 1위
+        </Text>
       </span>
     ),
   },
@@ -113,6 +139,126 @@ const components: { name: string; group: string; to: string; preview: ReactNode 
           취소
         </Button>
       </>
+    ),
+  },
+  {
+    name: "Category",
+    group: "Navigation",
+    to: "/components/category",
+    preview: (
+      <Category
+        aria-label="분류 미리보기"
+        size="md"
+        shape="pill"
+        fade={false}
+        items={[
+          { value: "a", label: "메이저" },
+          { value: "b", label: "밈" },
+        ]}
+        style={{ width: 220, background: "transparent" }}
+      />
+    ),
+  },
+  {
+    name: "Checkbox",
+    group: "Selection",
+    to: "/components/checkbox",
+    preview: (
+      <span
+        aria-hidden="true"
+        style={{ display: "flex", flexDirection: "column", pointerEvents: "none" }}
+      >
+        <Checkbox defaultChecked tabIndex={-1}>
+          약관 동의
+        </Checkbox>
+        <Checkbox tabIndex={-1}>마케팅 수신</Checkbox>
+      </span>
+    ),
+  },
+  {
+    name: "Chip",
+    group: "Selection",
+    to: "/components/chip",
+    preview: (
+      <span aria-hidden="true" style={{ display: "flex", gap: 8, pointerEvents: "none" }}>
+        <Chip active tabIndex={-1}>
+          시그널
+        </Chip>
+        <Chip tabIndex={-1}>에어드랍</Chip>
+      </span>
+    ),
+  },
+  {
+    name: "Framed",
+    group: "Selection",
+    to: "/components/framed",
+    preview: (
+      <span aria-hidden="true" style={{ pointerEvents: "none", width: 200 }}>
+        <RadioGroup aria-label="미리보기" defaultValue="a" className="gap-2">
+          <FramedRadio value="a" label="베이직" size="sm" tabIndex={-1} />
+          <FramedRadio value="b" label="프로" size="sm" tabIndex={-1} />
+        </RadioGroup>
+      </span>
+    ),
+  },
+  {
+    name: "Radio",
+    group: "Selection",
+    to: "/components/radio",
+    preview: (
+      <span aria-hidden="true" style={{ pointerEvents: "none" }}>
+        <RadioGroup aria-label="미리보기" defaultValue="a">
+          <Radio value="a" tabIndex={-1}>
+            최신순
+          </Radio>
+          <Radio value="b" tabIndex={-1}>
+            인기순
+          </Radio>
+        </RadioGroup>
+      </span>
+    ),
+  },
+  {
+    name: "Check mark",
+    group: "Selection",
+    to: "/components/check-mark",
+    preview: (
+      <span style={{ display: "flex", flexDirection: "column" }}>
+        <CheckMark checked>최신순</CheckMark>
+        <CheckMark>인기순</CheckMark>
+      </span>
+    ),
+  },
+  {
+    name: "Page indicator",
+    group: "Navigation",
+    to: "/components/page-indicator",
+    preview: (
+      <span style={{ display: "flex", alignItems: "center", gap: 16 }}>
+        <PageDots current={2} total={5} />
+        <PageCounter current={3} total={24} />
+      </span>
+    ),
+  },
+  {
+    name: "Pagination",
+    group: "Navigation",
+    to: "/components/pagination",
+    preview: (
+      <span aria-hidden="true" style={{ pointerEvents: "none" }}>
+        <Pagination page={6} total={99} variant="compact" />
+      </span>
+    ),
+  },
+  {
+    name: "Icon button",
+    group: "Actions",
+    to: "/components/icon-button",
+    preview: (
+      <span aria-hidden="true" style={{ display: "flex", gap: 8, pointerEvents: "none" }}>
+        <IconButton icon={<PlusIcon />} aria-label="추가" variant="background" tabIndex={-1} />
+        <IconButton icon={<PlusIcon />} aria-label="추가" variant="solid" tabIndex={-1} />
+      </span>
     ),
   },
   {

@@ -1,0 +1,59 @@
+# Page indicator
+
+요소의 현재 위치를 안내하는 컴포넌트예요.
+
+<ComponentBadges />
+
+<Figure height={240} />
+
+숫자로 알려 주는 `PageCounter`와 점으로 알려 주는 `PageDots`가 있어요. 배너나 캐러셀, 이미지 갤러리 아래에 써요.
+
+|         | PageCounter            | PageDots                            |
+| ------- | ---------------------- | ----------------------------------- |
+| 표시    | 현재 / 전체 숫자 (1/5) | 점으로 위치만 표시                  |
+| 쓰는 곳 | 이미지가 많은 갤러리   | 배너, 온보딩처럼 개수가 적은 캐러셀 |
+| 개수    | 제한 없어요            | 2\~7개                              |
+
+## Playground
+
+오른쪽에서 props를 바꾸면 미리보기와 아래 코드가 함께 바뀌어요. 위치를 바꾸는 것은 캐러셀이 맡고, 바뀐 위치를 `current`로 넘겨요.
+
+<PageIndicatorPlayground />
+
+## Examples
+
+<ExampleTabs
+  items={[
+    { title: "배너", name: "page-indicator/Banner" },
+    { title: "온보딩", name: "page-indicator/Onboarding" },
+    { title: "갤러리", name: "page-indicator/Gallery" },
+    { title: "밝은 바탕 숫자", name: "page-indicator/Alternative" },
+  ]}
+/>
+
+- **배너**: 이미지 위에서는 `variant="white"`로 대비를 확보해요. 나머지 점은 흰색 40%로 보여요.
+- **온보딩**: 밝은 바탕에서는 기본 점을 써요. 점은 2\~7개만 써요.
+- **갤러리**: 이미지가 많으면 `PageCounter`로 숫자를 보여 줘요. 이미지 위 구석에 둬요.
+- **밝은 바탕 숫자**: 밝은 바탕에서 숫자를 약하게 보여 주려면 `variant="alternative"`를 써요.
+
+## Props
+
+나머지 `<div>` 속성도 그대로 받아요.\
+서버 컴포넌트에서 바로 쓸 수 있어요. 표시 전용이라 누를 수 없어요.
+
+| 이름      | 타입                                                | 기본값     | 설명                                     |
+| --------- | --------------------------------------------------- | ---------- | ---------------------------------------- |
+| `variant` | `"normal" \| "white"` · `"normal" \| "alternative"` | `"normal"` | `PageDots` · `PageCounter`의 색          |
+| `size`    | `"md" \| "sm"`                                      | `"md"`     | 점 8 · 6px, 숫자 높이 28 · 22            |
+| `current` | `number`                                            | -          | 현재 위치(1부터, 필수)                   |
+| `total`   | `number`                                            | -          | 전체 개수(필수). `PageDots`는 2\~7개예요 |
+
+## Guidelines
+
+<PageIndicatorGuide />
+
+- 점은 7개 이하일 때만 써요. 8개 이상이면 `PageCounter`를 써요.
+- 이미지 위에서는 `white`를 써서 대비를 확보해요.
+- 점으로 클릭 이동을 만들지 않아요. 표시 전용이에요.
+- 현재 위치가 아닌 점을 눈에 띄는 색으로 칠하지 않아요.
+- 스크린리더에는 "5개 중 2번째"처럼 읽혀요.

@@ -1825,3 +1825,12 @@ main > p + table {
 .docs-white-stage {
   background: var(--mint-background-default);
 }
+
+/* Framed 미리보기의 내용 자리(Figma Content Placeholder) */
+.docs-framed-placeholder {
+  display: block;
+  flex: 1;
+  height: 40px;
+  border-radius: 8px;
+  background: var(--mint-fill-neutral-weak);
+}

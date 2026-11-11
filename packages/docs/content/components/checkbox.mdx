@@ -1,0 +1,66 @@
+# Checkbox
+
+여러 개를 고르거나 한 항목을 켜고 끄는 작은 컨트롤이에요.
+
+<ComponentBadges />
+
+<Figure height={240} />
+
+선택 방식에 따라 컨트롤을 골라요. 목록에서 선택 표시만 필요하면 [Check mark](/components/check-mark)를 써요.
+
+|      | Checkbox                 | Radio                 | Switch                  |
+| ---- | ------------------------ | --------------------- | ----------------------- |
+| 선택 | 여러 개를 고를 수 있어요 | 하나만 고를 수 있어요 | 켜짐과 꺼짐 두 가지예요 |
+| 반영 | 제출할 때 적용돼요       | 제출할 때 적용돼요    | 누르면 바로 적용돼요    |
+| 예시 | 관심 분야, 약관 동의     | 결제 수단, 정렬 기준  | 알림 켜기               |
+
+## Playground
+
+오른쪽에서 props를 바꾸면 미리보기와 아래 코드가 함께 바뀌어요. 미리보기의 체크박스는 직접 눌러 볼 수 있어요.
+
+<CheckboxPlayground />
+
+## Examples
+
+<ExampleTabs
+  items={[
+    { title: "전체 선택", name: "checkbox/SelectAll" },
+    { title: "폼", name: "checkbox/Form" },
+    { title: "촘촘한 목록", name: "checkbox/Tight" },
+    { title: "상태", name: "checkbox/States" },
+  ]}
+/>
+
+- **전체 선택**: 하위 항목이 일부만 선택되면 전체 선택 칸에 `indeterminate`를 켜요. 전체 선택 칸은 `bold`로 강조해요.
+- **폼**: `name`과 `value`를 주면 폼을 제출할 때 고른 값이 그대로 넘어가요. `defaultChecked`로 처음 상태를 정해요.
+- **촘촘한 목록**: `tight`는 바깥 여백을 없애요(높이 24). 줄 간격은 감싸는 쪽에서 정해요.
+- **상태**: 체크 안 됨·체크됨·일부 선택과 각각의 비활성 모양이에요.
+
+## Props
+
+나머지 `<input>` 속성도 그대로 받아요(`className`·`style`은 바깥 레이블에 붙어요).\
+클라이언트 컴포넌트라서 `onChange`는 클라이언트 컴포넌트 안에서 넘겨요.
+
+| 이름             | 타입                                             | 기본값  | 설명                                                      |
+| ---------------- | ------------------------------------------------ | ------- | --------------------------------------------------------- |
+| `bold`           | `boolean`                                        | `false` | 레이블을 굵게. 전체 선택 같은 강조 레이블에 써요          |
+| `tight`          | `boolean`                                        | `false` | 바깥 여백을 없앤 촘촘한 모양(높이 40 → 24)                |
+| `children`       | `ReactNode`                                      | -       | 레이블. 없으면 `aria-label`을 꼭 줘요                     |
+| `checked`        | `boolean`                                        | -       | 체크 여부(제어)                                           |
+| `defaultChecked` | `boolean`                                        | -       | 처음 체크 여부(비제어)                                    |
+| `indeterminate`  | `boolean`                                        | `false` | 하위 항목 일부만 선택된 상태. 가로 막대로 보여요          |
+| `disabled`       | `boolean`                                        | `false` | 누를 수 없는 상태                                         |
+| `name`·`value`   | `string`                                         | -       | 폼으로 제출할 이름과 값                                   |
+| `onChange`       | `(event: ChangeEvent<HTMLInputElement>) => void` | -       | 켜거나 끌 때 불려요. `event.target.checked`로 값을 읽어요 |
+
+## Guidelines
+
+<CheckboxGuide />
+
+- 레이블은 선택하면 어떻게 되는지 한 문장으로 써요.
+- 전체 선택과 하위 선택은 `indeterminate`로 연결해요.
+- 하나만 고르는 경우에 Checkbox를 쓰지 않아요. [Radio](/components/radio)를 써요.
+- 눌렀을 때 바로 동작이 일어나는 설정에 쓰지 않아요. Switch를 써요.
+- 체크 박스 칸뿐 아니라 레이블을 눌러도 선택돼요.
+- 터치 영역은 44px 이상이에요. 박스가 20px이라도 레이블을 포함해 영역이 넓어져요.
+- 레이블 없이 쓰면 `aria-label`을 꼭 붙여요.

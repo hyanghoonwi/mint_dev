@@ -19,7 +19,20 @@ import {
 } from "./src/components/site/AvatarDocs";
 import { AlertGuide, AlertPlayground } from "./src/components/site/AlertDocs";
 import { BadgeGuide, BadgePlayground } from "./src/components/site/BadgeDocs";
+import { CategoryGuide, CategoryPlayground } from "./src/components/site/CategoryDocs";
+import { PaginationGuide, PaginationPlayground } from "./src/components/site/PaginationDocs";
+import {
+  PageIndicatorGuide,
+  PageIndicatorPlayground,
+} from "./src/components/site/PageIndicatorDocs";
+import { CheckMarkGuide, CheckMarkPlayground } from "./src/components/site/CheckMarkDocs";
+import { CheckboxGuide, CheckboxPlayground } from "./src/components/site/CheckboxDocs";
+import { ChipGuide, ChipPlayground } from "./src/components/site/ChipDocs";
+import { RadioGuide, RadioPlayground } from "./src/components/site/RadioDocs";
+import { FramedGuide, FramedPlayground } from "./src/components/site/FramedDocs";
 import { CircularGuide, CircularPlayground } from "./src/components/site/CircularDocs";
+import { TextGuide, TextPlayground } from "./src/components/site/TextDocs";
+import { IconButtonGuide, IconButtonPlayground } from "./src/components/site/IconButtonDocs";
 import {
   SkeletonCirclePlayground,
   SkeletonGuide,
@@ -37,10 +50,7 @@ import {
   TypeScale,
 } from "./src/components/site/Foundations";
 import { IconGallery } from "./src/components/site/IconGallery";
-import {
-  ComponentCards,
-  FoundationCards,
-} from "./src/components/site/Catalog";
+import { ComponentCards, FoundationCards } from "./src/components/site/Catalog";
 import { Home } from "./src/components/site/Home";
 
 const docsComponents = getDocsMDXComponents();
@@ -91,6 +101,26 @@ export function useMDXComponents(components?: MDXComponents) {
     AvatarGroupGuide,
     BadgePlayground,
     BadgeGuide,
+    PaginationPlayground,
+    PaginationGuide,
+    PageIndicatorPlayground,
+    PageIndicatorGuide,
+    CategoryPlayground,
+    CategoryGuide,
+    FramedPlayground,
+    FramedGuide,
+    RadioPlayground,
+    RadioGuide,
+    ChipPlayground,
+    ChipGuide,
+    CheckboxPlayground,
+    CheckboxGuide,
+    CheckMarkPlayground,
+    CheckMarkGuide,
+    IconButtonPlayground,
+    IconButtonGuide,
+    TextPlayground,
+    TextGuide,
     CircularPlayground,
     CircularGuide,
     SkeletonTextPlayground,
