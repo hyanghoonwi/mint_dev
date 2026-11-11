@@ -25,7 +25,7 @@ const meta = {
     },
     color: {
       control: "select",
-      options: [undefined, "strong", "primary", "secondary", "tertiary", "brand", "danger"],
+      options: ["primary", "strong", "secondary", "tertiary", "brand", "danger", "inherit"],
     },
     lines: { control: "inline-radio", options: [undefined, 1, 2, 3, 4] },
     as: { control: "text" },
@@ -85,4 +85,38 @@ export const Lines: Story = {
       </div>
     ),
   ],
+};
+
+// 구간별 값: 모바일 Title 3 → 데스크톱(1024px~) Title 1
+export const Responsive: Story = {
+  args: {
+    variant: { base: "title-3-bold", desktop: "title-1-bold" },
+    as: "h1",
+    children: "내 자산",
+  },
+  play: async ({ canvas }) => {
+    await expect(canvas.getByRole("heading", { level: 1 })).toHaveClass(
+      "text-title-3-bold",
+      "desktop:text-title-1-bold",
+    );
+  },
+};
+
+// 색을 주지 않아도 토큰 색(primary). inherit을 줄 때만 감싼 요소의 색을 따른다
+export const DefaultColor: Story = {
+  render: () => (
+    <div style={{ color: "rgb(255, 0, 0)" }}>
+      <Text variant="body-2-regular">기본 primary</Text>
+      <Text variant="body-2-regular" color="inherit">
+        inherit
+      </Text>
+    </div>
+  ),
+  play: async ({ canvas }) => {
+    await expect(canvas.getByText("기본 primary")).toHaveClass("text-text-primary");
+    await expect(getComputedStyle(canvas.getByText("기본 primary")).color).not.toBe(
+      "rgb(255, 0, 0)",
+    );
+    await expect(getComputedStyle(canvas.getByText("inherit")).color).toBe("rgb(255, 0, 0)");
+  },
 };

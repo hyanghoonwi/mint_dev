@@ -46,14 +46,14 @@ export function TextPlayground() {
             "danger",
             "success",
           ],
-          default: "inherit",
+          default: "primary",
         },
         { prop: "children", type: "text", default: "비트코인이 1억을 넘었어요" },
       ]}
       render={(v) => (
         <Text
           variant={`${v.role}-${v.number}-${v.weight}` as TextVariant}
-          color={v.color === "inherit" ? undefined : (v.color as TextColor)}
+          color={v.color as TextColor}
         >
           {v.children as string}
         </Text>
@@ -63,7 +63,7 @@ export function TextPlayground() {
           "Text",
           {
             variant: `${v.role}-${v.number}-${v.weight}`,
-            color: v.color === "inherit" ? undefined : (v.color as string),
+            color: v.color !== "primary" ? (v.color as string) : undefined,
           },
           v.children as string,
         )
