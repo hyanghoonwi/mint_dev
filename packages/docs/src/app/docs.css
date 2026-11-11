@@ -33,6 +33,10 @@ body {
   color: var(--docs-text);
   font-family: var(--docs-sans);
   -webkit-font-smoothing: antialiased;
+  /* 한국어는 기본이 글자 단위 줄바꿈이라 단어 중간이 잘린다. 단어(띄어쓰기) 단위로 바꾸고,
+     한 단어가 줄보다 길 때(긴 주소·클래스 이름)만 단어 안에서 넘긴다 */
+  word-break: keep-all;
+  overflow-wrap: break-word;
 }
 
 /* 어두운 배경용 이미지는 쓰지 않는다(라이트 화면만 있음) */
@@ -737,94 +741,300 @@ main table td:first-child code {
 }
 
 /* ---------- 파운데이션 ---------- */
-.docs-scales {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-  margin-bottom: 24px;
-}
-
+/* 묶음 이름(아이콘 갤러리의 분류 이름) */
 .docs-scales__name {
   margin: 0 0 8px !important;
   color: var(--docs-text) !important;
   font: 600 13px/1 var(--docs-mono) !important;
 }
 
-.docs-scale {
+/* Colors: Semantic / Atomic 탭 (Figma Color - Atomic 6:2 견본, Token 18:2 표) */
+.docs-colors {
   display: flex;
-  overflow: hidden;
-  border: 1px solid var(--docs-line);
-  border-radius: var(--docs-r-sm);
+  flex-direction: column;
+  gap: 48px;
+  margin: 8px 0 24px;
 }
 
-.docs-scale__chip {
+.docs-colors__title {
+  margin: 0 0 8px !important;
+  color: var(--docs-text);
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 28px;
+}
+
+.docs-colors__desc {
+  margin: 0 0 16px !important;
+  color: var(--docs-text2);
+  font-size: 13px;
+  line-height: 20px;
+}
+
+.docs-colors__desc code,
+.docs-token code {
+  font-family: var(--docs-mono);
+  font-size: 13px;
+}
+
+/* 견본 카드: 색 칸 120×72 · 이름 · 값 · 흰 배경 대비 · 용도 */
+.docs-atomic {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: 24px 16px;
+}
+
+.docs-atomic__card {
   display: flex;
   min-width: 0;
-  height: 96px;
-  flex: 1;
   flex-direction: column;
-  justify-content: flex-end;
-  gap: 4px;
-  padding: 10px;
+  gap: 6px;
 }
 
-.docs-scale__step {
-  font: 600 13px/1 var(--docs-mono);
+.docs-atomic__chip {
+  height: 72px;
+  margin-bottom: 0;
+  border-radius: 8px;
+  box-shadow: inset 0 0 0 1px rgb(10 18 38 / 6%);
 }
 
-.docs-scale__hex {
-  font: 400 10px/1 var(--docs-mono);
-  opacity: 0.85;
+.docs-atomic__name {
+  color: var(--docs-text);
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 21px;
 }
 
-.docs-swatch {
-  display: inline-block;
-  width: 28px;
-  height: 18px;
-  border: 1px solid var(--docs-line2);
-  border-radius: 4px;
-  vertical-align: middle;
+.docs-atomic__meta {
+  color: var(--docs-text2);
+  font-size: 12px;
+  line-height: 18px;
 }
 
-.docs-type-scale {
-  margin-bottom: 24px;
+.docs-atomic__usage {
+  color: var(--docs-text3);
+  font-size: 12px;
+  line-height: 17px;
+}
+
+/* Token 표: 이름(점 + 토큰) | 값 [| 설명] */
+.docs-token__head,
+.docs-token__row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 120px;
+  align-items: center;
+  gap: 16px;
+}
+
+.docs-token--semantic .docs-token__head,
+.docs-token--semantic .docs-token__row {
+  grid-template-columns: minmax(0, 1.1fr) 96px minmax(0, 1fr);
+}
+
+.docs-token__head {
+  padding: 20px 0 14px;
+  color: var(--docs-text3);
+  font-size: 12px;
+  line-height: 18px;
+}
+
+.docs-token__group {
+  padding: 8px 0 10px;
   border-top: 1px solid var(--docs-line);
 }
 
-.docs-type-row {
-  display: grid;
-  grid-template-columns: 150px 1fr auto;
+.docs-token__group-title {
+  margin: 8px 0 4px !important;
+  color: var(--docs-text);
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 20px;
+}
+
+.docs-token__row {
+  min-height: 32px;
+  color: var(--docs-text);
+  font-size: 14px;
+  line-height: 20px;
+}
+
+.docs-token__name {
+  display: flex;
+  min-width: 0;
   align-items: center;
+  gap: 12px;
+  overflow-wrap: anywhere;
+}
+
+.docs-token__dot {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  box-shadow: inset 0 0 0 1px rgb(10 18 38 / 8%);
+}
+
+.docs-token__value {
+  font-family: var(--docs-mono);
+  font-size: 13px;
+}
+
+.docs-token__desc {
+  color: var(--docs-text2);
+  font-size: 13px;
+}
+
+.docs-token__desc code {
+  margin-right: 4px;
+  color: var(--docs-text3);
+  font-size: 12px;
+}
+
+/* 모바일: 설명은 이름 아래 줄로 내린다 */
+@media (max-width: 767px) {
+  .docs-token--semantic .docs-token__head,
+  .docs-token--semantic .docs-token__row {
+    grid-template-columns: minmax(0, 1fr) 88px;
+  }
+
+  .docs-token--semantic .docs-token__head > :last-child {
+    display: none;
+  }
+
+  .docs-token--semantic .docs-token__desc {
+    grid-column: 1 / -1;
+    margin: -4px 0 6px 28px;
+  }
+}
+
+/* Typography 견본 (Figma Specimen / Typography 32:61) */
+.docs-typeface {
+  display: flex;
+  min-height: 132px;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  border-radius: 16px;
+  background: var(--mint-fill-neutral-medium);
+  color: var(--mint-text-strong);
+  font-size: clamp(28px, 6vw, 48px);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.4;
+  text-align: center;
+  overflow-wrap: anywhere;
+}
+
+.docs-typeface__accent {
+  color: var(--color-atomic-gray-500);
+}
+
+.docs-type {
+  display: flex;
+  flex-direction: column;
+  gap: 56px;
+  margin-bottom: 24px;
+}
+
+.docs-type__title {
+  margin: 0 0 8px !important;
+  color: var(--docs-text);
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 34px;
+}
+
+.docs-type__desc {
+  margin: 0 !important;
+  padding-bottom: 12px;
+  border-bottom: 2px solid var(--docs-text);
+  color: var(--docs-text2);
+  font-size: 13px;
+  line-height: 20px;
+}
+
+/* 크기 한 줄: 왼쪽 수치(160) · 오른쪽 굵기별 보기 문장 */
+.docs-type__size {
+  display: grid;
+  grid-template-columns: 160px minmax(0, 1fr);
   gap: 24px;
-  padding: 18px 0;
+  padding: 20px 0;
   border-bottom: 1px solid var(--docs-line);
 }
 
-.docs-type-row__meta {
+.docs-type__meta {
   display: flex;
   flex-direction: column;
   gap: 4px;
+  color: var(--docs-text2);
+  font-size: 13px;
+  line-height: 20px;
 }
 
-.docs-type-row__meta code {
-  padding: 0 !important;
-  background: none !important;
-  color: var(--docs-text) !important;
+.docs-type__meta strong {
+  color: var(--docs-text);
+  font-size: 16px;
   font-weight: 600;
+  line-height: 24px;
 }
 
-.docs-type-row__sample {
+.docs-type__weights {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.docs-type__row {
+  display: grid;
+  grid-template-columns: 120px minmax(0, 1fr);
+  align-items: baseline;
+  gap: 16px;
+}
+
+.docs-type__weight {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  color: var(--docs-text3);
+  font-size: 12px;
+  line-height: 18px;
+}
+
+.docs-type__weight code {
+  color: var(--docs-text3);
+  font: 400 11px/16px var(--docs-mono);
+}
+
+/* 데스크톱은 Figma처럼 한 줄로 두고 넘치면 말줄임 */
+.docs-type__sample {
   min-width: 0;
   overflow: hidden;
-  color: var(--docs-text);
+  color: var(--mint-text-strong);
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
-.docs-type-row__weights {
-  color: var(--docs-text3);
-  font: 400 11px/1.4 var(--docs-mono);
-  text-align: right;
+/* 모바일: 수치를 위로, 굵기 이름을 보기 문장 위로 */
+@media (max-width: 767px) {
+  .docs-type__size {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .docs-type__row {
+    grid-template-columns: 1fr;
+    gap: 4px;
+  }
+
+  .docs-type__weight {
+    flex-direction: row;
+    gap: 8px;
+  }
+
+  .docs-type__sample {
+    white-space: normal;
+  }
 }
 
 .docs-spacing {
@@ -1021,15 +1231,6 @@ main > .docs-panel {
 
   .docs-hero {
     padding: 28px 20px;
-  }
-
-  .docs-type-row {
-    grid-template-columns: 1fr;
-    gap: 6px;
-  }
-
-  .docs-type-row__weights {
-    text-align: left;
   }
 
   .docs-spacing__row {
@@ -1777,8 +1978,11 @@ main > :is(.docs-tabs, .docs-dodont) + ul {
   }
 }
 
-/* Props 표 위 안내 문장과 표 사이 24px */
-main > p + table {
+/* 글 다음에 오는 그림 블록(표·예시·코드·토큰 목록·탭)은 위에 24px을 띄운다.
+   블록 쪽에 위 여백이 없어서 글 바로 밑에 붙어 보였다. 제목 아래 뱃지(16px)는 따로 정한다 */
+main
+  > :is(p, ul, ol)
+  + :is(table, div, .docs-page-link):not(.docs-component-badges, .nextra-callout) {
   margin-top: 24px;
 }
 
@@ -1833,4 +2037,123 @@ main > p + table {
   height: 40px;
   border-radius: 8px;
   background: var(--mint-fill-neutral-weak);
+}
+
+/* 다른 페이지로 가는 링크 카드(PageLink) */
+.docs-page-link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 20px 24px;
+  border: 1px solid var(--docs-line);
+  border-radius: var(--docs-r-sm);
+  color: var(--docs-text);
+  text-decoration: none;
+  transition:
+    border-color 0.15s,
+    background-color 0.15s;
+}
+
+.docs-page-link:hover {
+  border-color: var(--docs-line2);
+  background: var(--docs-surface);
+}
+
+.docs-page-link:focus-visible {
+  outline: 2px solid var(--docs-accent);
+  outline-offset: 2px;
+}
+
+.docs-page-link__text {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.docs-page-link__text strong {
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 24px;
+}
+
+.docs-page-link__text span {
+  color: var(--docs-text2);
+  font-size: 14px;
+  line-height: 20px;
+}
+
+.docs-page-link__arrow {
+  flex-shrink: 0;
+  font-size: 20px;
+}
+
+main > .docs-page-link + p {
+  margin-top: 24px;
+}
+
+/* 코드 복사 버튼(CopyCode): 모든 코드 블록 오른쪽 위. 어두운 코드 배경 위라 밝은 글자로 둔다 */
+.docs-copy-code {
+  position: relative;
+}
+
+.docs-copy-code__button {
+  position: absolute;
+  z-index: 1;
+  top: 10px;
+  right: 10px;
+  display: inline-flex;
+  height: 30px;
+  align-items: center;
+  gap: 6px;
+  padding: 0 10px;
+  border: 1px solid #2f2f34;
+  border-radius: 8px;
+  background: #1a1a1d;
+  color: #c9c9cf;
+  font: 500 12px/1 var(--docs-sans);
+  cursor: pointer;
+  transition:
+    background-color 0.15s,
+    color 0.15s;
+}
+
+.docs-copy-code__button:hover {
+  background: #26262a;
+  color: #ffffff;
+}
+
+.docs-copy-code__button:focus-visible {
+  outline: 2px solid #ffffff;
+  outline-offset: 2px;
+}
+
+.docs-copy-code__button[data-copied] {
+  color: #6ee7a8;
+}
+
+/* Nextra 기본 복사·줄바꿈 버튼은 쓰지 않는다(위 버튼과 겹침) */
+.docs-copy-code div.nextra-code pre > div:first-child:has(button) {
+  display: none;
+}
+
+/* 첫 줄 코드가 버튼 밑에 가리지 않게 오른쪽 여백을 둔다 */
+.docs-copy-code pre {
+  padding-right: 96px !important;
+}
+
+@media (max-width: 767px) {
+  .docs-copy-code__label {
+    display: none;
+  }
+
+  .docs-copy-code__button {
+    width: 30px;
+    justify-content: center;
+    padding: 0;
+  }
+
+  .docs-copy-code pre {
+    padding-right: 48px !important;
+  }
 }

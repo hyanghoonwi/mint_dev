@@ -1,6 +1,6 @@
 import { Button, PlusIcon, ArrowRightIcon } from "@futurewiz-rms/mint";
 
-// 버튼 안의 아이콘은 버튼 크기에 맞게 자동으로 조절됩니다
+// 버튼 안의 아이콘은 버튼 크기에 맞게 자동으로 맞춰져요
 export default function WithButton() {
   return (
     <>

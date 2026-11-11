@@ -1,38 +1,46 @@
-# 아이콘
+# Icons
 
-Phosphor Icons 기반의 아이콘 183개입니다. 아이콘마다 컴포넌트가 하나씩 있어서, 쓰는 아이콘만 앱에 포함됩니다. 서버 컴포넌트에서도 그대로 쓸 수 있습니다.
+아이콘 183개를 컴포넌트로 바로 가져다 써요. 쓰는 아이콘만 앱에 들어가고, 서버 컴포넌트에서도 그대로 써요.
 
-## 사용법
+## Gallery
 
-<Example name="icon/Basic" />
+이름으로 찾고, 선·채움을 바꿔 볼 수 있어요. 아이콘을 누르면 컴포넌트 이름이 복사돼요.
 
-크기는 24px, 모양은 선(`line`)이 기본입니다.
+<IconGallery />
 
-## 크기
+## Examples
 
-`size`는 `16` · `20` · `24` 중에서 고릅니다.
+<ExampleTabs
+  items={[
+    { title: "크기", name: "icon/Sizes" },
+    { title: "선과 채움", name: "icon/Variants" },
+    { title: "색", name: "icon/Color" },
+    { title: "이름 붙이기", name: "icon/Label" },
+    { title: "버튼 안", name: "icon/WithButton" },
+  ]}
+/>
 
-<Example name="icon/Sizes" />
+- **크기**: `size`는 `16` · `20` · `24` 중에서 골라요.
+- **선과 채움**: `variant`로 선(`line`)과 채움(`fill`)을 바꿔요.
+- **색**: 아이콘은 글자 색을 따라가요. `text-icon-*` 클래스로 정해요.
+- **이름 붙이기**: 아이콘만으로 뜻을 전하는 곳에는 `aria-label`을 줘요.
+- **버튼 안**: 버튼에 넣은 아이콘은 버튼 크기에 맞춰져요.
 
-## 선과 채움
+## Props
 
-<Example name="icon/Variants" />
+나머지 `<svg>` 속성도 그대로 받아요.\
+훅을 쓰지 않아서 서버 컴포넌트에서 바로 쓸 수 있어요.
 
-## 색
+| 이름         | 타입               | 기본값   | 설명                                      |
+| ------------ | ------------------ | -------- | ----------------------------------------- |
+| `size`       | `16 \| 20 \| 24`   | `24`     | 크기(px)                                  |
+| `variant`    | `"line" \| "fill"` | `"line"` | 선 또는 채움                              |
+| `aria-label` | `string`           | -        | 아이콘만으로 뜻을 전할 때 읽힐 이름       |
+| `className`  | `string`           | -        | 추가 클래스. 색은 글자 색 클래스로 정해요 |
 
-아이콘은 글자색을 따라갑니다. 글자색 클래스로 지정합니다.
+## Guidelines
 
-<Example name="icon/Color" />
-
-## 접근성
-
-아이콘은 기본적으로 장식용이라 스크린 리더가 읽지 않습니다. 아이콘만으로 뜻을 전하는 곳에는 `aria-label`을 줍니다.
-
-<Example name="icon/Label" />
-
-## 이름 규칙
-
-Figma의 아이콘 이름을 PascalCase로 바꾸고 `Icon`을 붙입니다.
+컴포넌트 이름은 Figma의 아이콘 이름을 PascalCase로 바꾸고 `Icon`을 붙여요.
 
 | Figma 이름         | 컴포넌트              |
 | ------------------ | --------------------- |
@@ -40,19 +48,7 @@ Figma의 아이콘 이름을 PascalCase로 바꾸고 `Icon`을 붙입니다.
 | `magnifying-glass` | `MagnifyingGlassIcon` |
 | `x`                | `XIcon`               |
 
-## 전체 아이콘
-
-이름으로 찾고, 선·채움을 바꿔 볼 수 있습니다. 아이콘을 누르면 컴포넌트 이름이 복사됩니다.
-
-<IconGallery />
-
-## Props
-
-| Prop         | 타입               | 기본값   | 설명                                         |
-| ------------ | ------------------ | -------- | -------------------------------------------- |
-| `size`       | `16 \| 20 \| 24`   | `24`     | 크기(px)                                     |
-| `variant`    | `"line" \| "fill"` | `"line"` | 선 또는 채움                                 |
-| `aria-label` | `string`           | -        | 아이콘만으로 뜻을 전할 때 읽힐 이름          |
-| `className`  | `string`           | -        | 추가 클래스. 색은 글자색 클래스로 지정합니다 |
-
-나머지 `<svg>` 속성도 그대로 받습니다. 아이콘 도형은 [Phosphor Icons](https://phosphoricons.com)(MIT)입니다.
+- 아이콘은 기본적으로 장식용이라 스크린리더가 읽지 않아요. 글자 없이 아이콘만 있으면 `aria-label`을 줘요.
+- 색은 `text-icon-*` 클래스로만 정해요. hex 값을 쓰지 않아요.
+- 누르는 아이콘은 아이콘 대신 [`IconButton`](/components/icon-button)을 써요.
+- 아이콘 도형은 [Phosphor Icons](https://phosphoricons.com)(MIT)예요.

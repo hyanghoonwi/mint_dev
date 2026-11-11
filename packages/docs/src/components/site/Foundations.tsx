@@ -1,419 +1,155 @@
 "use client";
 
-import { useMemo, useSyncExternalStore } from "react";
 import { Grid } from "@futurewiz-rms/mint";
 
-const steps = [50, 100, 200, 300, 400, 500, 600, 700, 800, 900];
+// Figma `Specimen / Typography`(32:61) 모양: 역할 묶음 → 크기별 줄(왼쪽 수치, 오른쪽 굵기별 보기 문장)
+const weightNames: Record<string, string> = {
+  regular: "Regular 400",
+  medium: "Medium 500",
+  semibold: "SemiBold 600",
+  bold: "Bold 700",
+};
 
-const scales: { name: string; tokens: string[] }[] = [
-  { name: "gray", tokens: [...steps, 950].map((step) => `gray-${step}`) },
-  ...["teal", "green", "blue", "red", "orange", "yellow", "lime", "violet", "purple", "pink"].map(
-    (hue) => ({ name: hue, tokens: steps.map((step) => `${hue}-${step}`) }),
-  ),
+const typeGroups: {
+  role: string;
+  title: string;
+  description: string;
+  tracking: Record<number, string>;
+  weights: string[];
+  sample: string;
+  sizes: [step: number, size: number, lineHeight: number][];
+}[] = [
+  {
+    role: "display",
+    title: "Display",
+    description: "랜딩, 히어로 등 가장 큰 문구 · 한 화면에 하나만 써요.",
+    tracking: { 1: "-2%", 2: "-2%", 3: "-2%" },
+    weights: ["semibold", "bold"],
+    sample: "큰 문구 Aa 123",
+    sizes: [
+      [1, 52, 68],
+      [2, 40, 52],
+      [3, 36, 48],
+    ],
+  },
+  {
+    role: "title",
+    title: "Title",
+    description: "페이지 제목, 큰 섹션 제목에 써요.",
+    tracking: { 1: "-2%", 2: "-1.5%", 3: "-1.5%" },
+    weights: ["medium", "semibold", "bold"],
+    sample: "타이틀 Aa 123",
+    sizes: [
+      [1, 32, 44],
+      [2, 28, 38],
+      [3, 24, 34],
+    ],
+  },
+  {
+    role: "heading",
+    title: "Heading",
+    description: "섹션, 카드, 모달 제목에 써요.",
+    tracking: { 1: "-1%", 2: "-1%", 3: "-0.5%" },
+    weights: ["medium", "semibold", "bold"],
+    sample: "섹션 제목을 입력하세요 Aa 123",
+    sizes: [
+      [1, 22, 32],
+      [2, 20, 30],
+      [3, 18, 26],
+    ],
+  },
+  {
+    role: "body",
+    title: "Body",
+    description:
+      "기본 본문은 Body 2(16px)예요. Body 1은 아티클 같은 긴 글, Body 3은 카드·리스트 설명, Body 4는 표처럼 밀도 높은 UI, Body 5는 보조 본문에 써요.",
+    tracking: { 1: "0%", 2: "0%", 3: "0%", 4: "0%", 5: "0%" },
+    weights: ["regular", "medium", "semibold", "bold"],
+    sample: "다람쥐 헌 쳇바퀴에 타고파. The quick brown fox",
+    sizes: [
+      [1, 17, 28],
+      [2, 16, 24],
+      [3, 15, 22],
+      [4, 14, 22],
+      [5, 13, 20],
+    ],
+  },
+  {
+    role: "label",
+    title: "Label",
+    description: "버튼, 탭, 칩, 입력 라벨에 써요. 한 줄 전용이라 두 줄이 될 수 있으면 Body를 써요.",
+    tracking: { 1: "0%", 2: "0%", 3: "0%" },
+    weights: ["medium", "semibold", "bold"],
+    sample: "버튼 라벨 Label 123",
+    sizes: [
+      [1, 16, 20],
+      [2, 14, 20],
+      [3, 12, 16],
+    ],
+  },
+  {
+    role: "caption",
+    title: "Caption",
+    description: "날짜, 도움말, 각주에 써요.",
+    tracking: { 1: "0%", 2: "0%" },
+    weights: ["regular", "medium", "semibold"],
+    sample: "날짜와 도움말 Caption 123",
+    sizes: [
+      [1, 12, 18],
+      [2, 11, 16],
+    ],
+  },
 ];
 
-// 아토믹 색은 테마와 상관없는 고정값이라 바뀔 일이 없다(구독할 것이 없음)
-const subscribeNothing = () => () => {};
-
-// 값은 MINT 스타일에 들어 있는 CSS 변수에서 읽는다(문서에 숫자를 따로 적지 않아서 실제 값과 어긋나지 않는다).
-// 브라우저에서만 읽을 수 있어서 서버 렌더에서는 빈 값이고, 화면이 뜬 뒤 채워진다.
-// 매번 같은 값이 나와야 하므로 문자열("토큰=값;…")로 읽은 뒤 객체로 바꾼다.
-function useAtomicHex(tokens: string[]) {
-  const snapshot = useSyncExternalStore(
-    subscribeNothing,
-    () => {
-      const style = getComputedStyle(document.documentElement);
-      return tokens
-        .map((token) => `${token}=${style.getPropertyValue(`--color-atomic-${token}`).trim()}`)
-        .join(";");
-    },
-    () => "",
-  );
-  return useMemo(
-    () =>
-      Object.fromEntries(
-        snapshot
-          .split(";")
-          .filter(Boolean)
-          .map((pair) => {
-            const [token, value] = pair.split("=");
-            return [token, value.toUpperCase()];
-          }),
-      ) as Record<string, string>,
-    [snapshot],
-  );
-}
-
-function isLight(hex: string) {
-  const value = hex.replace("#", "");
-  if (value.length < 6) return true;
-  const [r, g, b] = [0, 2, 4].map((i) => parseInt(value.slice(i, i + 2), 16) / 255);
-  return 0.2126 * r + 0.7152 * g + 0.0722 * b > 0.55;
-}
-
-/** 아토믹 컬러를 시안의 색 띠 모양으로 보여 준다 */
-export function ColorScales() {
-  const all = scales.flatMap((scale) => scale.tokens);
-  const hex = useAtomicHex(all);
+/** 글꼴 견본(Figma Typeface): 회색 칸에 Pretendard 보기 문장 */
+export function Typeface() {
   return (
-    <div className="docs-scales">
-      {scales.map((scale) => (
-        <div key={scale.name}>
-          <p className="docs-scales__name">{scale.name}</p>
-          <div className="docs-scale">
-            {scale.tokens.map((token) => (
-              <div
-                key={token}
-                className="docs-scale__chip"
-                style={{
-                  background: `var(--color-atomic-${token})`,
-                  color: hex[token] && !isLight(hex[token]) ? "#FFFFFF" : "#0B1612",
-                }}
-              >
-                <span className="docs-scale__step">{token.split("-").pop()}</span>
-                <span className="docs-scale__hex">{hex[token] ?? ""}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-      ))}
+    <div className="docs-typeface" aria-label="Pretendard 프리텐다드 Aa123">
+      <span aria-hidden="true">
+        Pretendard프리텐다드<span className="docs-typeface__accent">Aa123</span>
+      </span>
     </div>
   );
 }
 
-export const semanticGroups: {
-  group: string;
-  title: string;
-  prefix: string;
-  tokens: [name: string, atomic: string, usage: string][];
-}[] = [
-  {
-    group: "background",
-    title: "Background · 배경",
-    prefix: "bg",
-    tokens: [
-      ["default", "white", "기본 화면 배경"],
-      ["lower", "gray-100", "한 단계 낮은 영역 배경(섹션 구분)"],
-      ["upper", "grayAlpha-50", "카드 위에 얹는 약한 배경"],
-      ["floated", "white", "떠 있는 요소(모달, 시트) 배경"],
-      ["dim", "grayAlpha-300", "모달 뒤 어두운 막"],
-    ],
-  },
-  {
-    group: "border",
-    title: "Border · 테두리",
-    prefix: "border",
-    tokens: [
-      ["default", "grayAlpha-200", "기본 구분선, 테두리"],
-      ["strong", "gray-300", "입력창, Outline 버튼 테두리"],
-      ["thick", "gray-100", "두꺼운 구분 영역"],
-      ["focus", "gray-900", "키보드 포커스 링"],
-      ["disabled", "gray-200", "비활성 테두리"],
-      ["brand", "blue-600", "선택, 강조 테두리(브랜드)"],
-      ["selected", "gray-900", "선택됨 테두리(Neutral)"],
-    ],
-  },
-  {
-    group: "text",
-    title: "Text · 글자",
-    prefix: "text",
-    tokens: [
-      ["strong", "gray-900", "가장 강한 텍스트(제목, 버튼)"],
-      ["primary", "gray-800", "본문 기본"],
-      ["secondary", "gray-700", "보조 설명"],
-      ["tertiary", "gray-600", "부가 정보"],
-      ["subtle", "gray-500", "플레이스홀더, 힌트"],
-      ["disabled", "gray-400", "비활성 텍스트"],
-      ["brand", "blue-600", "브랜드 텍스트, 링크"],
-      ["brand-pressed", "blue-700", "브랜드 텍스트 눌림"],
-      ["danger", "red-600", "오류, 위험"],
-      ["success", "green-800", "성공"],
-      ["warning", "orange-800", "경고"],
-      ["on-fill", "white", "채움 배경 위 텍스트"],
-      ["on-fill-warning", "gray-900", "경고 채움 배경 위 텍스트"],
-    ],
-  },
-  {
-    group: "fill",
-    title: "Fill · 면",
-    prefix: "bg",
-    tokens: [
-      ["brand", "blue-600", "브랜드 채움(Primary 버튼)"],
-      ["brand-pressed", "blue-700", "브랜드 눌림"],
-      ["brand-weak", "blue-50", "브랜드 옅은 배경"],
-      ["brand-weak-pressed", "blue-100", "브랜드 옅은 배경 눌림"],
-      ["neutral", "gray-900", "중립 채움(Neutral 버튼, 선택된 Chip)"],
-      ["neutral-pressed", "gray-800", "중립 채움 눌림"],
-      ["neutral-weak", "gray-100", "중립 옅은 배경(Secondary, Chip 기본)"],
-      ["neutral-weak-pressed", "gray-200", "중립 옅은 배경 눌림"],
-      ["neutral-medium", "gray-200", "중립 중간 배경(배경 있는 아이콘 버튼)"],
-      ["neutral-medium-pressed", "gray-300", "중립 중간 배경 눌림"],
-      ["danger", "red-600", "위험 채움(Destructive)"],
-      ["danger-pressed", "red-700", "위험 눌림"],
-      ["danger-weak", "red-50", "위험 옅은 배경"],
-      ["success", "green-500", "성공 채움"],
-      ["success-weak", "green-50", "성공 옅은 배경"],
-      ["warning", "orange-500", "경고 채움"],
-      ["warning-weak", "orange-50", "경고 옅은 배경"],
-      ["pressed", "grayAlpha-100", "누름 오버레이(배경 없는 요소의 눌림)"],
-      ["disabled", "gray-100", "비활성 채움"],
-      ["inverse", "white", "반전 채움"],
-      ["white", "white", "흰색 채움(Outline 버튼 배경)"],
-    ],
-  },
-  {
-    group: "icon",
-    title: "Icon · 아이콘",
-    prefix: "text",
-    tokens: [
-      ["default", "gray-700", "기본 아이콘"],
-      ["strong", "gray-900", "강한 아이콘"],
-      ["secondary", "gray-600", "보조 아이콘"],
-      ["tertiary", "gray-500", "부가 아이콘"],
-      ["disabled", "gray-400", "비활성 아이콘"],
-      ["brand", "blue-600", "브랜드 아이콘, 켜짐 상태"],
-      ["brand-pressed", "blue-700", "브랜드 아이콘 눌림"],
-      ["danger", "red-600", "위험 아이콘"],
-      ["success", "green-600", "성공 아이콘"],
-      ["warning", "orange-700", "경고 아이콘"],
-      ["on-fill", "white", "채움 배경 위 아이콘"],
-    ],
-  },
-];
-
-// 값은 MINT 스타일의 CSS 변수에서 읽는다(아토믹을 가리키는 별칭이라 실제 hex로 풀려서 나온다)
-export function useSemanticHex() {
-  const snapshot = useSyncExternalStore(
-    subscribeNothing,
-    () => {
-      const style = getComputedStyle(document.documentElement);
-      return semanticGroups
-        .flatMap((g) => g.tokens.map(([name]) => `${g.group}-${name}`))
-        .map((token) => `${token}=${style.getPropertyValue(`--mint-${token}`).trim()}`)
-        .join(";");
-    },
-    () => "",
-  );
-  return useMemo(
-    () =>
-      Object.fromEntries(
-        snapshot
-          .split(";")
-          .filter(Boolean)
-          .map((pair) => {
-            const [token, value] = pair.split("=");
-            return [token, value.toUpperCase()];
-          }),
-      ) as Record<string, string>,
-    [snapshot],
-  );
-}
-
-/** 시맨틱 색: 분류별로 쓰는 클래스, 색, 연결된 아토믹 색, 용도 */
-export function SemanticColors() {
-  const hex = useSemanticHex();
-  return (
-    <>
-      {semanticGroups.map((g) => (
-        <div key={g.group} className="docs-table-wrap">
-          <p className="docs-scales__name">{g.title}</p>
-          <table className="docs-table">
-            <thead>
-              <tr>
-                <th>클래스</th>
-                <th>색</th>
-                <th>아토믹</th>
-                <th>용도</th>
-              </tr>
-            </thead>
-            <tbody>
-              {g.tokens.map(([name, atomic, usage]) => {
-                const className = `${g.prefix}-${g.group}-${name}`;
-                return (
-                  <tr key={name}>
-                    <td>
-                      <code>{className}</code>
-                    </td>
-                    <td>
-                      <span
-                        className="docs-swatch"
-                        style={{ background: `var(--mint-${g.group}-${name})` }}
-                      />{" "}
-                      <code>{hex[`${g.group}-${name}`] ?? ""}</code>
-                    </td>
-                    <td>
-                      <code>{atomic}</code>
-                    </td>
-                    <td>{usage}</td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
-        </div>
-      ))}
-    </>
-  );
-}
-
-const typeScale: {
-  role: string;
-  metrics: string;
-  weights: string[];
-  show: string;
-  sample: string;
-}[] = [
-  {
-    role: "display-1",
-    metrics: "52 / 68",
-    weights: ["semibold", "bold"],
-    show: "bold",
-    sample: "가장 큰 문구",
-  },
-  {
-    role: "display-2",
-    metrics: "40 / 52",
-    weights: ["semibold", "bold"],
-    show: "bold",
-    sample: "가장 큰 문구",
-  },
-  {
-    role: "display-3",
-    metrics: "36 / 48",
-    weights: ["semibold", "bold"],
-    show: "bold",
-    sample: "가장 큰 문구",
-  },
-  {
-    role: "title-1",
-    metrics: "32 / 44",
-    weights: ["medium", "semibold", "bold"],
-    show: "bold",
-    sample: "페이지 제목",
-  },
-  {
-    role: "title-2",
-    metrics: "28 / 38",
-    weights: ["medium", "semibold", "bold"],
-    show: "bold",
-    sample: "페이지 제목",
-  },
-  {
-    role: "title-3",
-    metrics: "24 / 34",
-    weights: ["medium", "semibold", "bold"],
-    show: "bold",
-    sample: "페이지 제목",
-  },
-  {
-    role: "heading-1",
-    metrics: "22 / 32",
-    weights: ["medium", "semibold", "bold"],
-    show: "semibold",
-    sample: "섹션 제목",
-  },
-  {
-    role: "heading-2",
-    metrics: "20 / 30",
-    weights: ["medium", "semibold", "bold"],
-    show: "semibold",
-    sample: "섹션 제목",
-  },
-  {
-    role: "heading-3",
-    metrics: "18 / 26",
-    weights: ["medium", "semibold", "bold"],
-    show: "semibold",
-    sample: "섹션 제목",
-  },
-  {
-    role: "body-1",
-    metrics: "17 / 28",
-    weights: ["regular", "medium", "semibold", "bold"],
-    show: "regular",
-    sample: "아티클처럼 긴 글",
-  },
-  {
-    role: "body-2",
-    metrics: "16 / 24",
-    weights: ["regular", "medium", "semibold", "bold"],
-    show: "regular",
-    sample: "기본 본문",
-  },
-  {
-    role: "body-3",
-    metrics: "15 / 22",
-    weights: ["regular", "medium", "semibold", "bold"],
-    show: "regular",
-    sample: "카드·리스트 설명",
-  },
-  {
-    role: "body-4",
-    metrics: "14 / 22",
-    weights: ["regular", "medium", "semibold", "bold"],
-    show: "regular",
-    sample: "밀도 높은 UI, 표",
-  },
-  {
-    role: "body-5",
-    metrics: "13 / 20",
-    weights: ["regular", "medium", "semibold", "bold"],
-    show: "regular",
-    sample: "보조 본문",
-  },
-  {
-    role: "label-1",
-    metrics: "16 / 20",
-    weights: ["medium", "semibold", "bold"],
-    show: "semibold",
-    sample: "버튼 라벨",
-  },
-  {
-    role: "label-2",
-    metrics: "14 / 20",
-    weights: ["medium", "semibold", "bold"],
-    show: "semibold",
-    sample: "버튼 라벨",
-  },
-  {
-    role: "label-3",
-    metrics: "12 / 16",
-    weights: ["medium", "semibold", "bold"],
-    show: "semibold",
-    sample: "버튼 라벨",
-  },
-  {
-    role: "caption-1",
-    metrics: "12 / 18",
-    weights: ["regular", "medium", "semibold"],
-    show: "regular",
-    sample: "날짜 · 도움말",
-  },
-  {
-    role: "caption-2",
-    metrics: "11 / 16",
-    weights: ["regular", "medium", "semibold"],
-    show: "regular",
-    sample: "날짜 · 도움말",
-  },
-];
-
-/** 글자 스타일 목록: 이름·크기 / 보기 문장 / 쓸 수 있는 웨이트 */
+/** 글자 스타일 견본. 보기 문장마다 실제 클래스를 그대로 써서 그린다(모든 글자 클래스가 MINT 스타일에 들어 있다) */
 export function TypeScale() {
   return (
-    <div className="docs-type-scale">
-      {typeScale.map((row) => (
-        <div key={row.role} className="docs-type-row">
-          <div className="docs-type-row__meta">
-            <code>{row.role}</code>
-            <span className="docs-mono-caption">{row.metrics}</span>
-          </div>
-          {/* 모든 글자 클래스가 MINT 스타일에 들어 있어서 이름을 조립해도 적용된다 */}
-          <span className={`docs-type-row__sample text-${row.role}-${row.show}`}>
-            {row.sample} Aa 123
-          </span>
-          <span className="docs-type-row__weights">{row.weights.join(" · ")}</span>
-        </div>
+    <div className="docs-type">
+      {typeGroups.map((group) => (
+        <section key={group.role} className="docs-type__group">
+          <h3 className="docs-type__title">{group.title}</h3>
+          <p className="docs-type__desc">{group.description}</p>
+          {group.sizes.map(([step, size, lineHeight]) => (
+            <div key={step} className="docs-type__size">
+              <div className="docs-type__meta">
+                <strong>
+                  {group.title} {step}
+                </strong>
+                <span>
+                  {size}px / {lineHeight}px
+                </span>
+                <span>
+                  줄 간격 {(lineHeight / size).toFixed(2)} · 자간 {group.tracking[step]}
+                </span>
+              </div>
+              <div className="docs-type__weights">
+                {group.weights.map((weight) => {
+                  const variant = `${group.role}-${step}-${weight}`;
+                  return (
+                    <div key={weight} className="docs-type__row">
+                      <span className="docs-type__weight">
+                        {weightNames[weight]}
+                        <code>{variant}</code>
+                      </span>
+                      <span className={`docs-type__sample text-${variant}`}>{group.sample}</span>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          ))}
+        </section>
       ))}
     </div>
   );
