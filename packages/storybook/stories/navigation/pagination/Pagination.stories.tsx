@@ -10,7 +10,7 @@ const meta = {
   parameters: { layout: "centered" },
   args: { page: 6, total: 99, onChange: fn() },
   argTypes: {
-    variant: { control: "inline-radio", options: ["responsive", "extended", "compact"] },
+    variant: { control: "inline-radio", options: ["extended", "compact"] },
     page: { control: { type: "number", min: 1 } },
     total: { control: { type: "number", min: 1 } },
   },
@@ -39,8 +39,33 @@ export const Compact: Story = {
   },
 };
 
-// 화면 폭에 따라: 모바일 compact, 태블릿부터 extended
-export const Responsive: Story = {};
+// 기본값: 모바일 compact, 태블릿(768px~)부터 extended. 목록 두 개를 CSS로 하나만 보인다
+export const DefaultVariant: Story = {
+  play: async ({ canvasElement }) => {
+    const lists = canvasElement.querySelectorAll("ul");
+    await expect(lists).toHaveLength(2);
+    await expect(lists[0]).toHaveClass("flex", "tablet:hidden");
+    await expect(lists[1]).toHaveClass("hidden", "tablet:flex");
+  },
+};
+
+// 구간별 값: 데스크톱(1024px~)에서만 extended
+export const Responsive: Story = {
+  args: { variant: { base: "compact", desktop: "extended" } },
+  play: async ({ canvasElement }) => {
+    const lists = canvasElement.querySelectorAll("ul");
+    await expect(lists[0]).toHaveClass("flex", "desktop:hidden");
+    await expect(lists[1]).toHaveClass("hidden", "desktop:flex");
+  },
+};
+
+// 값 하나면 목록도 하나
+export const SingleVariant: Story = {
+  args: { variant: "compact" },
+  play: async ({ canvasElement }) => {
+    await expect(canvasElement.querySelectorAll("ul")).toHaveLength(1);
+  },
+};
 
 export const Mobile: Story = {
   globals: { viewport: { value: "mobile" } },

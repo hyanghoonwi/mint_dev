@@ -12,7 +12,7 @@ function Demo({
   start,
 }: {
   total: number;
-  variant: PaginationVariant;
+  variant?: PaginationVariant;
   start: number;
 }) {
   const [page, setPage] = useState(start);
@@ -29,7 +29,7 @@ export function PaginationPlayground() {
         {
           prop: "variant",
           type: "select",
-          options: ["extended", "compact", "responsive"],
+          options: ["extended", "compact", "default"],
           default: "extended",
         },
         { prop: "total", type: "select", options: [5, 7, 20, 99], default: 99 },
@@ -47,7 +47,7 @@ export function PaginationPlayground() {
         <Demo
           key={`${String(v.variant)}-${String(v.total)}-${String(v.page)}`}
           total={v.total as number}
-          variant={v.variant as PaginationVariant}
+          variant={v.variant === "default" ? undefined : (v.variant as PaginationVariant)}
           start={v.page as number}
         />
       )}
@@ -55,7 +55,7 @@ export function PaginationPlayground() {
         jsx("Pagination", {
           page: { expr: "page" },
           total: v.total as number,
-          variant: v.variant !== "responsive" ? (v.variant as string) : undefined,
+          variant: v.variant !== "default" ? (v.variant as string) : undefined,
           onChange: { expr: "setPage" },
         })
       }

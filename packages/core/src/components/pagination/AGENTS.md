@@ -29,8 +29,11 @@
 | 페이지 번호 | 처음과 끝, 현재 주변을 보여 줘요 | 현재 주변 위주로 줄여 보여 줘요 |
 | 상태        | Normal · Pressed · Disabled      | Hover는 Pressed와 같아요        |
 
-- **`variant`**: `extended`(9칸 = 이전·다음 + 번호 7칸) · `compact`(7칸 = 이전·다음 + 번호 5칸) · `responsive`(기본, 모바일은 compact, 태블릿부터 extended).
-  - **MINT 구간과의 차이**: Figma는 480px에서 나누지만 MINT 브레이크포인트는 `tablet:`(768px)뿐입니다(임의 미디어 쿼리 금지). `responsive`는 768px 미만에서 compact입니다. 480~767px에서 extended가 필요하면 `variant="extended"`를 직접 줍니다.
+- **`variant`**: `extended`(9칸 = 이전·다음 + 번호 7칸) · `compact`(7칸 = 이전·다음 + 번호 5칸). 다른 컴포넌트의 `size`처럼 **값 하나 또는 구간별 객체**를 받습니다.
+  - 기본값은 `{ base: "compact", tablet: "extended" }`(모바일 7칸, 태블릿부터 9칸)입니다. 객체에서 `base`를 빼면 `compact`, 빈 구간은 앞 구간 값을 이어받습니다.
+  - 예: 데스크톱에서만 9칸 → `variant={{ base: "compact", desktop: "extended" }}`. 어디서나 9칸 → `variant="extended"`.
+  - **MINT 구간과의 차이**: Figma는 480px에서 나누지만 MINT 브레이크포인트는 `tablet:`(768px)·`desktop:`(1024px)뿐입니다(임의 미디어 쿼리 금지). 기본값은 768px 미만에서 compact입니다.
+  - 화면 폭은 CSS로만 나눕니다(두 목록 중 하나만 보임). 서버 렌더에서도 깜빡이지 않습니다.
 - **번호 배치(자동)**: 처음(1)과 끝은 항상 보이고, 가운데는 현재 주변을 보여 줍니다. 말줄임(…)이 한 페이지만 가리게 되면 번호를 그대로 보여 줍니다. 칸 수가 늘 같아서 폭이 흔들리지 않습니다.
   - extended 6/99: `← 1 … 5 6 7 … 99 →` · compact 6/99: `← 1 … 6 … 99 →`
 - **모양**: 칸은 40px 정사각형, 모서리 8, 글자 Label 2 Bold. 현재 페이지는 진한 바탕(`fill-neutral`)·흰 글자, 나머지는 `text-strong`, 말줄임은 `text-tertiary`. hover·누름은 `fill-pressed`(현재 페이지는 `fill-neutral-pressed`). 이전·다음은 16px 화살표(`ArrowLeftIcon`·`ArrowRightIcon`)이고 끝에서는 `icon-disabled`.
@@ -63,7 +66,7 @@ const [page, setPage] = useState(1);
 | 금지 | 페이지가 1개뿐이면 보여 주지 않아요                              |
 
 - 첫·마지막 페이지의 이전·다음 비활성은 자동입니다.
-- 모바일 화면에서 `variant="extended"`를 고정하지 않습니다. 기본 `responsive`를 쓰거나 `compact`를 줍니다.
+- 모바일 화면에서 `variant="extended"`를 고정하지 않습니다. 기본값을 쓰거나 `base`를 `compact`로 둡니다.
 
 ## 접근성
 

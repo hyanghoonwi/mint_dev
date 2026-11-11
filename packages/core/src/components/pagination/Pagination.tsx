@@ -3,11 +3,17 @@
 //  - 버튼으로 쓰면(onChange) 클라이언트 컴포넌트 안에서 쓴다.
 // Figma `Pagination`(2204:17614) · `Pagination Guidelines`(2204:17744).
 // core는 next/link를 import하지 않는다. Next.js 링크가 필요하면 linkComponent={Link}로 넘긴다.
-import type { ComponentProps, ElementType, ReactNode } from "react";
+import { Fragment, type ComponentProps, type ElementType, type ReactNode } from "react";
 import { cn } from "../../utils/cn";
+import {
+  resolveResponsive,
+  responsiveClasses,
+  type Responsive,
+  type ResponsiveClassTable,
+} from "../../utils/responsive";
 import { ArrowLeftIcon, ArrowRightIcon } from "../icon/icons.generated";
 
-export type PaginationVariant = "extended" | "compact" | "responsive";
+export type PaginationVariant = "extended" | "compact";
 
 type Slot = number | "ellipsis";
 
@@ -30,8 +36,20 @@ function getPaginationSlots(page: number, total: number, slots: 7 | 5): Slot[] {
   return [1, "ellipsis", ...middle, "ellipsis", total];
 }
 
+// 구간별로 두 목록(compact·extended) 중 하나만 보이게 한다. 화면 폭은 CSS로만 나눠서 서버·클라이언트 결과가 같다
+const visibleClasses: ResponsiveClassTable<"true" | "false"> = {
+  base: { true: "flex", false: "hidden" },
+  tablet: { true: "tablet:flex", false: "tablet:hidden" },
+  desktop: { true: "desktop:flex", false: "desktop:hidden" },
+};
+
+/** 기본값: 모바일은 compact(7칸), 태블릿(768px~)부터 extended(9칸) */
+const DEFAULT_VARIANT: Responsive<PaginationVariant> = { base: "compact", tablet: "extended" };
+
+// 색 전환(transition)을 두지 않는다: 페이지를 바꾸면 현재 칸 색이 바로 옮겨 가야 한다.
+// 서서히 바뀌면 잠깐 반쯤 진한 칸이 두 개 보여 "튀는" 것처럼 보인다
 const itemBase =
-  "relative inline-flex size-10 shrink-0 items-center justify-center rounded-8 text-label-2-bold transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-border-focus";
+  "relative inline-flex size-10 shrink-0 items-center justify-center rounded-8 text-label-2-bold focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-border-focus";
 
 const itemStyles = {
   page: "cursor-pointer text-text-strong hover:bg-fill-pressed active:bg-fill-pressed",
@@ -48,10 +66,10 @@ export interface PaginationProps extends Omit<ComponentProps<"nav">, "onChange" 
   /** 전체 페이지 수. 1 이하면 아무것도 그리지 않는다(Figma 규칙: 1개뿐이면 보여 주지 않는다) */
   total: number;
   /**
-   * `extended` 9칸(웹·태블릿) · `compact` 7칸(모바일) · `responsive` 모바일은 compact, 태블릿(768px~)부터 extended.
-   * 기본 `responsive`
+   * `extended` 9칸(웹·태블릿) · `compact` 7칸(모바일). 값 하나 또는 구간별 객체를 받는다.
+   * 기본 `{ base: "compact", tablet: "extended" }`(모바일 7칸, 태블릿부터 9칸). 객체에서 `base`를 빼면 `compact`
    */
-  variant?: PaginationVariant;
+  variant?: Responsive<PaginationVariant>;
   /** 버튼으로 쓸 때: 다른 페이지를 누르면 그 번호로 불린다 */
   onChange?: (page: number) => void;
   /** 링크로 쓸 때: 페이지 번호로 주소를 만든다(예: `(p) => "?page=" + p`). 주면 버튼 대신 링크가 된다 */
@@ -66,7 +84,7 @@ export interface PaginationProps extends Omit<ComponentProps<"nav">, "onChange" 
 export function Pagination({
   page,
   total,
-  variant = "responsive",
+  variant = DEFAULT_VARIANT,
   onChange,
   getHref,
   linkComponent: Link = "a",
@@ -117,8 +135,8 @@ export function Pagination({
     );
   };
 
-  const list = (slots: 7 | 5, listClassName?: string) => (
-    <ul className={cn("flex items-center", listClassName)}>
+  const list = (slots: 7 | 5, listClassName = "flex") => (
+    <ul className={cn("items-center", listClassName)}>
       <li>
         {item(current - 1, <ArrowLeftIcon size={16} />, {
           className: current === 1 ? itemStyles.arrowDisabled : itemStyles.arrow,
@@ -126,17 +144,19 @@ export function Pagination({
           disabled: current === 1,
         })}
       </li>
+      {/* 칸은 자리 순서로 묶는다(key=index). 번호로 묶으면 페이지를 바꿀 때 칸 요소가 옆 자리로 옮겨 다녀서 튀어 보인다.
+          자리 순서로 묶으면 칸은 제자리에 있고 글자만 바뀐다 */}
       {getPaginationSlots(current, total, slots).map((slot, index) =>
         slot === "ellipsis" ? (
           <li
-            key={`ellipsis-${index}`}
+            key={index}
             aria-hidden="true"
             className="inline-flex size-10 items-center justify-center text-label-2-bold text-text-tertiary"
           >
             …
           </li>
         ) : (
-          <li key={slot}>
+          <li key={index}>
             {item(slot, slot, {
               className: slot === current ? itemStyles.current : itemStyles.page,
               label: `${slot}페이지`,
@@ -155,17 +175,34 @@ export function Pagination({
     </ul>
   );
 
+  // 구간별 값을 풀어서, 쓰이는 목록만 그린다. 값이 하나뿐이면 목록도 하나
+  const resolved = resolveResponsive(variant, "compact");
+  const used = (["compact", "extended"] as const).filter((kind) =>
+    [resolved.base, resolved.tablet, resolved.desktop].includes(kind),
+  );
+  const slotsOf = { compact: 5, extended: 7 } as const;
+
   return (
     <nav aria-label={ariaLabel} className={cn("inline-flex", className)} {...props}>
-      {variant === "extended" && list(7)}
-      {variant === "compact" && list(5)}
-      {variant === "responsive" && (
-        <>
-          {/* 화면 폭은 CSS로만 나눈다(서버·클라이언트 결과가 같다). 숨긴 쪽은 스크린리더도 읽지 않는다 */}
-          {list(5, "tablet:hidden")}
-          {list(7, "hidden tablet:flex")}
-        </>
-      )}
+      {used.length === 1
+        ? list(slotsOf[used[0]])
+        : used.map((kind) => (
+            // 숨긴 쪽(display: none)은 스크린리더도 읽지 않는다
+            <Fragment key={kind}>
+              {list(
+                slotsOf[kind],
+                responsiveClasses<boolean>(
+                  {
+                    base: resolved.base === kind,
+                    tablet: resolved.tablet === undefined ? undefined : resolved.tablet === kind,
+                    desktop: resolved.desktop === undefined ? undefined : resolved.desktop === kind,
+                  },
+                  false,
+                  visibleClasses,
+                ),
+              )}
+            </Fragment>
+          ))}
     </nav>
   );
 }

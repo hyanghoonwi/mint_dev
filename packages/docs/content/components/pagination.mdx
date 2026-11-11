@@ -28,28 +28,30 @@
     { title: "링크", name: "pagination/Links" },
     { title: "Extended · Compact", name: "pagination/Compact" },
     { title: "처음과 끝", name: "pagination/Edges" },
+    { title: "반응형", name: "pagination/Responsive" },
   ]}
 />
 
 - **버튼**: 화면 안에서 페이지를 바꾸면 `onChange`로 받아요. 클라이언트 컴포넌트에서 써요.
 - **링크**: 주소의 `?page=`로 바꾸면 `getHref`를 줘요. Next.js에서는 `linkComponent={Link}`를 넘기고, 서버 컴포넌트에서 그대로 써요.
-- **Extended · Compact**: 웹·태블릿은 9칸, 모바일은 7칸이에요. 기본값 `responsive`는 화면 폭에 따라 저절로 바뀌어요(768px 미만 compact).
+- **Extended · Compact**: 웹·태블릿은 9칸, 모바일은 7칸이에요. 값 하나를 주면 모든 화면에서 같아요.
 - **처음과 끝**: 첫 페이지에서는 이전이, 마지막 페이지에서는 다음이 비활성이 돼요. 페이지가 적으면 번호를 모두 보여 줘요.
+- **반응형**: `variant`는 구간별 값도 받아요. 기본값은 `{ base: "compact", tablet: "extended" }`이고, 예시처럼 데스크톱(1024px)부터 9칸으로 바꿀 수도 있어요. 창 폭을 바꿔 보세요.
 
 ## Props
 
 나머지 `<nav>` 속성도 그대로 받아요.\
 서버 컴포넌트에서 바로 쓸 수 있고, `onChange`를 넘길 때만 클라이언트 컴포넌트 안에서 써요.
 
-| 이름            | 타입                                      | 기본값         | 설명                                         |
-| --------------- | ----------------------------------------- | -------------- | -------------------------------------------- |
-| `variant`       | `"responsive" \| "extended" \| "compact"` | `"responsive"` | 화면 폭에 따라 · 9칸 · 7칸                   |
-| `page`          | `number`                                  | -              | 현재 페이지(1부터, 필수)                     |
-| `total`         | `number`                                  | -              | 전체 페이지 수(필수). 1 이하면 그리지 않아요 |
-| `getHref`       | `(page: number) => string`                | -              | 링크로 쓸 때 주소를 만들어요                 |
-| `linkComponent` | `ElementType`                             | `"a"`          | 링크 컴포넌트. Next.js는 `Link`를 넘겨요     |
-| `aria-label`    | `string`                                  | `"페이지"`     | 묶음 이름                                    |
-| `onChange`      | `(page: number) => void`                  | -              | 버튼으로 쓸 때 다른 페이지를 누르면 불려요   |
+| 이름            | 타입                                                       | 기본값                                    | 설명                                         |
+| --------------- | ---------------------------------------------------------- | ----------------------------------------- | -------------------------------------------- |
+| `variant`       | `"extended" \| "compact"` 또는 `{ base, tablet, desktop }` | `{ base: "compact", tablet: "extended" }` | 9칸 · 7칸. 객체로 주면 구간마다 달라져요     |
+| `page`          | `number`                                                   | -                                         | 현재 페이지(1부터, 필수)                     |
+| `total`         | `number`                                                   | -                                         | 전체 페이지 수(필수). 1 이하면 그리지 않아요 |
+| `getHref`       | `(page: number) => string`                                 | -                                         | 링크로 쓸 때 주소를 만들어요                 |
+| `linkComponent` | `ElementType`                                              | `"a"`                                     | 링크 컴포넌트. Next.js는 `Link`를 넘겨요     |
+| `aria-label`    | `string`                                                   | `"페이지"`                                | 묶음 이름                                    |
+| `onChange`      | `(page: number) => void`                                   | -                                         | 버튼으로 쓸 때 다른 페이지를 누르면 불려요   |
 
 ## Guidelines
 
@@ -57,6 +59,6 @@
 
 - 현재 페이지는 진한 배경으로 표시해요.
 - 첫 페이지에서는 이전, 마지막 페이지에서는 다음을 비활성으로 둬요. 저절로 바뀌어요.
-- 모바일에서 Extended를 쓰지 않아요. 번호가 작아져 누르기 어려워요.
+- 모바일에서 Extended를 쓰지 않아요. 번호가 작아져 누르기 어려워요. 기본값이 모바일은 Compact예요.
 - 페이지가 1개뿐이면 보여 주지 않아요. `total`이 1 이하면 그리지 않아요.
 - Figma는 480px에서 Compact로 바꾸지만, MINT는 태블릿 구간(768px)에서 바꿔요.
