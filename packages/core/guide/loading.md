@@ -18,8 +18,9 @@
   - `color`
 - Skeleton 공통
   - `color`: `normal`(흰 바탕 위 회색, 기본) · `white`(회색 바탕 위 흰색)
+  - `animate`: 밝아졌다 흐려지는 효과(기본 `true`, CSS 애니메이션이라 서버 컴포넌트에서도 동작). 움직임 줄이기 설정이면 멈춥니다. 같은 때 그려진 것끼리 함께 깜빡입니다
   - 모두 `aria-hidden`입니다. 불러오는 영역에 `aria-busy="true"`를 주고 다 불러오면 지웁니다
   - 실제 콘텐츠와 같은 모양·크기·배치로 둡니다. 영역 전체를 덩어리 하나로 덮지 않습니다
-  - 색·투명도는 `className`·`style`로 덮어씁니다. 나머지 `<div>` 속성을 받습니다
+  - 색은 `className`·`style`로 덮어씁니다. 투명도를 직접 정하려면 `animate={false}`로 깜빡임을 끕니다(애니메이션이 투명도를 바꾸므로). 나머지 `<div>` 속성을 받습니다
   - 짧은 로딩·버튼 로딩은 `Circular`(`Button`의 `loading`)를 씁니다
   - Figma Loading Guidelines: 3초 넘게 보여 주지 않습니다(더 걸리면 진행 상황을 글로 알림). 한 화면에 `Circular`와 Skeleton을 섞어 쓰지 않습니다. 상세 규칙은 `components/skeleton/AGENTS.md`

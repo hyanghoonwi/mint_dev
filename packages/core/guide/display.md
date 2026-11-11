@@ -18,3 +18,8 @@
   - `color`: `brand`(기본, 강조) · `neutral`(일반) · `danger`(오류·임박) · `success`(완료) · `warning`(주의). 의미대로 고릅니다
   - `size`: `sm` 20 · `md` 24(기본) · `lg` 28px. 같은 화면에서는 하나로 맞춥니다
   - 문구는 1~4자로 짧게. 색만으로 뜻을 전하지 않고, 화살표·아이콘을 붙이지 않습니다
+- **`Text`** — 토큰 텍스트 스타일로 글자를 그리는 컴포넌트(Figma Typography 59개 스타일만). 서버 컴포넌트에서도 쓸 수 있습니다.
+  - `variant`(필수): `title-1-bold`, `body-2-regular`처럼 역할-번호-웨이트. 크기는 값 하나만(구간별 값은 아직 열지 않음)
+  - `as`: 태그(`span` 기본, `p`·`h1`~`h6`·`label` 등). 모양과 따로 고릅니다
+  - `color`: `strong` · `primary` · `secondary` · `tertiary` · `subtle` · `disabled` · `brand` · `danger` · `success` · `warning` · `on-fill`(생략하면 부모 색)
+  - `lines`: 1~4줄 넘으면 말줄임. 클래스(`text-body-2-regular`)를 직접 써도 됩니다. 상세 규칙은 `components/text/AGENTS.md`
