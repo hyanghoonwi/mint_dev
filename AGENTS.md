@@ -21,7 +21,7 @@ MINT는 크립토랩 서비스의 **Next.js(App Router) 반응형 사이트**에
 > 2. **docs** — `packages/docs/content/` 의 해당 문서 페이지
 > 3. **사용 가이드** — `packages/core/AGENTS.md`(색인)와 `packages/core/guide/*.md`(상세). 배포 패키지에 포함되어 사용하는 쪽 AI가 읽는 문서입니다.
 >
-> 그리고 core를 고칠 때마다 `packages/core/CHANGELOG.md`의 `## 미배포`에 변경을 적습니다(docs의 "Version" 페이지는 이 파일에서 자동으로 만들어집니다).
+> 그리고 **정식 배포 이후에는** core를 고칠 때마다 `packages/core/CHANGELOG.md`의 `## 미배포`에 변경을 적습니다(docs의 "Changelog" 페이지는 이 파일에서 자동으로 만들어집니다). **정식 배포 전에는 CHANGELOG에 쌓지 않습니다**([Version과 CHANGELOG](#version과-changelog)).
 >
 > 셋 중 하나라도 빠지면 작업이 끝난 것이 아닙니다. 작업을 마칠 때 최종 보고에 **세 곳을 각각 어떻게 갱신했는지** 적습니다. 갱신할 것이 없다고 판단했다면 그 이유를 적습니다.
 
@@ -58,6 +58,7 @@ npm run format:docs        # docs의 md/mdx와 코드 예시 포맷
 npm run docs               # docs 개발 서버 (3000, 검색 안 됨)
 npm run docs:preview       # docs 빌드 후 서버 (3000, 검색 됨)
 npm run build -w @mint/docs # docs 빌드 (MDX 컴파일·SSR 오류 검출)
+npm run sidebar:check -w @mint/docs # Components 사이드바가 분류 안에서 알파벳 순인지 검사
 ```
 
 ---
@@ -72,7 +73,7 @@ npm run build -w @mint/docs # docs 빌드 (MDX 컴파일·SSR 오류 검출)
 | **props 추가·변경** | 구현                                                                                                                                                    | `argTypes`와 해당 prop을 보여 주는 스토리 추가·수정                       | 해당 페이지의 예시, `## Props` 표 수정                                                                                         | `guide/` 해당 컴포넌트 항목 수정                                       |
 | **props 삭제·개명** | 구현                                                                                                                                                    | 모든 스토리에서 제거·치환                                                 | 모든 예시와 Props 표, 다른 문서에서 쓰던 곳                                                                                    | `guide/`의 표·예시 수정                                                |
 | **동작·스타일**     | 구현                                                                                                                                                    | 변경이 보이는 스토리 추가·수정                                            | 설명 문장과 예시가 여전히 맞는지 확인                                                                                          | 관련 규칙이 바뀌면 수정                                                |
-| **반응형 동작**     | CSS(브레이크포인트 접두어·CSS 변수)로만 구현                                                                                                            | 뷰포트(360 · 768 · 1024 · 1440)를 바꿔 확인하는 스토리                    | 모바일·데스크톱 차이를 설명                                                                                                    | 반응형 동작 설명                                                       |
+| **반응형 동작**     | CSS(브레이크포인트 접두어·CSS 변수)로만 구현                                                                                                            | 뷰포트(360 · 768 · 1024 · 1440)를 바꿔 확인하는 스토리                    | 모바일·데스크톱 차이를 설명, Examples에 `반응형` 탭(`<슬러그>/Responsive`) 추가                                                | 반응형 동작 설명                                                       |
 | **토큰**            | `src/styles/*.css`. 추가·삭제하면 `npm run tokens:utilities -w @futurewiz-rms/mint`(build도 자동 실행). 텍스트 스타일 토큰은 `src/utils/cn.ts`에도 등록 | Foundations 스토리 확인                                                   | `content/foundations/*.mdx`, 토큰 목록을 그리는 `src/components/site/Foundations.tsx`                                          | `guide/setup.md`의 토큰 표                                             |
 | **아이콘**          | `scripts/icons.json`에 이름 추가·삭제 후 `npm run icons:generate -w @futurewiz-rms/mint`. Figma `Icon / Components`에 먼저 있어야 함                    | `Gallery` 스토리가 목록을 자동 반영하는지 확인                            | `content/foundations/icons.mdx`의 설명·개수 확인(갤러리는 자동)                                                                | `guide/icons.md`의 분류별 목록에 이름 추가(`guide:check`가 검사), 개수 |
 | **컴포넌트 삭제**   | 파일·export 삭제                                                                                                                                        | 스토리 삭제, `storySort` 정리                                             | 문서 페이지 삭제, `_meta.js`·전체 보기 카드·다른 문서의 링크 제거                                                              | 색인과 `guide/`에서 삭제                                               |
@@ -118,7 +119,7 @@ MINT는 Next.js App Router에서 **서버 컴포넌트와 클라이언트 컴포
 - **오버레이는 `Modal` 하나**입니다. 바텀시트는 만들지 않고, 모바일에서는 `Modal`이 화면 폭에 맞게 줄어듭니다.
 - **레이아웃은 `Container`·`Grid` 컴포넌트로 합니다.** 사용하는 쪽이 `div`에 그리드 클래스를 일일이 쓰게 하지 않습니다. 이 컴포넌트가 읽는 값은 토큰 변수입니다: `--mint-grid-columns`(4 → 8 → 12), `--mint-grid-gutter`(20), `--mint-grid-margin`(좌우 여백 20), `--mint-content-max`(모바일·태블릿 `none`, 데스크톱 1440). 거터와 여백은 모든 구간에서 20으로 통일이고, 구간마다 바뀌는 것은 컬럼 수뿐입니다. 콘텐츠는 1440px(안쪽 여백 포함)에서 가운데에 고정되고 더 넓은 화면은 바깥 여백만 늘어납니다. 구간별 값은 `Grid.Item`의 `span={{ base, tablet, desktop }}`로 받아 CSS 변수로 전달합니다.
 - **간격은 Figma 스케일 12단계만**: 4·8·12·16·20·24·32·40·48·64·80·96px. `src/styles/spacing.css`의 `--mint-spacing-<px>`가 원본이고(Figma `spacing-N`과 같은 이름), `token-utilities.css`가 `p-` `m-` `gap-` 계열 클래스(`p-1`=4px … `p-24`=96px, 번호=px÷4)를 자동으로 만듭니다. 이 밖의 값(`p-7`, `p-9`, `p-0.5`, `p-[13px]`)은 쓰지 않습니다. 컴포넌트의 `h-*` 높이는 간격이 아니라 크기라서 이 스케일과 별개입니다.
-- **글자 크기는 반응형으로 바뀌지 않습니다**(Figma 타이포그래피 가이드). 크기·줄 간격은 화면 폭과 상관없이 하나의 체계이고, 반응형은 레이아웃(그리드·여백·열 수)에서 처리합니다. `lg:text-[36px]`처럼 화면 폭에 따라 글자를 키우지 않습니다.
+- **글자는 하나의 크기 표만 씁니다**(Figma Typography 32:61: "크기와 줄 간격은 화면 크기와 관계없이 하나의 체계를 쓴다"). 모바일용·PC용 크기 표를 따로 만들지 않습니다(2026-11 해석). 같은 표 안에서 구간마다 다른 스타일을 고르는 것은 됩니다(`<Text variant={{ base: "title-3-bold", desktop: "title-1-bold" }}>`). `desktop:text-[36px]`처럼 표에 없는 크기는 쓰지 않습니다. 본문·라벨처럼 대부분의 글자는 구간마다 바꾸지 않고, 큰 제목에만 씁니다.
 
 ---
 
@@ -167,6 +168,7 @@ MINT는 Next.js App Router에서 **서버 컴포넌트와 클라이언트 컴포
 | `AGENTS.md`        | 핵심 규칙, "무엇을 쓸까", **파일별 컴포넌트 색인**                                                   |
 | `guide/setup.md`   | 설치, 스타일, 토큰 클래스, 반응형 토큰, 다크 모드                                                    |
 | `guide/actions.md` | 액션 컴포넌트 props·주의점 (카테고리가 늘면 파일 추가)                                               |
+| `guide/hooks.md`   | 공개 훅(`useInView`·`useClipboard`·`useDebounceValue`) 사용법. `useOverlay`는 `overlay.md`           |
 | `guide/layout.md`  | `Container`·`Grid` 사용법, 구간별 `span`, 레이아웃 규칙                                              |
 | `guide/icons.md`   | 아이콘 사용법과 183개 전체 이름(분류별 목록). `guide:check`가 `icons.json`의 모든 이름이 있는지 검사 |
 
@@ -183,15 +185,17 @@ MINT는 Next.js App Router에서 **서버 컴포넌트와 클라이언트 컴포
 **docs는 MINT를 가져다 쓰는 사람을 위한 문서입니다. 라이브러리를 만드는 사람의 문서가 아닙니다.** 컴포넌트와 토큰은 캡슐화되어 있으므로, 내부가 어떻게 이루어졌는지(CSS 변수 이름, 토큰 파일, 생성 스크립트, 빌드 방식, 패키지 구조)는 보여 주지 않고 **가져다 쓰는 코드 예시를 기본으로** 씁니다. 내부 설명이 필요하면 이 파일이나 `packages/core/guide/`(AI용)에 씁니다.
 
 - **문서 사이트의 모양**은 Montage(원티드 디자인 시스템 문서)와 같은 틀입니다: **라이트 화면만**(다크 모드 없음), 상단 탭(Getting started · Foundations · Components · Utilities) + 탭별 그룹형 사이드바 + 오른쪽 "On this page" 목차 + 본문 아래 푸터. 수치는 Figma의 Montage 시안(`2212:24386` 첫 화면, `2212:24671` 소개, `2212:24979` Foundations, `2212:25234` Components, `2212:26696` Utilities)을 따릅니다(컨테이너 1400, 사이드바 170, 본문은 컨테이너 왼쪽 310에서 폭 760, 목차 160). 그림·원티드 문구는 쓰지 않고 그림 자리는 비워 둡니다(`<Figure />`). 탭 이름·사이드바 항목·그룹 제목은 영문, 본문은 한국어 "~합니다"체입니다. 화면 구성을 바꿀 때도 **MINT에 없는 API(패키지 이름, Provider, 컴포넌트, 변형)를 문서에 쓰지 않습니다.** 문서는 실제 라이브러리 기준입니다.
-- 위치: `packages/docs/content/` — `index.mdx`(첫 화면 `/`), `getting-started/`(소개·설치·변경 이력), `foundations/`(Overview + Base material: Colors·Typography·Spacing · Grid·Icons), `components/`(Overview + 분류별 그룹: Actions·Contents·Feedback·Loading·Layout), `utilities/`(아직 비어 있음. 훅은 따로 만든다).
-- **상단 탭은 `content/_meta.js`의 `type: "page"` 항목**이고, 사이드바는 지금 열린 탭의 폴더만 보여 줍니다. 탭 안의 그룹 제목은 폴더별 `_meta.js`의 `"---이름": { type: "separator" }`입니다. 새 컴포넌트는 `components/_meta.js`의 알맞은 그룹 아래에 키를 추가하고, Overview 카드(`src/components/site/Catalog.tsx`)에 같은 `group`으로 넣습니다.
-- **첫 화면 `/`**는 `content/index.mdx`(`<Home />`, `src/components/site/Home.tsx`)입니다. 문서 레이아웃 안에서 사이드바·목차 없이 화면 전체를 씁니다. 순서는 히어로(슬로건) → 흐르는 띠(실제 MINT 컴포넌트) → Start Your MINT → Behind the System(원칙) → FAQ → 푸터입니다. 이전의 어두운 three.js 인트로(`src/components/intro/`)는 지금 쓰지 않습니다.
+- 위치: `packages/docs/content/` — `index.mdx`(첫 화면 `/`), `getting-started/`(Introduction·Installation·Changelog), `foundations/`(Overview + Base material: Colors·Typography·Spacing · Grid·Icons), `components/`(Overview + 분류별 그룹: Actions·Contents·Feedback·Loading·Layout), `utilities/`(Overview + Hooks: 공개 훅마다 한 페이지).
+- **상단 탭은 `content/_meta.js`의 `type: "page"` 항목**이고, 사이드바는 지금 열린 탭의 폴더만 보여 줍니다. 탭 안의 그룹 제목은 폴더별 `_meta.js`의 `"---이름": { type: "separator" }`입니다. 새 컴포넌트는 `components/_meta.js`의 알맞은 그룹 아래에 **알파벳 순서에 맞는 자리**에 키를 추가하고, Overview 카드(`src/components/site/Catalog.tsx`)에 같은 `group`으로 넣습니다(카드는 그룹 안에서 이름의 알파벳 순으로 자동 정렬).
+  - **분류 안 항목은 항상 알파벳 순**입니다(사이드바와 Overview 카드 모두. 분류의 순서는 그대로). 사이드바 순서는 `scripts/check-sidebar-order.mjs`가 docs의 `predev`·`prebuild`에서 검사해서, 어긋나면 맞는 순서를 알려 주고 실행을 멈춥니다. Storybook의 `storySort`도 분류 안에서 같은 알파벳 순으로 이름을 넣습니다.
+- **첫 화면 `/`**는 `content/index.mdx`(`<Home />`, `src/components/site/Home.tsx`)입니다. 문서 레이아웃 안에서 사이드바·목차 없이 화면 전체를 씁니다. 순서는 three.js 스크롤 이야기(`IntroStory`, `src/components/intro/`: 점이 MINT 로고 → 3D 공간 → 컴포넌트 격자) → 히어로(슬로건) → 흐르는 띠 → Start Your MINT → Behind the System(원칙) → FAQ → 푸터입니다. 이야기 무대는 사이트 헤더 아래에 고정되고(`--nextra-navbar-height`), three.js는 브라우저에서 처음 그릴 때 내려받습니다(WebGL이 없으면 자막·카드만). 격자 카드 12장(`Intro.tsx`의 `cell`)에는 **MINT에 실제로 있는 컴포넌트만** 넣고, 점 와이어프레임(`particles.ts`의 `cardPaths`)을 같은 순서·모양으로 맞춥니다. 컴포넌트를 추가·삭제하면 카드도 확인합니다.
 - **사이트는 Nextra 4(Next.js App Router)입니다.** 페이지는 `content/**/*.mdx`이고 `src/app/(docs)/[[...mdxPath]]/page.tsx`(선택 캐치올이라 `/`도 포함)가 모두 렌더합니다(`(docs)/layout.tsx`가 Nextra 레이아웃·헤더·라이트 고정 설정).
 - **페이지 파일 이름(슬러그)은 폴더가 달라도 겹치지 않게 짓습니다.** 사이드바가 평평하게 펼쳐져서 `foundations/grid`와 `components/grid`처럼 같은 키가 있으면 React key 중복 오류가 납니다(그래서 `components/container-grid`).
 - **컴포넌트 페이지 구조(`components/button.mdx` 기준)는 항상 이 순서입니다.**
   1. `# 컴포넌트 이름`(영문, 예: `# Button`) → 한 줄 설명("~예요/이에요") → `<ComponentBadges />`(초록 `Next.js` · `React` 뱃지) → `<Figure height={240} />`(그림 자리, 그림이 정해질 때까지 회색)
   2. `## Playground`: 한두 문장 안내 → 샌드박스(`<…Playground />`. 왼쪽 컴포넌트, 오른쪽 props 조절, 아래 그대로 복사해 쓰는 코드. `src/components/site/Playground.tsx`의 `Playground`·`jsx`로 만든다)
   3. `## Examples`: `<ExampleTabs items={[{ title, name }]} />`(특별한 사용 상황. 탭을 누르면 구성 미리보기와 아래 코드. 예시는 `src/examples/<컴포넌트>/`) → 탭마다 한 줄 설명 목록(**예외: Examples도 설명이 탭 아래**)
+     - **반응형 prop(`Responsive<T>`: `size`·`fullWidth`·`variant` 등 구간별 객체를 받는 prop)이 있는 컴포넌트는 Examples 맨 끝에 `{ title: "반응형", name: "<슬러그>/Responsive" }` 탭을 꼭 둡니다.** 예시 파일은 `src/examples/<슬러그>/Responsive.tsx`로, 구간별 객체를 실제로 쓰고 첫 줄 주석에 구간마다 무엇이 되는지 적습니다(예: `// 모바일·태블릿은 md, 데스크톱(1024px~)부터 sm`). 설명 목록 항목은 `- **반응형**: \`size\`는 구간별 값도 받아요. \`{ base: …, desktop: … }\`면 …이에요. 창 폭을 바꿔 보세요.` 틀을 따릅니다. 반응형 prop을 새로 열면 이 탭도 같은 작업에서 추가합니다.
   4. `## Props`: 안내 두 줄 → Props 표. **이 틀을 그대로 씁니다.**
 
      ```mdx
@@ -212,6 +216,19 @@ MINT는 Next.js App Router에서 **서버 컴포넌트와 클라이언트 컴포
 
   5. `## Guidelines`: Do/Don't 그림 → 규칙 목록(**예외: Guidelines도 글이 그림 아래**)
 - 섹션 제목(H2)은 영문(Playground · Examples · Props · Guidelines), 본문은 한국어입니다.
+- **Foundations 페이지 구조(`foundations/*.mdx`)도 한 틀입니다.**
+  1. `# 영문 이름`(사이드바와 같게, 예: `# Colors`) → 한 줄 설명("~요")
+  2. `## Usage`: 사용하는 쪽이 쓰는 코드(컴포넌트 우선: 글자는 `Text`, 배치는 `Container`·`Grid`)
+  3. 토큰을 보여 주는 섹션: Colors `## Palette`(Semantic·Atomic 탭) · Typography `## Typeface`·`## Styles` · Spacing·Grid `## Grid`·`## Spacing` · Icons `## Gallery`·`## Examples`·`## Props`
+  4. `## Guidelines`: 규칙 목록
+  - 예외: Typography는 견본을 먼저 보여 줘서 `## Typeface` → `## Styles`(Figma `Specimen / Typography` 32:61 모양, 역할 설명 포함) → `## Usage` → `## Guidelines` 순서입니다(사용자 결정).
+  - 예외: Spacing · Grid도 그리드·간격 표를 먼저 보여 줘서 `## Grid` → `## Spacing` → `## Usage` → `## Guidelines` 순서입니다(사용자 결정).
+  - 예외: Icons는 Usage 없이 아이콘 목록·검색을 맨 위에 둡니다: `## Gallery` → `## Examples` → `## Props` → `## Guidelines`(사용자 결정).
+  - Overview는 제목 → 한 줄 설명 → `<Figure />` → `## Base material` 목록입니다.
+- **Getting started 페이지(`getting-started/*.mdx`)도 같은 틀입니다.** 사이드바 이름과 제목은 영문(`Introduction`·`Installation`·`Changelog`), 제목 아래 한 줄 설명("~요"), 섹션 제목(H2)은 영문입니다.
+  - Introduction: 한 줄 설명 → `<Figure />` → 소개 두 줄 → `## What is MINT` → `## Design principles` → `## Getting started`(읽는 순서 번호 목록)
+  - Installation: 한 줄 설명 → 단계 안내 → `## Install` → `## Styles` → `## First page` → `## Next steps`
+  - Changelog: `packages/core/CHANGELOG.md`에서 만들어지는 생성물입니다(`sync-changelog.mjs`가 제목을 `# Changelog`로 붙임)
 
 - **사이트 화면 조각**(소개 카드, 플레이그라운드, 토큰 목록, 로고 카드 등)은 `src/components/site/`에 두고 `mdx-components.tsx`에 등록해 MDX에서 import 없이 씁니다. 훅(`useState` 등)이 필요한 것만 `"use client"`를 붙입니다. 사이트 색은 `--docs-*`(`src/app/docs.css`)이고, 예시 안의 MINT 컴포넌트는 MINT 토큰을 그대로 따릅니다.
 - `docs.css`의 문단·제목 스타일은 `main > p`처럼 **문서 본문의 직계 요소에만** 겁니다. 예시 안의 MINT 컴포넌트(`<p>`, `<strong>` 등)까지 덮어쓰면 MINT 색 클래스가 무시됩니다(실제로 상승·하락 색이 흰색으로 보였던 적이 있음). Nextra 테마 CSS는 레이어 안이라 이 파일이 항상 우선하며, 클래스가 유틸리티(`x:...`)라서 구조 선택자와 `nextra-*` 이름만 씁니다.
@@ -221,7 +238,7 @@ MINT는 Next.js App Router에서 **서버 컴포넌트와 클라이언트 컴포
 - **예시 파일 규칙**: 기본 export 컴포넌트 하나(파일 이름과 같은 함수 이름), 쓰는 것만 `@futurewiz-rms/mint`에서 import, 정의되지 않은 변수 금지. 레이아웃 배치용 `div`/`style`은 파일 밖으로 빼서 `<Example name="..." style={{ maxWidth: 375 }} />`로 넘깁니다.
 - **docs에서 쓸 수 있는 클래스는 core가 만든 것뿐**입니다. 토큰 클래스(색·글자·반경·**간격**: `text-body-2-regular`, `bg-bg-surface`, `p-5`)와 컴포넌트가 쓰는 클래스는 들어 있지만, Tailwind의 일반 유틸리티(`flex`, `grid`, `gap-*`의 스케일 밖 값, `tablet:…`)는 없을 수 있습니다. 그래서 예시의 배치는 가능하면 `Container`·`Grid` 같은 MINT 컴포넌트로 하고, 그래도 필요한 미리보기용 배치는 `style`로 씁니다.
 - Props 표는 **소스의 실제 props와 대조**해서 씁니다.
-- "변경 이력" 페이지(`content/getting-started/changelog.mdx`)는 `packages/core/CHANGELOG.md`에서 만들어지는 **생성물**입니다. 직접 고치지 않습니다.
+- "Changelog" 페이지(`content/getting-started/changelog.mdx`, 제목 `# Changelog`)는 `packages/core/CHANGELOG.md`에서 만들어지는 **생성물**입니다. 직접 고치지 않습니다.
 - 포맷은 **저장소 루트에서** `npm run format:docs` 또는 `npx prettier --write <파일>`로 합니다.
 - Nextra는 깨진 링크를 빌드에서 잡아 주지 않습니다. 페이지를 옮기거나 이름을 바꾸면 `grep -rn "/components/" packages/docs/content packages/docs/src`처럼 옛 경로를 직접 찾아 고칩니다.
 - **검색**은 빌드 뒤 Pagefind가 색인을 만듭니다(`scripts/build-search.mjs`). 한국어 부분 단어도 검색됩니다. 화면은 헤더의 돋보기 버튼(⌘K·Ctrl+K·/)으로 여는 모달이고(`src/components/SearchModal.tsx`, Nextra 기본 검색창은 끔), 결과도 모달 안에 그립니다.
@@ -256,7 +273,7 @@ npm run guide:check -w @futurewiz-rms/mint
 # 4) 빌드 ("use client" 검사 포함)
 npm run build              # core
 npm run build-storybook    # Storybook
-npm run build -w @mint/docs # docs: MDX 컴파일·깨진 링크·SSR 렌더 오류 검출
+npm run build -w @mint/docs # docs: MDX 컴파일·깨진 링크·SSR 렌더 오류 검출 (사이드바 정렬 검사 포함)
 ```
 
 - core를 고쳤으면 `docs` 빌드까지 돌립니다. docs 빌드는 서버 렌더(SSR)를 하므로 렌더 중 `window` 접근 같은 SSR 위반도 여기서 드러납니다.
@@ -267,9 +284,11 @@ npm run build -w @mint/docs # docs: MDX 컴파일·깨진 링크·SSR 렌더 오
 
 ## Version과 CHANGELOG
 
-**원본은 `packages/core/CHANGELOG.md` 하나**입니다. docs의 "Version" 페이지는 `packages/docs/scripts/sync-changelog.mjs`가 이 파일을 복사해서 만듭니다.
+**원본은 `packages/core/CHANGELOG.md` 하나**입니다. docs의 "Changelog" 페이지는 `packages/docs/scripts/sync-changelog.mjs`가 이 파일을 복사해서 만듭니다.
 
-**core를 고칠 때마다 맨 위 `## 미배포` 섹션에 변경을 바로 적습니다.** 버전을 올리는 날 그 제목을 버전과 날짜로 바꿉니다(`## 미배포` → `## 0.2.0 (YYYY-MM-DD)`).
+**정식 배포 전에는 CHANGELOG에 변경을 쌓지 않습니다**(2026-11-11 결정). 지금 파일에는 머리말과 "정식 배포 이후의 변경부터 기록해요" 문장만 둡니다. 정식 배포 전 작업의 최종 보고에서는 CHANGELOG 항목 대신 "정식 배포 전이라 적지 않음"이라고 씁니다.
+
+**정식 배포 이후에는** core를 고칠 때마다 맨 위 `## 미배포` 섹션에 변경을 바로 적습니다(첫 변경 때 `## 미배포` 섹션을 만들고 "정식 배포 이후…" 문장은 지웁니다). 버전을 올리는 날 그 제목을 버전과 날짜로 바꿉니다(`## 미배포` → `## 0.2.0 (YYYY-MM-DD)`).
 
 ### 작성 규칙
 
@@ -289,7 +308,7 @@ npm run build -w @mint/docs # docs: MDX 컴파일·깨진 링크·SSR 렌더 오
 **배포 파이프라인(GitHub Actions)은 아직 없습니다.** 배포는 수동으로 합니다.
 
 - 레지스트리: **GitHub Packages**(`https://npm.pkg.github.com`), 스코프 `@futurewiz-rms`, `access: restricted`(`packages/core/package.json`의 `publishConfig`).
-- 배포하려면 `packages/core/package.json`의 `version`을 올리고 `CHANGELOG.md`의 `## 미배포`를 버전과 날짜로 바꿉니다. **`package-lock.json`의 `packages/core` 항목 버전도 같이** 올립니다.
+- 배포하려면 `packages/core/package.json`의 `version`을 올리고, 정식 배포 이후라면 `CHANGELOG.md`의 `## 미배포`를 버전과 날짜로 바꿉니다. **`package-lock.json`의 `packages/core` 항목 버전도 같이** 올립니다.
 - 버전은 SemVer를 따릅니다. 1.0.0 전(`0.x`)에는 새 기능과 브레이킹 변경을 모두 minor로 올립니다.
 - 사용하는 쪽 가이드(`packages/core/AGENTS.md`와 `guide/`)는 패키지에 포함되므로, 가이드를 고쳤다면 새 버전을 배포해야 반영됩니다.
 
@@ -320,7 +339,7 @@ npm run build -w @mint/docs # docs: MDX 컴파일·깨진 링크·SSR 렌더 오
 ## 작업을 마칠 때 보고할 것
 
 1. 무엇을 바꿨는지 (core), `"use client"`를 붙였는지와 그 이유
-2. **Storybook·docs·사용 가이드를 각각 어떻게 갱신했는지** (대원칙), `CHANGELOG.md`의 `## 미배포` 항목
+2. **Storybook·docs·사용 가이드를 각각 어떻게 갱신했는지** (대원칙), `CHANGELOG.md`의 `## 미배포` 항목(정식 배포 전에는 적지 않음)
 3. 실행한 검증과 결과, 실행하지 못한 검증 (모바일·데스크톱 눈 확인 포함)
 4. 버전을 올렸는지, 올려야 하는지
 5. 사용자가 판단해야 하는 사항

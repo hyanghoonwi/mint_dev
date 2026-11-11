@@ -28,6 +28,7 @@ grep -n -A12 '\*\*`Button`\*\*' node_modules/@futurewiz-rms/mint/guide/actions.m
 - 사용자의 동작을 받는 버튼 → `Button`
 - 아이콘만 있는 버튼(닫기·더보기·공유) → `IconButton`(`aria-label` 필수)
 - 같은 목록을 거르거나 분류 고르기(칩, 하나만 선택) → `Category`
+- 같은 영역의 보기 방식 바꾸기(목록/격자, 일/주/월, 2~6개) → `SegmentedControl`(화면 섹션 전환은 Tab)
 - 많은 목록을 페이지로 나눠 이동 → `Pagination`(링크는 `getHref`+`linkComponent`, 버튼은 `onChange`)
 - 배너·캐러셀·갤러리의 현재 위치 표시 → 점 `PageDots`(2~7개) · 숫자 `PageCounter`(8개 이상)
 - 필터·조건 칩 하나(선택 상태 있음, 여러 개 고르기 등) → `Chip`(행동은 `Button`)
@@ -42,6 +43,9 @@ grep -n -A12 '\*\*`Button`\*\*' node_modules/@futurewiz-rms/mint/guide/actions.m
 - 상태·종류를 짧게 알리는 라벨(눌리지 않음) → `Badge`
 - 토큰 텍스트 스타일로 글자 그리기(태그·색·말줄임) → `Text`(클래스 `text-body-2-regular`를 직접 써도 됨)
 - 페이지 틀·반응형 컬럼 배치 → `Container` + `Grid`(`Grid.Item`). `div`에 그리드 클래스를 직접 쓰지 않습니다
+- 요소가 화면에 들어왔는지(무한 스크롤·보일 때 불러오기) → `useInView`
+- 글자를 클립보드에 복사(주소·ID 복사, 복사 완료 표시) → `useClipboard`
+- 빠르게 바뀌는 값(검색어)으로 요청할 때 늦추기 → `useDebounceValue`
 - 아이콘 → 이름에 맞는 아이콘 컴포넌트(`ArrowLeftIcon` 등). `<svg>`를 직접 그리지 않습니다
 
 ---
@@ -59,15 +63,16 @@ grep -n -A12 '\*\*`Button`\*\*' node_modules/@futurewiz-rms/mint/guide/actions.m
 
 ### [내비게이션](guide/navigation.md)
 
-- `Pagination` — 페이지 이동(extended 9칸 · compact 7칸 · responsive, 링크 또는 버튼)
+- `Pagination` — 페이지 이동(extended 9칸 · compact 7칸, 구간별 객체, 링크 또는 버튼)
 - `PageCounter` — 현재 위치를 숫자로(1 / 10, 표시 전용)
 - `PageDots` — 현재 위치를 점으로(2~7개, 표시 전용)
 - `Category` — 목록을 거르는 칩 목록(하나만 선택, 넘치면 가로 스크롤, "전체" 칩)
+- `SegmentedControl` — 보기 방식을 바꾸는 토글형 선택(트랙 위 흰 칩, 2~6개, 3크기, 아이콘)
 
 ### [선택](guide/selection.md)
 
-- `CheckMark` — 목록의 선택 표시(체크 아이콘 + 레이블, 항목 전체를 누름)
-- `Checkbox` — 체크박스(체크·일부 선택, 레이블을 눌러도 선택, 폼 제출)
+- `CheckMark` — 목록의 선택 표시(체크 아이콘 + 레이블, 4크기·구간별 객체, 항목 전체를 누름)
+- `Checkbox` — 체크박스(체크·일부 선택, 레이블을 눌러도 선택, 폼 제출, 4크기·구간별 객체)
 - `RadioGroup` — 라디오 묶음(세로 나열, 하나만 선택, 값·onChange)
 - `Radio` — 라디오(레이블을 눌러도 선택, 방향키 이동, 폼 제출)
 - `FramedCheckbox` · `FramedRadio` — 체크박스·라디오를 담은 틀(틀 전체를 눌러 선택, 선택되면 브랜드 테두리)
@@ -92,6 +97,12 @@ grep -n -A12 '\*\*`Button`\*\*' node_modules/@futurewiz-rms/mint/guide/actions.m
 
 - `Alert` — 꼭 확인해야 하는 일을 알리는 대화상자(제목·본문·버튼 1~2개). `useOverlay`로 열기를 권장
 - `useOverlay` — 오버레이(Alert 등)를 함수 호출로 여는 훅. 앱 최상단에 `OverlayProvider` 필요
+
+### [훅](guide/hooks.md)
+
+- `useInView` — 요소가 화면(스크롤 상자)에 보이는지(무한 스크롤, 한 번만, 미리 불러오기 여백)
+- `useClipboard` — 클립보드 복사와 복사 완료 상태(`copy`·`copied`·`error`)
+- `useDebounceValue` — 값이 잠시 멈춘 뒤 확정(`debouncedValue`·`isDebouncing`·`flush`·`cancel`, 검색어 요청 줄이기)
 
 ### [레이아웃](guide/layout.md)
 
