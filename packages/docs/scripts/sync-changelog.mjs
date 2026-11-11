@@ -10,5 +10,5 @@ const body = readFileSync(source, "utf8").replace(/^# .*\n+/, "");
 
 writeFileSync(
   target,
-  `# 변경 이력\n\n{/* 자동 생성: packages/core/CHANGELOG.md를 고치세요. 이 파일은 직접 고치지 않습니다. */}\n\n${body}`,
+  `# Changelog\n\n{/* 자동 생성: packages/core/CHANGELOG.md를 고치세요. 이 파일은 직접 고치지 않습니다. */}\n\n${body}`,
 );

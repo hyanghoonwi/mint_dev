@@ -64,8 +64,9 @@ const mix3 = (a: number[], b: number[], t: number): [number, number, number] => 
 
 const LEAF_BASE = hex("#0fa678");
 const LEAF_MID = hex("#3be3a6");
-const LOGO_WHITE = hex("#f2fff9");
-const LOGO_WHITE_DIM = hex("#bcd6ca");
+// 밝은 배경(흰 화면) 위라 사이트 로고처럼 민트 잎 + 검은 잎으로 그린다(text/strong · gray-700)
+const LOGO_WHITE = hex("#191d24");
+const LOGO_WHITE_DIM = hex("#444b5a");
 
 type Pt = [number, number];
 
@@ -240,8 +241,9 @@ interface Path {
   color: [number, number, number];
 }
 
-const WHITE: [number, number, number] = [0.92, 0.94, 0.95];
-const WIRE_DIM: [number, number, number] = [0.62, 0.66, 0.7];
+// 와이어프레임 선: 진한 선(gray-900) · 옅은 선(gray-400)
+const WHITE: [number, number, number] = hex("#191d24");
+const WIRE_DIM: [number, number, number] = hex("#a2aab9");
 const MINT: [number, number, number] = LEAF_MID;
 
 function rrect(cx: number, cy: number, w: number, h: number, r: number): Pt[] {
@@ -279,58 +281,79 @@ const line = (x0: number, y0: number, x1: number, y1: number): Pt[] => [
   [x1, y1],
 ];
 
-/** 카드 한 장 안의 와이어프레임(버튼·텍스트 줄·칩·아이콘). 실제 카드 내용과 대응한다 */
+/**
+ * 카드 한 장 안의 와이어프레임. 실제 카드(Intro.tsx cell)의 MINT 컴포넌트 모양을 같은 순서로 대략 그린다.
+ * 진한 선은 주인공(선택·채움), 옅은 선은 나머지다
+ */
 function cardPaths(i: number, cx: number, cy: number, w: number, h: number): Path[] {
   const out: Path[] = [{ pts: rrect(cx, cy, w, h, 16), color: WHITE }];
-  switch (i % 6) {
-    case 0:
-      out.push({ pts: rrect(cx, cy + h * 0.04, w * 0.4, h * 0.28, h * 0.14), color: MINT });
-      out.push({
-        pts: line(cx - w * 0.09, cy + h * 0.04, cx + w * 0.09, cy + h * 0.04),
-        color: MINT,
-      });
+  const u = h * 0.1; // 칸 높이 기준 단위
+  const push = (pts: Pt[], color: [number, number, number]) => out.push({ pts, color });
+  switch (i) {
+    case 0: // Button
+      push(rrect(cx, cy, w * 0.36, u * 2.6, u * 0.6), MINT);
+      push(line(cx - w * 0.06, cy, cx + w * 0.06, cy), MINT);
       break;
-    case 1:
-      out.push({ pts: rrect(cx, cy - h * 0.15, w * 0.3, h * 0.2, h * 0.1), color: MINT });
-      out.push({ pts: rrect(cx, cy + h * 0.14, w * 0.3, h * 0.2, h * 0.1), color: WIRE_DIM });
+    case 1: // SegmentedControl: 트랙 + 가운데 선택 칩
+      push(rrect(cx, cy, w * 0.6, u * 2.6, u * 0.6), WIRE_DIM);
+      push(rrect(cx, cy, w * 0.18, u * 1.8, u * 0.4), WHITE);
       break;
-    case 2:
-      out.push({
-        pts: line(cx - w * 0.22, cy - h * 0.1, cx + w * 0.22, cy - h * 0.1),
-        color: WHITE,
-      });
-      out.push({
-        pts: line(cx - w * 0.14, cy + h * 0.14, cx + w * 0.14, cy + h * 0.14),
-        color: WIRE_DIM,
-      });
-      break;
-    case 3:
-      for (let k = 0; k < 5; k++) {
-        const s = h * 0.15;
-        out.push({
-          pts: rrect(cx + (k - 2) * s * 1.55, cy + h * 0.04, s, s, 4),
-          color: k % 2 === 0 ? MINT : WIRE_DIM,
-        });
+    case 2: // Chip 셋(첫째 선택)
+      for (let k = 0; k < 3; k++) {
+        push(
+          rrect(cx + (k - 1) * w * 0.22, cy, w * 0.18, u * 2.2, u * 0.5),
+          k === 0 ? WHITE : WIRE_DIM,
+        );
       }
       break;
-    case 4:
+    case 3: // Checkbox + Radio
+      push(rrect(cx - w * 0.16, cy - u * 1.4, u * 1.4, u * 1.4, u * 0.3), MINT);
+      push(line(cx - w * 0.08, cy - u * 1.4, cx + w * 0.16, cy - u * 1.4), WIRE_DIM);
+      push(circle(cx - w * 0.16, cy + u * 1.4, u * 0.7), MINT);
+      push(line(cx - w * 0.08, cy + u * 1.4, cx + w * 0.16, cy + u * 1.4), WIRE_DIM);
+      break;
+    case 4: // AvatarGroup(겹친 원 4개)
       for (let k = 0; k < 4; k++) {
-        out.push({
-          pts: circle(cx + (k - 1.5) * h * 0.26, cy + h * 0.04, h * 0.085),
-          color: k === 0 ? MINT : WIRE_DIM,
-        });
+        push(circle(cx + (k - 1.5) * u * 2.1, cy, u * 1.4), k === 3 ? WIRE_DIM : WHITE);
       }
       break;
-    default:
-      out.push({
-        pts: line(cx - w * 0.3, cy - h * 0.16, cx + w * 0.22, cy - h * 0.16),
-        color: WHITE,
-      });
-      out.push({ pts: line(cx - w * 0.3, cy, cx + w * 0.12, cy), color: WIRE_DIM });
-      out.push({
-        pts: line(cx - w * 0.3, cy + h * 0.16, cx + w * 0.02, cy + h * 0.16),
-        color: WIRE_DIM,
-      });
+    case 5: // Badge 셋
+      for (let k = 0; k < 3; k++) {
+        push(
+          rrect(cx + (k - 1) * w * 0.2, cy, w * 0.15, u * 1.5, u * 0.3),
+          k === 0 ? MINT : WIRE_DIM,
+        );
+      }
+      break;
+    case 6: // IconButton 셋
+      for (let k = 0; k < 3; k++) {
+        push(circle(cx + (k - 1) * u * 3, cy, u * 1.2), k === 2 ? MINT : WIRE_DIM);
+      }
+      break;
+    case 7: // PageDots + PageCounter
+      for (let k = 0; k < 5; k++) {
+        push(circle(cx + (k - 2) * u * 0.9, cy - u * 1.2, u * 0.25), k === 1 ? WHITE : WIRE_DIM);
+      }
+      push(rrect(cx, cy + u * 1.2, w * 0.2, u * 1.6, u * 0.8), WHITE);
+      break;
+    case 8: // Skeleton: 원 + 두 줄
+      push(circle(cx - w * 0.22, cy, u * 1.3), WIRE_DIM);
+      push(line(cx - w * 0.1, cy - u * 0.6, cx + w * 0.3, cy - u * 0.6), WIRE_DIM);
+      push(line(cx - w * 0.1, cy + u * 0.6, cx + w * 0.1, cy + u * 0.6), WIRE_DIM);
+      break;
+    case 9: // Text: 제목 + 설명
+      push(line(cx - w * 0.2, cy - u * 0.8, cx + w * 0.2, cy - u * 0.8), WHITE);
+      push(line(cx - w * 0.16, cy + u * 0.8, cx + w * 0.16, cy + u * 0.8), WIRE_DIM);
+      break;
+    case 10: // Circular + 로딩 버튼
+      push(circle(cx - w * 0.2, cy, u * 0.9), MINT);
+      push(rrect(cx + w * 0.08, cy, w * 0.3, u * 2.4, u * 0.6), MINT);
+      break;
+    default: // FramedCheckbox: 틀 + 체크 + 두 줄
+      push(rrect(cx, cy, w * 0.66, u * 4, u * 0.8), MINT);
+      push(rrect(cx - w * 0.24, cy - u * 0.6, u * 1.2, u * 1.2, u * 0.3), MINT);
+      push(line(cx - w * 0.16, cy - u * 0.6, cx + w * 0.18, cy - u * 0.6), WIRE_DIM);
+      push(line(cx - w * 0.16, cy + u * 0.8, cx + w * 0.1, cy + u * 0.8), WIRE_DIM);
   }
   return out;
 }

@@ -1,53 +1,54 @@
-# 소개
+# Introduction
 
-MINT는 크립토랩의 디자인 시스템입니다. 시세와 차트, 커뮤니티를 만드는 데 필요한 파운데이션과 컴포넌트를 한곳에 모았고, 반응형 웹(모바일웹 ~ PC)에서 같은 컴포넌트를 씁니다.
+MINT는 크립토랩 서비스의 화면을 만드는 디자인 시스템이에요.
 
 <Figure height={260} />
 
+시세·차트·커뮤니티 화면에 필요한 파운데이션과 컴포넌트를 한곳에 모았어요.\
+반응형 웹(모바일웹 \~ PC)에서 같은 컴포넌트를 써요.
+
 ## What is MINT
 
-MINT는 같은 틀로 코인을 찍어 내는 조폐소처럼, 같은 컴포넌트로 화면을 만듭니다. Figma의 디자인과 React 컴포넌트가 같은 이름과 같은 값을 쓰기 때문에, 디자인과 개발이 같은 언어로 이야기할 수 있습니다.
+같은 틀로 코인을 찍어 내는 조폐소처럼, MINT는 같은 컴포넌트로 화면을 만들어요. Figma 디자인과 React 컴포넌트가 같은 이름과 같은 값을 써서, 디자인과 개발이 같은 언어로 이야기할 수 있어요.
 
 <LinkButtons
   items={[
-    { title: "설치 가이드", to: "/getting-started/installation" },
-    { title: "변경 이력", to: "/getting-started/changelog" },
+    { title: "Installation", to: "/getting-started/installation" },
+    { title: "Changelog", to: "/getting-started/changelog" },
   ]}
 />
 
----
+## Design principles
 
-## Design Principles
+MINT의 컴포넌트는 세 가지 원칙을 따라 만들어요.
 
 <Principles
   items={[
     {
-      title: "숫자가 먼저 읽힌다",
+      title: "숫자가 먼저 읽혀요",
       children:
-        "가격과 변동률은 가장 높은 대비로, 자리가 흔들리지 않게 표시합니다.",
+        "가격과 변동률은 가장 높은 대비로, 자리가 흔들리지 않게 보여 줘요.",
     },
     {
-      title: "색만으로 구분하지 않는다",
+      title: "색만으로 구분하지 않아요",
       children:
-        "상태는 색과 함께 글자나 기호로도 알려서 누구나 같은 정보를 받습니다.",
+        "상태는 색과 함께 글자나 기호로도 알려서 누구나 같은 정보를 받아요.",
     },
     {
-      title: "같은 컴포넌트",
+      title: "하나의 컴포넌트",
       children:
-        "모바일웹과 PC가 같은 컴포넌트를 쓰고 화면 폭에 따라 배치만 바꿉니다.",
+        "모바일웹과 PC가 같은 컴포넌트를 쓰고, 화면 폭에 따라 크기와 배치만 바꿔요.",
     },
   ]}
 />
 
----
+## Getting started
 
-## Getting Started
+처음 쓴다면 아래 순서로 살펴보세요.
 
-디자이너와 개발자가 같은 컴포넌트로 일관된 화면을 빠르게 만들 수 있도록, 기본 규칙이 정해진 컴포넌트를 제공합니다.
+1. [Installation](/getting-started/installation)에서 패키지를 설치하고 스타일을 불러와요.
+2. [Foundations](/foundations/overview)에서 색, 글자, 간격, 아이콘을 확인해요.
+3. [Components](/components/overview)에서 쓰려는 컴포넌트의 사용법과 Props를 확인해요.
+4. [Utilities](/utilities/overview)에서 자주 쓰는 훅을 확인해요.
 
-**처음 쓰는 분을 위한 안내**
-
-- [설치](/getting-started/installation)에서 패키지를 설치하고 스타일을 불러옵니다.
-- [Foundations](/foundations/overview)에서 색, 글자, 간격, 아이콘을 확인합니다.
-- [Components](/components/overview)에서 쓰려는 컴포넌트의 사용법과 Props를 확인합니다.
-- 필요한 스펙이나 여러 곳에서 쓸 것 같은 부분이 보이면 디자인 시스템 담당자에게 알려 주세요.
+필요한 스펙이 없거나 여러 곳에서 쓸 것 같은 화면이 보이면 디자인 시스템 담당자에게 알려 주세요.

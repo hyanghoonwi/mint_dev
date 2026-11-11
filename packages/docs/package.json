@@ -4,10 +4,11 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "predev": "npm run build -w @futurewiz-rms/mint && node scripts/sync-changelog.mjs",
-    "prebuild": "npm run build -w @futurewiz-rms/mint && node scripts/sync-changelog.mjs",
+    "predev": "npm run build -w @futurewiz-rms/mint && node scripts/sync-changelog.mjs && node scripts/check-sidebar-order.mjs",
+    "prebuild": "npm run build -w @futurewiz-rms/mint && node scripts/sync-changelog.mjs && node scripts/check-sidebar-order.mjs",
     "dev": "next dev --webpack --port 3000",
     "build": "next build --webpack",
+    "sidebar:check": "node scripts/check-sidebar-order.mjs",
     "postbuild": "node scripts/build-search.mjs",
     "start": "next start --port 3000",
     "preview": "npm run build && next start --port 3000",

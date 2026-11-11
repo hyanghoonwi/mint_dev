@@ -1,25 +1,26 @@
-# 설치
+# Installation
 
-MINT는 React 컴포넌트와 디자인 토큰을 담은 패키지입니다. 세 단계로 Next.js 프로젝트에 적용할 수 있습니다.
+MINT를 Next.js 프로젝트에 설치하고 첫 화면을 만드는 방법이에요.\
+세 단계면 돼요. 패키지를 설치하고, 스타일을 한 번 불러오고, 컴포넌트를 가져다 써요.
 
-## 1. 설치
+## Install
 
-사내 패키지(GitHub Packages)입니다. 프로젝트 루트의 `.npmrc`에 아래 두 줄을 넣고 설치합니다.
+MINT는 사내 패키지(GitHub Packages)예요. 프로젝트 루트의 `.npmrc`에 아래 두 줄을 넣어요.
 
 ```bash filename=".npmrc"
 @futurewiz-rms:registry=https://npm.pkg.github.com
 //npm.pkg.github.com/:_authToken=${GITHUB_PACKAGES_TOKEN}
 ```
 
+`GITHUB_PACKAGES_TOKEN`은 각자 GitHub에서 발급한 개인 액세스 토큰(`read:packages` 권한)이에요. 토큰 값은 파일에 직접 쓰지 않고 환경 변수로 둬요. 그다음 패키지를 설치해요.
+
 ```bash
 npm install @futurewiz-rms/mint
 ```
 
-`GITHUB_PACKAGES_TOKEN`은 각자 GitHub에서 발급한 개인 액세스 토큰(`read:packages` 권한)입니다. 토큰 값은 파일에 직접 쓰지 않고 환경 변수로 둡니다.
+## Styles
 
-## 2. 스타일 불러오기
-
-앱 최상단에서 스타일을 한 번 불러옵니다. 색, 글꼴, 간격 클래스가 모두 들어 있어서 Tailwind 설정이 없어도 됩니다.
+앱 최상단(`app/layout.tsx`)에서 스타일을 한 번 불러와요. 색, 글꼴, 간격 클래스가 모두 들어 있어서 Tailwind 설정이 없어도 돼요.
 
 ```tsx filename="app/layout.tsx"
 import "@futurewiz-rms/mint/style.css";
@@ -37,19 +38,23 @@ export default function RootLayout({
 }
 ```
 
-## 3. 첫 화면
+[`useOverlay`](/utilities/use-overlay)로 Alert를 열려면 같은 자리에서 `OverlayProvider`로 한 번 감싸요. 다른 컴포넌트는 Provider가 필요 없어요.
 
-컴포넌트를 가져와 씁니다. 서버 컴포넌트에서 바로 import해도 됩니다.
+## First page
+
+컴포넌트를 가져와 써요. 서버 컴포넌트에서 바로 import해도 돼요.
 
 ```tsx filename="app/page.tsx"
-import { Button, Container, Grid } from "@futurewiz-rms/mint";
+import { Button, Container, Grid, Text } from "@futurewiz-rms/mint";
 
 export default function Page() {
   return (
     <Container>
       <Grid>
         <Grid.Item span={{ base: 4, tablet: 4, desktop: 3 }}>
-          <h1 className="text-title-2-bold">오늘의 시세</h1>
+          <Text as="h1" variant="title-2-bold">
+            오늘의 시세
+          </Text>
           <Button fullWidth>시세 보기</Button>
         </Grid.Item>
       </Grid>
@@ -58,21 +63,23 @@ export default function Page() {
 }
 ```
 
-`onClick`처럼 함수를 넘기는 부분은 클라이언트 컴포넌트(`"use client"`) 안에서 씁니다.
+`onClick`처럼 함수를 넘기는 부분은 클라이언트 컴포넌트(`"use client"`) 안에서 써요.
 
-## 다음 단계
+## Next steps
+
+설치했다면 기준과 컴포넌트를 둘러보세요.
 
 <LinkCards
   items={[
     {
-      title: "파운데이션",
-      description: "컬러, 타이포그래피, 간격, 아이콘",
+      title: "Foundations",
+      description: "색, 글자, 간격과 그리드, 아이콘",
       to: "/foundations/overview",
     },
     {
-      title: "Button",
-      description: "플레이그라운드와 Props",
-      to: "/components/button",
+      title: "Components",
+      description: "플레이그라운드와 Props, 사용 규칙",
+      to: "/components/overview",
     },
   ]}
 />

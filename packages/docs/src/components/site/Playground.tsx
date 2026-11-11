@@ -4,6 +4,7 @@
 // 컴포넌트마다 controls(바꿀 수 있는 값)와 render(그리기), code(코드 만들기)만 정하면 된다(예: ButtonDocs.tsx).
 import { useState, type ReactNode } from "react";
 import { HighlightedCode } from "./CodeBlock";
+import { CopyCode } from "./CopyCode";
 
 export type Values = Record<string, string | number | boolean>;
 
@@ -104,7 +105,9 @@ export function Playground({
         </div>
       </div>
       <div className="docs-sandbox__code">
-        <HighlightedCode code={code(values)} />
+        <CopyCode text={code(values)}>
+          <HighlightedCode code={code(values)} />
+        </CopyCode>
       </div>
     </div>
   );

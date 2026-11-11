@@ -1,14 +1,27 @@
 "use client";
 
 import { useEffect, useRef, type ReactNode } from "react";
-import Link from "next/link";
+import "./intro.css";
 import {
-  ArrowRightIcon,
-  BellIcon,
+  AvatarGroup,
+  Badge,
   Button,
-  CheckCircleIcon,
+  Checkbox,
+  Chip,
+  Circular,
+  FramedCheckbox,
   HeartIcon,
-  StarIcon,
+  IconButton,
+  PageCounter,
+  PageDots,
+  PlusIcon,
+  Radio,
+  RadioGroup,
+  SegmentedControl,
+  ShareNetworkIcon,
+  SkeletonCircle,
+  SkeletonText,
+  Text,
 } from "@futurewiz-rms/mint";
 import type { GridLayout, ParticleScene } from "./particles";
 
@@ -65,131 +78,120 @@ function gridLayout(w: number, h: number): GridLayout {
   return { w, h, cols, rows, cellW, cellH, gap: 12, originY: h * 0.36 };
 }
 
-/* 격자 칸 12개에 들어가는 실제 컴포넌트·토큰 */
+/*
+ * 격자 칸 12개에 들어가는 실제 MINT 컴포넌트(라이브러리에 있는 것만). 점 와이어프레임(particles.ts cardPaths)이 같은 순서로 대응한다.
+ * 세로 화면은 앞의 10칸만 보인다. 격자 전체가 inert라서 누르거나 Tab으로 들어갈 수 없다(보여 주기용)
+ */
 function cell(i: number): ReactNode {
   switch (i) {
     case 0:
-      return (
-        <Button size="lg" tabIndex={-1}>
-          시작하기
-        </Button>
-      );
+      return <Button size="lg">확인</Button>;
     case 1:
       return (
-        <div className="intro-cell__stack">
-          <Button color="secondary" tabIndex={-1}>
-            Secondary
-          </Button>
-          <Button variant="outline" tabIndex={-1}>
-            Outline
-          </Button>
-        </div>
+        <SegmentedControl
+          aria-label="기간"
+          defaultValue="week"
+          items={[
+            { value: "day", label: "일" },
+            { value: "week", label: "주" },
+            { value: "month", label: "월" },
+          ]}
+        />
       );
     case 2:
       return (
-        <div className="intro-cell__text">
-          <span className="text-display-1-bold text-text-strong">Aa</span>
-          <span className="text-body-2-regular text-text-tertiary">가나다 ABC 123</span>
+        <div className="intro-cell__row">
+          <Chip active>전체</Chip>
+          <Chip>메이저</Chip>
+          <Chip>밈</Chip>
         </div>
       );
     case 3:
       return (
-        <div className="intro-cell__row">
-          {["brand", "neutral", "danger", "success", "warning"].map((n) => (
-            <span
-              key={n}
-              className="intro-cell__chip"
-              style={{ background: `var(--mint-fill-${n})` }}
-            />
-          ))}
+        <div className="intro-cell__stack is-start">
+          <Checkbox defaultChecked>약관 동의</Checkbox>
+          <RadioGroup defaultValue="on" aria-label="알림">
+            <Radio value="on">알림 받기</Radio>
+          </RadioGroup>
         </div>
       );
     case 4:
       return (
-        <div className="intro-cell__row">
-          <HeartIcon size={24} variant="fill" className="text-icon-danger" />
-          <StarIcon size={24} variant="fill" className="text-icon-warning" />
-          <CheckCircleIcon size={24} variant="fill" className="text-icon-success" />
-          <BellIcon size={24} className="text-icon-brand" />
-        </div>
+        <AvatarGroup
+          aria-label="참여자"
+          max={3}
+          items={[
+            { name: "민트" },
+            { name: "코인" },
+            { name: "랩" },
+            { name: "하나" },
+            { name: "둘" },
+          ]}
+        />
       );
     case 5:
       return (
-        <div className="intro-cell__text">
-          <span className="text-heading-2-bold text-text-strong">text/strong</span>
-          <span className="text-body-2-regular text-text-primary">text/primary</span>
-          <span className="text-body-3-regular text-text-tertiary">text/tertiary</span>
+        <div className="intro-cell__row">
+          <Badge color="brand">NEW</Badge>
+          <Badge variant="weak" color="success">
+            완료
+          </Badge>
+          <Badge variant="weak" color="danger">
+            경고
+          </Badge>
         </div>
       );
     case 6:
       return (
-        <div className="intro-cell__stack">
-          <Button color="destructive" tabIndex={-1}>
-            Destructive
-          </Button>
-          <Button disabled tabIndex={-1}>
-            Disabled
-          </Button>
+        <div className="intro-cell__row">
+          <IconButton variant="background" icon={<HeartIcon />} aria-label="좋아요" />
+          <IconButton variant="outline" icon={<ShareNetworkIcon />} aria-label="공유" />
+          <IconButton variant="solid" icon={<PlusIcon />} aria-label="추가" />
         </div>
       );
     case 7:
       return (
-        <div className="intro-cell__row">
-          {[100, 300, 500, 700, 900].map((n) => (
-            <span
-              key={n}
-              className="intro-cell__chip"
-              style={{ background: `var(--color-atomic-gray-${n})` }}
-            />
-          ))}
+        <div className="intro-cell__stack">
+          <PageDots current={2} total={5} />
+          <PageCounter current={3} total={24} />
         </div>
       );
     case 8:
       return (
-        <div className="intro-cell__row">
-          {["default", "strong", "focus"].map((n) => (
-            <span
-              key={n}
-              className="intro-cell__box"
-              style={{ border: `2px solid var(--mint-border-${n})` }}
-            />
-          ))}
+        <div className="intro-cell__row is-wide">
+          <SkeletonCircle size={40} />
+          <div className="intro-cell__stack is-start is-fill">
+            <SkeletonText />
+            <SkeletonText length="50%" />
+          </div>
         </div>
       );
     case 9:
       return (
-        <div className="intro-cell__row">
-          {["default", "lower", "upper"].map((n) => (
-            <span
-              key={n}
-              className="intro-cell__box"
-              style={{
-                background: `var(--mint-background-${n})`,
-                border: "1px solid var(--mint-border-default)",
-              }}
-            />
-          ))}
+        <div className="intro-cell__stack">
+          <Text variant="heading-2-bold" color="strong">
+            오늘의 시세
+          </Text>
+          <Text variant="body-3-regular" color="tertiary">
+            2026-11-11 업데이트
+          </Text>
         </div>
       );
     case 10:
       return (
         <div className="intro-cell__row">
-          <Button size="sm" tabIndex={-1}>
-            sm
-          </Button>
-          <Button size="md" tabIndex={-1}>
-            md
-          </Button>
-          <Button size="lg" tabIndex={-1}>
-            lg
-          </Button>
+          <Circular color="brand" />
+          <Button loading>저장</Button>
         </div>
       );
     default:
       return (
-        <span className="text-label-1-semibold text-text-brand">
-          문서 보기 <ArrowRightIcon size={16} className="inline" />
-        </span>
+        <FramedCheckbox
+          className="intro-cell__framed"
+          defaultChecked
+          label="자동 로그인"
+          description="이 기기에서 유지해요"
+        />
       );
   }
 }
@@ -202,7 +204,6 @@ function Story() {
   const canvas = useRef<HTMLCanvasElement>(null);
   const cells = useRef<(HTMLDivElement | null)[]>([]);
   const captions = useRef<(HTMLDivElement | null)[]>([]);
-  const ticks = useRef<(HTMLButtonElement | null)[]>([]);
 
   useEffect(() => {
     const trackEl = track.current;
@@ -240,10 +241,9 @@ function Story() {
         el.style.transform = `translate(${gx - width / 2}px, ${gy - height / 2}px)`;
         el.style.opacity = i < count ? String(cardIn) : "0";
         const inner = el.firstElementChild as HTMLElement | null;
-        if (inner) inner.style.transform = `scale(${cs})`;
+        if (inner) inner.style.transform = `translate(-50%, -50%) scale(${cs})`;
       }
 
-      let active = 0;
       chapters.forEach((chapter, i) => {
         const [a, b] = chapter.range;
         const el = captions.current[i];
@@ -253,9 +253,7 @@ function Story() {
         const o = fadeIn * (1 - fadeOut);
         el.style.opacity = String(o);
         el.style.transform = `translateY(${(1 - fadeIn) * 28 - fadeOut * 16}px)`;
-        if (p >= a) active = i;
       });
-      ticks.current.forEach((t, i) => t?.classList.toggle("is-on", i === active));
     };
 
     const update = () => {
@@ -308,24 +306,12 @@ function Story() {
     };
   }, []);
 
-  const goTo = (index: number) => {
-    const trackEl = track.current;
-    if (!trackEl) return;
-    const [a, b] = chapters[index].range;
-    const target = Math.min((a + Math.min(b, 1)) / 2 + 0.04, 0.99);
-    const top = trackEl.getBoundingClientRect().top + window.scrollY;
-    window.scrollTo({
-      top: top + target * (trackEl.offsetHeight - window.innerHeight),
-      behavior: "smooth",
-    });
-  };
-
   return (
     <div className="intro-track" ref={track}>
       <div className="intro-stage" ref={stage}>
         <canvas ref={canvas} className="intro-canvas" aria-hidden="true" />
 
-        <div className="intro-grid" aria-hidden="true">
+        <div className="intro-grid" aria-hidden="true" inert>
           {Array.from({ length: 12 }, (_, i) => (
             <div
               key={i}
@@ -357,97 +343,19 @@ function Story() {
             <p className="intro-caption__sub">{chapter.sub}</p>
           </div>
         ))}
-
-        <Link href="/introduction" className="intro-cta">
-          문서 보기 <ArrowRightIcon size={16} />
-        </Link>
-
-        <nav className="intro-ticks" aria-label="이야기 단계">
-          {chapters.map((chapter, i) => (
-            <button
-              key={chapter.title}
-              type="button"
-              aria-label={chapter.title.replace("\n", " ")}
-              ref={(el) => {
-                ticks.current[i] = el;
-              }}
-              className={i === 0 ? "is-on" : ""}
-              onClick={() => goTo(i)}
-            />
-          ))}
-        </nav>
       </div>
     </div>
   );
 }
 
-/* ───────────── 헤더·마무리·푸터 ───────────── */
-
-function Header() {
+/**
+ * 첫 화면(/) 맨 위의 스크롤 이야기. 문서 사이트 헤더 아래에 어두운 무대로 붙는다.
+ * 이야기가 끝나면 아래로 첫 화면의 나머지(슬로건·바로가기·FAQ)가 이어진다.
+ */
+export function IntroStory() {
   return (
-    <header className="intro-header">
-      <Link href="/" className="intro-header__logo" aria-label="MINT">
-        <img src="/img/mint-logo-dark.svg" alt="MINT" height={22} />
-      </Link>
-      <nav className="intro-header__nav" aria-label="바로가기">
-        <Link href="/foundations/colors">파운데이션</Link>
-        <Link href="/components/overview">컴포넌트</Link>
-        <Link href="/brand/logo">브랜드</Link>
-      </nav>
-    </header>
-  );
-}
-
-const pills = [
-  { to: "/getting-started", label: "시작하기", primary: true },
-  { to: "/foundations/colors", label: "파운데이션" },
-  { to: "/components/overview", label: "컴포넌트" },
-  { to: "/brand/logo", label: "브랜드" },
-];
-
-/** 마무리: 두 단계 문장과 알약 모양 바로가기 */
-function Ending() {
-  return (
-    <section className="intro-end">
-      <p className="intro-end__lead">
-        같은 틀로 정렬된 화면이 쌓여
-        <br />
-        크립토랩의 하루가 됩니다
-      </p>
-      <h2 className="intro-end__title">
-        크립토랩의 모든 화면을
-        <br />
-        <em>같은 언어로</em>
-      </h2>
-      <div className="intro-pills">
-        {pills.map((pill) => (
-          <Link
-            key={pill.to}
-            href={pill.to}
-            className={`intro-pill ${pill.primary ? "is-primary" : ""}`}
-          >
-            {pill.label} <ArrowRightIcon size={16} />
-          </Link>
-        ))}
-      </div>
+    <section className="intro" aria-label="MINT 소개" data-pagefind-ignore>
+      <Story />
     </section>
-  );
-}
-
-export function Intro() {
-  return (
-    <div className="intro">
-      <Header />
-      <main>
-        <Story />
-        <Ending />
-      </main>
-      <footer className="intro-footer">
-        <span>Mint to Coin, Coin to CryptoLab</span>
-        <span>
-          MINT · 한국경제TV 크립토랩 디자인 시스템 · <Link href="/changelog">변경 이력</Link>
-        </span>
-      </footer>
-    </div>
   );
 }

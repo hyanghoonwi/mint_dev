@@ -124,6 +124,29 @@ export function ListRows({
   );
 }
 
+/** 다른 페이지로 가는 링크 카드(예: Foundations에서 해당 컴포넌트 사용법으로). 누를 수 있게 테두리와 화살표를 둔다 */
+export function PageLink({
+  to,
+  title,
+  description,
+}: {
+  to: string;
+  title: string;
+  description: string;
+}) {
+  return (
+    <Link href={to} className="docs-page-link">
+      <span className="docs-page-link__text">
+        <strong>{title}</strong>
+        <span>{description}</span>
+      </span>
+      <span className="docs-page-link__arrow" aria-hidden="true">
+        →
+      </span>
+    </Link>
+  );
+}
+
 /** 문서 페이지 아래 푸터: 저작권 + More information(펼치면 링크) */
 export function DocsFooter() {
   return (
@@ -133,7 +156,7 @@ export function DocsFooter() {
         <summary>More information</summary>
         <ul>
           <li>
-            <Link href="/getting-started/changelog">변경 이력</Link>
+            <Link href="/getting-started/changelog">Changelog</Link>
           </li>
         </ul>
       </details>

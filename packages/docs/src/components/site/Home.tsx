@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { IntroStory } from "../intro/Intro";
 import { DocsFooter } from "./Landing";
 
 // 첫 화면(/). Montage 첫 화면과 같은 틀: 히어로 → 흐르는 띠 → 시작 카드 → 원칙 → FAQ → 푸터.
@@ -18,7 +19,7 @@ const starts = [
     to: "/getting-started/installation",
   },
   {
-    title: "파운데이션 둘러보기",
+    title: "Foundations 둘러보기",
     description: "컬러, 타이포그래피, 간격, 아이콘",
     meta: "Foundations",
     to: "/foundations/overview",
@@ -53,7 +54,7 @@ const faqs = [
   },
   {
     q: "Next.js 서버 컴포넌트에서 쓸 수 있나요?",
-    a: '네. 상태가 필요한 컴포넌트에는 라이브러리가 "use client"를 달아 두어서 서버 컴포넌트에서 바로 import해도 됩니다. onClick처럼 함수를 넘기는 부분만 클라이언트 컴포넌트에서 씁니다.',
+    a: '네. 상태가 필요한 컴포넌트에는 라이브러리가 "use client"를 달아 두어서 서버 컴포넌트에서 바로 import해도 돼요. onClick처럼 함수를 넘기는 부분만 클라이언트 컴포넌트에서 써요.',
   },
   {
     q: "Tailwind 설정이 필요한가요?",
@@ -65,13 +66,16 @@ const faqs = [
   },
   {
     q: "새 버전에서 무엇이 바뀌었는지 어디서 보나요?",
-    a: "변경 이력 페이지에서 버전별로 확인할 수 있어요. 바꿔야 하는 코드가 있으면 업그레이드 방법도 함께 적어 둡니다.",
+    a: "Changelog 페이지에서 버전별로 확인할 수 있어요. 바꿔야 하는 코드가 있으면 업그레이드 방법도 함께 적어 둬요.",
   },
 ];
 
 export function Home() {
   return (
     <div className="docs-home">
+      {/* 점(three.js)이 MINT 로고 → 3D 공간 → 컴포넌트 격자로 바뀌는 스크롤 이야기 */}
+      <IntroStory />
+
       <section className="docs-home__hero">
         <h1 className="docs-home__title">
           Mint to Coin,
@@ -79,8 +83,8 @@ export function Home() {
           Coin to CryptoLab
         </h1>
         <p className="docs-home__lead">
-          MINT는 크립토랩의 모든 화면을 같은 언어로 만들기 위한 디자인 시스템입니다. 같은 틀로
-          코인을 찍어 내는 조폐소처럼, 같은 컴포넌트로 화면을 만듭니다.
+          MINT는 크립토랩의 모든 화면을 같은 언어로 만들기 위한 디자인 시스템이에요. 같은 틀로
+          코인을 찍어 내는 조폐소처럼, 같은 컴포넌트로 화면을 만들어요.
         </p>
         <Link className="docs-home__cta" href="/getting-started">
           Getting Started

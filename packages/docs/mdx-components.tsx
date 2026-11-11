@@ -9,6 +9,7 @@ import {
   LinkButtons,
   LinkCards,
   ListRows,
+  PageLink,
   Principles,
 } from "./src/components/site/Landing";
 import {
@@ -20,6 +21,10 @@ import {
 import { AlertGuide, AlertPlayground } from "./src/components/site/AlertDocs";
 import { BadgeGuide, BadgePlayground } from "./src/components/site/BadgeDocs";
 import { CategoryGuide, CategoryPlayground } from "./src/components/site/CategoryDocs";
+import {
+  SegmentedControlGuide,
+  SegmentedControlPlayground,
+} from "./src/components/site/SegmentedControlDocs";
 import { PaginationGuide, PaginationPlayground } from "./src/components/site/PaginationDocs";
 import {
   PageIndicatorGuide,
@@ -42,16 +47,12 @@ import {
 import { ButtonGuide, ButtonPlayground } from "./src/components/site/ButtonDocs";
 import { ComponentBadges } from "./src/components/site/ComponentBadges";
 import { ExampleTabs } from "./src/components/site/ExampleTabs";
-import {
-  ColorScales,
-  GridColumns,
-  SemanticColors,
-  SpacingScale,
-  TypeScale,
-} from "./src/components/site/Foundations";
+import { ColorPalette } from "./src/components/site/ColorPalette";
+import { GridColumns, SpacingScale, Typeface, TypeScale } from "./src/components/site/Foundations";
 import { IconGallery } from "./src/components/site/IconGallery";
 import { ComponentCards, FoundationCards } from "./src/components/site/Catalog";
 import { Home } from "./src/components/site/Home";
+import { CopyCode } from "./src/components/site/CopyCode";
 
 const docsComponents = getDocsMDXComponents();
 
@@ -79,11 +80,23 @@ const DocsWrapper: NonNullable<MDXComponents["wrapper"]> = (props) => {
   );
 };
 
+// 코드 블록(```)마다 복사 버튼을 붙인다. Nextra 기본 버튼은 마우스를 올려야 보여서 쓰지 않는다.
+// <Example>의 코드(MDXRemote)도 이 목록을 쓰므로 함께 적용된다
+const DocsPre: NonNullable<MDXComponents["pre"]> = (props) => {
+  const Pre = docsComponents.pre!;
+  return (
+    <CopyCode>
+      <Pre {...props} />
+    </CopyCode>
+  );
+};
+
 // MDX에서 import 없이 쓸 컴포넌트. 예시 코드는 <Example name="..." />, 나머지는 문서 사이트 화면 조각이다.
 export function useMDXComponents(components?: MDXComponents) {
   return {
     ...docsComponents,
     wrapper: DocsWrapper,
+    pre: DocsPre,
     Callout,
     Example,
     Hero,
@@ -92,6 +105,7 @@ export function useMDXComponents(components?: MDXComponents) {
     Figure,
     LinkButtons,
     ListRows,
+    PageLink,
     ButtonPlayground,
     ComponentBadges,
     ExampleTabs,
@@ -107,6 +121,8 @@ export function useMDXComponents(components?: MDXComponents) {
     PageIndicatorGuide,
     CategoryPlayground,
     CategoryGuide,
+    SegmentedControlPlayground,
+    SegmentedControlGuide,
     FramedPlayground,
     FramedGuide,
     RadioPlayground,
@@ -130,9 +146,9 @@ export function useMDXComponents(components?: MDXComponents) {
     AlertPlayground,
     AlertGuide,
     ButtonGuide,
-    ColorScales,
-    SemanticColors,
+    ColorPalette,
     TypeScale,
+    Typeface,
     SpacingScale,
     GridColumns,
     IconGallery,

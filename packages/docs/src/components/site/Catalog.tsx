@@ -15,6 +15,7 @@ import {
   FramedRadio,
   Radio,
   RadioGroup,
+  SegmentedControl,
   Circular,
   Grid,
   HeartIcon,
@@ -251,6 +252,24 @@ const components: { name: string; group: string; to: string; preview: ReactNode 
     ),
   },
   {
+    name: "Segmented control",
+    group: "Navigation",
+    to: "/components/segmented-control",
+    preview: (
+      <span aria-hidden="true" style={{ pointerEvents: "none" }}>
+        <SegmentedControl
+          aria-label="미리보기"
+          size="sm"
+          items={[
+            { value: "day", label: "일" },
+            { value: "week", label: "주" },
+            { value: "month", label: "월" },
+          ]}
+        />
+      </span>
+    ),
+  },
+  {
     name: "Icon button",
     group: "Actions",
     to: "/components/icon-button",
@@ -297,12 +316,16 @@ function CatalogCard({ name, to, preview }: { name: string; to: string; preview:
   );
 }
 
-/** Components Overview의 한 분류 카드 묶음. 분류 제목은 MDX에서 `## Actions`처럼 쓴다(목차에 나오게) */
+/**
+ * Components Overview의 한 분류 카드 묶음. 분류 제목은 MDX에서 `## Actions`처럼 쓴다(목차에 나오게).
+ * 분류 안에서는 이름의 알파벳 순으로 보여 준다(사이드바 `components/_meta.js`와 같은 순서)
+ */
 export function ComponentCards({ group }: { group: string }) {
   return (
     <div className="docs-comp-grid">
       {components
         .filter((item) => item.group === group)
+        .sort((a, b) => a.name.localeCompare(b.name, "en"))
         .map((item) => (
           <CatalogCard key={item.name} {...item} />
         ))}

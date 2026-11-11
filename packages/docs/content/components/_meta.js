@@ -1,3 +1,4 @@
+// 분류(separator) 순서는 그대로 두고, 분류 안에서는 항목을 알파벳 순으로 둔다(Overview 카드와 같은 순서)
 export default {
   overview: "Overview",
   "---actions": { type: "separator", title: "Actions" },
@@ -7,12 +8,13 @@ export default {
   category: "Category",
   "page-indicator": "Page indicator",
   pagination: "Pagination",
+  "segmented-control": "Segmented control",
   "---selection": { type: "separator", title: "Selection" },
+  "check-mark": "Check mark",
   checkbox: "Checkbox",
   chip: "Chip",
   framed: "Framed",
   radio: "Radio",
-  "check-mark": "Check mark",
   "---contents": { type: "separator", title: "Contents" },
   avatar: "Avatar",
   "avatar-group": "Avatar group",
