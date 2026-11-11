@@ -1,0 +1,59 @@
+# useClipboard
+
+글자를 클립보드에 복사하고, 복사했는지 잠시 알려 주는 훅이에요.
+
+<ComponentBadges />
+
+## Usage
+
+`copy`에 복사할 글자를 넘기면 `copied`가 2초 동안 `true`가 돼요. 클라이언트 컴포넌트에서 써요.
+
+```tsx
+const { copy, copied } = useClipboard();
+
+<IconButton
+  icon={copied ? <CheckIcon /> : <CopyIcon />}
+  aria-label={copied ? "복사했어요" : "주소 복사"}
+  onClick={() => copy(address)}
+/>;
+```
+
+`copy`는 성공 여부(`true`·`false`)를 돌려줘요. 실패하면 `error`에 오류가 담겨요.
+
+## Examples
+
+<ExampleTabs
+  items={[
+    { title: "주소 복사", name: "use-clipboard/CopyAddress" },
+    { title: "버튼으로 복사", name: "use-clipboard/WithButton" },
+  ]}
+/>
+
+- **주소 복사**: 긴 지갑 주소는 한 줄로 줄이고 옆에 복사 아이콘 버튼을 둬요. 복사하면 아이콘과 이름이 함께 바뀌어요.
+- **버튼으로 복사**: 글자 버튼이면 글자도 "복사했어요"로 바꿔요. `timeout`으로 돌아오는 시간을 정해요.
+
+## API
+
+`useClipboard(options)`가 돌려주는 값이에요.
+
+| 이름     | 타입                                 | 설명                                            |
+| -------- | ------------------------------------ | ----------------------------------------------- |
+| `copy`   | `(text: string) => Promise<boolean>` | 글자를 복사해요. 성공하면 `true`                |
+| `copied` | `boolean`                            | 방금 복사했는지. `timeout`이 지나면 `false`예요 |
+| `error`  | `Error \| null`                      | 마지막 복사의 오류. 성공하면 `null`이에요       |
+| `reset`  | `() => void`                         | `copied`와 `error`를 처음으로 되돌려요          |
+
+`options`로 넘기는 값이에요.
+
+| 이름        | 타입                     | 기본값 | 설명                                                      |
+| ----------- | ------------------------ | ------ | --------------------------------------------------------- |
+| `timeout`   | `number`                 | `2000` | `copied`가 남아 있는 시간(ms). `0`이면 `reset` 전까지예요 |
+| `onSuccess` | `(text: string) => void` | -      | 복사에 성공하면 불려요                                    |
+| `onError`   | `(error: Error) => void` | -      | 복사에 실패하면 불려요                                    |
+
+## Guidelines
+
+- `copy`는 버튼을 누를 때처럼 사용하는 쪽의 동작 안에서 불러요. 화면이 뜰 때 바로 부르면 브라우저가 막아요.
+- 복사하면 아이콘과 이름(`aria-label`)을 함께 바꿔요. 색만으로 알리지 않아요.
+- 주소처럼 긴 값은 한 줄로 줄여 보여 주고, 복사는 전체 값으로 해요.
+- 실패할 수 있어요(권한, 오래된 브라우저). `error`가 있으면 직접 선택해 복사하도록 안내해요.

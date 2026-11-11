@@ -1,0 +1,60 @@
+# useDebounceValue
+
+값이 잠시 멈춘 뒤에 확정해 주는 훅이에요.
+
+<ComponentBadges />
+
+## Usage
+
+빠르게 바뀌는 값(검색어)과 기다릴 시간을 넘기면 객체를 돌려줘요. `delay`(기본 300ms) 동안 값이 더 바뀌지 않으면 `debouncedValue`가 확정돼요. 클라이언트 컴포넌트에서 써요.
+
+```tsx
+const [query, setQuery] = useState("");
+const { debouncedValue, isDebouncing } = useDebounceValue(query, 300);
+
+// 입력창에는 query, 요청에는 debouncedValue
+<input value={query} onChange={(event) => setQuery(event.target.value)} />;
+useEffect(() => {
+  search(debouncedValue);
+}, [debouncedValue]);
+```
+
+Enter나 검색 버튼처럼 바로 요청해야 하면 `flush()`를, 기다리던 값을 버리려면 `cancel()`을 불러요.
+
+```tsx
+const { debouncedValue, flush } = useDebounceValue(query, 300);
+
+<input onKeyDown={(event) => event.key === "Enter" && flush()} />;
+```
+
+## Examples
+
+<ExampleTabs items={[{ title: "검색", name: "use-debounce-value/Search" }]} />
+
+- **검색**: 입력창은 바로 바뀌고, 결과는 입력을 멈추고 300ms 뒤에 바뀌어요. 기다리는 동안 `isDebouncing`으로 "입력 중…"을 보여 주고, Enter를 누르면 바로 검색해요.
+
+## API
+
+`useDebounceValue(value, delay)`가 받는 값이에요.
+
+| 이름    | 타입     | 기본값 | 설명                                          |
+| ------- | -------- | ------ | --------------------------------------------- |
+| `value` | `T`      | -      | 늦출 값. 첫 렌더에서는 이 값이 확정 값이에요  |
+| `delay` | `number` | `300`  | 기다리는 시간(ms). `0` 이하면 기다리지 않아요 |
+
+돌려주는 객체예요.
+
+| 이름             | 타입         | 설명                                                                         |
+| ---------------- | ------------ | ---------------------------------------------------------------------------- |
+| `debouncedValue` | `T`          | `delay` 동안 바뀌지 않아 확정된 값. 요청·필터에 써요                         |
+| `isDebouncing`   | `boolean`    | 값이 바뀌어 확정을 기다리는 중인지. 입력 중 표시에 써요                      |
+| `flush`          | `() => void` | 기다리지 않고 지금 값을 바로 확정해요                                        |
+| `cancel`         | `() => void` | 기다리던 값을 버리고 이전 확정 값을 유지해요. 값이 다시 바뀌면 다시 기다려요 |
+
+## Guidelines
+
+- 입력창의 `value`에는 원래 값을 써요. 확정 값을 넣으면 글자가 늦게 찍혀요.
+- 요청·필터·주소 바꾸기처럼 무거운 일에만 확정 값을 써요.
+- 검색은 300ms 안팎이 알맞아요. 너무 길면 결과가 늦게 느껴져요.
+- Enter나 검색 버튼에는 `flush()`를 연결해서 기다리지 않게 해요.
+- 객체나 배열을 넘길 때는 매 렌더 새로 만들지 않아요(`useMemo`). 새 객체는 바뀐 것으로 보고 계속 기다려요.
