@@ -26,11 +26,23 @@
 | 체크(Checked) | Unchecked · Checked · Indeterminate | Indeterminate는 하위 항목 일부만 선택됐을 때 써요 |
 | 상태          | Normal · Pressed · Disabled         | Hover는 Pressed와 같아요                          |
 | 레이블        | 켜고 끌 수 있어요                   | 레이블 없이 쓰면 `aria-label`을 꼭 붙여요         |
+| 크기(`size`)  | XSmall · Small · Medium · Large     | 기본은 Small. 구간별 값도 받아요                  |
 | Tight · Bold  | False · True                        | Tight는 촘촘한 목록, Bold는 강조 레이블이에요     |
 
 - **체크**: `checked`(제어) 또는 `defaultChecked`(비제어). 일부 선택은 `indeterminate`이고, 체크 대신 가로 막대가 보입니다.
 - **색**: 체크 안 됨은 흰 상자·회색 테두리(`border-strong`), 체크·일부 선택은 브랜드 상자에 흰 체크·막대입니다. 누르는 동안과 hover는 한 단계 진해지고(`fill-neutral-weak` · `fill-brand-pressed`), `disabled`는 회색 상자(`fill-disabled`) 또는 연한 파랑 상자(`fill-brand-weak-pressed`)에 회색 글자(`text-disabled`)입니다.
-- **크기**: 상자 20px(모서리 4), 레이블 Body 2 Regular(16/24, `bold`면 SemiBold), 사이 간격 8입니다. 기본은 바깥 여백 8(높이 40), `tight`는 여백 0(높이 24)입니다.
+- **크기(`size`)**: Figma Size(2026-11-11 추가)와 같습니다. 모서리는 모두 4, 사이 간격 8, 기본 모양의 좌우 여백 8입니다.
+
+  | `size`     | 상자 · 체크 · 막대 | 레이블(`bold`면 SemiBold)              | 높이(기본 · `tight`) |
+  | ---------- | ------------------ | -------------------------------------- | -------------------- |
+  | `xs`       | 16 · 12 · 8×1.5    | Body 4(14/22, Figma 14/20)             | 40 · 22              |
+  | `sm`(기본) | 20 · 16 · 10×2     | Body 2(16/24)                          | 40 · 24              |
+  | `md`       | 24 · 20 · 12×2.5   | Body 1(17/28, Figma 18/28)             | 40 · 28              |
+  | `lg`       | 32 · 26 · 16×3     | Heading 2 Medium(20/30, Figma Regular) | 48 · 32              |
+  - 레이블 글자는 `CheckMark`와 같은 대응입니다(Figma의 14/20·18/28·20/30 Regular는 MINT 글자 표에 없음).
+  - 구간별 값도 받습니다(`size={{ base: "md", desktop: "sm" }}`). 같은 목록에서는 크기를 하나로 맞춥니다.
+  - `FramedCheckbox`의 상자는 지금처럼 Small(20) 하나입니다.
+
 - 나머지 `<input>` 속성(`name`, `value`, `required`, `onChange` 등)은 입력에 그대로 넘어가고, `className`·`style`은 바깥 `<label>`에 붙습니다. `ref`는 입력을 가리킵니다.
 
 ```tsx
@@ -83,4 +95,4 @@ const all = agreed.length === terms.length;
 
 ## Props 요약
 
-`checked` · `defaultChecked` · `indeterminate` · `children`(레이블) · `bold` · `tight` · `disabled` · `onChange`와 나머지 `<input>` 속성. 자세한 표는 docs의 Checkbox 페이지를 봅니다.
+`checked` · `defaultChecked` · `indeterminate` · `children`(레이블) · `size` · `bold` · `tight` · `disabled` · `onChange`와 나머지 `<input>` 속성. 자세한 표는 docs의 Checkbox 페이지를 봅니다.

@@ -1,6 +1,6 @@
 "use client";
 
-import { CheckMark } from "@futurewiz-rms/mint";
+import { CheckMark, type CheckMarkSize } from "@futurewiz-rms/mint";
 import { DoDont } from "./DoDont";
 import { jsx, Playground } from "./Playground";
 
@@ -8,6 +8,7 @@ export function CheckMarkPlayground() {
   return (
     <Playground
       controls={[
+        { prop: "size", type: "select", options: ["xs", "sm", "md", "lg"], default: "sm" },
         { prop: "checked", type: "boolean", default: true },
         { prop: "label", type: "boolean", default: true },
         { prop: "tight", type: "boolean", default: false },
@@ -16,6 +17,7 @@ export function CheckMarkPlayground() {
       ]}
       render={(v) => (
         <CheckMark
+          size={v.size as CheckMarkSize}
           checked={v.checked as boolean}
           tight={v.tight as boolean}
           disabled={v.disabled as boolean}
@@ -29,6 +31,7 @@ export function CheckMarkPlayground() {
         jsx(
           "CheckMark",
           {
+            size: v.size !== "sm" ? (v.size as string) : undefined,
             checked: v.checked as boolean,
             tight: v.tight as boolean,
             disabled: v.disabled as boolean,

@@ -4,8 +4,9 @@
 
 - **`CheckMark`** — 목록에서 선택된 항목을 표시하는 체크 표시(체크 아이콘 + 레이블). 서버 컴포넌트에서도 쓸 수 있습니다(`onClick`을 넘길 때만 클라이언트 컴포넌트 안에서 씁니다). 값을 고르는 폼 컨트롤은 `Checkbox`입니다.
   - `checked`: 선택 여부(기본 `false`). 체크 안 됨은 회색 체크, 체크됨은 브랜드 색 체크. hover·누름은 한 단계 진하게
-  - `children`: 레이블(Body 2, 16/24). 없으면 체크만 보이므로 `aria-label`을 줍니다
-  - `tight`: 바깥 여백 8 → 0(높이 40 → 24). 촘촘한 목록에서만 씁니다. 터치 화면에서는 두 크기 모두 눌림 영역이 44px로 넓어집니다
+  - `children`: 레이블. 없으면 체크만 보이므로 `aria-label`을 줍니다
+  - `size`: `xs`(체크 16, Body 4) · `sm`(20, Body 2, 기본) · `md`(24, Body 1) · `lg`(32, Heading 2 Medium, 높이 48). 구간별 객체도 받음(`{ base: "md", desktop: "sm" }`)
+  - `tight`: 바깥 여백 8 → 0(높이 40 → 내용 높이 22~32). 촘촘한 목록에서만 씁니다. 터치 화면에서는 두 크기 모두 눌림 영역이 44px로 넓어집니다
   - `disabled`: 연한 회색 체크·회색 글자, 누를 수 없음
   - `onClick`을 주면 항목 전체가 눌리는 `<button>`이 됩니다(없으면 표시용 `<span>`). 항목 폭으로 넓히려면 `className="w-full"`
   - `role`(눌릴 때): `checkbox`(기본, `aria-checked`) · `radio` · `option`(`aria-selected`, listbox 안) · `menuitemcheckbox` · `menuitemradio`(메뉴 안)
@@ -13,8 +14,9 @@
 - **`Checkbox`** — 여러 개를 고르거나 한 항목을 켜고 끄는 체크박스. 클라이언트 컴포넌트입니다(`"use client"`가 달려 있어 서버 컴포넌트에서 import해도 됩니다. 단 `onChange`는 클라이언트 컴포넌트에서 넘깁니다). 진짜 `<input type="checkbox">`를 `<label>`로 감싸서 레이블을 눌러도 선택되고 폼 제출(`name`·`value`)이 그대로 됩니다.
   - `checked`·`onChange`(제어) 또는 `defaultChecked`(비제어). 나머지 `<input>` 속성은 입력에, `className`·`style`은 바깥 `<label>`에 붙습니다
   - `indeterminate`: 하위 항목 일부만 선택된 전체 선택 칸(가로 막대, 스크린리더 "mixed")
-  - `children`: 레이블(Body 2, 16/24). 없으면 `aria-label`을 꼭 줍니다. `bold`: SemiBold 강조 레이블(전체 선택 등)
-  - `tight`: 바깥 여백 8 → 0(높이 40 → 24), 촘촘한 목록에서만. `disabled`
+  - `children`: 레이블(크기에 따라 Body 4~Heading 2). 없으면 `aria-label`을 꼭 줍니다. `bold`: SemiBold 강조 레이블(전체 선택 등)
+  - `size`: `xs`(상자 16, Body 4) · `sm`(20, Body 2, 기본) · `md`(24, Body 1) · `lg`(32, Heading 2, 높이 48). 구간별 객체도 받음(`{ base: "md", desktop: "sm" }`)
+  - `tight`: 바깥 여백 8 → 0(높이 40 → 내용 높이 22~32), 촘촘한 목록에서만. `disabled`
   - 색: 체크 안 됨은 흰 상자·회색 테두리, 체크·일부 선택은 브랜드 상자. hover·누름은 한 단계 진하게. 터치 화면 눌림 영역은 44px 이상
   - 금지: 하나만 고르기(Radio), 누르자마자 적용되는 설정(Switch). 목록의 선택 표시는 `CheckMark`. 상세 규칙은 `components/checkbox/AGENTS.md`
 - **`Chip`** — 필터·카테고리처럼 선택 상태(`active`)가 있는 칩 하나. 서버 컴포넌트에서도 쓸 수 있습니다(`onClick`을 넘길 때만 클라이언트 컴포넌트 안에서 씁니다). `<button>`이고 선택은 `aria-pressed`로 읽힙니다. 한 줄에서 하나만 고르는 칩 목록은 `Category`를 씁니다.

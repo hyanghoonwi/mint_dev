@@ -20,15 +20,27 @@
 
 상태와 레이블을 골라요.
 
-| 구성               | 선택지                      | 설명                                |
-| ------------------ | --------------------------- | ----------------------------------- |
-| 체크(`checked`)    | False · True                | True일 때 브랜드 색으로 표시해요    |
-| 상태               | Normal · Pressed · Disabled | Hover는 Pressed와 같아요            |
-| 레이블(`children`) | 켜고 끌 수 있어요           | 단독으로 쓰면 `aria-label`을 붙여요 |
-| Tight(`tight`)     | False · True                | 촘촘한 목록에서만 써요              |
+| 구성               | 선택지                          | 설명                                |
+| ------------------ | ------------------------------- | ----------------------------------- |
+| 체크(`checked`)    | False · True                    | True일 때 브랜드 색으로 표시해요    |
+| 상태               | Normal · Pressed · Disabled     | Hover는 Pressed와 같아요            |
+| 레이블(`children`) | 켜고 끌 수 있어요               | 단독으로 쓰면 `aria-label`을 붙여요 |
+| 크기(`size`)       | XSmall · Small · Medium · Large | 기본은 Small. 구간별 값도 받아요    |
+| Tight(`tight`)     | False · True                    | 촘촘한 목록에서만 써요              |
 
 - **색**: 체크 안 됨은 회색 체크(`icon-secondary`), 체크됨은 브랜드 체크(`icon-brand`)입니다. 누르는 동안과 hover는 한 단계 진해지고(`icon-default` · `icon-brand-pressed`), `disabled`는 연한 회색 체크와 회색 글자(`text-disabled`)입니다.
-- **크기**: 체크 20px, 레이블 Body 2 Regular(16/24), 사이 간격 8입니다. 기본은 바깥 여백 8(높이 40), `tight`는 여백 0(높이 24)입니다. 둘 다 터치 화면에서는 눌림 영역이 44px로 넓어집니다.
+- **크기(`size`)**: Figma Size(2026-11-11 추가)와 같습니다. 사이 간격은 모두 8, 기본 모양의 좌우 여백 8입니다.
+
+  | `size`     | 체크 | 레이블                                       | 높이(기본 · `tight`) |
+  | ---------- | ---- | -------------------------------------------- | -------------------- |
+  | `xs`       | 16   | Body 4 Regular(14/22, Figma 14/20)           | 40 · 22              |
+  | `sm`(기본) | 20   | Body 2 Regular(16/24)                        | 40 · 24              |
+  | `md`       | 24   | Body 1 Regular(17/28, Figma 18/28)           | 40 · 28              |
+  | `lg`       | 32   | Heading 2 Medium(20/30, Figma 20/30 Regular) | 48 · 32              |
+  - Figma의 14/20·18/28·20/30 Regular는 MINT 글자 표에 없어서 가장 가까운 스타일을 씁니다.
+  - 구간별 값도 받습니다(`size={{ base: "md", desktop: "sm" }}`). 같은 목록에서는 크기를 하나로 맞춥니다.
+  - 터치 화면에서는 모든 크기의 눌림 영역이 44px로 넓어집니다.
+
 - **두 가지 쓰임**: `onClick`이 없으면 표시용 `<span>`, 있으면 항목 전체가 눌리는 `<button>`입니다.
 - **역할(`role`)**: 눌리는 CheckMark는 기본 `checkbox`(`aria-checked`)로 읽힙니다. 목록(`listbox`) 안이면 `role="option"`(`aria-selected`), 메뉴 안이면 `menuitemcheckbox`·`menuitemradio`, 하나만 고르면 `radio`를 줍니다.
 
@@ -74,4 +86,4 @@
 
 ## Props 요약
 
-`checked` · `children`(레이블) · `tight` · `disabled` · `role` · `onClick`과 나머지 `<button>` 속성. 자세한 표는 docs의 Check mark 페이지를 봅니다.
+`checked` · `children`(레이블) · `size` · `tight` · `disabled` · `role` · `onClick`과 나머지 `<button>` 속성. 자세한 표는 docs의 Check mark 페이지를 봅니다.

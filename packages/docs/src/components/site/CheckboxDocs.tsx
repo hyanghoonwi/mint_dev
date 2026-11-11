@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Checkbox } from "@futurewiz-rms/mint";
+import { Checkbox, type CheckboxSize } from "@futurewiz-rms/mint";
 import { DoDont } from "./DoDont";
 import { jsx, Playground } from "./Playground";
 
@@ -15,6 +15,7 @@ export function CheckboxPlayground() {
           options: ["unchecked", "checked", "indeterminate"],
           default: "checked",
         },
+        { prop: "size", type: "select", options: ["xs", "sm", "md", "lg"], default: "sm" },
         { prop: "label", type: "boolean", default: true },
         { prop: "bold", type: "boolean", default: false },
         { prop: "tight", type: "boolean", default: false },
@@ -27,6 +28,7 @@ export function CheckboxPlayground() {
           key={String(v.checked)}
           defaultChecked={v.checked === "checked"}
           indeterminate={v.checked === "indeterminate"}
+          size={v.size as CheckboxSize}
           bold={v.bold as boolean}
           tight={v.tight as boolean}
           disabled={v.disabled as boolean}
@@ -41,6 +43,7 @@ export function CheckboxPlayground() {
           {
             defaultChecked: v.checked === "checked",
             indeterminate: v.checked === "indeterminate",
+            size: v.size !== "sm" ? (v.size as string) : undefined,
             bold: v.bold as boolean,
             tight: v.tight as boolean,
             disabled: v.disabled as boolean,

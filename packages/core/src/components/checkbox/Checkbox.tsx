@@ -13,13 +13,114 @@ import {
   type ReactNode,
 } from "react";
 import { cn } from "../../utils/cn";
+import {
+  responsiveClasses,
+  type Responsive,
+  type ResponsiveClassTable,
+} from "../../utils/responsive";
 import { CheckboxMark } from "../_internal/controlMarks";
+
+/** Figma Size: XSmall(상자 16) · Small(20, 기본) · Medium(24) · Large(32) */
+export type CheckboxSize = "xs" | "sm" | "md" | "lg";
+
+// 상자 · 체크 · 일부 선택 막대(Figma 2261:28970 Checkbox Box): 16·12·8×1.5 / 20·16·10×2 / 24·20·12×2.5 / 32·26·16×3. 모서리는 모두 4
+const markClasses: ResponsiveClassTable<CheckboxSize> = {
+  base: {
+    xs: "size-4 [&_svg]:size-3 [&>span]:h-[1.5px] [&>span]:w-2",
+    sm: "size-5 [&_svg]:size-4 [&>span]:h-[2px] [&>span]:w-[10px]",
+    md: "size-6 [&_svg]:size-5 [&>span]:h-[2.5px] [&>span]:w-3",
+    lg: "size-8 [&_svg]:size-[26px] [&>span]:h-[3px] [&>span]:w-4",
+  },
+  tablet: {
+    xs: "tablet:size-4 tablet:[&_svg]:size-3 tablet:[&>span]:h-[1.5px] tablet:[&>span]:w-2",
+    sm: "tablet:size-5 tablet:[&_svg]:size-4 tablet:[&>span]:h-[2px] tablet:[&>span]:w-[10px]",
+    md: "tablet:size-6 tablet:[&_svg]:size-5 tablet:[&>span]:h-[2.5px] tablet:[&>span]:w-3",
+    lg: "tablet:size-8 tablet:[&_svg]:size-[26px] tablet:[&>span]:h-[3px] tablet:[&>span]:w-4",
+  },
+  desktop: {
+    xs: "desktop:size-4 desktop:[&_svg]:size-3 desktop:[&>span]:h-[1.5px] desktop:[&>span]:w-2",
+    sm: "desktop:size-5 desktop:[&_svg]:size-4 desktop:[&>span]:h-[2px] desktop:[&>span]:w-[10px]",
+    md: "desktop:size-6 desktop:[&_svg]:size-5 desktop:[&>span]:h-[2.5px] desktop:[&>span]:w-3",
+    lg: "desktop:size-8 desktop:[&_svg]:size-[26px] desktop:[&>span]:h-[3px] desktop:[&>span]:w-4",
+  },
+};
+
+// 레이블(CheckMark와 같은 크기 대응). Figma 14/20·18/28·20/30 Regular는 MINT 글자 표에 없어서 가장 가까운 스타일을 쓴다
+const labelClasses: ResponsiveClassTable<CheckboxSize> = {
+  base: {
+    xs: "text-body-4-regular",
+    sm: "text-body-2-regular",
+    md: "text-body-1-regular",
+    lg: "text-heading-2-medium",
+  },
+  tablet: {
+    xs: "tablet:text-body-4-regular",
+    sm: "tablet:text-body-2-regular",
+    md: "tablet:text-body-1-regular",
+    lg: "tablet:text-heading-2-medium",
+  },
+  desktop: {
+    xs: "desktop:text-body-4-regular",
+    sm: "desktop:text-body-2-regular",
+    md: "desktop:text-body-1-regular",
+    lg: "desktop:text-heading-2-medium",
+  },
+};
+
+// bold(SemiBold) 레이블
+const boldLabelClasses: ResponsiveClassTable<CheckboxSize> = {
+  base: {
+    xs: "text-body-4-semibold",
+    sm: "text-body-2-semibold",
+    md: "text-body-1-semibold",
+    lg: "text-heading-2-semibold",
+  },
+  tablet: {
+    xs: "tablet:text-body-4-semibold",
+    sm: "tablet:text-body-2-semibold",
+    md: "tablet:text-body-1-semibold",
+    lg: "tablet:text-heading-2-semibold",
+  },
+  desktop: {
+    xs: "desktop:text-body-4-semibold",
+    sm: "desktop:text-body-2-semibold",
+    md: "desktop:text-body-1-semibold",
+    lg: "desktop:text-heading-2-semibold",
+  },
+};
+
+// 기본 모양의 높이(Figma: XSmall·Small·Medium 40 · Large 48). tight는 내용 높이를 따른다
+const heightClasses: ResponsiveClassTable<CheckboxSize> = {
+  base: {
+    xs: "h-10",
+    sm: "h-10",
+    md: "h-10",
+    lg: "h-12",
+  },
+  tablet: {
+    xs: "tablet:h-10",
+    sm: "tablet:h-10",
+    md: "tablet:h-10",
+    lg: "tablet:h-12",
+  },
+  desktop: {
+    xs: "desktop:h-10",
+    sm: "desktop:h-10",
+    md: "desktop:h-10",
+    lg: "desktop:h-12",
+  },
+};
 
 export interface CheckboxProps extends Omit<ComponentProps<"input">, "type" | "children" | "size"> {
   /** 레이블. 없으면 상자만 보이므로 `aria-label`을 꼭 준다 */
   children?: ReactNode;
   /** 일부만 선택된 상태(전체 선택 칸). 체크 대신 가로 막대를 보여 주고 스크린리더에는 "일부 선택"으로 읽힌다 */
   indeterminate?: boolean;
+  /**
+   * `xs` 상자 16 · `sm` 20(기본) · `md` 24 · `lg` 32. 레이블 글자와 높이(기본 40, `lg` 48)도 함께 바뀐다.
+   * 구간별로 바꾸려면 객체를 준다: `{ base: "md", desktop: "sm" }`
+   */
+  size?: Responsive<CheckboxSize>;
   /** 바깥 여백(8px)을 없앤 촘촘한 모양. 촘촘한 목록에서만 쓴다. 기본 `false` */
   tight?: boolean;
   /** 레이블을 굵게(SemiBold). 전체 선택 같은 강조 레이블에 쓴다. 기본 `false` */
@@ -30,6 +131,7 @@ export interface CheckboxProps extends Omit<ComponentProps<"input">, "type" | "c
 export function Checkbox({
   children,
   indeterminate = false,
+  size = "sm",
   tight = false,
   bold = false,
   checked,
@@ -60,7 +162,7 @@ export function Checkbox({
     <label
       className={cn(
         "group/control relative inline-flex items-center gap-2",
-        tight ? "p-0" : "p-2",
+        tight ? "p-0" : cn("px-2", responsiveClasses<CheckboxSize>(size, "sm", heightClasses)),
         disabled ? "cursor-not-allowed" : "cursor-pointer",
         // Figma 접근성: 박스가 20px이라도 레이블을 포함해 영역을 넓힌다. 터치 화면에서는 눌림 영역을 44px 이상으로
         "pointer-coarse:before:absolute pointer-coarse:before:inset-x-0 pointer-coarse:before:top-1/2 pointer-coarse:before:h-11 pointer-coarse:before:-translate-y-1/2",
@@ -82,12 +184,17 @@ export function Checkbox({
         className="peer sr-only"
         {...props}
       />
-      <CheckboxMark checked={isChecked} indeterminate={indeterminate} disabled={disabled} />
+      <CheckboxMark
+        checked={isChecked}
+        indeterminate={indeterminate}
+        disabled={disabled}
+        sizeClassName={responsiveClasses<CheckboxSize>(size, "sm", markClasses)}
+      />
       {children != null && (
         <span
           className={cn(
             "whitespace-nowrap",
-            bold ? "text-body-2-semibold" : "text-body-2-regular",
+            responsiveClasses<CheckboxSize>(size, "sm", bold ? boldLabelClasses : labelClasses),
             disabled ? "text-text-disabled" : "text-text-primary",
           )}
         >

@@ -10,6 +10,7 @@ const meta = {
   parameters: { layout: "centered" },
   args: { children: "텍스트", onChange: fn() },
   argTypes: {
+    size: { control: "inline-radio", options: ["xs", "sm", "md", "lg"] },
     checked: { control: "boolean" },
     indeterminate: { control: "boolean" },
     bold: { control: "boolean" },
@@ -161,5 +162,56 @@ export const InForm: Story = {
     await userEvent.click(canvas.getByText("이더리움"));
     await userEvent.click(canvas.getByRole("button", { name: "제출" }));
     await expect(canvas.getByRole("status")).toHaveTextContent("btc,eth");
+  },
+};
+
+// Figma Size: XSmall 16 · Small 20(기본) · Medium 24 · Large 32. 상자·높이를 확인한다
+export const Sizes: Story = {
+  render: (args) => (
+    <div
+      style={{
+        display: "grid",
+        gridTemplateColumns: "repeat(3, auto)",
+        gap: 8,
+        alignItems: "center",
+      }}
+    >
+      {(["xs", "sm", "md", "lg"] as const).map((size) => [
+        <Checkbox key={size} {...args} size={size}>
+          {size}
+        </Checkbox>,
+        <Checkbox key={`${size}-c`} {...args} size={size} defaultChecked>
+          {`${size} 체크`}
+        </Checkbox>,
+        <Checkbox key={`${size}-i`} {...args} size={size} indeterminate tight>
+          {`${size} 일부`}
+        </Checkbox>,
+      ])}
+    </div>
+  ),
+  play: async ({ canvas }) => {
+    const label = (name: string) => canvas.getByRole("checkbox", { name }).closest("label")!;
+    const box = (name: string) =>
+      Math.round(label(name).querySelector("[aria-hidden=true]")!.getBoundingClientRect().width);
+    const height = (name: string) => Math.round(label(name).getBoundingClientRect().height);
+    await expect([box("xs"), box("sm"), box("md"), box("lg")]).toEqual([16, 20, 24, 32]);
+    await expect([height("xs"), height("sm"), height("md"), height("lg")]).toEqual([
+      40, 40, 40, 48,
+    ]);
+    const check = (name: string) =>
+      Math.round(label(name).querySelector("svg")!.getBoundingClientRect().width);
+    await expect([check("xs 체크"), check("sm 체크"), check("md 체크"), check("lg 체크")]).toEqual([
+      12, 16, 20, 26,
+    ]);
+    await expect([height("sm 일부"), height("md 일부"), height("lg 일부")]).toEqual([24, 28, 32]);
+  },
+};
+
+// 구간별 값: 모바일 md → 데스크톱(1024px~) sm
+export const Responsive: Story = {
+  args: { size: { base: "md", desktop: "sm" }, children: "약관 동의" },
+  play: async ({ canvas }) => {
+    const mark = canvas.getByRole("checkbox").closest("label")!.querySelector("[aria-hidden=true]");
+    await expect(mark).toHaveClass("size-6", "desktop:size-5");
   },
 };

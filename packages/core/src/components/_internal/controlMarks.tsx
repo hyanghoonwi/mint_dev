@@ -6,8 +6,11 @@ import { cn } from "../../utils/cn";
 const focusRing =
   "peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-border-focus";
 
+/** 상자의 기본 크기(Small 20): 상자 · 체크 16 · 일부 선택 막대 10×2. Checkbox는 size 표로 바꿔 넘긴다 */
+export const CHECKBOX_MARK_SM = "size-5 [&_svg]:size-4 [&>span]:h-[2px] [&>span]:w-[10px]";
+
 /**
- * 체크박스 상자(20px, 모서리 4). Figma `Checkbox Box`.
+ * 체크박스 상자(기본 20px, 모서리 4). Figma `Checkbox Box`.
  * 체크 안 됨은 흰 상자·회색 테두리, 체크·일부 선택은 브랜드 상자. 누르는 동안(hover 포함) 한 단계 진하게.
  */
 export function CheckboxMark({
@@ -15,12 +18,15 @@ export function CheckboxMark({
   indeterminate,
   disabled,
   ring = true,
+  sizeClassName = CHECKBOX_MARK_SM,
 }: {
   checked: boolean;
   indeterminate: boolean;
   disabled: boolean;
   /** 상자에 포커스 링을 그릴지. 틀 버전은 틀 전체에 그린다 */
   ring?: boolean;
+  /** 상자·체크·막대 크기 클래스. 기본 Small(20) */
+  sizeClassName?: string;
 }) {
   const on = indeterminate || checked;
   const box = disabled
@@ -35,16 +41,17 @@ export function CheckboxMark({
     <span
       aria-hidden="true"
       className={cn(
-        "flex size-5 shrink-0 items-center justify-center rounded-4 transition-colors",
+        "flex shrink-0 items-center justify-center rounded-4 transition-colors",
+        sizeClassName,
         ring && focusRing,
         box,
       )}
     >
       {indeterminate ? (
-        <span className="h-[2px] w-[10px] rounded-full bg-fill-white" />
+        <span className="rounded-full bg-fill-white" />
       ) : (
         checked && (
-          // Figma 체크(16px, 흰 2px 선)
+          // Figma 체크(Small 16px, 흰 2px 선). 크기는 sizeClassName의 [&_svg]:size-*
           <svg width="16" height="16" viewBox="0 0 16 16" fill="none" className="text-icon-on-fill">
             <path
               d="M3.33333 8L6.66667 11.3333L12.6667 4.66667"

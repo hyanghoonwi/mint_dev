@@ -10,6 +10,7 @@ const meta = {
   parameters: { layout: "centered" },
   args: { children: "텍스트", onClick: fn() },
   argTypes: {
+    size: { control: "inline-radio", options: ["xs", "sm", "md", "lg"] },
     checked: { control: "boolean" },
     tight: { control: "boolean" },
     disabled: { control: "boolean" },
@@ -151,5 +152,51 @@ export const DisabledNotClickable: Story = {
       pointerEventsCheck: 0,
     });
     await expect(args.onClick).not.toHaveBeenCalled();
+  },
+};
+
+// Figma Size: XSmall 16 · Small 20(기본) · Medium 24 · Large 32. 기본·tight 높이도 확인한다
+export const Sizes: Story = {
+  render: (args) => (
+    <div
+      style={{ display: "grid", gridTemplateColumns: "auto auto", gap: 8, alignItems: "center" }}
+    >
+      {(["xs", "sm", "md", "lg"] as const).map((size) => [
+        <CheckMark key={size} {...args} size={size} checked>
+          {size}
+        </CheckMark>,
+        <CheckMark key={`${size}-t`} {...args} size={size} checked tight>
+          {size} tight
+        </CheckMark>,
+      ])}
+    </div>
+  ),
+  play: async ({ canvas }) => {
+    const height = (name: string) =>
+      Math.round(canvas.getByRole("checkbox", { name }).getBoundingClientRect().height);
+    const icon = (name: string) =>
+      Math.round(
+        canvas.getByRole("checkbox", { name }).querySelector("svg")!.getBoundingClientRect().width,
+      );
+    await expect([icon("xs"), icon("sm"), icon("md"), icon("lg")]).toEqual([16, 20, 24, 32]);
+    await expect([height("xs"), height("sm"), height("md"), height("lg")]).toEqual([
+      40, 40, 40, 48,
+    ]);
+    await expect([height("sm tight"), height("md tight"), height("lg tight")]).toEqual([
+      24, 28, 32,
+    ]);
+  },
+};
+
+// 구간별 값: 모바일 md → 데스크톱(1024px~) sm
+export const Responsive: Story = {
+  args: { size: { base: "md", desktop: "sm" }, checked: true },
+  play: async ({ canvas }) => {
+    await expect(canvas.getByRole("checkbox")).toHaveClass(
+      "[&_svg]:size-6",
+      "desktop:[&_svg]:size-5",
+      "text-body-1-regular",
+      "desktop:text-body-2-regular",
+    );
   },
 };
