@@ -38,6 +38,10 @@ export default function RootLayout({
 }
 ```
 
+스타일을 불러오면 스크롤바도 MINT 모양(8px, 가는 회색 손잡이)으로 바뀌어요. macOS에서도 스크롤바가 늘 보여요. 목록·Textarea·Modal처럼 스크롤되는 곳에 저절로 적용되니 따로 꾸미지 않아요. Chrome·Edge·Safari는 디자인과 같고, Firefox는 굵기와 색만 같아요.
+
+지원 브라우저는 Chrome·Edge 111 이상, Safari 16.4 이상, Firefox 128 이상이에요.
+
 [`useOverlay`](/utilities/use-overlay)로 Alert를 열려면 같은 자리에서 `OverlayProvider`로 한 번 감싸요. 다른 컴포넌트는 Provider가 필요 없어요.
 
 ## First page

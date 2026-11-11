@@ -19,5 +19,6 @@
 @import "./styles/spacing.css";
 @import "./styles/layout.css";
 @import "./styles/base.css";
+@import "./styles/scrollbar.css";
 @import "./styles/token-utilities.css";
 @import "./styles/minimal-reset.css" layer(base);

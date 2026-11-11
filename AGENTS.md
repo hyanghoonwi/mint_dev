@@ -138,6 +138,7 @@ MINT는 Next.js App Router에서 **서버 컴포넌트와 클라이언트 컴포
 - **접근성**: 역할·`aria-*`·키보드 조작·포커스(`focus-visible`)를 함께 구현합니다(Storybook a11y 애드온이 검사합니다).
 - **새 export**는 `src/index.ts`에 추가하고, 공개하지 않을 내부 구현은 `src/components/_internal/`에 둡니다.
 - **아이콘은 `scripts/icons.json`이 원본이고 컴포넌트는 생성물입니다.** `icons.generated.ts`·`iconCatalog.generated.ts`는 손으로 고치지 않고 `npm run icons:generate -w @futurewiz-rms/mint`로 만듭니다(`@phosphor-icons/core` 버전은 고정). **아이콘 하나에 컴포넌트 하나**(`ArrowLeftIcon`)로 내보냅니다. `Icon.ArrowLeft`처럼 객체에 모으거나 `<Icon name="…" />`로 이름을 넘기는 방식은 쓰지 않습니다 — 쓰지 않는 아이콘이 번들에서 빠지지 않아서, 아이콘 1개를 써도 183개(gzip 약 39KB)가 들어갑니다(개별 export는 1개에 약 1KB). 생성 파일의 `/* @__PURE__ */` 표시를 지우지 않습니다.
+- **스크롤바는 꾸미지 않습니다.** MINT 전체 기본 스크롤바(`src/styles/scrollbar.css`, Figma `Scroll Bar` 2204:15703)가 모든 스크롤 영역에 적용됩니다. 스크롤되는 컴포넌트(Select 목록·Textarea·Modal 본문 등)는 `overflow-auto`만 주고, 숨겨야 할 때만 `[scrollbar-width:none] [&::-webkit-scrollbar]:hidden`을 씁니다. `scrollbar-width`·`scrollbar-color`를 컴포넌트에 걸면 Chrome에서 MINT 스크롤바가 무시되니 쓰지 않습니다.
 - **Prettier 서식**은 루트 `.prettierrc`(printWidth 100, 큰따옴표)를 따릅니다.
 
 ---

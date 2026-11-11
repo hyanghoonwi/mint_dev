@@ -28,7 +28,10 @@ import "@futurewiz-rms/mint/style.css";
 - 컴포넌트 스타일, 디자인 토큰(`--mint-*` 변수), 토큰 유틸리티 클래스(글자·색·반경), Pretendard 폰트가 들어 있어서 **사용하는 프로젝트에 Tailwind 설정이 없어도 됩니다.**
 - 자체 리셋 CSS가 있는 앱은 리셋이 빠진 `@futurewiz-rms/mint/style.no-reset.css`를 대신 씁니다.
 - 둘 중 **하나만** import합니다.
-- 앱이 Tailwind v4를 쓰면 `@import "@futurewiz-rms/mint/theme.css";`로 토큰만 가져와 `bg-brand-primary` 같은 클래스를 앱에서 만들 수 있습니다.
+- **스크롤바**도 MINT 모양으로 바뀝니다(Figma `Scroll Bar`: 폭 8px, 바탕 없음, 4px 둥근 손잡이 `border-strong`). 손잡이는 늘 보이고 8px 자리를 차지합니다(macOS도 같음). 페이지와 모든 스크롤 영역(목록·Select·Textarea·Modal 본문)에 저절로 적용되니 **스크롤바를 따로 꾸미지 않습니다.** 숨겨야 하는 곳만 `[scrollbar-width:none] [&::-webkit-scrollbar]:hidden`을 씁니다. 바꿔야 하면 앱 CSS에서 `::-webkit-scrollbar-thumb` 등을 덮어씁니다(MINT 스타일은 base 레이어).
+  - Chrome·Edge·Safari·Whale: Figma와 같은 모양 · Firefox: 얇은 굵기와 색만(손잡이 모양은 바꿀 수 없음) · iOS·Android: OS 기본(바꿀 수 없음)
+- **지원 브라우저**: Chrome·Edge 111+, Safari 16.4+, Firefox 128+(Tailwind v4 기준). 이 범위에서는 같은 모양으로 보입니다.
+- 앱이 Tailwind v4를 쓰면 `@import "@futurewiz-rms/mint/theme.css";`로 토큰만 가져와 `bg-fill-brand` 같은 클래스를 앱에서 만들 수 있습니다.
 
 ## 3. 토큰 클래스
 
