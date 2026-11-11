@@ -8,13 +8,13 @@
   }
 }
 
-/* Skeleton: 밝아졌다 흐려지며 불러오는 중임을 보여 준다(투명도만 바뀌어 배경색과 상관없이 쓴다) */
-@keyframes mint-pulse {
-  0%,
-  100% {
-    opacity: 1;
+/* Skeleton: 빛 띠가 왼쪽에서 오른쪽으로 지나가며 불러오는 중임을 보여 준다(shimmer).
+   배경 그림(200% 폭의 그라데이션)의 위치만 옮겨서, 띠 색은 컴포넌트가 --mint-skeleton-shine으로 정한다 */
+@keyframes mint-shimmer {
+  from {
+    background-position: 150% 0;
   }
-  50% {
-    opacity: 0.4;
+  to {
+    background-position: -50% 0;
   }
 }

@@ -47,7 +47,7 @@ export const TextAligns: Story = {
   ),
 };
 
-// animate={false}: 깜빡임 없이 멈춘 모양(움직임 줄이기 설정에서도 이렇게 보인다)
+// animate={false}: 빛 띠 없이 멈춘 모양(움직임 줄이기 설정에서도 이렇게 보인다)
 export const Static: Story = {
   args: { animate: false },
 };

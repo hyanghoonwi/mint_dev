@@ -30,8 +30,8 @@
 - 텍스트 줄은 `length`(`"100%"` 기본 · `"75%"` · `"50%"` · `"25%"`)와 `align`(`leading` 기본 · `center` · `trailing`)을 고릅니다. 줄 높이는 기본 16이고 `height`로 바꿉니다.
 - 네모는 `radius`(`false` 기본 · `true`=8px · 숫자 px)를 고르고 `width`(기본 부모 폭)·`height`(기본 80)로 크기를 맞춥니다.
 - 원은 `size`(기본 40)를 같은 자리의 `Avatar` 크기와 맞춥니다.
-- 색은 `color`입니다. 흰 바탕은 `normal`(기본), 회색 바탕은 `white`입니다. 색을 더 바꿔야 하면 `className`·`style`로 덮어씁니다. 투명도를 직접 정하려면 `animate={false}`로 깜빡임을 끕니다.
-- 깜빡임은 `animate`(기본 `true`)입니다. 1.6초마다 밝아졌다 흐려지고, 같은 때 그려진 스켈레톤은 함께 깜빡입니다. Figma에는 움직임이 없어서 코드에서 정한 값입니다.
+- 색은 `color`입니다. 흰 바탕은 `normal`(기본), 회색 바탕은 `white`입니다. 색을 더 바꿔야 하면 `className`·`style`로 덮어씁니다.
+- 움직임은 `animate`(기본 `true`)입니다. 1.6초마다 바탕보다 한 단계 진한 빛 띠가 왼쪽에서 오른쪽으로 지나갑니다(shimmer). Figma에는 움직임이 없어서 코드에서 정한 값입니다.
 
 ```tsx
 <div aria-busy="true">
@@ -64,7 +64,7 @@
 
 - Skeleton은 모양만 보여 주는 장식이라 모두 `aria-hidden`입니다. 스크린리더가 읽지 않습니다.
 - 불러오는 영역에 `aria-busy="true"`를 주고, 다 불러오면 지웁니다.
-- 밝아졌다 흐려지는 효과(`animate`, 기본 `true`)는 움직임 줄이기 설정(`prefers-reduced-motion`)을 켠 사용자에게는 멈춥니다.
+- 빛 띠가 지나가는 효과(`animate`, 기본 `true`)는 움직임 줄이기 설정(`prefers-reduced-motion`)을 켠 사용자에게는 멈춥니다.
 
 ## Props 요약
 

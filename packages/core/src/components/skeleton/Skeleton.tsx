@@ -1,16 +1,17 @@
 // 상태·이벤트가 없어서 "use client"를 붙이지 않는다. 서버 컴포넌트(loading.tsx 등)에서 그대로 쓸 수 있다.
 // 콘텐츠가 들어올 자리를 미리 보여 주는 회색 덩어리. Figma `Skeleton Text`(2200:2694) · `Skeleton Rectangle`(2200:2807) · `Skeleton Circle`(2200:2859).
 // 모양만 보여 주는 장식이라 모두 aria-hidden이다. 불러오는 중이라는 사실은 감싸는 영역(aria-busy)이 알린다.
-// 깜빡임(pulse)은 CSS 애니메이션이라 JS가 필요 없다. 같은 때 그려진 스켈레톤은 함께 깜빡인다. 움직임 줄이기 설정이면 멈춘다.
+// 빛 띠가 지나가는 효과(shimmer)는 CSS 애니메이션이라 JS가 필요 없다. 움직임 줄이기 설정이면 띠 없이 멈춘 회색 덩어리만 보인다.
 import type { ComponentProps, CSSProperties } from "react";
 import { cn } from "../../utils/cn";
 
 export type SkeletonColor = "normal" | "white";
 
-// normal: 흰 바탕 위(fill/neutral-weak) · white: 회색 바탕 위(흰색)
+// normal: 흰 바탕 위(fill/neutral-weak) · white: 회색 바탕 위(흰색).
+// 지나가는 띠는 바탕보다 한 단계 진한 토큰 색이다(--mint-skeleton-shine): normal → neutral-medium · white → neutral-weak
 const colors: Record<SkeletonColor, string> = {
-  normal: "bg-fill-neutral-weak",
-  white: "bg-fill-white",
+  normal: "bg-fill-neutral-weak [--mint-skeleton-shine:var(--mint-fill-neutral-medium)]",
+  white: "bg-fill-white [--mint-skeleton-shine:var(--mint-fill-neutral-weak)]",
 };
 
 /** 숫자는 px, 문자열은 그대로(`"100%"`) */
@@ -19,11 +20,13 @@ type Length = number | string;
 interface SkeletonBaseProps extends Omit<ComponentProps<"div">, "children" | "color"> {
   /** `normal` 흰 바탕 위 회색 · `white` 회색 바탕 위 흰색. 기본 `normal` */
   color?: SkeletonColor;
-  /** 밝아졌다 흐려지는 효과. 기본 `true`. 움직임 줄이기 설정을 켠 사용자에게는 멈춘다 */
+  /** 빛 띠가 왼쪽에서 오른쪽으로 지나가는 효과(shimmer). 기본 `true`. 움직임 줄이기 설정을 켠 사용자에게는 멈춘다 */
   animate?: boolean;
 }
 
-const pulse = "animate-[mint-pulse_1.6s_ease-in-out_infinite] motion-reduce:animate-none";
+// 200% 폭의 그라데이션(가운데만 띠 색)을 깔고 위치를 옮긴다. 움직임 줄이기면 그라데이션과 애니메이션을 모두 끈다
+const shimmer =
+  "[background-image:linear-gradient(90deg,transparent_0%,var(--mint-skeleton-shine)_50%,transparent_100%)] [background-size:200%_100%] [background-repeat:no-repeat] animate-[mint-shimmer_1.6s_ease-in-out_infinite] motion-reduce:animate-none motion-reduce:[background-image:none]";
 
 export type SkeletonTextLength = "100%" | "75%" | "50%" | "25%";
 export type SkeletonTextAlign = "leading" | "center" | "trailing";
@@ -65,7 +68,7 @@ export function SkeletonText({
       {...props}
     >
       <div
-        className={cn("rounded-4", colors[color], animate && pulse)}
+        className={cn("rounded-4", colors[color], animate && shimmer)}
         style={{ width: length, height }}
       />
     </div>
@@ -99,7 +102,7 @@ export function SkeletonRectangle({
       className={cn(
         "max-w-full shrink-0",
         colors[color],
-        animate && pulse,
+        animate && shimmer,
         radius === true && "rounded-8",
         className,
       )}
@@ -128,7 +131,7 @@ export function SkeletonCircle({
   return (
     <div
       aria-hidden="true"
-      className={cn("shrink-0 rounded-full", colors[color], animate && pulse, className)}
+      className={cn("shrink-0 rounded-full", colors[color], animate && shimmer, className)}
       style={{ width: size, height: size, ...style }}
       {...props}
     />
