@@ -118,10 +118,11 @@ header.nextra-navbar ~ div:has(> aside.nextra-sidebar) {
 }
 
 /* ---------- 사이드바 ---------- */
-/* 항목 배경이 글자보다 왼쪽으로 10px 더 나온다(Figma: 배경 180 = 글자 칸 160 + 좌우 10).
-   스크롤 영역이 넘치는 부분을 잘라서, 사이드바 자체를 왼쪽으로 10px 넓힌다(글자는 그대로 로고 왼쪽 끝) */
+/* 항목 배경이 글자보다 왼쪽으로 10px 더 나온다. 스크롤 영역이 넘치는 부분을 잘라서, 사이드바 자체를 왼쪽으로 10px 넓힌다
+   (글자는 그대로 로고 왼쪽 끝). 폭은 Figma(180)보다 40px 넓힌 220이다: 글자 칸 170이라
+   "Segmented control"·"Container · Grid"·"useDebounceValue"가 한 줄에 들어간다. 대신 본문 왼쪽 여백을 40px 줄여 본문 위치는 그대로 둔다 */
 aside.nextra-sidebar {
-  width: 180px !important;
+  width: 220px !important;
   margin-left: -10px;
   padding-top: 56px;
   border: 0;
@@ -250,7 +251,8 @@ nav.nextra-toc a[class*="text-primary-600"] {
 
 /* ---------- 본문 영역 ---------- */
 article:has(> main) {
-  padding: 56px clamp(24px, 9vw, 170px) 32px clamp(24px, 8vw, 140px) !important;
+  /* 왼쪽 여백은 사이드바를 40px 넓힌 만큼 줄였다(본문 시작 위치 유지) */
+  padding: 56px clamp(24px, 9vw, 170px) 32px clamp(24px, calc(8vw - 40px), 100px) !important;
 }
 
 article > main {
@@ -1675,9 +1677,10 @@ main > h1 + p + .docs-figure {
   flex-direction: column;
 }
 
+/* 이름 칸은 가장 긴 이름(useDebounceValue 등)이 한 줄에 들어가는 폭 */
 .docs-list-rows a {
   display: grid;
-  grid-template-columns: 120px 1fr;
+  grid-template-columns: 180px 1fr;
   gap: 12px;
   padding: 24px 0;
   border-bottom: 1px solid var(--docs-line);
@@ -1935,7 +1938,15 @@ main > h1 + p:has(+ .docs-component-badges) {
   gap: 24px;
   margin-bottom: 16px;
   border-bottom: 1px solid var(--docs-line);
+  /* 탭이 많으면 가로로만 넘긴다. 선택 밑줄(-1px)이 세로로 1px 넘쳐서 세로 스크롤바가 생기지 않게 막고,
+     가로 스크롤바도 숨긴다(탭 줄은 끌어서 넘긴다) */
   overflow-x: auto;
+  overflow-y: hidden;
+  scrollbar-width: none;
+}
+
+.docs-tabs__list::-webkit-scrollbar {
+  display: none;
 }
 
 .docs-tabs__tab {
@@ -2155,5 +2166,25 @@ main > .docs-page-link + p {
 
   .docs-copy-code pre {
     padding-right: 48px !important;
+  }
+}
+
+/* Nextra 사이드바·목차는 scrollbar-width: thin을 걸어서 Chrome에서 MINT 스크롤바(::-webkit-scrollbar)가 무시된다.
+   Firefox가 아닌 브라우저에서만 되돌려 MINT 스크롤바로 보이게 한다(Firefox는 MINT가 thin + 색을 건다) */
+@supports not (-moz-appearance: none) {
+  .nextra-scrollbar {
+    scrollbar-width: auto;
+  }
+}
+
+/* 모바일: 목록 이름과 설명을 위아래로 둔다(이름 칸 180px이 좁은 화면을 차지하지 않게) */
+@media (max-width: 767px) {
+  .docs-list-rows a {
+    grid-template-columns: 1fr;
+    gap: 4px;
+  }
+
+  .docs-list-rows span {
+    align-self: start;
   }
 }
