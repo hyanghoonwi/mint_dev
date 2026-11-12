@@ -140,6 +140,9 @@ MINT는 Next.js App Router에서 **서버 컴포넌트와 클라이언트 컴포
 - **새 export**는 `src/index.ts`에 추가하고, 공개하지 않을 내부 구현은 `src/components/_internal/`에 둡니다.
 - **아이콘은 `scripts/icons.json`이 원본이고 컴포넌트는 생성물입니다.** `icons.generated.ts`·`iconCatalog.generated.ts`는 손으로 고치지 않고 `npm run icons:generate -w @futurewiz-rms/mint`로 만듭니다(`@phosphor-icons/core` 버전은 고정). **아이콘 하나에 컴포넌트 하나**(`ArrowLeftIcon`)로 내보냅니다. `Icon.ArrowLeft`처럼 객체에 모으거나 `<Icon name="…" />`로 이름을 넘기는 방식은 쓰지 않습니다 — 쓰지 않는 아이콘이 번들에서 빠지지 않아서, 아이콘 1개를 써도 183개(gzip 약 39KB)가 들어갑니다(개별 export는 1개에 약 1KB). 생성 파일의 `/* @__PURE__ */` 표시를 지우지 않습니다.
 - **스크롤바는 꾸미지 않습니다.** MINT 전체 기본 스크롤바(`src/styles/scrollbar.css`, Figma `Scroll Bar` 2204:15703)가 모든 스크롤 영역에 적용됩니다. 스크롤되는 컴포넌트(Select 목록·Textarea·Modal 본문 등)는 `overflow-auto`만 주고, 숨겨야 할 때만 `[scrollbar-width:none] [&::-webkit-scrollbar]:hidden`을 씁니다. `scrollbar-width`·`scrollbar-color`를 컴포넌트에 걸면 Chrome에서 MINT 스크롤바가 무시되니 쓰지 않습니다.
+- **이름은 줄이지 않습니다.** 매개변수·지역 변수·반복 변수·`catch` 변수에 한 글자 이름(`c`, `i`, `e`, `v`, `p`)이나 줄임말(`prev`, `el`, `idx`, `opts`, `btn`, `cb`, `px`, `cls`, `rect`, `dt`, `dx`)을 쓰지 않고 뜻이 드러나는 낱말로 씁니다(`coin`, `index`, `event`, `previous`, `element`, `options`, `bounds`). core·docs 예시·사이트 코드·스토리·md 문서 안의 코드 예시 모두 같습니다. 예시 코드는 사용하는 쪽이 그대로 따라 쓰기 때문입니다.
+  - `.map((coin) => …)`, `onChange={(event) => …}`, `setItems((previous) => …)`, `for (let index = 0; …)`, `catch (error)`
+  - 예외: 좌표값 `x`·`y`·`z`, 제네릭 타입 매개변수(`T`), 외부 API·HTML·props가 정한 이름(`ref`, `src`, Next.js `params`), 원래 낱말인 이름(`max`, `min`, `row`, `tab`), 쓰지 않는 값 `_`.
 - **Prettier 서식**은 루트 `.prettierrc`(printWidth 100, 큰따옴표)를 따릅니다.
 
 ---
@@ -155,6 +158,7 @@ MINT는 Next.js App Router에서 **서버 컴포넌트와 클라이언트 컴포
 - 크기가 있으면 `Sizes` 스토리, 변형이 있으면 변형별 스토리, 오류·비활성·로딩 같은 **상태별 스토리**를 둡니다.
 - **반응형 동작이 있는 컴포넌트**는 툴바의 뷰포트(Mobile 360 · Mobile 320 · Tablet 768 · Desktop 1024 · Desktop 1440)로 확인하고, 필요하면 스토리에 `globals: { viewport: { value: "mobile" } }`를 지정한 모바일 스토리를 둡니다.
 - 훅이 필요한 스토리는 `render: function Render() { ... }`처럼 **이름 있는 함수**로 씁니다.
+- 스토리 코드도 이름을 줄이지 않습니다(`(event) =>`, `(previous) =>`). 코드 패널에 그대로 보입니다.
 - **컴포넌트처럼 보이는 PascalCase 헬퍼를 만들지 않습니다.** 순수 HTML은 스토리 안에 인라인으로 씁니다.
 - 코드 패널은 `.storybook/preview.tsx`가 `docs.source.type: "dynamic"`으로 통일합니다. 개별 스토리에 `source: { type: "code" }`를 넣지 않습니다.
 - **코드 패널에는 사용하는 쪽이 쓰는 코드만 보여 줍니다.** 컴포넌트가 캡슐화한 내부(CSS 변수, 내부 클래스, 갤러리를 그리는 구현)는 보여 주지 않습니다. 갤러리·시각화 스토리는 `parameters.docs.source.code`에 사용 코드 한두 줄을 직접 적습니다(docs 예시를 `?raw`로 가져오지 않습니다).
@@ -239,7 +243,7 @@ MINT는 Next.js App Router에서 **서버 컴포넌트와 클라이언트 컴포
 - **예시 코드는 사용하는 쪽이 쓰는 코드만 보여 줍니다.** 컴포넌트가 캡슐화한 내부 동작(CSS 변수 읽기, `grid-template-columns` 같은 직접 스타일, 사용하는 쪽이 일일이 쓰게 되는 클래스 나열)을 예시로 보여 주지 않습니다. 예: 그리드는 `<div class="grid tablet:grid-cols-2">`가 아니라 `<Grid><Grid.Item span={…}>`로 보여 줍니다.
 - **토큰·아이콘 갤러리처럼 "시각 확인용" 예시**는 `<Example name="…" hideCode />`로 코드를 숨깁니다. 그 코드는 화면을 그리는 구현이라 사용법이 아닙니다. 사용법은 MDX에 짧은 코드 블록으로 따로 적습니다.
 - **글자는 `Text` 컴포넌트로 씁니다.** 예시·스토리·사이트 미리보기에서 `<p className="text-body-2-regular text-text-secondary">`처럼 태그에 글자 클래스를 직접 달지 않고 `<Text as="p" variant="body-2-regular" color="secondary">`로 씁니다(사용하는 쪽이 따라 쓰는 코드이기 때문). 상자(배경·패딩)가 필요하면 바깥 `div`는 두고 안의 글자만 `Text`로 씁니다. 예외: 입력창(`<input>`) 모양, Foundations 스토리처럼 토큰 클래스 자체를 보여 주는 화면.
-- **예시 파일 규칙**: 기본 export 컴포넌트 하나(파일 이름과 같은 함수 이름), 쓰는 것만 `@futurewiz-rms/mint`에서 import, 정의되지 않은 변수 금지. 레이아웃 배치용 `div`/`style`은 파일 밖으로 빼서 `<Example name="..." style={{ maxWidth: 375 }} />`로 넘깁니다.
+- **예시 파일 규칙**: 기본 export 컴포넌트 하나(파일 이름과 같은 함수 이름), 쓰는 것만 `@futurewiz-rms/mint`에서 import, 정의되지 않은 변수 금지, 이름은 줄이지 않음(`(c) =>`가 아니라 `(coin) =>`, [컴포넌트 작성 규칙](#컴포넌트-작성-규칙)). 레이아웃 배치용 `div`/`style`은 파일 밖으로 빼서 `<Example name="..." style={{ maxWidth: 375 }} />`로 넘깁니다.
 - **docs에서 쓸 수 있는 클래스는 core가 만든 것뿐**입니다. 토큰 클래스(색·글자·반경·**간격**: `text-body-2-regular`, `bg-bg-surface`, `p-5`)와 컴포넌트가 쓰는 클래스는 들어 있지만, Tailwind의 일반 유틸리티(`flex`, `grid`, `gap-*`의 스케일 밖 값, `tablet:…`)는 없을 수 있습니다. 그래서 예시의 배치는 가능하면 `Container`·`Grid` 같은 MINT 컴포넌트로 하고, 그래도 필요한 미리보기용 배치는 `style`로 씁니다.
 - Props 표는 **소스의 실제 props와 대조**해서 씁니다.
 - "Changelog" 페이지(`content/getting-started/changelog.mdx`, 제목 `# Changelog`)는 `packages/core/CHANGELOG.md`에서 만들어지는 **생성물**입니다. 직접 고치지 않습니다.
