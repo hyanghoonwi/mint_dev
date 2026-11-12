@@ -1,6 +1,6 @@
 "use client";
 
-import { Radio, RadioGroup } from "@futurewiz-rms/mint";
+import { Radio, RadioGroup, type RadioSize } from "@futurewiz-rms/mint";
 import { DoDont } from "./DoDont";
 import { jsx, Playground } from "./Playground";
 
@@ -8,12 +8,18 @@ export function RadioPlayground() {
   return (
     <Playground
       controls={[
+        { prop: "size", type: "select", options: ["xs", "sm", "md", "lg"], default: "sm" },
         { prop: "label", type: "boolean", default: true },
         { prop: "tight", type: "boolean", default: false },
         { prop: "disabled", type: "boolean", default: false },
       ]}
       render={(v) => (
-        <RadioGroup aria-label="정렬 기준" defaultValue="latest" disabled={v.disabled as boolean}>
+        <RadioGroup
+          aria-label="정렬 기준"
+          defaultValue="latest"
+          size={v.size as RadioSize}
+          disabled={v.disabled as boolean}
+        >
           {[
             ["latest", "최신순"],
             ["popular", "인기순"],
@@ -56,6 +62,7 @@ export function RadioPlayground() {
           {
             "aria-label": "정렬 기준",
             defaultValue: "latest",
+            size: v.size !== "sm" ? (v.size as string) : undefined,
             disabled: v.disabled as boolean,
           },
           " ",

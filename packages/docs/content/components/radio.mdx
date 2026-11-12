@@ -26,31 +26,40 @@
   items={[
     { title: "기본", name: "radio/Sort" },
     { title: "값 받기", name: "radio/Controlled" },
+    {
+      title: "크기",
+      name: "radio/Sizes",
+      style: { flexDirection: "column", alignItems: "flex-start" },
+    },
     { title: "촘촘한 목록", name: "radio/Tight" },
     { title: "상태", name: "radio/States" },
+    { title: "반응형", name: "radio/Responsive" },
   ]}
 />
 
 - **기본**: `RadioGroup`으로 묶고 `defaultValue`로 처음 선택을 정해요. `name`을 주면 폼을 제출할 때 고른 값이 넘어가요.
 - **값 받기**: `value`와 `onChange`로 고른 값을 받아 화면에 반영해요.
-- **촘촘한 목록**: `tight`는 바깥 여백을 없애요(높이 24). 줄 간격은 그룹에서 정해요.
+- **크기**: `size`는 `xs`(16) · `sm`(20, 기본) · `md`(24) · `lg`(32)예요. `RadioGroup`에 주면 그룹 안 라디오가 모두 그 크기가 돼요.
+- **촘촘한 목록**: `tight`는 바깥 여백을 없애요(높이 20·24·28·32, `sm`은 24). 줄 간격은 그룹에서 정해요.
 - **상태**: 안 고름·고름과 각각의 비활성 모양이에요. `RadioGroup`에 `disabled`를 주면 그룹 전체가 비활성이 돼요.
+- **반응형**: `size`는 구간별 값도 받아요. `{ base: "md", desktop: "sm" }`면 모바일·태블릿은 원 24, 데스크톱(1024px)부터 20이에요. 창 폭을 바꿔 보세요.
 
 ## Props
 
 `RadioGroup`은 나머지 `<div>` 속성을, `Radio`는 나머지 `<input>` 속성을 받아요.\
 클라이언트 컴포넌트라서 `onChange`는 클라이언트 컴포넌트 안에서 넘겨요.
 
-| 이름           | 타입                      | 기본값  | 설명                                                 |
-| -------------- | ------------------------- | ------- | ---------------------------------------------------- |
-| `tight`        | `boolean`                 | `false` | `Radio`의 바깥 여백을 없앤 모양(높이 40 → 24)        |
-| `children`     | `ReactNode`               | -       | `Radio`의 레이블. 없으면 `aria-label`을 줘요         |
-| `value`        | `string`                  | -       | `Radio`의 선택 값 · `RadioGroup`의 선택된 값(제어)   |
-| `defaultValue` | `string`                  | -       | `RadioGroup`의 처음 선택 값(비제어)                  |
-| `disabled`     | `boolean`                 | `false` | 누를 수 없는 상태. `RadioGroup`에 주면 그룹 전체예요 |
-| `name`         | `string`                  | 자동    | `RadioGroup`의 폼 제출 이름                          |
-| `aria-label`   | `string`                  | -       | `RadioGroup`의 그룹 이름. 꼭 줘요                    |
-| `onChange`     | `(value: string) => void` | -       | `RadioGroup`에서 다른 선택지를 고르면 불려요         |
+| 이름           | 타입                                                            | 기본값  | 설명                                                                                  |
+| -------------- | --------------------------------------------------------------- | ------- | ------------------------------------------------------------------------------------- |
+| `size`         | `"xs" \| "sm" \| "md" \| "lg"` 또는 `{ base, tablet, desktop }` | `"sm"`  | 원 16 · 20 · 24 · 32. `RadioGroup`에 주면 그룹 전체, `Radio`에 주면 그 라디오만이에요 |
+| `tight`        | `boolean`                                                       | `false` | `Radio`의 바깥 여백을 없앤 모양(높이 40 → 20·24·28·32)                                |
+| `children`     | `ReactNode`                                                     | -       | `Radio`의 레이블. 없으면 `aria-label`을 줘요                                          |
+| `value`        | `string`                                                        | -       | `Radio`의 선택 값 · `RadioGroup`의 선택된 값(제어)                                    |
+| `defaultValue` | `string`                                                        | -       | `RadioGroup`의 처음 선택 값(비제어)                                                   |
+| `disabled`     | `boolean`                                                       | `false` | 누를 수 없는 상태. `RadioGroup`에 주면 그룹 전체예요                                  |
+| `name`         | `string`                                                        | 자동    | `RadioGroup`의 폼 제출 이름                                                           |
+| `aria-label`   | `string`                                                        | -       | `RadioGroup`의 그룹 이름. 꼭 줘요                                                     |
+| `onChange`     | `(value: string) => void`                                       | -       | `RadioGroup`에서 다른 선택지를 고르면 불려요                                          |
 
 ## Guidelines
 

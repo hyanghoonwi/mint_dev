@@ -11,6 +11,7 @@ const meta = {
   parameters: { layout: "centered" },
   args: { "aria-label": "정렬 기준", defaultValue: "latest", onChange: fn(), children: null },
   argTypes: {
+    size: { control: "inline-radio", options: ["xs", "sm", "md", "lg"] },
     disabled: { control: "boolean" },
   },
   render: (args) => (
@@ -137,5 +138,69 @@ export const InForm: Story = {
     await userEvent.click(canvas.getByText("인기순"));
     await userEvent.click(canvas.getByRole("button", { name: "제출" }));
     await expect(canvas.getByRole("status")).toHaveTextContent("popular");
+  },
+};
+
+// Figma Size: XSmall 16 · Small 20(기본) · Medium 24 · Large 32. 가운데 흰 점 6·8·10·12, 높이 40·40·40·48 · tight 20·24·28·32
+export const Sizes: Story = {
+  render: () => (
+    <div style={{ display: "flex", gap: 24 }}>
+      {(["xs", "sm", "md", "lg"] as const).map((size) => (
+        <RadioGroup key={size} aria-label={`${size} 크기`} defaultValue="a" size={size}>
+          <Radio value="a">{`${size} 고름`}</Radio>
+          <Radio value="b" tight>{`${size} tight`}</Radio>
+        </RadioGroup>
+      ))}
+    </div>
+  ),
+  play: async ({ canvas }) => {
+    const label = (name: string) => canvas.getByRole("radio", { name }).closest("label")!;
+    const mark = (name: string) => label(name).querySelector("[aria-hidden=true]")!;
+    const box = (name: string) => Math.round(mark(name).getBoundingClientRect().width);
+    const ring = (name: string) =>
+      getComputedStyle(mark(name)).getPropertyValue("--mint-radio-ring").trim();
+    const height = (name: string) => Math.round(label(name).getBoundingClientRect().height);
+    const sizes = ["xs", "sm", "md", "lg"];
+    await expect(sizes.map((s) => box(`${s} 고름`))).toEqual([16, 20, 24, 32]);
+    // 흰 점 = 원 − 테두리 × 2 → 6 · 8 · 10 · 12
+    await expect(sizes.map((s) => ring(`${s} 고름`))).toEqual(["5px", "6px", "7px", "10px"]);
+    await expect(sizes.map((s) => height(`${s} 고름`))).toEqual([40, 40, 40, 48]);
+    await expect(sizes.map((s) => height(`${s} tight`))).toEqual([20, 24, 28, 32]);
+  },
+};
+
+// 라디오마다 준 size가 그룹 size보다 우선
+export const SizeOverride: Story = {
+  render: () => (
+    <RadioGroup aria-label="크기 우선" defaultValue="a" size="lg">
+      <Radio value="a">그룹 크기</Radio>
+      <Radio value="b" size="xs">
+        라디오 크기
+      </Radio>
+    </RadioGroup>
+  ),
+  play: async ({ canvas }) => {
+    const box = (name: string) =>
+      Math.round(
+        canvas
+          .getByRole("radio", { name })
+          .closest("label")!
+          .querySelector("[aria-hidden=true]")!
+          .getBoundingClientRect().width,
+      );
+    await expect(box("그룹 크기")).toBe(32);
+    await expect(box("라디오 크기")).toBe(16);
+  },
+};
+
+// 구간별 값: 모바일 md → 데스크톱(1024px~) sm
+export const Responsive: Story = {
+  args: { size: { base: "md", desktop: "sm" } },
+  play: async ({ canvas }) => {
+    const mark = canvas
+      .getByRole("radio", { name: "최신순" })
+      .closest("label")!
+      .querySelector("[aria-hidden=true]");
+    await expect(mark).toHaveClass("size-6", "desktop:size-5");
   },
 };

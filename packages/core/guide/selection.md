@@ -37,7 +37,8 @@
 - **`RadioGroup`** — 라디오 묶음. 선택지를 세로로 나열하고 그 안에서 하나만 선택되게 합니다(`role="radiogroup"`). 클라이언트 컴포넌트입니다(`"use client"`가 달려 있어 서버 컴포넌트에서 import해도 됩니다. 단 `onChange`는 클라이언트 컴포넌트에서 넘깁니다).
   - `value`·`onChange(value)`(제어) 또는 `defaultValue`(비제어, 처음부터 하나를 선택해 둡니다). `name`(생략하면 자동, 폼 제출 이름), `disabled`(그룹 전체), `aria-label`
 - **`Radio`** — 여러 선택지 중 하나만 고르는 라디오(2\~4개). 진짜 `<input type="radio">`를 `<label>`로 감싸서 레이블을 눌러도 선택되고, 방향키로 옮기고 Space로 고르는 것과 폼 제출이 브라우저 기본 동작 그대로입니다.
-  - `value`(그룹 안에서 필수), `children`(레이블, 없으면 `aria-label`), `tight`(여백 8 → 0, 높이 40 → 24), `disabled`. 나머지 `<input>` 속성은 입력에, `className`·`style`은 바깥 `<label>`에
+  - `value`(그룹 안에서 필수), `children`(레이블, 없으면 `aria-label`), `tight`(여백 8 → 0, 높이 40 → 20·24·28·32), `disabled`.
+  - `size`: `xs`(원 16, Body 4) · `sm`(20, Body 2, 기본) · `md`(24, Body 1) · `lg`(32, Heading 2, 높이 48). `RadioGroup`에 주면 그룹 전체, `Radio`에 주면 그 라디오만(우선). 구간별 객체도 받음(`{ base: "md", desktop: "sm" }`) 나머지 `<input>` 속성은 입력에, `className`·`style`은 바깥 `<label>`에
   - 색: 안 고름은 흰 원·회색 테두리, 고름은 브랜드 원 + 흰 점. hover·누름은 한 단계 진하게. 터치 화면 눌림 영역 44px 이상
   - 금지: 선택 해제 기능, 5개 이상 선택지(Select), 여러 개 고르기(`Checkbox`). 상세 규칙은 `components/radio/AGENTS.md`
 - **`FramedCheckbox`** · **`FramedRadio`** · **`Framed`** — 선택지를 틀로 묶어 한 덩어리로 보여 주고, 선택된 틀을 테두리로 강조합니다(Figma Framed Style). 클라이언트 컴포넌트입니다.

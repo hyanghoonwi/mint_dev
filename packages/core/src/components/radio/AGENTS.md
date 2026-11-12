@@ -22,17 +22,28 @@
 
 상태와 레이블을 골라요.
 
-| 구성          | 선택지                      | 설명                                   |
-| ------------- | --------------------------- | -------------------------------------- |
-| 체크(Checked) | False · True                | 같은 그룹에서는 항상 하나만 True예요   |
-| 상태          | Normal · Pressed · Disabled | Hover는 Pressed와 같아요               |
-| 레이블        | 켜고 끌 수 있어요           | 레이블 없이 쓰면 `aria-label`을 붙여요 |
-| Tight         | False · True                | 촘촘한 목록에서만 써요                 |
+| 구성          | 선택지                          | 설명                                   |
+| ------------- | ------------------------------- | -------------------------------------- |
+| 체크(Checked) | False · True                    | 같은 그룹에서는 항상 하나만 True예요   |
+| 상태          | Normal · Pressed · Disabled     | Hover는 Pressed와 같아요               |
+| 레이블        | 켜고 끌 수 있어요               | 레이블 없이 쓰면 `aria-label`을 붙여요 |
+| 크기(`size`)  | XSmall · Small · Medium · Large | 기본은 Small. 구간별 값도 받아요       |
+| Tight         | False · True                    | 촘촘한 목록에서만 써요                 |
 
 - **색**: 안 고름은 흰 원·회색 테두리(`border-strong`), 고름은 브랜드 원(`fill-brand`) 가운데 흰 점(8px)입니다. 누르는 동안과 hover는 한 단계 진해지고(`fill-neutral-weak` · `fill-brand-pressed`), `disabled`는 회색 원(`fill-disabled`·`border-disabled`) 또는 연한 파랑 원(`fill-brand-weak-pressed`)에 회색 글자(`text-disabled`)입니다.
-- **크기**: 원 20px, 레이블 Body 2 Regular(16/24), 사이 간격 8입니다. 기본은 바깥 여백 8(높이 40), `tight`는 여백 0(높이 24)입니다.
-- `RadioGroup`: `value`(제어) 또는 `defaultValue`(비제어), `onChange(value)`, `name`(생략하면 자동), `disabled`(그룹 전체). 나머지 `<div>` 속성(`aria-label` 등)을 받습니다.
-- `Radio`: `value`(그룹 안에서 필수), `children`(레이블), `tight`, `disabled`. 나머지 `<input>` 속성은 입력에, `className`·`style`은 바깥 `<label>`에 붙습니다. 그룹 밖에서는 `name`·`checked`·`defaultChecked`로 직접 묶을 수 있습니다.
+- **크기(`size`)**: Figma Radio(2280:32059, 2026-11-11 추가)와 같습니다. 사이 간격 8, 기본 모양의 좌우 여백 8입니다.
+
+  | `size`     | 원 · 가운데 흰 점 | 레이블                  | 높이(기본 · `tight`) |
+  | ---------- | ----------------- | ----------------------- | -------------------- |
+  | `xs`       | 16 · 6            | Body 4 Regular(14/22)   | 40 · 20              |
+  | `sm`(기본) | 20 · 8            | Body 2 Regular(16/24)   | 40 · 24              |
+  | `md`       | 24 · 10           | Body 1 Regular(17/28)   | 40 · 28              |
+  | `lg`       | 32 · 12           | Heading 2 Medium(20/30) | 48 · 32              |
+  - `RadioGroup`에 `size`를 주면 그룹 안 라디오가 모두 그 크기예요. 라디오마다 `size`를 주면 그 값이 우선입니다. 같은 그룹은 크기를 하나로 맞춥니다.
+  - 구간별 값도 받습니다(`size={{ base: "md", desktop: "sm" }}`). `FramedRadio`의 원은 지금처럼 Small(20) 하나입니다.
+
+- `RadioGroup`: `value`(제어) 또는 `defaultValue`(비제어), `onChange(value)`, `name`(생략하면 자동), `disabled`(그룹 전체), `size`(그룹 안 라디오 크기). 나머지 `<div>` 속성(`aria-label` 등)을 받습니다.
+- `Radio`: `value`(그룹 안에서 필수), `children`(레이블), `size`, `tight`, `disabled`. 나머지 `<input>` 속성은 입력에, `className`·`style`은 바깥 `<label>`에 붙습니다. 그룹 밖에서는 `name`·`checked`·`defaultChecked`로 직접 묶을 수 있습니다.
 
 ```tsx
 <RadioGroup aria-label="정렬 기준" defaultValue="latest" name="sort">
@@ -75,7 +86,7 @@ const [method, setMethod] = useState("card");
 
 ## Props 요약
 
-- `RadioGroup`: `value` · `defaultValue` · `onChange` · `name` · `disabled` · `children`과 나머지 `<div>` 속성
-- `Radio`: `value` · `children`(레이블) · `tight` · `disabled`와 나머지 `<input>` 속성
+- `RadioGroup`: `value` · `defaultValue` · `onChange` · `name` · `disabled` · `size` · `children`과 나머지 `<div>` 속성
+- `Radio`: `value` · `children`(레이블) · `size` · `tight` · `disabled`와 나머지 `<input>` 속성
 
 자세한 표는 docs의 Radio 페이지를 봅니다.

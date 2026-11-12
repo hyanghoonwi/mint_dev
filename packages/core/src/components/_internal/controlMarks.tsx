@@ -67,25 +67,36 @@ export function CheckboxMark({
   );
 }
 
+/** 라디오 원의 기본 크기(Small 20, 가운데 흰 점 8 = 브랜드 테두리 6). Radio는 size 표로 바꿔 넘긴다 */
+export const RADIO_MARK_SM = "size-5 [--mint-radio-ring:6px]";
+
 /**
- * 라디오 원(20px). Figma `Radio Circle`. 바로 앞 형제가 `peer` 클래스를 단 <input type="radio">여야 한다.
+ * 라디오 원(기본 20px). Figma `Radio Circle`. 고른 상태는 안쪽 그림자(--mint-radio-ring 두께)로 원을 칠하고 가운데만 흰 점으로 남긴다. 바로 앞 형제가 `peer` 클래스를 단 <input type="radio">여야 한다.
  * 같은 그룹의 다른 라디오가 선택되면 이전 라디오에는 이벤트가 오지 않아서, 상태는 입력의 :checked를 CSS로 읽는다.
  */
-export function RadioMark({ ring = true }: { ring?: boolean }) {
+export function RadioMark({
+  ring = true,
+  sizeClassName = RADIO_MARK_SM,
+}: {
+  ring?: boolean;
+  /** 원 크기와 안쪽 테두리 두께(`[--mint-radio-ring:6px]`). 기본 Small(20) */
+  sizeClassName?: string;
+}) {
   return (
     <span
       aria-hidden="true"
       className={cn(
-        "size-5 shrink-0 rounded-full border transition-[background-color,border-color,box-shadow]",
+        "shrink-0 rounded-full border transition-[background-color,border-color,box-shadow]",
+        sizeClassName,
         // 안 고름: 흰 원·회색 테두리 → hover·누름 연한 회색 원
         "border-border-strong bg-fill-white peer-enabled:group-hover/control:bg-fill-neutral-weak peer-enabled:group-active/control:bg-fill-neutral-weak",
-        // 고름: 브랜드 원 + 가운데 흰 점(8px). 안쪽 그림자 6px로 원을 칠하고 가운데만 흰색으로 남긴다
-        "peer-checked:border-0 peer-checked:bg-fill-white peer-checked:shadow-[inset_0_0_0_6px_var(--mint-fill-brand)]",
-        "peer-checked:peer-enabled:group-hover/control:bg-fill-white peer-checked:peer-enabled:group-hover/control:shadow-[inset_0_0_0_6px_var(--mint-fill-brand-pressed)]",
-        "peer-checked:peer-enabled:group-active/control:bg-fill-white peer-checked:peer-enabled:group-active/control:shadow-[inset_0_0_0_6px_var(--mint-fill-brand-pressed)]",
+        // 고름: 브랜드 원 + 가운데 흰 점. 안쪽 그림자(--mint-radio-ring)로 원을 칠하고 가운데만 흰색으로 남긴다
+        "peer-checked:border-0 peer-checked:bg-fill-white peer-checked:shadow-[inset_0_0_0_var(--mint-radio-ring)_var(--mint-fill-brand)]",
+        "peer-checked:peer-enabled:group-hover/control:bg-fill-white peer-checked:peer-enabled:group-hover/control:shadow-[inset_0_0_0_var(--mint-radio-ring)_var(--mint-fill-brand-pressed)]",
+        "peer-checked:peer-enabled:group-active/control:bg-fill-white peer-checked:peer-enabled:group-active/control:shadow-[inset_0_0_0_var(--mint-radio-ring)_var(--mint-fill-brand-pressed)]",
         // 비활성: 회색 원·연한 테두리 / 고른 비활성은 연한 파랑 원
         "peer-disabled:border-border-disabled peer-disabled:bg-fill-disabled",
-        "peer-checked:peer-disabled:bg-fill-white peer-checked:peer-disabled:shadow-[inset_0_0_0_6px_var(--mint-fill-brand-weak-pressed)]",
+        "peer-checked:peer-disabled:bg-fill-white peer-checked:peer-disabled:shadow-[inset_0_0_0_var(--mint-radio-ring)_var(--mint-fill-brand-weak-pressed)]",
         ring && focusRing,
       )}
     />

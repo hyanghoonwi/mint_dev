@@ -76,7 +76,7 @@ grep -n -A12 '\*\*`Button`\*\*' node_modules/@futurewiz-rms/mint/guide/actions.m
 - `CheckMark` — 목록의 선택 표시(체크 아이콘 + 레이블, 4크기·구간별 객체, 항목 전체를 누름)
 - `Checkbox` — 체크박스(체크·일부 선택, 레이블을 눌러도 선택, 폼 제출, 4크기·구간별 객체)
 - `RadioGroup` — 라디오 묶음(세로 나열, 하나만 선택, 값·onChange)
-- `Radio` — 라디오(레이블을 눌러도 선택, 방향키 이동, 폼 제출)
+- `Radio` — 라디오(레이블을 눌러도 선택, 방향키 이동, 폼 제출, 4크기·구간별 객체)
 - `FramedCheckbox` · `FramedRadio` — 체크박스·라디오를 담은 틀(틀 전체를 눌러 선택, 선택되면 브랜드 테두리)
 - `Framed` — 다른 내용을 담는 틀(`selected`·`size`·`error`·`shadow`)
 - `Chip` — 선택 상태가 있는 칩(solid·outline, 3크기, square·pill, 아이콘·이미지·카운트)
