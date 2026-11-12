@@ -1,5 +1,5 @@
 /*
- * 시맨틱 컬러 토큰 — Figma "Color - Semantic" (node 2135:4212), 57개
+ * 시맨틱 컬러 토큰 — Figma "Color - Semantic" (node 2135:4212), 90개(2026-11-12: 시세 색 9개 · 차트 색 14개 · 투명 면 10개 추가)
  *
  * 역할 이름으로 색을 묶는 레이어다. 값은 아토믹 색(atomic.css)을 가리키는 별칭이고, 컴포넌트는 이 토큰으로만 색을 쓴다.
  * 이름은 Figma 변수 이름의 `/`를 `-`로 바꾼 것이다: `fill/brand-weak` → `--mint-fill-brand-weak` → 클래스 `bg-fill-brand-weak`.
@@ -7,7 +7,7 @@
  *
  * 지금은 Light 모드만 정의되어 있다. Figma에 Dark가 생기면 [data-theme="dark"]에서 --mint-* 값만 덮어쓴다.
  * 브랜드색(brand)은 임시로 blue-600을 연결했다. 브랜드 컬러가 확정되면 `brand` 변수의 참조만 바꾼다.
- * Figma에 없는 색(시세 상승·하락 등)은 시맨틱에 두지 않는다.
+ * Figma에 없는 색은 시맨틱에 두지 않는다. 시세 색(up 상승 빨강 · down 하락 파랑 · flat 보합 회색)은 Figma Price Change와 함께 생겼다.
  */
 :root {
   /* 배경 — 화면과 영역의 바탕색. lower → default → upper 순으로 한 단계씩 쌓아 위계를 만든다 */
@@ -35,30 +35,48 @@
   --mint-text-disabled: var(--color-atomic-gray-400);
   --mint-text-brand: var(--color-atomic-blue-600);
   --mint-text-brand-pressed: var(--color-atomic-blue-700);
-  --mint-text-danger: var(--color-atomic-red-600);
-  --mint-text-success: var(--color-atomic-green-800);
+  --mint-text-danger: var(--color-atomic-red-400);
+  --mint-text-success: var(--color-atomic-green-400);
   --mint-text-warning: var(--color-atomic-orange-800);
   --mint-text-on-fill: var(--color-atomic-white);
   --mint-text-on-fill-warning: var(--color-atomic-gray-900);
+  --mint-text-up: var(--color-atomic-red-600);
+  --mint-text-down: var(--color-atomic-blue-600);
+  --mint-text-flat: var(--color-atomic-gray-600);
 
   /* 면 — 버튼·칩·배지의 색. 같은 의미를 기본 / weak(옅은 배경) / pressed(눌림)로 나눈다 */
   --mint-fill-brand: var(--color-atomic-blue-600);
   --mint-fill-brand-pressed: var(--color-atomic-blue-700);
   --mint-fill-brand-weak: var(--color-atomic-blue-50);
   --mint-fill-brand-weak-pressed: var(--color-atomic-blue-100);
-  --mint-fill-neutral: var(--color-atomic-gray-900);
-  --mint-fill-neutral-pressed: var(--color-atomic-gray-800);
+  --mint-fill-neutral: var(--color-atomic-gray-800);
+  --mint-fill-neutral-pressed: var(--color-atomic-gray-700);
   --mint-fill-neutral-weak: var(--color-atomic-gray-100);
   --mint-fill-neutral-weak-pressed: var(--color-atomic-gray-200);
   --mint-fill-neutral-medium: var(--color-atomic-gray-200);
   --mint-fill-neutral-medium-pressed: var(--color-atomic-gray-300);
-  --mint-fill-danger: var(--color-atomic-red-600);
-  --mint-fill-danger-pressed: var(--color-atomic-red-700);
+  --mint-fill-danger: var(--color-atomic-red-400);
+  --mint-fill-danger-pressed: var(--color-atomic-red-500);
   --mint-fill-danger-weak: var(--color-atomic-red-50);
-  --mint-fill-success: var(--color-atomic-green-500);
+  --mint-fill-success: var(--color-atomic-green-400);
   --mint-fill-success-weak: var(--color-atomic-green-50);
   --mint-fill-warning: var(--color-atomic-orange-500);
   --mint-fill-warning-weak: var(--color-atomic-orange-50);
+  --mint-fill-up: var(--color-atomic-red-500);
+  --mint-fill-up-weak: var(--color-atomic-red-50);
+  --mint-fill-down: var(--color-atomic-blue-500);
+  --mint-fill-down-weak: var(--color-atomic-blue-50);
+  /* 투명 면 — 회색 막을 10단계 투명도로. 이미지·영역 위에 얹는 막(오버레이)에 쓴다 */
+  --mint-fill-alpha-50: var(--color-atomic-grayAlpha-50);
+  --mint-fill-alpha-100: var(--color-atomic-grayAlpha-100);
+  --mint-fill-alpha-200: var(--color-atomic-grayAlpha-200);
+  --mint-fill-alpha-300: var(--color-atomic-grayAlpha-300);
+  --mint-fill-alpha-400: var(--color-atomic-grayAlpha-400);
+  --mint-fill-alpha-500: var(--color-atomic-grayAlpha-500);
+  --mint-fill-alpha-600: var(--color-atomic-grayAlpha-600);
+  --mint-fill-alpha-700: var(--color-atomic-grayAlpha-700);
+  --mint-fill-alpha-800: var(--color-atomic-grayAlpha-800);
+  --mint-fill-alpha-900: var(--color-atomic-grayAlpha-900);
   --mint-fill-pressed: var(--color-atomic-grayAlpha-100);
   --mint-fill-disabled: var(--color-atomic-gray-100);
   --mint-fill-inverse: var(--color-atomic-white);
@@ -72,10 +90,28 @@
   --mint-icon-disabled: var(--color-atomic-gray-400);
   --mint-icon-brand: var(--color-atomic-blue-600);
   --mint-icon-brand-pressed: var(--color-atomic-blue-700);
-  --mint-icon-danger: var(--color-atomic-red-600);
-  --mint-icon-success: var(--color-atomic-green-600);
+  --mint-icon-danger: var(--color-atomic-red-400);
+  --mint-icon-success: var(--color-atomic-green-400);
   --mint-icon-warning: var(--color-atomic-orange-700);
   --mint-icon-on-fill: var(--color-atomic-white);
+  --mint-icon-up: var(--color-atomic-red-500);
+  --mint-icon-down: var(--color-atomic-blue-500);
+
+  /* 차트 — 의미 없는 분류용 색 7개와 옅은 배경(weak). 순서대로 blue · teal · green · orange · violet · pink · gray */
+  --mint-chart-1: var(--color-atomic-blue-500);
+  --mint-chart-1-weak: var(--color-atomic-blue-50);
+  --mint-chart-2: var(--color-atomic-teal-500);
+  --mint-chart-2-weak: var(--color-atomic-teal-50);
+  --mint-chart-3: var(--color-atomic-green-500);
+  --mint-chart-3-weak: var(--color-atomic-green-50);
+  --mint-chart-4: var(--color-atomic-orange-500);
+  --mint-chart-4-weak: var(--color-atomic-orange-50);
+  --mint-chart-5: var(--color-atomic-violet-500);
+  --mint-chart-5-weak: var(--color-atomic-violet-50);
+  --mint-chart-6: var(--color-atomic-pink-500);
+  --mint-chart-6-weak: var(--color-atomic-pink-50);
+  --mint-chart-7: var(--color-atomic-gray-500);
+  --mint-chart-7-weak: var(--color-atomic-gray-50);
 }
 
 @theme inline {
@@ -106,6 +142,9 @@
   --color-text-warning: var(--mint-text-warning);
   --color-text-on-fill: var(--mint-text-on-fill);
   --color-text-on-fill-warning: var(--mint-text-on-fill-warning);
+  --color-text-up: var(--mint-text-up);
+  --color-text-down: var(--mint-text-down);
+  --color-text-flat: var(--mint-text-flat);
 
   --color-fill-brand: var(--mint-fill-brand);
   --color-fill-brand-pressed: var(--mint-fill-brand-pressed);
@@ -124,6 +163,20 @@
   --color-fill-success-weak: var(--mint-fill-success-weak);
   --color-fill-warning: var(--mint-fill-warning);
   --color-fill-warning-weak: var(--mint-fill-warning-weak);
+  --color-fill-up: var(--mint-fill-up);
+  --color-fill-up-weak: var(--mint-fill-up-weak);
+  --color-fill-down: var(--mint-fill-down);
+  --color-fill-down-weak: var(--mint-fill-down-weak);
+  --color-fill-alpha-50: var(--mint-fill-alpha-50);
+  --color-fill-alpha-100: var(--mint-fill-alpha-100);
+  --color-fill-alpha-200: var(--mint-fill-alpha-200);
+  --color-fill-alpha-300: var(--mint-fill-alpha-300);
+  --color-fill-alpha-400: var(--mint-fill-alpha-400);
+  --color-fill-alpha-500: var(--mint-fill-alpha-500);
+  --color-fill-alpha-600: var(--mint-fill-alpha-600);
+  --color-fill-alpha-700: var(--mint-fill-alpha-700);
+  --color-fill-alpha-800: var(--mint-fill-alpha-800);
+  --color-fill-alpha-900: var(--mint-fill-alpha-900);
   --color-fill-pressed: var(--mint-fill-pressed);
   --color-fill-disabled: var(--mint-fill-disabled);
   --color-fill-inverse: var(--mint-fill-inverse);
@@ -140,4 +193,21 @@
   --color-icon-success: var(--mint-icon-success);
   --color-icon-warning: var(--mint-icon-warning);
   --color-icon-on-fill: var(--mint-icon-on-fill);
+  --color-icon-up: var(--mint-icon-up);
+  --color-icon-down: var(--mint-icon-down);
+
+  --color-chart-1: var(--mint-chart-1);
+  --color-chart-1-weak: var(--mint-chart-1-weak);
+  --color-chart-2: var(--mint-chart-2);
+  --color-chart-2-weak: var(--mint-chart-2-weak);
+  --color-chart-3: var(--mint-chart-3);
+  --color-chart-3-weak: var(--mint-chart-3-weak);
+  --color-chart-4: var(--mint-chart-4);
+  --color-chart-4-weak: var(--mint-chart-4-weak);
+  --color-chart-5: var(--mint-chart-5);
+  --color-chart-5-weak: var(--mint-chart-5-weak);
+  --color-chart-6: var(--mint-chart-6);
+  --color-chart-6-weak: var(--mint-chart-6-weak);
+  --color-chart-7: var(--mint-chart-7);
+  --color-chart-7-weak: var(--mint-chart-7-weak);
 }

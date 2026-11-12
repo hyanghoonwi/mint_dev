@@ -1,6 +1,6 @@
 /*
- * 라디우스 토큰
- * 사용 예) rounded-4 / rounded-8 / rounded-full
+ * 라디우스·그림자 토큰
+ * 사용 예) rounded-4 / rounded-8 / rounded-full · shadow-floating / shadow-drawer
  * 간격(padding·gap)은 Tailwind 기본 스케일(4px 단위)을 그대로 쓴다.
  */
 @theme {
@@ -8,5 +8,10 @@
   --radius-8: 8px;
   --radius-12: 12px;
   --radius-16: 16px;
+  --radius-20: 20px;
   --radius-full: 999px;
+
+  /* 그림자 — Figma Effect 스타일. 토스트·메뉴·툴팁 같은 떠 있는 요소는 floating, 오른쪽에서 나오는 패널은 drawer */
+  --shadow-floating: 0 8px 24px 0 rgb(10 18 38 / 0.24);
+  --shadow-drawer: 0 2px 30px 0 rgb(10 18 38 / 0.1), -16px 0 60px 0 rgb(10 18 38 / 0.1);
 }

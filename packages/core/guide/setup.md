@@ -35,15 +35,16 @@ import "@futurewiz-rms/mint/style.css";
 
 ## 3. 토큰 클래스
 
-| 종류   | 클래스 예                                                                       |
-| ------ | ------------------------------------------------------------------------------- |
-| 글자   | `text-title-1-bold` `text-body-2-regular` `text-label-2-semibold`               |
-| 배경   | `bg-background-default` `bg-background-lower` `bg-background-floated`           |
-| 면     | `bg-fill-brand` `bg-fill-brand-weak` `bg-fill-neutral-weak` `bg-fill-danger`    |
-| 글자색 | `text-text-primary` `text-text-secondary` `text-text-brand` `text-text-on-fill` |
-| 아이콘 | `text-icon-default` `text-icon-brand` `text-icon-danger`                        |
-| 테두리 | `border-border-default` `border-border-strong`                                  |
-| 반경   | `rounded-4` `rounded-8` `rounded-12` `rounded-16` `rounded-full`                |
+| 종류   | 클래스 예                                                                                     |
+| ------ | --------------------------------------------------------------------------------------------- |
+| 글자   | `text-title-1-bold` `text-body-2-regular` `text-label-2-semibold`                             |
+| 배경   | `bg-background-default` `bg-background-lower` `bg-background-floated`                         |
+| 면     | `bg-fill-brand` `bg-fill-brand-weak` `bg-fill-neutral-weak` `bg-fill-danger`                  |
+| 글자색 | `text-text-primary` `text-text-secondary` `text-text-brand` `text-text-on-fill`               |
+| 아이콘 | `text-icon-default` `text-icon-brand` `text-icon-danger`                                      |
+| 테두리 | `border-border-default` `border-border-strong`                                                |
+| 반경   | `rounded-4` `rounded-8` `rounded-12` `rounded-16` `rounded-20` `rounded-full`                 |
+| 그림자 | `shadow-floating`(토스트·메뉴·툴팁 같은 떠 있는 요소) `shadow-drawer`(오른쪽에서 나오는 패널) |
 
 ### 글자 스타일
 
@@ -54,7 +55,7 @@ import "@futurewiz-rms/mint/style.css";
 - **글자 크기는 화면 폭에 따라 바뀌지 않습니다.** 반응형은 레이아웃(그리드·여백·열 수)으로 처리합니다.
 - 폰트는 Pretendard이고, 불러오지 못하면 기기 기본 폰트로 대체됩니다(영문 `system-ui`, 한글 Apple SD Gothic Neo → Noto Sans KR → Malgun Gothic). 글자 클래스는 크기·웨이트만 정하고 폰트는 페이지 기본 폰트를 따릅니다. `style.css`는 `html`의 기본 폰트를 이 순서로 정해 두었습니다. `style.no-reset.css`는 전역 폰트를 정하지 않으니 앱 최상단 요소에 `font-mint` 클래스를 답니다.
 
-색은 위의 시맨틱 클래스를 씁니다. 시맨틱 컬러는 Figma `Color - Semantic` 57개이고, 아토믹 색을 가리키는 별칭입니다.
+색은 위의 시맨틱 클래스를 씁니다. 시맨틱 컬러는 Figma `Color - Semantic` 90개이고, 아토믹 색을 가리키는 별칭입니다.
 
 ### 시맨틱 컬러
 
@@ -62,9 +63,10 @@ import "@futurewiz-rms/mint/style.css";
 
 - **background**(5): `default` 기본 화면 · `lower` 한 단계 낮은 영역(섹션 구분) · `upper` 카드 위 약한 배경 · `floated` 모달·시트 · `dim` 모달 뒤 막
 - **border**(7): `default` 기본 구분선 · `strong` 입력창·Outline 버튼 · `thick` 두꺼운 구분 · `focus` 포커스 링 · `disabled` · `brand` · `selected`
-- **text**(13): `strong` 제목 · `primary` 본문 · `secondary` 보조 · `tertiary` 부가 정보 · `subtle` 플레이스홀더 · `disabled` · `brand` · `brand-pressed` · `danger` · `success` · `warning` · `on-fill`(채움 위 글자) · `on-fill-warning`
-- **fill**(21): `brand` `neutral` `danger` `success` `warning`(채움)과 변형 `brand-pressed` `brand-weak` `brand-weak-pressed` `neutral-pressed` `neutral-weak` `neutral-weak-pressed` `neutral-medium` `neutral-medium-pressed` `danger-pressed` `danger-weak` `success-weak` `warning-weak` · `pressed` 누름 오버레이 · `disabled` · `inverse` · `white`
-- **icon**(11): `default` `strong` `secondary` `tertiary` `disabled` `brand` `brand-pressed` `danger` `success` `warning` `on-fill`
+- **text**(16): `strong` 제목 · `primary` 본문 · `secondary` 보조 · `tertiary` 부가 정보 · `subtle` 플레이스홀더 · `disabled` · `brand` · `brand-pressed` · `danger` · `success` · `warning` · `on-fill`(채움 위 글자) · `on-fill-warning` · 시세 `up` 상승 · `down` 하락 · `flat` 보합
+- **fill**(35): `brand` `neutral` `danger` `success` `warning`(채움)과 변형 `brand-pressed` `brand-weak` `brand-weak-pressed` `neutral-pressed` `neutral-weak` `neutral-weak-pressed` `neutral-medium` `neutral-medium-pressed` `danger-pressed` `danger-weak` `success-weak` `warning-weak` · `up` `down`(시세 채움) · `up-weak` `down-weak`(시세 옅은 배경) · `alpha-50`~`alpha-900`(투명 회색 막 10단계, 이미지·영역 위 오버레이) · `pressed` 누름 오버레이 · `disabled` · `inverse` · `white`
+- **icon**(13): `default` `strong` `secondary` `tertiary` `disabled` `brand` `brand-pressed` `danger` `success` `warning` `on-fill` · 시세 화살표 `up` `down`
+- **chart**(14): `1`~`7`(blue · teal · green · orange · violet · pink · gray)과 옅은 배경 `1-weak`~`7-weak`. 의미 없는 분류용(차트 계열 색, Badge의 `teal`·`violet`·`pink`). 클래스는 `bg-chart-1` `text-chart-1`
 
 사용 규칙:
 

@@ -23,6 +23,11 @@ const radiusNames = [...styles("shape.css").matchAll(/^\s*--radius-([a-z0-9-]+):
   (m) => m[1],
 );
 
+// shape.css의 --shadow-*
+const shadowNames = [...styles("shape.css").matchAll(/^\s*--shadow-([a-z0-9-]+):/gm)].map(
+  (m) => m[1],
+);
+
 // spacing.css의 --mint-spacing-<px>. Tailwind 클래스 번호는 px ÷ 4 (spacing-20 → 5)
 const spacingSteps = [...styles("spacing.css").matchAll(/^\s*--mint-spacing-(\d+):/gm)].map((m) =>
   String(Number(m[1]) / 4),
@@ -67,6 +72,7 @@ const lines = [
   ` *   색: bg-/text-/border-/ring-<토큰>  (${colorNames.length}개)  예) bg-background-default text-text-primary border-border-default`,
   ` *   글자: text-<스타일>  (${textNames.length}개)  예) text-body-2-regular text-title-1-bold text-label-2-semibold`,
   ` *   반경: rounded-<값>  (${radiusNames.length}개)  예) rounded-8 rounded-12 rounded-full`,
+  ` *   그림자: shadow-<이름>  (${shadowNames.length}개)  예) shadow-floating shadow-drawer`,
   ` *   간격: p-/m-/gap- 계열 <번호>  (${spacingSteps.length}단계)  예) p-5 gap-3 mt-8  (번호 = px ÷ 4, spacing-20 = p-5)`,
   " */",
   group("bg", colorNames),
@@ -75,10 +81,11 @@ const lines = [
   group("ring", colorNames),
   group("text", textNames),
   group("rounded", radiusNames),
+  group("shadow", shadowNames),
   ...spacingPrefixes.map((prefix) => group(prefix, spacingSteps)),
   "",
 ];
 writeFileSync(target, lines.join("\n"));
 console.log(
-  `token-utilities.css: 색 ${colorNames.length} · 글자 ${textNames.length} · 반경 ${radiusNames.length} · 간격 ${spacingSteps.length}`,
+  `token-utilities.css: 색 ${colorNames.length} · 글자 ${textNames.length} · 반경 ${radiusNames.length} · 그림자 ${shadowNames.length} · 간격 ${spacingSteps.length}`,
 );

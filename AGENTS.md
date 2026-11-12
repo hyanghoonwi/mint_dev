@@ -130,8 +130,9 @@ MINT는 Next.js App Router에서 **서버 컴포넌트와 클라이언트 컴포
 - **React 19**: `forwardRef` 없이 `ref`를 일반 prop으로 받습니다.
 - **변형은 `cva`**, 클래스 병합은 `cn()`(`src/utils/cn.ts`)으로 합니다. `className`을 받고 마지막에 병합합니다.
 - **색·모서리·타이포는 토큰만**: `bg-fill-brand`, `text-text-primary`, `rounded-8`, `text-label-2-semibold` 등. hex 색을 직접 쓰지 않습니다. 다크 모드가 생기면 `--mint-*` 변수 값이 `[data-theme="dark"]`에서 바뀌므로 컴포넌트에 `dark:` 클래스를 쓰지 않습니다.
-- **색은 두 단계**: 아토믹(`src/styles/atomic.css`, `--color-atomic-*`, Figma `Atomic` 변수와 이름·값이 같은 고정값) → 시맨틱(`src/styles/colors.css`, `--mint-*`, Figma `Color - Semantic` 57개, `var(--color-atomic-*)` 참조). **컴포넌트는 시맨틱만 씁니다.** 아토믹 값은 Figma에서만 바꾸고 코드는 그대로 옮깁니다. 시맨틱 이름은 Figma 변수의 `/`를 `-`로 바꿉니다(`fill/brand-weak` → `bg-fill-brand-weak`). 지금은 Light만 있고 브랜드는 임시 blue-600입니다.
-- **시세 색**: Figma 시맨틱에 상승·하락 색이 없어서 토큰이 없습니다. 시세 UI가 필요해지면 Figma에 먼저 정의합니다.
+- **색은 두 단계**: 아토믹(`src/styles/atomic.css`, `--color-atomic-*`, Figma `Atomic` 변수와 이름·값이 같은 고정값) → 시맨틱(`src/styles/colors.css`, `--mint-*`, Figma `Color - Semantic` 90개, `var(--color-atomic-*)` 참조). **컴포넌트는 시맨틱만 씁니다.** 아토믹 값은 Figma에서만 바꾸고 코드는 그대로 옮깁니다. 시맨틱 이름은 Figma 변수의 `/`를 `-`로 바꿉니다(`fill/brand-weak` → `bg-fill-brand-weak`). 지금은 Light만 있고 브랜드는 임시 blue-600입니다.
+- **그림자는 두 가지뿐**입니다(`src/styles/shape.css`, Figma Effect). 토스트·메뉴·툴팁 같은 떠 있는 요소는 `shadow-floating`, 오른쪽에서 나오는 패널은 `shadow-drawer`를 씁니다. `shadow-[…]`처럼 임의 그림자를 만들지 않습니다.
+- **시세 색**: Figma 시맨틱의 `text-up`·`text-down`·`text-flat`, `fill-up-weak`·`fill-down-weak`, `icon-up`·`icon-down`(2026-11-12 추가)을 씁니다. 상승은 빨강, 하락은 파랑, 보합은 회색입니다. 시세 등락 표시는 `PriceChange`로 하고, `danger`·`brand` 색을 시세에 빌려 쓰지 않습니다.
 - **크기**: `size`는 `"sm" | "md" | "lg"`가 기본 틀이고 기본값은 `md`. 컴포넌트가 Figma에서 더 필요하면 `Button`(`xs` 28 · `sm` 32 · `md` 40 · `lg` 48)처럼 Figma 스펙을 따른다.
 - **레이아웃·변형은 prop으로 캡슐화**합니다. 사용하는 쪽이 조각을 직접 조립해야 하는 API를 피합니다.
 - **날짜·시간은 문자열**(`YYYY-MM-DD`, `HH:mm`)입니다. `Date`를 prop으로 받지 않습니다.
