@@ -35,13 +35,13 @@ export function responsiveClasses<T extends string | number | boolean>(
   table: ResponsiveClassTable<`${T}`>,
 ): string {
   const resolved = resolveResponsive(value, fallback);
-  const out = [table.base[`${resolved.base}` as `${T}`]];
+  const classNames = [table.base[`${resolved.base}` as `${T}`]];
   let previous = resolved.base;
   for (const breakpoint of ["tablet", "desktop"] as const) {
     const next = resolved[breakpoint];
     if (next === undefined || next === previous) continue;
-    out.push(table[breakpoint][`${next}` as `${T}`]);
+    classNames.push(table[breakpoint][`${next}` as `${T}`]);
     previous = next;
   }
-  return out.join(" ");
+  return classNames.join(" ");
 }

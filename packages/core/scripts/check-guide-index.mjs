@@ -16,8 +16,8 @@ const modules = [...entry.matchAll(/export \* from "\.\/(.+?)"/g)]
 
 const publicNames = new Set();
 for (const modulePath of modules) {
-  for (const ext of [".tsx", ".ts"]) {
-    const file = join(root, "src", modulePath + ext);
+  for (const extension of [".tsx", ".ts"]) {
+    const file = join(root, "src", modulePath + extension);
     if (existsSync(file)) {
       for (const match of read(file).matchAll(
         /^export (?:function|const|class) ([A-Za-z0-9_]+)/gm,

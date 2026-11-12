@@ -40,7 +40,7 @@ export function OverlayProvider({ children }: OverlayProviderProps) {
       timers.current.delete(id);
       exitDelays.current.delete(id);
       settle(id);
-      setItems((prev) => prev.filter((item) => item.id !== id));
+      setItems((previous) => previous.filter((item) => item.id !== id));
     };
 
     const closeWith = (id: string, value?: unknown) => {
@@ -49,8 +49,8 @@ export function OverlayProvider({ children }: OverlayProviderProps) {
         return;
       }
       settle(id, value);
-      setItems((prev) =>
-        prev.map((item) => (item.id === id && item.isOpen ? { ...item, isOpen: false } : item)),
+      setItems((previous) =>
+        previous.map((item) => (item.id === id && item.isOpen ? { ...item, isOpen: false } : item)),
       );
       if (!timers.current.has(id)) {
         timers.current.set(
@@ -66,11 +66,11 @@ export function OverlayProvider({ children }: OverlayProviderProps) {
       clearTimeout(timers.current.get(id));
       timers.current.delete(id);
       exitDelays.current.set(id, options.exitDelay ?? 0);
-      setItems((prev) =>
-        prev.some((item) => item.id === id && item.isOpen)
-          ? prev
+      setItems((previous) =>
+        previous.some((item) => item.id === id && item.isOpen)
+          ? previous
           : [
-              ...prev.filter((item) => item.id !== id),
+              ...previous.filter((item) => item.id !== id),
               { id, isOpen: true, render: render as OverlayRender<never> },
             ],
       );

@@ -6,26 +6,28 @@ import { existsSync, readFileSync, readdirSync } from "node:fs";
 import { join, relative, resolve } from "node:path";
 
 const root = resolve(import.meta.dirname, "..");
-const src = join(root, "src");
-const dist = join(root, "dist");
+const sourceDirectory = join(root, "src");
+const distDirectory = join(root, "dist");
 const DIRECTIVE = /^\s*(?:\/\/[^\n]*\n|\/\*[\s\S]*?\*\/\s*)*["']use client["']/;
 
-function walk(dir) {
-  return readdirSync(dir, { withFileTypes: true }).flatMap((entry) =>
-    entry.isDirectory() ? walk(join(dir, entry.name)) : [join(dir, entry.name)],
+function walk(directory) {
+  return readdirSync(directory, { withFileTypes: true }).flatMap((entry) =>
+    entry.isDirectory() ? walk(join(directory, entry.name)) : [join(directory, entry.name)],
   );
 }
 
-const sources = walk(src).filter((file) => /\.tsx?$/.test(file) && !file.endsWith(".d.ts"));
+const sources = walk(sourceDirectory).filter(
+  (file) => /\.tsx?$/.test(file) && !file.endsWith(".d.ts"),
+);
 const clientSources = sources.filter((file) => DIRECTIVE.test(readFileSync(file, "utf8")));
 
 const problems = [];
 for (const file of clientSources) {
-  const out = join(dist, relative(src, file).replace(/\.tsx?$/, ".js"));
-  if (!existsSync(out)) {
-    problems.push(`${relative(root, out)}이(가) 없습니다. (원본: ${relative(root, file)})`);
-  } else if (!DIRECTIVE.test(readFileSync(out, "utf8"))) {
-    problems.push(`${relative(root, out)} 맨 위에 "use client"가 없습니다.`);
+  const outputFile = join(distDirectory, relative(sourceDirectory, file).replace(/\.tsx?$/, ".js"));
+  if (!existsSync(outputFile)) {
+    problems.push(`${relative(root, outputFile)}이(가) 없습니다. (원본: ${relative(root, file)})`);
+  } else if (!DIRECTIVE.test(readFileSync(outputFile, "utf8"))) {
+    problems.push(`${relative(root, outputFile)} 맨 위에 "use client"가 없습니다.`);
   }
 }
 

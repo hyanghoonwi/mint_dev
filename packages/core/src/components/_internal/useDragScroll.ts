@@ -27,7 +27,7 @@ export function useDragScroll(scrollerRef: RefObject<HTMLElement | null>) {
     x: number;
     scroll: number;
     moved: boolean;
-    samples: { t: number; x: number }[];
+    samples: { time: number; x: number }[];
   } | null>(null);
   const suppressClick = useRef(false);
   const frame = useRef(0);
@@ -45,16 +45,16 @@ export function useDragScroll(scrollerRef: RefObject<HTMLElement | null>) {
     const scroller = scrollerRef.current;
     if (!scroller || Math.abs(velocity) < MIN_VELOCITY) return;
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    let v = velocity;
+    let currentVelocity = velocity;
     let last = performance.now();
     const step = (now: number) => {
-      const dt = Math.min(now - last, 32);
+      const elapsed = Math.min(now - last, 32);
       last = now;
       const before = scroller.scrollLeft;
-      scroller.scrollLeft = before - v * dt;
-      v *= Math.pow(FRICTION, dt / 16);
+      scroller.scrollLeft = before - currentVelocity * elapsed;
+      currentVelocity *= Math.pow(FRICTION, elapsed / 16);
       // 충분히 느려졌거나 끝에 닿아 더 움직이지 않으면 멈춘다
-      if (Math.abs(v) < MIN_VELOCITY || scroller.scrollLeft === before) {
+      if (Math.abs(currentVelocity) < MIN_VELOCITY || scroller.scrollLeft === before) {
         frame.current = 0;
         return;
       }
@@ -75,12 +75,12 @@ export function useDragScroll(scrollerRef: RefObject<HTMLElement | null>) {
     }
     // 떼기 직전 VELOCITY_WINDOW 동안 움직인 거리로 속도를 잰다(멈췄다 떼면 0이라 미끄러지지 않는다)
     const now = performance.now();
-    const recent = state.samples.filter((s) => now - s.t <= VELOCITY_WINDOW);
+    const recent = state.samples.filter((sample) => now - sample.time <= VELOCITY_WINDOW);
     if (recent.length < 2 || event.type === "pointercancel") return;
     const first = recent[0];
     const lastSample = recent[recent.length - 1];
-    const dt = lastSample.t - first.t;
-    if (dt > 0) startMomentum((lastSample.x - first.x) / dt);
+    const elapsed = lastSample.time - first.time;
+    if (elapsed > 0) startMomentum((lastSample.x - first.x) / elapsed);
   };
 
   return {
@@ -100,26 +100,26 @@ export function useDragScroll(scrollerRef: RefObject<HTMLElement | null>) {
           x: event.clientX,
           scroll: scroller.scrollLeft,
           moved: false,
-          samples: [{ t: performance.now(), x: event.clientX }],
+          samples: [{ time: performance.now(), x: event.clientX }],
         };
       },
       onPointerMove: (event: PointerEvent<HTMLElement>) => {
         const state = drag.current;
         const scroller = scrollerRef.current;
         if (!state || state.id !== event.pointerId || !scroller) return;
-        const dx = event.clientX - state.x;
+        const deltaX = event.clientX - state.x;
         if (!state.moved) {
-          if (Math.abs(dx) < DRAG_THRESHOLD) return;
+          if (Math.abs(deltaX) < DRAG_THRESHOLD) return;
           state.moved = true;
           setDragging(true);
           // 목록 밖으로 나가도 계속 끌 수 있게 포인터를 붙잡는다
           event.currentTarget.setPointerCapture(event.pointerId);
         }
-        scroller.scrollLeft = state.scroll - dx;
+        scroller.scrollLeft = state.scroll - deltaX;
         const now = performance.now();
-        state.samples.push({ t: now, x: event.clientX });
+        state.samples.push({ time: now, x: event.clientX });
         // 오래된 기록은 버린다
-        while (state.samples.length > 2 && now - state.samples[0].t > VELOCITY_WINDOW) {
+        while (state.samples.length > 2 && now - state.samples[0].time > VELOCITY_WINDOW) {
           state.samples.shift();
         }
       },

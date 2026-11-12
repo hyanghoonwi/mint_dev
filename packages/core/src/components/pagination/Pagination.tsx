@@ -22,17 +22,17 @@ type Slot = number | "ellipsis";
  * 처음과 끝은 항상 보이고, 가운데는 현재 주변(extended는 앞뒤 1개, compact는 현재만)을 보여 준다.
  */
 function getPaginationSlots(page: number, total: number, slots: 7 | 5): Slot[] {
-  if (total <= slots) return Array.from({ length: total }, (_, i) => i + 1);
+  if (total <= slots) return Array.from({ length: total }, (_, offset) => offset + 1);
   const side = (slots - 5) / 2; // 현재 페이지 앞뒤로 보여 줄 수: extended 1 · compact 0
   const run = slots - 2; // 한쪽 끝에 붙여 보여 줄 번호 수: extended 5 · compact 3
   // 말줄임이 한 페이지만 가리게 되면 말줄임 대신 번호를 그대로 보여 준다
   if (page <= run - side) {
-    return [...Array.from({ length: run }, (_, i) => i + 1), "ellipsis", total];
+    return [...Array.from({ length: run }, (_, offset) => offset + 1), "ellipsis", total];
   }
   if (page >= total - run + 1 + side) {
-    return [1, "ellipsis", ...Array.from({ length: run }, (_, i) => total - run + 1 + i)];
+    return [1, "ellipsis", ...Array.from({ length: run }, (_, offset) => total - run + 1 + offset)];
   }
-  const middle = Array.from({ length: side * 2 + 1 }, (_, i) => page - side + i);
+  const middle = Array.from({ length: side * 2 + 1 }, (_, offset) => page - side + offset);
   return [1, "ellipsis", ...middle, "ellipsis", total];
 }
 
@@ -99,14 +99,14 @@ export function Pagination({
   const item = (
     target: number,
     content: ReactNode,
-    opts: { className: string; label: string; disabled?: boolean; current?: boolean },
+    options: { className: string; label: string; disabled?: boolean; current?: boolean },
   ) => {
     const common = {
-      className: cn(itemBase, opts.className),
-      "aria-label": opts.label,
-      "aria-current": opts.current ? ("page" as const) : undefined,
+      className: cn(itemBase, options.className),
+      "aria-label": options.label,
+      "aria-current": options.current ? ("page" as const) : undefined,
     };
-    if (opts.disabled) {
+    if (options.disabled) {
       // 첫·마지막 페이지의 이전·다음: 누를 수 없음(Figma Disabled)
       return getHref ? (
         <span {...common} aria-disabled="true" role="link">

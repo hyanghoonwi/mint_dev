@@ -232,7 +232,7 @@ export function ToastProvider({
     const closeCallbacks = new Map<string, (() => void) | undefined>();
 
     const removeEntry = (id: string) => {
-      setEntries((prev) => prev.filter((entry) => entry.id !== id));
+      setEntries((previous) => previous.filter((entry) => entry.id !== id));
       const callback = closeCallbacks.get(id);
       closeCallbacks.delete(id);
       callback?.();
@@ -242,8 +242,8 @@ export function ToastProvider({
     const add = (kind: Kind, message: ReactNode, options: ToastOptions | SnackbarOptions) => {
       const key = options.id ?? `mint-${kind}-${++nextNumber}`;
       closeCallbacks.set(key, options.onClose);
-      setEntries((prev) => {
-        const existing = prev.find((entry) => entry.id === key);
+      setEntries((previous) => {
+        const existing = previous.find((entry) => entry.id === key);
         const next = {
           kind,
           message,
@@ -252,15 +252,17 @@ export function ToastProvider({
           revision: (existing?.revision ?? 0) + 1,
           closing: false,
         } as Entry;
-        return existing ? prev.map((entry) => (entry.id === key ? next : entry)) : [...prev, next];
+        return existing
+          ? previous.map((entry) => (entry.id === key ? next : entry))
+          : [...previous, next];
       });
       return key;
     };
 
     // id가 없으면 그 종류(토스트 또는 스낵바)만 모두 닫는다
     const dismissKind = (kind: Kind | null, id?: string) => {
-      setEntries((prev) =>
-        prev.map((entry) =>
+      setEntries((previous) =>
+        previous.map((entry) =>
           (id === undefined ? entry.kind === kind : entry.id === id) && !entry.closing
             ? { ...entry, closing: true }
             : entry,
@@ -305,7 +307,7 @@ export function ToastProvider({
   // 개수 제한: 닫는 중이 아닌 것 중 가장 오래된 것부터 넘치는 만큼 사라진다
   const active = entries.filter((entry) => !entry.closing);
   const evicted = new Set(
-    active.slice(0, Math.max(active.length - Math.max(limit, 1), 0)).map((e) => e.id),
+    active.slice(0, Math.max(active.length - Math.max(limit, 1), 0)).map((entry) => entry.id),
   );
 
   return (

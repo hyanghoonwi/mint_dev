@@ -39,8 +39,10 @@ Chip은 값을 고르고, 행동은 Button이 맡아요.
 // 여러 개를 고르는 필터
 const [filters, setFilters] = useState<string[]>(["signal"]);
 const toggle = (id: string) =>
-  setFilters((prev) =>
-    prev.includes(id) ? prev.filter((v) => v !== id) : [...prev, id],
+  setFilters((previous) =>
+    previous.includes(id)
+      ? previous.filter((filter) => filter !== id)
+      : [...previous, id],
   );
 
 <div role="group" aria-label="알림 종류" style={{ display: "flex", gap: 8 }}>

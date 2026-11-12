@@ -326,12 +326,12 @@ export function Avatar({
   "aria-label": ariaLabel,
   ...props
 }: AvatarProps) {
-  const sz = <K extends string>(table: ResponsiveClassTable<K>) =>
+  const sizeClasses = <K extends string>(table: ResponsiveClassTable<K>) =>
     responsiveClasses<AvatarSize>(size, 40, table as ResponsiveClassTable<`${AvatarSize}`>);
   const kind = src ? "image" : name ? "initial" : "icon";
   const interactive = onClick !== undefined && !disabled;
   const label = ariaLabel ?? name;
-  const shape = variant === "brand" ? sz(brandRadiusClasses) : "rounded-full";
+  const shape = variant === "brand" ? sizeClasses(brandRadiusClasses) : "rounded-full";
 
   // 면 색: normal / pressed(눌림·hover 같은 색) / disabled
   const tone = {
@@ -359,12 +359,12 @@ export function Avatar({
     badge === "dot"
       ? badgeSize
         ? badgeSizes[badgeSize].dot
-        : sz(autoBadgeDotClasses)
+        : sizeClasses(autoBadgeDotClasses)
       : cn(
-          badgeSize ? badgeSizes[badgeSize].number : sz(autoBadgeNumberClasses),
+          badgeSize ? badgeSizes[badgeSize].number : sizeClasses(autoBadgeNumberClasses),
           count !== null &&
             count.length > 1 &&
-            (badgeSize ? badgeSizes[badgeSize].padding : sz(autoBadgePaddingClasses)),
+            (badgeSize ? badgeSizes[badgeSize].padding : sizeClasses(autoBadgePaddingClasses)),
         );
 
   const content = (
@@ -373,7 +373,7 @@ export function Avatar({
         className={cn(
           "relative flex size-full items-center justify-center overflow-hidden",
           shape,
-          sz(iconClasses),
+          sizeClasses(iconClasses),
           tone,
           kind === "image" && "border border-border-default",
         )}
@@ -396,7 +396,9 @@ export function Avatar({
             )}
           </>
         )}
-        {kind === "initial" && <span className={sz(initialClasses)}>{initialOf(name!)}</span>}
+        {kind === "initial" && (
+          <span className={sizeClasses(initialClasses)}>{initialOf(name!)}</span>
+        )}
         {kind === "icon" && (icon ?? <UserIcon />)}
       </span>
       {showBadge && (
@@ -405,7 +407,9 @@ export function Avatar({
           className={cn(
             // 흰 테두리 1.5px는 Figma처럼 안쪽에 그린다(inset 그림자). 테두리가 폭에 더해지지 않아 "99+"가 넓어지지 않는다
             "absolute inline-flex items-center justify-center rounded-full bg-fill-brand font-medium leading-none whitespace-nowrap text-text-on-fill shadow-[inset_0_0_0_1.5px_var(--mint-fill-white)]",
-            variant === "brand" ? sz(brandOffsetClasses) : sz(personOffsetClasses),
+            variant === "brand"
+              ? sizeClasses(brandOffsetClasses)
+              : sizeClasses(personOffsetClasses),
             badgeShape,
           )}
         >
@@ -417,7 +421,7 @@ export function Avatar({
 
   const rootClass = cn(
     "group/avatar relative inline-flex shrink-0",
-    sz(boxClasses),
+    sizeClasses(boxClasses),
     interactive &&
       "cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-border-focus",
     onClick && disabled && "cursor-not-allowed",

@@ -201,9 +201,9 @@ export function Calendar({
   };
 
   const title = formatMonthTitle(visibleMonth);
-  const prevMonth = addMonths(visibleMonth, -1);
+  const previousMonth = addMonths(visibleMonth, -1);
   const nextMonth = addMonths(visibleMonth, 1);
-  const prevDisabled = min !== undefined && `${prevMonth}-31` < min;
+  const previousDisabled = min !== undefined && `${previousMonth}-31` < min;
   const nextDisabled = max !== undefined && `${nextMonth}-01` > max;
 
   return (
@@ -213,8 +213,8 @@ export function Calendar({
           size="sm"
           icon={<CaretLeftIcon />}
           aria-label="이전 달"
-          disabled={prevDisabled}
-          onClick={() => changeMonth(prevMonth)}
+          disabled={previousDisabled}
+          onClick={() => changeMonth(previousMonth)}
         />
         {/* 달이 바뀌면 스크린리더가 새 달을 읽는다 */}
         <span className="text-heading-3-bold text-text-strong" aria-live="polite">
@@ -231,8 +231,8 @@ export function Calendar({
 
       <div ref={gridRef} role="grid" aria-label={title} onKeyDown={onKeyDown}>
         <div role="row" className="grid grid-cols-7">
-          {weekdayLabels(weekStartsOn).map((label, i) => {
-            const day = (i + weekStartsOn) % 7;
+          {weekdayLabels(weekStartsOn).map((label, columnIndex) => {
+            const day = (columnIndex + weekStartsOn) % 7;
             return (
               <span
                 key={label}
@@ -327,9 +327,9 @@ export function Calendar({
                         {Number(date.slice(8))}
                       </span>
                       <span aria-hidden="true" className="flex h-1 gap-[3px]">
-                        {dayMarks.slice(0, MAX_MARKS).map((mark, i) => (
+                        {dayMarks.slice(0, MAX_MARKS).map((mark, markIndex) => (
                           <span
-                            key={i}
+                            key={markIndex}
                             className={cn(
                               "size-1 rounded-full",
                               disabled ? "bg-fill-disabled" : markColors[mark.color ?? "brand"],
@@ -351,6 +351,10 @@ export function Calendar({
 
 /** 같은 일(day)의 다른 달 날짜. 그 달에 없는 날(31일 등)이면 그 달의 마지막 날 */
 function clampDay(month: string, from: string) {
-  const [y, m] = parseDate(month);
-  return formatDate(y, m, Math.min(Number(from.slice(8)), daysInMonth(y, m)));
+  const [year, monthNumber] = parseDate(month);
+  return formatDate(
+    year,
+    monthNumber,
+    Math.min(Number(from.slice(8)), daysInMonth(year, monthNumber)),
+  );
 }

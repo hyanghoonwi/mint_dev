@@ -333,7 +333,7 @@ function Arrow({
   show: string;
 }) {
   const corner = align !== "center";
-  const [bw, bh] = corner ? CORNER_BOX : CENTER_BOX;
+  const [boxWidth, boxHeight] = corner ? CORNER_BOX : CENTER_BOX;
   const side = at === "left" || at === "right";
 
   const flipX =
@@ -344,10 +344,10 @@ function Arrow({
       (at === "right" && align === "end"));
   const transforms: string[] = [];
   // 오른쪽에 붙은 화살표(position left)는 반시계 90°, 왼쪽(position right)은 시계 90°로 돌린다
-  if (at === "left") transforms.push(`matrix(0 -1 1 0 0 ${bw})`);
-  if (at === "right") transforms.push(`matrix(0 1 -1 0 ${bh} 0)`);
-  if (at === "bottom") transforms.push(`translate(0 ${bh}) scale(1 -1)`);
-  if (flipX) transforms.push(`translate(${bw} 0) scale(-1 1)`);
+  if (at === "left") transforms.push(`matrix(0 -1 1 0 0 ${boxWidth})`);
+  if (at === "right") transforms.push(`matrix(0 1 -1 0 ${boxHeight} 0)`);
+  if (at === "bottom") transforms.push(`translate(0 ${boxHeight}) scale(1 -1)`);
+  if (flipX) transforms.push(`translate(${boxWidth} 0) scale(-1 1)`);
 
   const svgSize = corner
     ? side
@@ -374,7 +374,7 @@ function Arrow({
       )}
     >
       <svg
-        viewBox={side ? `0 0 ${bh} ${bw}` : `0 0 ${bw} ${bh}`}
+        viewBox={side ? `0 0 ${boxHeight} ${boxWidth}` : `0 0 ${boxWidth} ${boxHeight}`}
         preserveAspectRatio="none"
         className={cn("block shrink-0 overflow-visible", svgSize)}
       >

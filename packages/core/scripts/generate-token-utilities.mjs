@@ -11,26 +11,26 @@ const target = fileURLToPath(new URL("../src/styles/token-utilities.css", import
 // colors.css의 `@theme inline` 안 --color-* 이름
 const colors = styles("colors.css");
 const colorBlock = colors.slice(colors.indexOf("@theme inline"));
-const colorNames = [...colorBlock.matchAll(/^\s*--color-([a-z0-9-]+):/gm)].map((m) => m[1]);
+const colorNames = [...colorBlock.matchAll(/^\s*--color-([a-z0-9-]+):/gm)].map((match) => match[1]);
 
 // typography.css의 --text-*(서브 속성 --text-*--line-height 등은 제외)
 const textNames = [...styles("typography.css").matchAll(/^\s*--text-([a-z0-9-]+):/gm)]
-  .map((m) => m[1])
+  .map((match) => match[1])
   .filter((name) => !name.includes("--"));
 
 // shape.css의 --radius-*
 const radiusNames = [...styles("shape.css").matchAll(/^\s*--radius-([a-z0-9-]+):/gm)].map(
-  (m) => m[1],
+  (match) => match[1],
 );
 
 // shape.css의 --shadow-*
 const shadowNames = [...styles("shape.css").matchAll(/^\s*--shadow-([a-z0-9-]+):/gm)].map(
-  (m) => m[1],
+  (match) => match[1],
 );
 
 // spacing.css의 --mint-spacing-<px>. Tailwind 클래스 번호는 px ÷ 4 (spacing-20 → 5)
-const spacingSteps = [...styles("spacing.css").matchAll(/^\s*--mint-spacing-(\d+):/gm)].map((m) =>
-  String(Number(m[1]) / 4),
+const spacingSteps = [...styles("spacing.css").matchAll(/^\s*--mint-spacing-(\d+):/gm)].map(
+  (match) => String(Number(match[1]) / 4),
 );
 const spacingPrefixes = [
   "p",

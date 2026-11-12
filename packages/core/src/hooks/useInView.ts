@@ -75,7 +75,7 @@ export function useInView({
         fallbackInView !== undefined &&
         typeof IntersectionObserver === "undefined"
       ) {
-        setState((prev) => ({ ...prev, inView: fallbackInView }));
+        setState((previous) => ({ ...previous, inView: fallbackInView }));
       }
     },
     [triggerOnce, skip, initialInView, fallbackInView],

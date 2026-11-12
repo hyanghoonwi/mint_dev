@@ -7,7 +7,7 @@ import { fileURLToPath } from "node:url";
 
 const read = (file) =>
   readFileSync(fileURLToPath(new URL(`../src/styles/${file}`, import.meta.url)), "utf8");
-const out = fileURLToPath(new URL("../dist/theme.css", import.meta.url));
+const outputFile = fileURLToPath(new URL("../dist/theme.css", import.meta.url));
 
 const header = `/*
  * @futurewiz-rms/mint 테마 토큰 (색 · 글자 · 반경 · 브레이크포인트) — 자동 생성, 직접 고치지 않는다.
@@ -21,7 +21,7 @@ const header = `/*
 
 mkdirSync(fileURLToPath(new URL("../dist", import.meta.url)), { recursive: true });
 writeFileSync(
-  out,
+  outputFile,
   [
     header,
     read("atomic.css"),

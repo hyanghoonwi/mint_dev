@@ -45,7 +45,7 @@ import Link from "next/link";
 <Pagination
   page={page}
   total={99}
-  getHref={(p) => `?page=${p}`}
+  getHref={(page) => `?page=${page}`}
   linkComponent={Link}
 />;
 
