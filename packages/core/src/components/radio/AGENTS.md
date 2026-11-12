@@ -2,7 +2,7 @@
 
 `Radio`·`RadioGroup`을 쓰거나 고칠 때 **이 문서대로 쓰는 것을 권장**합니다. 출처는 Figma `Radio`(node `2204:17914`)와 `Radio Guidelines`(node `2204:18059`)입니다. Figma와 이 문서가 다르면 Figma가 맞습니다.
 
-- **여러 선택지 중에서 하나만 고르는 컨트롤**입니다. 선택지가 많으면 Select를, 켜고 끄는 설정이면 Switch를 씁니다(Select·Switch는 MINT에 아직 없음). 여러 개를 고르면 `Checkbox`입니다.
+- **여러 선택지 중에서 하나만 고르는 컨트롤**입니다. 선택지가 많으면 Select를, 켜고 끄는 설정이면 `Switch`를 씁니다(Select는 MINT에 아직 없음). 여러 개를 고르면 `Checkbox`입니다.
 - 클라이언트 컴포넌트(`"use client"`)입니다. 서버 컴포넌트에서 import해도 되지만 `onChange`는 클라이언트 컴포넌트에서 넘깁니다. `name`·`defaultValue`만 쓰는 폼(서버 액션 등)은 `onChange` 없이도 됩니다.
 - 진짜 `<input type="radio">`를 `<label>`로 감쌌습니다. 레이블을 눌러도 선택되고, 방향키·Space·폼 제출이 브라우저 기본 동작 그대로입니다.
 - **`RadioGroup`으로 묶어서 씁니다.** 그룹이 이름(`name`)과 선택 값(`value`·`defaultValue`·`onChange`)을 가지고, 선택지를 세로로 나열합니다(`role="radiogroup"`).

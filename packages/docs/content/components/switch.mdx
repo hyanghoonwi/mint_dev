@@ -1,0 +1,67 @@
+# Switch
+
+누르면 바로 켜지고 꺼지는 컨트롤이에요.
+
+<ComponentBadges />
+
+<Figure height={240} />
+
+설정을 즉시 적용할 때 써요.\
+여러 개 중 고르는 경우에는 [Checkbox](/components/checkbox)를 써요.
+
+|      | Switch                  | Checkbox                  |
+| ---- | ----------------------- | ------------------------- |
+| 반영 | 누르면 바로 적용돼요    | 제출할 때 적용돼요        |
+| 선택 | 켜짐과 꺼짐 두 가지예요 | 여러 개 중 고를 수 있어요 |
+| 예시 | 알림 켜기, 다크 모드    | 약관 동의, 관심 분야      |
+
+## Playground
+
+오른쪽에서 props를 바꾸면 미리보기와 아래 코드가 함께 바뀌어요. 스위치나 레이블을 누르면 켜지고 꺼져요.
+
+<SwitchPlayground />
+
+## Examples
+
+<ExampleTabs
+  items={[
+    {
+      title: "상태",
+      name: "switch/States",
+      style: { flexDirection: "column" },
+    },
+    { title: "제어", name: "switch/Controlled" },
+    { title: "레이블 없이", name: "switch/WithoutLabel" },
+    { title: "폼", name: "switch/Form" },
+  ]}
+/>
+
+- **상태**: 켜짐과 꺼짐, 비활성을 한눈에 볼 수 있어요. 누르는 동안과 마우스를 올렸을 때는 트랙이 한 단계 진해져요.
+- **제어**: `checked`와 `onChange`로 켜짐 여부를 직접 관리해요. 처음 상태만 정하면 `defaultChecked`를 써요.
+- **레이블 없이**: 레이블 없이 쓰면 `aria-label`로 이름을 꼭 줘요.
+- **폼**: `name`을 주면 켜졌을 때 폼 제출에 값이 담겨요.
+
+## Props
+
+나머지 `<input>` 속성도 그대로 받아요.\
+서버 컴포넌트에서 바로 쓸 수 있고, `onChange`를 넘길 때만 클라이언트 컴포넌트 안에서 써요.
+
+| 이름             | 타입                                             | 기본값  | 설명                                    |
+| ---------------- | ------------------------------------------------ | ------- | --------------------------------------- |
+| `children`       | `ReactNode`                                      | -       | 설정 이름. 옆에 레이블로 보여요         |
+| `checked`        | `boolean`                                        | -       | 켜짐 여부(제어)                         |
+| `defaultChecked` | `boolean`                                        | `false` | 처음 켜짐 여부(비제어)                  |
+| `disabled`       | `boolean`                                        | `false` | 누를 수 없고 흐리게 보여요              |
+| `aria-label`     | `string`                                         | -       | 레이블이 없을 때 스위치의 이름. 꼭 줘요 |
+| `onChange`       | `(event: ChangeEvent<HTMLInputElement>) => void` | -       | 켜고 끌 때 불려요                       |
+
+## Guidelines
+
+<SwitchGuide />
+
+- 즉시 적용되는 설정에만 써요.
+- 설정 이름을 옆에 레이블로 적어 무엇을 켜는지 알려요.
+- 이름은 "알림 받기"처럼 켜는 동작으로 써요. "꺼짐" 같은 부정 표현은 쓰지 않아요.
+- 제출이 필요한 선택에는 쓰지 않아요. Checkbox를 써요.
+- 여러 개 중 하나를 고를 때는 Radio를 써요.
+- 레이블이 없으면 `aria-label`을 꼭 줘요.

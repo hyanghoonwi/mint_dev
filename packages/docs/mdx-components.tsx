@@ -33,6 +33,9 @@ import {
   SegmentedControlGuide,
   SegmentedControlPlayground,
 } from "./src/components/site/SegmentedControlDocs";
+import { LabelGuide, LabelPlayground } from "./src/components/site/LabelDocs";
+import { SwitchGuide, SwitchPlayground } from "./src/components/site/SwitchDocs";
+import { TabGuide, TabPlayground } from "./src/components/site/TabDocs";
 import { PaginationGuide, PaginationPlayground } from "./src/components/site/PaginationDocs";
 import {
   PageIndicatorGuide,
@@ -155,6 +158,12 @@ export function useMDXComponents(components?: MDXComponents) {
     CalendarGuide,
     SegmentedControlPlayground,
     SegmentedControlGuide,
+    LabelGuide,
+    LabelPlayground,
+    SwitchGuide,
+    SwitchPlayground,
+    TabGuide,
+    TabPlayground,
     FramedPlayground,
     FramedGuide,
     RadioPlayground,

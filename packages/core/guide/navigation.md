@@ -20,6 +20,14 @@
   - 선택이 바뀌면 흰 칩이 옆 칸으로 미끄러짐(CSS, 움직임 줄이기 설정이면 멈춤)
   - `aria-label`을 꼭 줍니다(`radiogroup`의 이름). 키보드는 ←·→·Home·End로 선택
   - 금지: 화면 섹션 전환(Tab을 씀), 7개 이상(Select·Tab), 선택 없음 상태. 상세 규칙은 `components/segmented-control/AGENTS.md`
+- **`Tab`** — 같은 화면에서 보는 내용(섹션)을 바꾸는 밑줄형 탭. 항상 하나가 선택돼 있고 선택된 탭은 굵은 글자와 아래 밑줄로 표시됩니다. 클라이언트 컴포넌트입니다(`"use client"`가 달려 있어 서버 컴포넌트에서 import해도 됩니다. 단 `onChange`는 클라이언트 컴포넌트에서 넘깁니다).
+  - `items`(필수): `{ value, label, badge?, disabled? }[]`. 2~6개. 이름은 2~6자 명사. `badge`는 새 소식이 있는 탭에만(브랜드 색 점, 스크린리더는 "(새 소식)")
+  - `value`·`onChange`(제어) 또는 `defaultValue`(비제어, 기본 첫 탭)
+  - `size`: `lg`(막대 48, 기본) · `md`(40) · `sm`(32). 구간별 객체도 받음(`{ base: "lg", desktop: "md" }`)
+  - `layout`: `fill`(기본, 탭이 폭을 똑같이 나눔. 이름이 안 들어가면 이름 폭을 지키고 가로 스크롤. 마우스는 끌어서, 놓으면 관성) · `hug`(이름 폭만큼만, 넘치면 가로 스크롤). 5개 이하는 fill, 6개이거나 이름이 길면 hug. 구간별 객체도 받음
+  - `fade`: 탭이 넘칠 때 스크롤할 쪽 가장자리에 그라데이션(기본 `true`, 넘칠 때만 자동으로 나타남. 선택된 탭이 화면 밖이면 보이게 스크롤됨)
+  - `aria-label`을 꼭 줍니다(`tablist`의 이름). 키보드는 ←·→·Home·End로 선택. `tabpanel` 연결(`aria-controls`)은 아직 없음
+  - 금지: 탭 안에 탭, 탭으로 페이지 이동(링크·버튼을 씀), 목록 거르기(Category를 씀). 상세 규칙은 `components/tab/AGENTS.md`
 - **`PageCounter`** · **`PageDots`** — 배너·캐러셀·이미지 갤러리의 현재 위치 표시(표시 전용, 누를 수 없음). 서버 컴포넌트에서도 쓸 수 있습니다.
   - 공통: `current`(현재 위치, 1부터)·`total`(전체 개수) 필수, `size`(`md` 기본 · `sm`). 스크린리더는 "10개 중 1번째"로 읽음
   - `PageCounter`: "1 / 10" 숫자. `variant`: `normal`(진한 바탕·흰 글자, 기본) · `alternative`(연한 바탕·회색 글자). 개수 제한 없음(이미지가 많은 갤러리)
@@ -27,7 +35,7 @@
   - 금지: 점으로 클릭 이동 만들기, 현재 위치가 아닌 점 강조. 상세 규칙은 `components/page-indicator/AGENTS.md`
 - **`Pagination`** — 많은 데이터를 페이지로 나눠 보여 줄 때의 페이지 이동(3~4화면 이내 분량이면 쓰지 않음). 서버 컴포넌트에서 쓸 수 있습니다(`"use client"` 없음).
   - `page`(현재, 1부터)·`total`(전체 페이지 수) 필수. `total <= 1`이면 그리지 않음
-  - 링크: `getHref={(p) => "?page=" + p}` + Next.js는 `linkComponent={Link}`(서버 컴포넌트 그대로). 버튼: `onChange={setPage}`(클라이언트 컴포넌트)
+  - 링크: `getHref={(page) => "?page=" + page}` + Next.js는 `linkComponent={Link}`(서버 컴포넌트 그대로). 버튼: `onChange={setPage}`(클라이언트 컴포넌트)
   - `variant`: `extended`(9칸) · `compact`(7칸). 값 하나 또는 구간별 객체(`{ base: "compact", desktop: "extended" }`). 기본 `{ base: "compact", tablet: "extended" }`(768px 미만 compact). Figma는 480px 기준이지만 MINT 구간은 `tablet:`(768)·`desktop:`(1024)뿐
   - 번호 배치는 자동(처음·끝 + 현재 주변, 칸 수 고정). 현재 페이지 `aria-current="page"`, 첫·마지막의 이전·다음은 자동 비활성
   - 금지: 모바일에서 extended 고정. 상세 규칙은 `components/pagination/AGENTS.md`

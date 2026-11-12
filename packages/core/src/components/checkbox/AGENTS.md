@@ -2,7 +2,7 @@
 
 `Checkbox`를 쓰거나 고칠 때 **이 문서대로 쓰는 것을 권장**합니다. 출처는 Figma `Checkbox`(node `2200:8114`)와 `Checkbox Guidelines`(node `2200:8359`)입니다. Figma와 이 문서가 다르면 Figma가 맞습니다.
 
-- **여러 개를 고르거나 한 항목을 켜고 끄는 작은 컨트롤**입니다. 하나만 고르면 `Radio`, 즉시 켜고 끄면 Switch, 목록에서 선택 표시만 필요하면 `CheckMark`를 씁니다(Switch는 MINT에 아직 없음).
+- **여러 개를 고르거나 한 항목을 켜고 끄는 작은 컨트롤**입니다. 하나만 고르면 `Radio`, 즉시 켜고 끄면 `Switch`, 목록에서 선택 표시만 필요하면 `CheckMark`를 씁니다.
 - 클라이언트 컴포넌트(`"use client"`)입니다. 서버 컴포넌트에서 import해도 되지만 `onChange`는 클라이언트 컴포넌트에서 넘깁니다. `name`·`defaultChecked`만 쓰는 폼(서버 액션 등)은 `onChange` 없이도 됩니다.
 - 진짜 `<input type="checkbox">`를 `<label>`로 감쌌습니다. 레이블을 눌러도 선택되고, 폼 제출(`name`·`value`)·키보드(<kbd>Space</kbd>)·스크린리더가 그대로 동작합니다.
 - 반응형 웹(모바일웹 ~ PC)에서 같은 컴포넌트를 씁니다.
@@ -52,18 +52,20 @@ const all = agreed.length === terms.length;
   bold
   checked={all}
   indeterminate={agreed.length > 0 && !all}
-  onChange={(e) => setAgreed(e.target.checked ? terms.map((t) => t.id) : [])}
+  onChange={(event) =>
+    setAgreed(event.target.checked ? terms.map((term) => term.id) : [])
+  }
 >
   전체 동의
 </Checkbox>;
 {
-  terms.map((t) => (
+  terms.map((term) => (
     <Checkbox
-      key={t.id}
-      checked={agreed.includes(t.id)}
-      onChange={() => toggle(t.id)}
+      key={term.id}
+      checked={agreed.includes(term.id)}
+      onChange={() => toggle(term.id)}
     >
-      {t.label}
+      {term.label}
     </Checkbox>
   ));
 }

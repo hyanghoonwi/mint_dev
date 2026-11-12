@@ -17,7 +17,9 @@ import {
   FramedRadio,
   Radio,
   RadioGroup,
+  Label,
   SegmentedControl,
+  Tab,
   Circular,
   Divider,
   Grid,
@@ -28,6 +30,7 @@ import {
   SkeletonCircle,
   SkeletonText,
   Snackbar,
+  Switch,
   StarIcon,
   Text,
   TextButton,
@@ -234,7 +237,7 @@ const components: { name: string; group: string; to: string; preview: ReactNode 
   },
   {
     name: "Calendar",
-    group: "Selection",
+    group: "Form",
     to: "/components/calendar",
     preview: (
       <span aria-hidden="true" style={{ width: 220, pointerEvents: "none" }}>
@@ -249,7 +252,7 @@ const components: { name: string; group: string; to: string; preview: ReactNode 
   },
   {
     name: "Checkbox",
-    group: "Selection",
+    group: "Form",
     to: "/components/checkbox",
     preview: (
       <span
@@ -265,7 +268,7 @@ const components: { name: string; group: string; to: string; preview: ReactNode 
   },
   {
     name: "Chip",
-    group: "Selection",
+    group: "Form",
     to: "/components/chip",
     preview: (
       <span aria-hidden="true" style={{ display: "flex", gap: 8, pointerEvents: "none" }}>
@@ -278,7 +281,7 @@ const components: { name: string; group: string; to: string; preview: ReactNode 
   },
   {
     name: "Framed",
-    group: "Selection",
+    group: "Form",
     to: "/components/framed",
     preview: (
       <span aria-hidden="true" style={{ pointerEvents: "none", width: 200 }}>
@@ -290,8 +293,20 @@ const components: { name: string; group: string; to: string; preview: ReactNode 
     ),
   },
   {
+    name: "Label",
+    group: "Form",
+    to: "/components/label",
+    preview: (
+      <span aria-hidden="true" style={{ pointerEvents: "none" }}>
+        <Label required helpIcon>
+          이름
+        </Label>
+      </span>
+    ),
+  },
+  {
     name: "Radio",
-    group: "Selection",
+    group: "Form",
     to: "/components/radio",
     preview: (
       <span aria-hidden="true" style={{ pointerEvents: "none" }}>
@@ -307,8 +322,22 @@ const components: { name: string; group: string; to: string; preview: ReactNode 
     ),
   },
   {
+    name: "Switch",
+    group: "Form",
+    to: "/components/switch",
+    preview: (
+      <span
+        aria-hidden="true"
+        style={{ pointerEvents: "none", display: "flex", flexDirection: "column", gap: 8 }}
+      >
+        <Switch defaultChecked tabIndex={-1} aria-label="켜짐" />
+        <Switch tabIndex={-1} aria-label="꺼짐" />
+      </span>
+    ),
+  },
+  {
     name: "Check mark",
-    group: "Selection",
+    group: "Form",
     to: "/components/check-mark",
     preview: (
       <span style={{ display: "flex", flexDirection: "column" }}>
@@ -351,6 +380,24 @@ const components: { name: string; group: string; to: string; preview: ReactNode 
             { value: "day", label: "일" },
             { value: "week", label: "주" },
             { value: "month", label: "월" },
+          ]}
+        />
+      </span>
+    ),
+  },
+  {
+    name: "Tab",
+    group: "Navigation",
+    to: "/components/tab",
+    preview: (
+      <span aria-hidden="true" style={{ pointerEvents: "none", display: "block", width: 200 }}>
+        <Tab
+          aria-label="미리보기"
+          size="sm"
+          items={[
+            { value: "home", label: "홈" },
+            { value: "market", label: "시세" },
+            { value: "assets", label: "내 자산" },
           ]}
         />
       </span>
@@ -410,13 +457,13 @@ const components: { name: string; group: string; to: string; preview: ReactNode 
     preview: (
       // 어느 구간에서든 한 줄에 4칸: 모바일 4÷1, 태블릿 8÷2, 데스크톱 12÷3
       <Grid style={{ width: 200, gap: 8 }}>
-        {[1, 2, 3, 4].map((n) => (
+        {[1, 2, 3, 4].map((cellNumber) => (
           <Grid.Item
-            key={n}
+            key={cellNumber}
             span={{ base: 1, tablet: 2, desktop: 3 }}
             className="docs-grid-col docs-grid-col--small"
           >
-            {n}
+            {cellNumber}
           </Grid.Item>
         ))}
       </Grid>
@@ -448,7 +495,7 @@ export function ComponentCards({ group }: { group: string }) {
     <div className="docs-comp-grid">
       {components
         .filter((item) => item.group === group)
-        .sort((a, b) => a.name.localeCompare(b.name, "en"))
+        .sort((first, second) => first.name.localeCompare(second.name, "en"))
         .map((item) => (
           <CatalogCard key={item.name} {...item} />
         ))}
@@ -462,9 +509,15 @@ const foundations: { name: string; to: string; preview: ReactNode }[] = [
     to: "/foundations/colors",
     preview: (
       <span style={{ display: "flex", gap: 6 }}>
-        {["bg-fill-brand", "bg-fill-neutral", "bg-fill-success", "bg-fill-danger"].map((c) => (
-          <span key={c} className={`rounded-full ${c}`} style={{ width: 28, height: 28 }} />
-        ))}
+        {["bg-fill-brand", "bg-fill-neutral", "bg-fill-success", "bg-fill-danger"].map(
+          (colorClass) => (
+            <span
+              key={colorClass}
+              className={`rounded-full ${colorClass}`}
+              style={{ width: 28, height: 28 }}
+            />
+          ),
+        )}
       </span>
     ),
   },
@@ -482,13 +535,13 @@ const foundations: { name: string; to: string; preview: ReactNode }[] = [
     to: "/foundations/grid",
     preview: (
       <Grid style={{ width: 200, gap: 8 }}>
-        {[1, 2, 3, 4].map((n) => (
+        {[1, 2, 3, 4].map((cellNumber) => (
           <Grid.Item
-            key={n}
+            key={cellNumber}
             span={{ base: 1, tablet: 2, desktop: 3 }}
             className="docs-grid-col docs-grid-col--small"
           >
-            {n}
+            {cellNumber}
           </Grid.Item>
         ))}
       </Grid>

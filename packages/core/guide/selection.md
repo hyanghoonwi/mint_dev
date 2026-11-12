@@ -47,3 +47,17 @@
   - `Framed`: 다른 내용을 담는 틀만(`children`). 선택 표시는 `selected`
   - 공통: `size`(`sm` 여백12·모서리8 · `md` 16·12 기본 · `lg` 20·16), `error`(오류: 빨간 테두리 + `aria-invalid`), `shadow`. 선택되면 브랜드 테두리, 누름은 회색, 비활성은 회색 바탕
   - 금지: 틀 안에 틀 중첩, 선택 의미 없는 장식용 박스. 상세 규칙은 `components/framed/AGENTS.md`
+- **`Switch`** — 누르면 바로 켜지고 꺼지는 컨트롤. 즉시 적용되는 설정(알림 켜기, 다크 모드)에만 쓰고, 제출할 때 적용되는 선택은 `Checkbox`를 씁니다. 서버 컴포넌트에서도 쓸 수 있습니다(`"use client"` 없음. `onChange`를 넘길 때만 클라이언트 컴포넌트 안에서). 진짜 `<input type="checkbox" role="switch">`를 `<label>`로 감싸서 레이블을 눌러도 켜지고 폼 제출(`name`·`value`)이 그대로 됩니다.
+  - `children`: 설정 이름(옆 레이블). "알림 받기"처럼 씁니다("꺼짐" 같은 부정 표현 금지). 레이블 없이 쓰면 `aria-label`을 꼭 줍니다
+  - `checked`·`onChange`(제어) 또는 `defaultChecked`(비제어). `disabled`: 누를 수 없음(켜짐·꺼짐 모두 흐려짐)
+  - 크기는 하나뿐(트랙 44×24). 나머지 `<input>` 속성(`name`·`value`·`required`)은 그대로 전달
+  - 스크린리더는 "스위치, 켜짐/꺼짐"으로 읽고 Space로 켜고 끕니다. 터치 화면에서는 눌림 영역이 44px로 넓어집니다
+  - 금지: 제출이 필요한 선택(Checkbox를 씀), 여러 개 중 하나 고르기(Radio). 상세 규칙은 `components/switch/AGENTS.md`
+- **`Label`** — 입력 칸 위에 붙는 이름. 무엇을 입력하는지 알려 주고, 입력 예시는 Placeholder가 맡습니다. 서버 컴포넌트에서도 쓸 수 있습니다(`"use client"` 없음).
+  - `children`(필수): 라벨 글자. 이름, 휴대폰 번호처럼 명사로 짧게
+  - `htmlFor`: 이어 줄 입력 칸의 `id`. 주면 라벨을 눌러도 입력 칸이 선택됩니다(글자는 `<label>`)
+  - `size`: `sm`(12) · `md`(14, 기본) · `lg`(16). 입력 칸 크기에 맞춰 고름. 구간별 객체도 받음(`{ base: "md", desktop: "lg" }`)
+  - `required`: 글자 옆에 빨간 `*`(스크린리더는 "(필수)"). 필수 입력일 때만 켬
+  - `disabled`: 입력 칸을 쓸 수 없을 때 글자·아이콘색을 흐리게(상태 표시만, 입력 칸은 따로 `disabled`)
+  - `helpIcon`: `true`면 물음표 아이콘(16). 누르면 설명이 나오게 하려면 `Tooltip`으로 감싼 버튼 같은 요소를 직접 넘김(`<label>` 밖에 놓임)
+  - 금지: 글자색을 임의로 바꾸기(시맨틱 색만), Placeholder만 두고 Label 생략. 상세 규칙은 `components/label/AGENTS.md`

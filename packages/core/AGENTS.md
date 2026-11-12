@@ -29,7 +29,8 @@ grep -n -A12 '\*\*`Button`\*\*' node_modules/@futurewiz-rms/mint/guide/actions.m
 - 아이콘만 있는 버튼(닫기·더보기·공유) → `IconButton`(`aria-label` 필수)
 - 눌러서 켜고 끄는 아이콘(관심 코인·좋아요·북마크) → `ToggleIcon`(`aria-label` 필수)
 - 같은 목록을 거르거나 분류 고르기(칩, 하나만 선택) → `Category`
-- 같은 영역의 보기 방식 바꾸기(목록/격자, 일/주/월, 2~6개) → `SegmentedControl`(화면 섹션 전환은 Tab)
+- 같은 영역의 보기 방식 바꾸기(목록/격자, 일/주/월, 2~6개) → `SegmentedControl`(화면 섹션 전환은 `Tab`)
+- 같은 화면의 내용(섹션) 바꾸기(밑줄형, 2~6개) → `Tab`
 - 많은 목록을 페이지로 나눠 이동 → `Pagination`(링크는 `getHref`+`linkComponent`, 버튼은 `onChange`)
 - 배너·캐러셀·갤러리의 현재 위치 표시 → 점 `PageDots`(2~7개) · 숫자 `PageCounter`(8개 이상)
 - 필터·조건 칩 하나(선택 상태 있음, 여러 개 고르기 등) → `Chip`(행동은 `Button`)
@@ -73,6 +74,7 @@ grep -n -A12 '\*\*`Button`\*\*' node_modules/@futurewiz-rms/mint/guide/actions.m
 - `PageDots` — 현재 위치를 점으로(2~7개, 표시 전용)
 - `Category` — 목록을 거르는 칩 목록(하나만 선택, 넘치면 가로 스크롤, "전체" 칩)
 - `SegmentedControl` — 보기 방식을 바꾸는 토글형 선택(트랙 위 흰 칩, 2~6개, 3크기, 아이콘)
+- `Tab` — 화면 섹션을 바꾸는 밑줄형 탭(2~6개, 3크기, fill·hug 배치, 구간별 객체, 뱃지)
 
 ### [선택](guide/selection.md)
 
@@ -83,6 +85,8 @@ grep -n -A12 '\*\*`Button`\*\*' node_modules/@futurewiz-rms/mint/guide/actions.m
 - `Radio` — 라디오(레이블을 눌러도 선택, 방향키 이동, 폼 제출, 4크기·구간별 객체)
 - `FramedCheckbox` · `FramedRadio` — 체크박스·라디오를 담은 틀(틀 전체를 눌러 선택, 선택되면 브랜드 테두리)
 - `Framed` — 다른 내용을 담는 틀(`selected`·`size`·`error`·`shadow`)
+- `Switch` — 누르면 바로 켜지고 꺼지는 스위치(즉시 적용 설정, 레이블을 눌러도 켜짐, 폼 제출, 서버 컴포넌트 가능)
+- `Label` — 입력 칸 위에 붙는 이름(3크기·구간별 객체, 필수 `*`, 도움말 아이콘, `htmlFor`로 입력 칸과 연결)
 - `Chip` — 선택 상태가 있는 칩(solid·outline, 3크기, square·pill, 아이콘·이미지·카운트)
 
 ### [표시](guide/display.md)
