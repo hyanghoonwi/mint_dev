@@ -87,7 +87,7 @@ grep -n -A12 '\*\*`Button`\*\*' node_modules/@futurewiz-rms/mint/guide/actions.m
 - `Avatar` — 프로필 칸(이미지·이름 첫 글자·아이콘, 배지, 눌림)
 - `AvatarGroup` — 아바타를 겹쳐 놓는 묶음(넘치면 `+N`)
 - `Text` — 토큰 텍스트 스타일 글자(59개 스타일, 태그·색·말줄임)
-- `Badge` — 상태·종류를 알리는 표시 전용 라벨(fill·weak, 5색, 3크기)
+- `Badge` — 상태·종류를 알리는 표시 전용 라벨(fill·weak, 8색, 3크기)
 - `PriceChange` — 시세가 오르내린 정도(금액은 화살표, 퍼센트는 부호, text·weak, 3크기)
 
 ### [로딩](guide/loading.md)

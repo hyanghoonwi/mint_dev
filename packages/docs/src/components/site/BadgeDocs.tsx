@@ -1,6 +1,6 @@
 "use client";
 
-import { Badge } from "@futurewiz-rms/mint";
+import { Badge, type BadgeColor } from "@futurewiz-rms/mint";
 import { DoDont } from "./DoDont";
 import { jsx, Playground, type Control } from "./Playground";
 
@@ -9,7 +9,7 @@ const controls: Control[] = [
   {
     prop: "color",
     type: "select",
-    options: ["brand", "neutral", "danger", "success", "warning"],
+    options: ["brand", "neutral", "danger", "success", "warning", "teal", "violet", "pink"],
     default: "brand",
   },
   { prop: "size", type: "select", options: ["sm", "md", "lg"], default: "md" },
@@ -24,7 +24,7 @@ export function BadgePlayground() {
       render={(v) => (
         <Badge
           variant={v.variant as "fill" | "weak"}
-          color={v.color as "brand" | "neutral" | "danger" | "success" | "warning"}
+          color={v.color as BadgeColor}
           size={v.size as "sm" | "md" | "lg"}
         >
           {v.children as string}

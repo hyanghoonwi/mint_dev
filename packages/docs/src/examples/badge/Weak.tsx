@@ -18,6 +18,15 @@ export default function Weak() {
       <Badge variant="weak" color="warning">
         주의
       </Badge>
+      <Badge variant="weak" color="teal">
+        시그널
+      </Badge>
+      <Badge variant="weak" color="violet">
+        리포트
+      </Badge>
+      <Badge variant="weak" color="pink">
+        이벤트
+      </Badge>
     </>
   );
 }

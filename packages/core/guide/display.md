@@ -15,8 +15,8 @@
   - `aria-label`로 몇 명인지 알려 줍니다
 - **`Badge`** — 상태·종류를 짧게 알리는 표시 전용 라벨(눌러도 동작 없음, 선택은 Chip). 서버 컴포넌트에서도 쓸 수 있습니다. 문구는 `children`으로 넣습니다.
   - `variant`: `fill`(기본, 진한 배경, 화면당 한두 개) · `weak`(연한 배경, 목록·카드 안에 여러 개)
-  - `color`: `brand`(기본, 강조) · `neutral`(일반) · `danger`(오류·임박) · `success`(완료) · `warning`(주의). 의미대로 고릅니다
-  - `size`: `sm` 20 · `md` 24(기본) · `lg` 28px. 같은 화면에서는 하나로 맞춥니다. 구간별 객체도 받음(`{ base: "sm", tablet: "md" }`)
+  - `color`: `brand`(기본, 강조) · `neutral`(일반) · `danger`(오류·임박) · `success`(완료) · `warning`(주의) · `teal` `violet` `pink`(의미 없는 분류용, 예: 카테고리 구분). 의미대로 고르고, 상태를 알릴 때는 앞의 5색을 씁니다
+  - `size`: `sm` 20 · `md` 22(기본) · `lg` 28px. 같은 화면에서는 하나로 맞춥니다. 구간별 객체도 받음(`{ base: "sm", tablet: "md" }`)
   - 문구는 1~4자로 짧게. 색만으로 뜻을 전하지 않고, 화살표·아이콘을 붙이지 않습니다
 - **`PriceChange`** — 가격·시세가 오르내린 정도를 보여 주는 표시 전용 부품(Figma `Price Change`). 서버 컴포넌트에서도 쓸 수 있습니다. 상세 규칙은 `components/price-change/AGENTS.md`
   - `direction`(필수): `up`(상승, 빨강) · `down`(하락, 파랑) · `flat`(보합, 회색)
