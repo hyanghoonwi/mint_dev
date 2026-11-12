@@ -44,7 +44,7 @@ const preview: Preview = {
           "Components",
           [
             "Actions",
-            ["Button", "IconButton"],
+            ["Button", "IconButton", "TextButton"],
             "Form",
             ["Calendar", "CheckMark", "Checkbox", "Chip", "Framed", "Radio"],
             "Navigation",

@@ -1,0 +1,65 @@
+# Text button
+
+글자만 있는 가장 약한 행동이에요. 평소에는 글자만 보이고, 누를 때만 연한 박스가 생겨요.
+
+<ComponentBadges />
+
+<Figure height={240} />
+
+## Playground
+
+오른쪽에서 props를 바꾸면 텍스트 버튼과 아래 코드가 함께 바뀌어요. 마우스를 올리거나 눌러 보면 연한 박스가 생겨요.
+
+<TextButtonPlayground />
+
+## Examples
+
+<ExampleTabs
+  items={[
+    { title: "전체 보기", name: "text-button/ViewAll" },
+    { title: "문장 속 링크", name: "text-button/Inline" },
+    { title: "아이콘", name: "text-button/Addons" },
+    { title: "색", name: "text-button/Colors" },
+    { title: "크기", name: "text-button/Sizes" },
+    { title: "밑줄·상태", name: "text-button/States" },
+    { title: "반응형", name: "text-button/Responsive" },
+  ]}
+/>
+
+- **전체 보기**: 제목 옆 보조 이동에 써요. 뒤에 화살표(`rightAddon`)를 붙여 이동을 암시해요. 다른 페이지로 가면 `href`를 넘겨 링크(`<a>`)로 그려요. Next.js에서는 `linkComponent={Link}`를 함께 넘겨요.
+- **문장 속 링크**: `inline`을 켜면 패딩과 눌림 박스가 없고 밑줄이 항상 켜져요. 주변 글자와 같은 크기를 골라요.
+- **아이콘**: 글자 앞에는 `leftAddon`, 뒤에는 `rightAddon`으로 아이콘을 붙여요. 앞 아이콘은 동작의 의미(추가, 새로고침)를 보조하고, 뒤 화살표는 이동을 암시해요. 둘 중 하나만 써요.
+- **색**: `primary`는 브랜드 색, `neutral`은 회색 글자예요.
+- **크기**: 본문 글자 크기에 맞춰 골라요. `xs`는 표와 목록 안에서 써요.
+- **밑줄·상태**: 문장 속 링크는 `underline`으로 눈에 띄게 해요. 앞뒤 아이콘이 있으면 밑줄이 아이콘 끝까지 이어져요. `disabled`는 회색 글자, `loading`은 크기를 그대로 두고 진행 원을 보여 줘요.
+- **반응형**: `size`는 구간별 값도 받아요. `{ base: "sm", desktop: "md" }`면 모바일·태블릿은 24px, 데스크톱(1024px)부터 28px이에요. 창 폭을 바꿔 보세요.
+
+## Props
+
+나머지 `<button>` 속성도 그대로 받아요. `href`를 넘기면 `<a>`로 그려요.\
+서버 컴포넌트에서 바로 쓸 수 있고, `onClick`을 넘길 때만 클라이언트 컴포넌트 안에서 써요.
+
+| 이름            | 타입                                                            | 기본값      | 설명                                                    |
+| --------------- | --------------------------------------------------------------- | ----------- | ------------------------------------------------------- |
+| `color`         | `"primary" \| "neutral"`                                        | `"primary"` | 브랜드 색 또는 회색 글자                                |
+| `size`          | `"xs" \| "sm" \| "md" \| "lg"` 또는 `{ base, tablet, desktop }` | `"md"`      | 높이 20 · 24 · 28 · 28px. 객체로 주면 구간마다 달라져요 |
+| `underline`     | `boolean`                                                       | `false`     | 밑줄                                                    |
+| `children`      | `ReactNode`                                                     | -           | 글자                                                    |
+| `leftAddon`     | `ReactNode`                                                     | -           | 글자 앞 아이콘                                          |
+| `rightAddon`    | `ReactNode`                                                     | -           | 글자 뒤 아이콘. 이동을 암시할 때 화살표를 써요          |
+| `loading`       | `boolean`                                                       | `false`     | 진행 중. 누를 수 없어요                                 |
+| `disabled`      | `boolean`                                                       | `false`     | 비활성                                                  |
+| `inline`        | `boolean`                                                       | `false`     | 문장 속 링크. 패딩·박스 없이 밑줄이 항상 켜져요         |
+| `href`          | `string`                                                        | -           | 이동할 주소. 넘기면 링크로 그려요                       |
+| `linkComponent` | `ElementType`                                                   | `"a"`       | `href`를 그릴 링크 컴포넌트(예: Next.js `Link`)         |
+| `onClick`       | `(event) => void`                                               | -           | 눌렀을 때                                               |
+
+## Guidelines
+
+<TextButtonGuide />
+
+- "전체 보기 >"처럼 보조 이동에 써요. 독립된 약한 행동(취소, 닫기)은 `Button`의 `ghost`를 써요.
+- 문장 속에서는 밑줄을 켜서 링크임을 알려요.
+- 화면의 주된 행동(CTA)에 쓰지 않아요. `Button`을 써요.
+- 두 개 이상을 한 줄에 붙여 놓지 않아요.
+- 이동이면 `href`(링크), 동작이면 `onClick`(버튼)으로 구분해요. 스크린리더가 다르게 읽어요.

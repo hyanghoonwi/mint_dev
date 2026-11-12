@@ -62,6 +62,7 @@ grep -n -A12 '\*\*`Button`\*\*' node_modules/@futurewiz-rms/mint/guide/actions.m
 
 - `Button` — 텍스트 버튼
 - `IconButton` — 아이콘만 있는 원형 버튼(4종류, 4크기, 뱃지)
+- `TextButton` — 글자만 있는 가장 약한 행동("전체 보기 >", 문장 속 링크). primary·neutral, 4크기, 밑줄·inline, `href`면 링크
 
 ### [내비게이션](guide/navigation.md)
 

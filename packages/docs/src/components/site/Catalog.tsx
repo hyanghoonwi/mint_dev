@@ -29,6 +29,7 @@ import {
   SkeletonText,
   StarIcon,
   Text,
+  TextButton,
   Thumbnail,
   Tooltip,
 } from "@futurewiz-rms/mint";
@@ -322,6 +323,19 @@ const components: { name: string; group: string; to: string; preview: ReactNode 
             { value: "month", label: "월" },
           ]}
         />
+      </span>
+    ),
+  },
+  {
+    name: "Text button",
+    group: "Actions",
+    to: "/components/text-button",
+    preview: (
+      <span aria-hidden="true" style={{ display: "flex", gap: 8, pointerEvents: "none" }}>
+        <TextButton tabIndex={-1}>전체 보기</TextButton>
+        <TextButton color="neutral" tabIndex={-1}>
+          취소
+        </TextButton>
       </span>
     ),
   },

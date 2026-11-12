@@ -13,3 +13,11 @@
   - `size`: `xs` 28 · `sm` 32 · `md` 40(기본) · `lg` 48(Button과 같음). 값 하나 또는 구간별 객체(`{ base: "sm", tablet: "md" }`). 아이콘 14 · 16 · 20 · 24. `xs`·`sm`은 터치 눌림 영역 44px
   - `badge`: 오른쪽 위 빨간 점(이름에 "(새 소식)"이 붙음). `disabled`
   - 금지: 의미가 모호한 아이콘으로 중요한 동작, 한 줄에 4개 이상(더보기로 묶음). 상세 규칙은 `components/icon-button/AGENTS.md`
+
+- **`TextButton`** — 글자만 있는 가장 약한 행동(Figma `Text Button`). 평소에는 글자만, 누르는 동안(hover 포함)만 연한 박스. 서버 컴포넌트에서도 쓸 수 있습니다(`onClick`을 넘길 때만 클라이언트 컴포넌트 안에서). 상세 규칙은 `components/text-button/AGENTS.md`
+  - 이동이면 `href`(`<a>`로 그림, Next.js는 `linkComponent={Link}`), 동작이면 `onClick`(`<button>`)
+  - `color`: `primary`(기본, 브랜드 글자) · `neutral`(회색 글자)
+  - `size`: `xs` 20 · `sm` 24 · `md` 28(기본) · `lg` 28px(글자 12 · 12 · 14 · 16). 본문 글자에 맞추고 `xs`는 표·목록 안. 구간별 객체도 받음(`{ base: "sm", desktop: "md" }`)
+  - `underline`(밑줄) · `inline`(문장 속 링크: 패딩·박스 없이 밑줄 항상, 높이 16 · 16 · 20 · 20)
+  - `leftAddon`(글자 앞 아이콘, 동작의 의미 보조: `<PlusIcon />` 추가 등)·`rightAddon`(글자 뒤 아이콘, 이동을 암시할 때 `<CaretRightIcon />`). 둘 중 하나만, `loading`(폭 유지·진행 원), `disabled`
+  - 화면의 주된 행동(CTA)에는 쓰지 않고 `Button`을 씁니다. 독립된 약한 행동(취소·닫기)은 `Button variant="ghost"`. 두 개 이상을 한 줄에 붙이지 않습니다

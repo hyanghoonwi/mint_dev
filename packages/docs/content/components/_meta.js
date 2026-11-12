@@ -4,6 +4,7 @@ export default {
   "---actions": { type: "separator", title: "Actions" },
   button: "Button",
   "icon-button": "Icon button",
+  "text-button": "Text button",
   "---navigation": { type: "separator", title: "Navigation" },
   category: "Category",
   "page-indicator": "Page indicator",
