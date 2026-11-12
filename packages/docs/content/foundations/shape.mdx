@@ -1,0 +1,42 @@
+# Radius · Shadow
+
+모서리 반경과 그림자를 정해진 단계로만 써서 면의 모양을 맞춰요.
+
+## Radius
+
+모서리 반경은 6단계예요. 요소의 크기가 클수록 큰 반경을 써요.
+
+<RadiusScale />
+
+## Shadow
+
+그림자는 두 가지뿐이에요. 떠 있는 정도에 따라 골라요.
+
+<ShadowSamples />
+
+## Usage
+
+반경과 그림자는 클래스로 써요. 컴포넌트에는 이미 맞는 값이 들어 있어서, 화면을 직접 짤 때만 써요.
+
+```tsx
+import { Text } from "@futurewiz-rms/mint";
+
+<div className="rounded-16 bg-background-floated p-5 shadow-floating">
+  <Text as="p" variant="body-2-medium">
+    알림을 켰어요
+  </Text>
+</div>;
+```
+
+| 분류   | 클래스                                                                        |
+| ------ | ----------------------------------------------------------------------------- |
+| 반경   | `rounded-4` `rounded-8` `rounded-12` `rounded-16` `rounded-20` `rounded-full` |
+| 그림자 | `shadow-floating` `shadow-drawer`                                             |
+
+## Guidelines
+
+- 토스트, 메뉴, 툴팁처럼 떠 있는 요소는 `shadow-floating`을 써요.
+- 화면 오른쪽에서 나오는 패널은 `shadow-drawer`를 써요.
+- 화면에 붙어 있는 카드나 목록에는 그림자를 쓰지 않아요. 테두리(`border-border-default`)나 배경 색으로 나눠요.
+- `shadow-[…]`나 `rounded-[…]`처럼 정해지지 않은 값을 만들지 않아요.
+- 한 요소 안에서는 바깥 반경이 안쪽 반경보다 같거나 커요.

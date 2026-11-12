@@ -203,3 +203,51 @@ export function GridColumns() {
     </div>
   );
 }
+
+// 반경 토큰(core shape.css의 --radius-*). 클래스는 Tailwind가 찾을 수 있게 통째로 적는다
+const radii: [cls: string, px: string, usage: string][] = [
+  ["rounded-4", "4px", "체크박스 상자, 작은 표시(PriceChange sm)"],
+  ["rounded-8", "8px", "배지, 칩, 썸네일, 작은 버튼(xs)"],
+  ["rounded-12", "12px", "버튼, 입력, 세그먼트"],
+  ["rounded-16", "16px", "카드, 틀(Framed), Alert"],
+  ["rounded-20", "20px", "큰 카드·시트처럼 넓은 면"],
+  ["rounded-full", "999px", "원형(아바타, 아이콘 버튼, 점)"],
+];
+
+/** 반경 견본: 모서리 모양 / 클래스 / px / 쓰는 곳 */
+export function RadiusScale() {
+  return (
+    <div className="docs-shape-grid">
+      {radii.map(([cls, px, usage]) => (
+        <div key={cls} className="docs-shape-card">
+          <span className={`docs-shape-card__radius ${cls}`} />
+          <code>{cls}</code>
+          <span className="docs-mono-caption">{px}</span>
+          <span className="docs-shape-card__usage">{usage}</span>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+// 그림자 토큰(core shape.css의 --shadow-*)
+const shadows: [cls: string, value: string, usage: string][] = [
+  ["shadow-floating", "0 8px 24px · 24%", "토스트, 메뉴, 툴팁처럼 떠 있는 요소"],
+  ["shadow-drawer", "0 2px 30px · 10% + −16px 0 60px · 10%", "오른쪽에서 나오는 패널"],
+];
+
+/** 그림자 견본: 흰 면에 그림자를 입혀 보여 준다 */
+export function ShadowSamples() {
+  return (
+    <div className="docs-shape-grid docs-shape-grid--shadow">
+      {shadows.map(([cls, value, usage]) => (
+        <div key={cls} className="docs-shape-card">
+          <span className={`docs-shape-card__shadow rounded-12 bg-background-floated ${cls}`} />
+          <code>{cls}</code>
+          <span className="docs-mono-caption">{value}</span>
+          <span className="docs-shape-card__usage">{usage}</span>
+        </div>
+      ))}
+    </div>
+  );
+}

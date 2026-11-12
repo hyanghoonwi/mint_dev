@@ -4,5 +4,6 @@ export default {
   colors: "Colors",
   typography: "Typography",
   grid: "Spacing · Grid",
+  shape: "Radius · Shadow",
   icons: "Icons",
 };

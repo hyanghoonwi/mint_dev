@@ -69,11 +69,24 @@ function displayValue(hex: string | undefined) {
 
 const atomicVar = (token: string) => `--color-atomic-${token}`;
 
+type SemanticGroupKey = "background" | "border" | "text" | "fill" | "icon" | "chart";
+
+/** 분류마다 클래스 접두어: 배경·면·차트는 bg-, 글자·아이콘은 text-, 테두리는 border- */
+const groupPrefix: Record<SemanticGroupKey, string> = {
+  background: "bg",
+  border: "border",
+  text: "text",
+  fill: "bg",
+  icon: "text",
+  chart: "bg",
+};
+
 const semanticGroups: {
-  group: string;
+  group: SemanticGroupKey;
   title: string;
   prefix: string;
-  tokens: [name: string, atomic: string, usage: string][];
+  /** 4번째 칸에 분류를 주면 그 분류의 토큰이다(시세처럼 글자·면·아이콘이 섞인 묶음) */
+  tokens: [name: string, atomic: string, usage: string, group?: SemanticGroupKey][];
 }[] = [
   {
     group: "background",
@@ -119,9 +132,6 @@ const semanticGroups: {
       ["warning", "orange-800", "경고"],
       ["on-fill", "white", "채움 배경 위 텍스트"],
       ["on-fill-warning", "gray-900", "경고 채움 배경 위 텍스트"],
-      ["up", "red-600", "시세 상승 글자"],
-      ["down", "blue-600", "시세 하락 글자"],
-      ["flat", "gray-600", "시세 보합 글자"],
     ],
   },
   {
@@ -146,20 +156,6 @@ const semanticGroups: {
       ["success-weak", "green-50", "성공 옅은 배경"],
       ["warning", "orange-500", "경고 채움"],
       ["warning-weak", "orange-50", "경고 옅은 배경"],
-      ["up", "red-500", "시세 상승 채움"],
-      ["up-weak", "red-50", "시세 상승 옅은 배경"],
-      ["down", "blue-500", "시세 하락 채움"],
-      ["down-weak", "blue-50", "시세 하락 옅은 배경"],
-      ["alpha-50", "grayAlpha-50", "투명 막 50"],
-      ["alpha-100", "grayAlpha-100", "투명 막 100"],
-      ["alpha-200", "grayAlpha-200", "투명 막 200"],
-      ["alpha-300", "grayAlpha-300", "투명 막 300"],
-      ["alpha-400", "grayAlpha-400", "투명 막 400"],
-      ["alpha-500", "grayAlpha-500", "투명 막 500"],
-      ["alpha-600", "grayAlpha-600", "투명 막 600"],
-      ["alpha-700", "grayAlpha-700", "투명 막 700"],
-      ["alpha-800", "grayAlpha-800", "투명 막 800"],
-      ["alpha-900", "grayAlpha-900", "투명 막 900"],
       ["pressed", "grayAlpha-100", "누름 오버레이(배경 없는 요소의 눌림)"],
       ["disabled", "gray-100", "비활성 채움"],
       ["inverse", "white", "반전 채움"],
@@ -182,8 +178,39 @@ const semanticGroups: {
       ["success", "green-400", "성공 아이콘"],
       ["warning", "orange-700", "경고 아이콘"],
       ["on-fill", "white", "채움 배경 위 아이콘"],
-      ["up", "red-500", "시세 상승 화살표"],
-      ["down", "blue-500", "시세 하락 화살표"],
+    ],
+  },
+  {
+    group: "text",
+    title: "Market · 시세",
+    prefix: "text",
+    tokens: [
+      ["up", "red-600", "상승 글자(PriceChange)", "text"],
+      ["down", "blue-600", "하락 글자", "text"],
+      ["flat", "gray-600", "보합 글자", "text"],
+      ["up", "red-500", "상승 채움", "fill"],
+      ["up-weak", "red-50", "상승 옅은 배경", "fill"],
+      ["down", "blue-500", "하락 채움", "fill"],
+      ["down-weak", "blue-50", "하락 옅은 배경", "fill"],
+      ["up", "red-500", "상승 화살표", "icon"],
+      ["down", "blue-500", "하락 화살표", "icon"],
+    ],
+  },
+  {
+    group: "fill",
+    title: "Alpha · 투명 막",
+    prefix: "bg",
+    tokens: [
+      ["alpha-50", "grayAlpha-50", "가장 옅은 막"],
+      ["alpha-100", "grayAlpha-100", "누름 오버레이(fill-pressed와 같은 값)"],
+      ["alpha-200", "grayAlpha-200", "옅은 막"],
+      ["alpha-300", "grayAlpha-300", "모달 뒤 막(background-dim과 같은 값)"],
+      ["alpha-400", "grayAlpha-400", "이미지 위 막"],
+      ["alpha-500", "grayAlpha-500", "이미지 위 글자 대비용 막"],
+      ["alpha-600", "grayAlpha-600", "진한 막"],
+      ["alpha-700", "grayAlpha-700", "진한 막"],
+      ["alpha-800", "grayAlpha-800", "아주 진한 막"],
+      ["alpha-900", "grayAlpha-900", "가장 진한 막"],
     ],
   },
   {
@@ -278,7 +305,9 @@ function AtomicPanel() {
 
 /** Semantic 탭: 분류별 Token 표. 이름 칸에 실제로 쓰는 클래스를 적는다 */
 function SemanticPanel() {
-  const names = semanticGroups.flatMap((g) => g.tokens.map(([name]) => semanticVar(g.group, name)));
+  const names = semanticGroups.flatMap((g) =>
+    g.tokens.map(([name, , , group]) => semanticVar(group ?? g.group, name)),
+  );
   const values = useCssValues(names);
   return (
     <div className="docs-colors">
@@ -289,15 +318,16 @@ function SemanticPanel() {
           <span role="columnheader">Atomic · 용도</span>
         </div>
         {semanticGroups.map((g) => (
-          <div key={g.group} className="docs-token__group" role="rowgroup">
+          <div key={g.title} className="docs-token__group" role="rowgroup">
             <p className="docs-token__group-title">{g.title}</p>
-            {g.tokens.map(([name, atomic, usage]) => {
-              const variable = semanticVar(g.group, name);
+            {g.tokens.map(([name, atomic, usage, group]) => {
+              const key = group ?? g.group;
+              const variable = semanticVar(key, name);
               return (
-                <div key={name} className="docs-token__row" role="row">
+                <div key={`${key}-${name}`} className="docs-token__row" role="row">
                   <span className="docs-token__name" role="cell">
                     <span className="docs-token__dot" style={{ background: `var(${variable})` }} />
-                    <code>{`${g.prefix}-${g.group}-${name}`}</code>
+                    <code>{`${group ? groupPrefix[group] : g.prefix}-${key}-${name}`}</code>
                   </span>
                   <span className="docs-token__value" role="cell">
                     {displayValue(values[variable])}

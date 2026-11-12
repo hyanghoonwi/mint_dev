@@ -459,6 +459,26 @@ const foundations: { name: string; to: string; preview: ReactNode }[] = [
     ),
   },
   {
+    name: "Radius · Shadow",
+    to: "/foundations/shape",
+    preview: (
+      <span style={{ display: "flex", gap: 16 }}>
+        <span
+          className="rounded-8 bg-background-floated shadow-floating"
+          style={{ width: 48, height: 48 }}
+        />
+        <span
+          className="rounded-16 bg-background-floated shadow-floating"
+          style={{ width: 48, height: 48 }}
+        />
+        <span
+          className="rounded-full bg-background-floated shadow-floating"
+          style={{ width: 48, height: 48 }}
+        />
+      </span>
+    ),
+  },
+  {
     name: "Icons",
     to: "/foundations/icons",
     preview: (

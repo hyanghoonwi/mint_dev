@@ -54,7 +54,14 @@ import { ButtonGuide, ButtonPlayground } from "./src/components/site/ButtonDocs"
 import { ComponentBadges } from "./src/components/site/ComponentBadges";
 import { ExampleTabs } from "./src/components/site/ExampleTabs";
 import { ColorPalette } from "./src/components/site/ColorPalette";
-import { GridColumns, SpacingScale, Typeface, TypeScale } from "./src/components/site/Foundations";
+import {
+  GridColumns,
+  RadiusScale,
+  ShadowSamples,
+  SpacingScale,
+  Typeface,
+  TypeScale,
+} from "./src/components/site/Foundations";
 import { IconGallery } from "./src/components/site/IconGallery";
 import { ComponentCards, FoundationCards } from "./src/components/site/Catalog";
 import { Home } from "./src/components/site/Home";
@@ -168,6 +175,8 @@ export function useMDXComponents(components?: MDXComponents) {
     TypeScale,
     Typeface,
     SpacingScale,
+    RadiusScale,
+    ShadowSamples,
     GridColumns,
     IconGallery,
     ComponentCards,
