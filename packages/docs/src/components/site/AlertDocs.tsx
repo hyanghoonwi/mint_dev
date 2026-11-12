@@ -14,7 +14,7 @@ const controls: Control[] = [
 ];
 
 /** 미리보기: 버튼을 누르면 지금 고른 값으로 Alert가 열려요 */
-function AlertDemo({ v }: { v: Values }) {
+function AlertDemo({ values }: { values: Values }) {
   const [open, setOpen] = useState(false);
   const close = () => setOpen(false);
   return (
@@ -23,17 +23,17 @@ function AlertDemo({ v }: { v: Values }) {
       <Alert
         open={open}
         onClose={close}
-        heading={(v.heading as string) || undefined}
-        body={v.body as string}
+        heading={(values.heading as string) || undefined}
+        body={values.body as string}
         action={
           <>
-            {v.actions === 2 && (
+            {values.actions === 2 && (
               <Button color="secondary" onClick={close}>
                 취소
               </Button>
             )}
-            <Button color={v.destructive ? "destructive" : "primary"} onClick={close}>
-              {v.primary as string}
+            <Button color={values.destructive ? "destructive" : "primary"} onClick={close}>
+              {values.primary as string}
             </Button>
           </>
         }
@@ -43,7 +43,7 @@ function AlertDemo({ v }: { v: Values }) {
 }
 
 /** 그대로 복사해 쓸 수 있는 코드(열림 상태를 가진 클라이언트 컴포넌트 하나) */
-function code(v: Values) {
+function code(values: Values) {
   const lines = [
     '"use client";',
     "",
@@ -58,19 +58,19 @@ function code(v: Values) {
     "      <Alert",
     "        open={open}",
     "        onClose={() => setOpen(false)}",
-    ...(v.heading ? [`        heading="${v.heading}"`] : []),
-    `        body="${v.body}"`,
+    ...(values.heading ? [`        heading="${values.heading}"`] : []),
+    `        body="${values.body}"`,
     "        action={",
     "          <>",
-    ...(v.actions === 2
+    ...(values.actions === 2
       ? [
           '            <Button color="secondary" onClick={() => setOpen(false)}>',
           "              취소",
           "            </Button>",
         ]
       : []),
-    `            <Button${v.destructive ? ' color="destructive"' : ""} onClick={() => setOpen(false)}>`,
-    `              ${v.primary}`,
+    `            <Button${values.destructive ? ' color="destructive"' : ""} onClick={() => setOpen(false)}>`,
+    `              ${values.primary}`,
     "            </Button>",
     "          </>",
     "        }",
@@ -84,7 +84,13 @@ function code(v: Values) {
 
 /** 샌드박스: 오른쪽에서 값을 바꾸고 왼쪽 버튼을 누르면 그 값으로 Alert가 열려요 */
 export function AlertPlayground() {
-  return <Playground controls={controls} render={(v) => <AlertDemo v={v} />} code={code} />;
+  return (
+    <Playground
+      controls={controls}
+      render={(values) => <AlertDemo values={values} />}
+      code={code}
+    />
+  );
 }
 
 /** 가이드 그림용 Alert 모양(대화상자는 칸 안에 띄울 수 없어서 같은 모양만 그린다) */

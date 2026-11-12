@@ -21,7 +21,9 @@ export default function CoinList() {
             size="sm"
             active={favorites.includes(coin)}
             onActiveChange={(on) =>
-              setFavorites((prev) => (on ? [...prev, coin] : prev.filter((c) => c !== coin)))
+              setFavorites((previous) =>
+                on ? [...previous, coin] : previous.filter((favorite) => favorite !== coin),
+              )
             }
           />
         </div>

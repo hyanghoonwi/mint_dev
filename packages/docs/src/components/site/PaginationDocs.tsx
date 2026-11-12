@@ -36,26 +36,26 @@ export function PaginationPlayground() {
         {
           prop: "page",
           type: "select",
-          options: (v) =>
-            [...new Set([1, 4, 6, (v.total as number) - 2, v.total as number])].filter(
-              (n) => n >= 1 && n <= (v.total as number),
+          options: (values) =>
+            [...new Set([1, 4, 6, (values.total as number) - 2, values.total as number])].filter(
+              (page) => page >= 1 && page <= (values.total as number),
             ),
           default: 6,
         },
       ]}
-      render={(v) => (
+      render={(values) => (
         <Demo
-          key={`${String(v.variant)}-${String(v.total)}-${String(v.page)}`}
-          total={v.total as number}
-          variant={v.variant === "default" ? undefined : (v.variant as PaginationVariant)}
-          start={v.page as number}
+          key={`${String(values.variant)}-${String(values.total)}-${String(values.page)}`}
+          total={values.total as number}
+          variant={values.variant === "default" ? undefined : (values.variant as PaginationVariant)}
+          start={values.page as number}
         />
       )}
-      code={(v) =>
+      code={(values) =>
         jsx("Pagination", {
           page: { expr: "page" },
-          total: v.total as number,
-          variant: v.variant !== "default" ? (v.variant as string) : undefined,
+          total: values.total as number,
+          variant: values.variant !== "default" ? (values.variant as string) : undefined,
           onChange: { expr: "setPage" },
         })
       }

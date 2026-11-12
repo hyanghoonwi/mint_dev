@@ -12,7 +12,11 @@ const kinds = [
 export default function MultiFilter() {
   const [on, setOn] = useState<string[]>(["signal"]);
   const toggle = (id: string) =>
-    setOn((prev) => (prev.includes(id) ? prev.filter((v) => v !== id) : [...prev, id]));
+    setOn((previous) =>
+      previous.includes(id)
+        ? previous.filter((selectedId) => selectedId !== id)
+        : [...previous, id],
+    );
 
   return (
     <div role="group" aria-label="알림 종류" style={{ display: "flex", gap: 8 }}>

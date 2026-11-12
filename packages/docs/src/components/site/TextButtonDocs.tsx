@@ -20,33 +20,36 @@ export function TextButtonPlayground() {
   return (
     <Playground
       controls={controls}
-      render={(v) => (
+      render={(values) => (
         <TextButton
-          color={v.color as "primary" | "neutral"}
-          size={v.size as "xs" | "sm" | "md" | "lg"}
-          underline={v.underline as boolean}
-          leftAddon={v.leftAddon ? <PlusIcon /> : undefined}
-          rightAddon={v.rightAddon ? <CaretRightIcon /> : undefined}
-          disabled={v.disabled as boolean}
-          loading={v.loading as boolean}
+          color={values.color as "primary" | "neutral"}
+          size={values.size as "xs" | "sm" | "md" | "lg"}
+          underline={values.underline as boolean}
+          leftAddon={values.leftAddon ? <PlusIcon /> : undefined}
+          rightAddon={values.rightAddon ? <CaretRightIcon /> : undefined}
+          disabled={values.disabled as boolean}
+          loading={values.loading as boolean}
         >
-          {v.children as string}
+          {values.children as string}
         </TextButton>
       )}
-      code={(v) =>
+      code={(values) =>
         jsx(
           "TextButton",
           {
-            color: v.color !== "primary" ? (v.color as string) : undefined,
-            size: v.size !== "md" ? (v.size as string) : undefined,
-            underline: v.underline as boolean,
-            leftAddon: v.leftAddon ? { expr: "<PlusIcon />" } : undefined,
-            rightAddon: v.rightAddon ? { expr: "<CaretRightIcon />" } : undefined,
-            disabled: v.disabled as boolean,
-            loading: v.loading as boolean,
+            color: values.color !== "primary" ? (values.color as string) : undefined,
+            size: values.size !== "md" ? (values.size as string) : undefined,
+            underline: values.underline as boolean,
+            leftAddon: values.leftAddon ? { expr: "<PlusIcon />" } : undefined,
+            rightAddon: values.rightAddon ? { expr: "<CaretRightIcon />" } : undefined,
+            disabled: values.disabled as boolean,
+            loading: values.loading as boolean,
           },
-          v.children as string,
-          [...(v.leftAddon ? ["PlusIcon"] : []), ...(v.rightAddon ? ["CaretRightIcon"] : [])],
+          values.children as string,
+          [
+            ...(values.leftAddon ? ["PlusIcon"] : []),
+            ...(values.rightAddon ? ["CaretRightIcon"] : []),
+          ],
         )
       }
     />

@@ -13,49 +13,55 @@ export function PageIndicatorPlayground() {
         {
           prop: "variant",
           type: "select",
-          options: (v) => (v.type === "dots" ? ["normal", "white"] : ["normal", "alternative"]),
+          options: (values) =>
+            values.type === "dots" ? ["normal", "white"] : ["normal", "alternative"],
           default: "normal",
         },
         { prop: "size", type: "select", options: ["md", "sm"], default: "md" },
         {
           prop: "total",
           type: "select",
-          options: (v) => (v.type === "dots" ? [2, 3, 4, 5, 6, 7] : [10, 24, 100]),
+          options: (values) => (values.type === "dots" ? [2, 3, 4, 5, 6, 7] : [10, 24, 100]),
           default: 5,
         },
         {
           prop: "current",
           type: "select",
           // 점은 1~total 전부, 숫자는 처음·중간·끝 몇 개만 고를 수 있게 한다
-          options: (v) => {
-            const total = v.total as number;
-            if (v.type === "dots") return Array.from({ length: total }, (_, i) => i + 1);
+          options: (values) => {
+            const total = values.total as number;
+            if (values.type === "dots")
+              return Array.from({ length: total }, (_, index) => index + 1);
             return [...new Set([1, 2, 3, Math.ceil(total / 2), total])];
           },
           default: 1,
         },
       ]}
-      render={(v) => {
+      render={(values) => {
         const common = {
-          current: v.current as number,
-          total: v.total as number,
-          size: v.size as "md" | "sm",
+          current: values.current as number,
+          total: values.total as number,
+          size: values.size as "md" | "sm",
         };
         const node =
-          v.type === "dots" ? (
-            <PageDots {...common} variant={v.variant as "normal" | "white"} />
+          values.type === "dots" ? (
+            <PageDots {...common} variant={values.variant as "normal" | "white"} />
           ) : (
-            <PageCounter {...common} variant={v.variant as "normal" | "alternative"} />
+            <PageCounter {...common} variant={values.variant as "normal" | "alternative"} />
           );
         // white는 이미지 위에서 쓰는 색이라 진한 바탕을 깔아 보여 줘요
-        return v.variant === "white" ? <span className="docs-onfill-stage">{node}</span> : node;
+        return values.variant === "white" ? (
+          <span className="docs-onfill-stage">{node}</span>
+        ) : (
+          node
+        );
       }}
-      code={(v) =>
-        jsx(v.type === "dots" ? "PageDots" : "PageCounter", {
-          current: v.current as number,
-          total: v.total as number,
-          variant: v.variant !== "normal" ? (v.variant as string) : undefined,
-          size: v.size !== "md" ? (v.size as string) : undefined,
+      code={(values) =>
+        jsx(values.type === "dots" ? "PageDots" : "PageCounter", {
+          current: values.current as number,
+          total: values.total as number,
+          variant: values.variant !== "normal" ? (values.variant as string) : undefined,
+          size: values.size !== "md" ? (values.size as string) : undefined,
         })
       }
     />

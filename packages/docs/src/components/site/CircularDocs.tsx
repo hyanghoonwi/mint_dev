@@ -15,25 +15,25 @@ export function CircularPlayground() {
   return (
     <Playground
       controls={controls}
-      render={(v) => {
+      render={(values) => {
         const circular = (
           <Circular
-            size={v.size as number}
-            color={v.color as CircularColor}
-            label={v.label as string}
+            size={values.size as number}
+            color={values.color as CircularColor}
+            label={values.label as string}
           />
         );
-        return v.color === "on-fill" ? (
+        return values.color === "on-fill" ? (
           <span className="docs-onfill-stage">{circular}</span>
         ) : (
           circular
         );
       }}
-      code={(v) =>
+      code={(values) =>
         jsx("Circular", {
-          size: v.size !== 28 ? (v.size as number) : undefined,
-          color: v.color !== "default" ? (v.color as string) : undefined,
-          label: v.label !== "로딩 중" ? (v.label as string) : undefined,
+          size: values.size !== 28 ? (values.size as number) : undefined,
+          color: values.color !== "default" ? (values.color as string) : undefined,
+          label: values.label !== "로딩 중" ? (values.label as string) : undefined,
         })
       }
     />

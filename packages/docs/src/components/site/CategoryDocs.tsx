@@ -12,13 +12,13 @@ import { jsx, Playground, type Values } from "./Playground";
 const counts = [3, 4, 5, 6, 7] as const;
 const labels = ["메이저", "디파이", "밈", "레이어2", "AI", "게임", "스테이블"];
 
-/** 칩 n개(전체 칩 포함). 전체를 켜면 나머지는 n-1개 */
-function itemsFor(v: Values) {
-  const n = (v.chip as number) - (v.all ? 1 : 0);
-  return labels.slice(0, n).map((label, index) => ({
+/** 칩 `chip`개(전체 칩 포함). 전체를 켜면 나머지(`count`)는 하나 적다 */
+function itemsFor(values: Values) {
+  const count = (values.chip as number) - (values.all ? 1 : 0);
+  return labels.slice(0, count).map((label, index) => ({
     value: `c${index + 1}`,
     label,
-    badge: v.badge === true && index === 0 ? true : undefined,
+    badge: values.badge === true && index === 0 ? true : undefined,
   }));
 }
 
@@ -35,22 +35,22 @@ export function CategoryPlayground() {
         { prop: "badge", type: "boolean", default: false },
         { prop: "fade", type: "boolean", default: true },
       ]}
-      render={(v) => (
-        <span className={v.variant === "outline" ? "docs-gray-stage" : "docs-white-stage"}>
+      render={(values) => (
+        <span className={values.variant === "outline" ? "docs-gray-stage" : "docs-white-stage"}>
           <Category
             aria-label="코인 분류"
-            items={itemsFor(v)}
-            variant={v.variant as CategoryVariant}
-            size={v.size as CategorySize}
-            shape={v.shape as CategoryShape}
-            all={v.all as boolean}
-            fade={v.fade as boolean}
+            items={itemsFor(values)}
+            variant={values.variant as CategoryVariant}
+            size={values.size as CategorySize}
+            shape={values.shape as CategoryShape}
+            all={values.all as boolean}
+            fade={values.fade as boolean}
             style={{ width: 360, maxWidth: "100%" }}
           />
         </span>
       )}
-      code={(v) => {
-        const items = itemsFor(v)
+      code={(values) => {
+        const items = itemsFor(values)
           .map(
             (item) =>
               `    { value: "${item.value}", label: "${item.label}"${item.badge ? ", badge: true" : ""} },`,
@@ -58,11 +58,11 @@ export function CategoryPlayground() {
           .join("\n");
         return jsx("Category", {
           "aria-label": "코인 분류",
-          variant: v.variant !== "solid" ? (v.variant as string) : undefined,
-          size: v.size !== "lg" ? (v.size as string) : undefined,
-          shape: v.shape !== "square" ? (v.shape as string) : undefined,
-          all: v.all ? undefined : { expr: "false" },
-          fade: v.fade ? undefined : { expr: "false" },
+          variant: values.variant !== "solid" ? (values.variant as string) : undefined,
+          size: values.size !== "lg" ? (values.size as string) : undefined,
+          shape: values.shape !== "square" ? (values.shape as string) : undefined,
+          all: values.all ? undefined : { expr: "false" },
+          fade: values.fade ? undefined : { expr: "false" },
           items: { expr: `[\n${items}\n  ]` },
         });
       }}

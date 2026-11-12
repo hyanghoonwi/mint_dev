@@ -18,25 +18,25 @@ export function TooltipPlayground() {
   return (
     <Playground
       controls={controls}
-      render={(v) => (
+      render={(values) => (
         <Tooltip
-          label={v.label as string}
-          position={v.position as Position}
-          arrowAlign={v.arrowAlign as "start" | "center" | "end"}
-          size={v.size as "sm" | "md" | "lg"}
+          label={values.label as string}
+          position={values.position as Position}
+          arrowAlign={values.arrowAlign as "start" | "center" | "end"}
+          size={values.size as "sm" | "md" | "lg"}
           open
         >
           <IconButton icon={<ShareNetworkIcon />} aria-label="공유" variant="background" />
         </Tooltip>
       )}
-      code={(v) =>
+      code={(values) =>
         jsx(
           "Tooltip",
           {
-            label: v.label as string,
-            position: v.position !== "top" ? (v.position as string) : undefined,
-            arrowAlign: v.arrowAlign !== "center" ? (v.arrowAlign as string) : undefined,
-            size: v.size !== "md" ? (v.size as string) : undefined,
+            label: values.label as string,
+            position: values.position !== "top" ? (values.position as string) : undefined,
+            arrowAlign: values.arrowAlign !== "center" ? (values.arrowAlign as string) : undefined,
+            size: values.size !== "md" ? (values.size as string) : undefined,
           },
           '<IconButton icon={<ShareNetworkIcon />} aria-label="공유" />',
           ["IconButton", "ShareNetworkIcon"],

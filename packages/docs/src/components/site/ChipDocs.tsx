@@ -22,44 +22,46 @@ export function ChipPlayground() {
         { prop: "disabled", type: "boolean", default: false },
         { prop: "children", type: "text", default: "시그널" },
       ]}
-      render={(v) => (
-        <span className={v.variant === "outline" ? "docs-gray-stage" : "docs-white-stage"}>
+      render={(values) => (
+        <span className={values.variant === "outline" ? "docs-gray-stage" : "docs-white-stage"}>
           <Chip
-            variant={v.variant as ChipProps["variant"]}
-            size={v.size as ChipProps["size"]}
-            shape={v.shape as ChipProps["shape"]}
-            active={v.active as boolean}
-            badge={v.badge as boolean}
-            disabled={v.disabled as boolean}
-            leftAddon={v.addon === "leftAddon" ? <StarIcon /> : undefined}
-            rightAddon={v.addon === "rightAddon" ? <ArrowRightIcon /> : undefined}
-            leadingImage={v.addon === "leadingImage" ? <span /> : undefined}
-            count={v.addon === "count" ? 12 : undefined}
+            variant={values.variant as ChipProps["variant"]}
+            size={values.size as ChipProps["size"]}
+            shape={values.shape as ChipProps["shape"]}
+            active={values.active as boolean}
+            badge={values.badge as boolean}
+            disabled={values.disabled as boolean}
+            leftAddon={values.addon === "leftAddon" ? <StarIcon /> : undefined}
+            rightAddon={values.addon === "rightAddon" ? <ArrowRightIcon /> : undefined}
+            leadingImage={values.addon === "leadingImage" ? <span /> : undefined}
+            count={values.addon === "count" ? 12 : undefined}
           >
-            {v.children as string}
+            {values.children as string}
           </Chip>
         </span>
       )}
-      code={(v) =>
+      code={(values) =>
         jsx(
           "Chip",
           {
-            variant: v.variant !== "solid" ? (v.variant as string) : undefined,
-            size: v.size !== "md" ? (v.size as string) : undefined,
-            shape: v.shape !== "square" ? (v.shape as string) : undefined,
-            active: v.active as boolean,
-            leftAddon: v.addon === "leftAddon" ? { expr: "<StarIcon />" } : undefined,
-            rightAddon: v.addon === "rightAddon" ? { expr: "<ArrowRightIcon />" } : undefined,
+            variant: values.variant !== "solid" ? (values.variant as string) : undefined,
+            size: values.size !== "md" ? (values.size as string) : undefined,
+            shape: values.shape !== "square" ? (values.shape as string) : undefined,
+            active: values.active as boolean,
+            leftAddon: values.addon === "leftAddon" ? { expr: "<StarIcon />" } : undefined,
+            rightAddon: values.addon === "rightAddon" ? { expr: "<ArrowRightIcon />" } : undefined,
             leadingImage:
-              v.addon === "leadingImage" ? { expr: '<img src={coin.logo} alt="" />' } : undefined,
-            count: v.addon === "count" ? 12 : undefined,
-            badge: v.badge as boolean,
-            disabled: v.disabled as boolean,
+              values.addon === "leadingImage"
+                ? { expr: '<img src={coin.logo} alt="" />' }
+                : undefined,
+            count: values.addon === "count" ? 12 : undefined,
+            badge: values.badge as boolean,
+            disabled: values.disabled as boolean,
           },
-          v.children as string,
-          v.addon === "leftAddon"
+          values.children as string,
+          values.addon === "leftAddon"
             ? ["StarIcon"]
-            : v.addon === "rightAddon"
+            : values.addon === "rightAddon"
               ? ["ArrowRightIcon"]
               : undefined,
         )

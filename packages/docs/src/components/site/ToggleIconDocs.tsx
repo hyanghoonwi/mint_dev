@@ -12,26 +12,26 @@ export function ToggleIconPlayground() {
         { prop: "defaultActive", type: "boolean", default: false },
         { prop: "disabled", type: "boolean", default: false },
       ]}
-      render={(v) => (
+      render={(values) => (
         <ToggleIcon
           // 처음 상태를 바꾸면 다시 그려서 바로 보이게 한다
-          key={String(v.defaultActive)}
+          key={String(values.defaultActive)}
           icon={<StarIcon />}
           aria-label="관심 코인"
-          size={v.size as ToggleIconProps["size"]}
-          defaultActive={v.defaultActive as boolean}
-          disabled={v.disabled as boolean}
+          size={values.size as ToggleIconProps["size"]}
+          defaultActive={values.defaultActive as boolean}
+          disabled={values.disabled as boolean}
         />
       )}
-      code={(v) =>
+      code={(values) =>
         jsx(
           "ToggleIcon",
           {
             icon: { expr: "<StarIcon />" },
             "aria-label": "관심 코인",
-            size: v.size !== "md" ? (v.size as string) : undefined,
-            defaultActive: v.defaultActive as boolean,
-            disabled: v.disabled as boolean,
+            size: values.size !== "md" ? (values.size as string) : undefined,
+            defaultActive: values.defaultActive as boolean,
+            disabled: values.disabled as boolean,
           },
           undefined,
           ["StarIcon"],

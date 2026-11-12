@@ -24,13 +24,13 @@ export function TextPlayground() {
         {
           prop: "number",
           type: "select",
-          options: (v) => [...roles[v.role as Role].numbers],
+          options: (values) => [...roles[values.role as Role].numbers],
           default: 2,
         },
         {
           prop: "weight",
           type: "select",
-          options: (v) => [...roles[v.role as Role].weights],
+          options: (values) => [...roles[values.role as Role].weights],
           default: "regular",
         },
         {
@@ -50,22 +50,22 @@ export function TextPlayground() {
         },
         { prop: "children", type: "text", default: "비트코인이 1억을 넘었어요" },
       ]}
-      render={(v) => (
+      render={(values) => (
         <Text
-          variant={`${v.role}-${v.number}-${v.weight}` as TextVariant}
-          color={v.color as TextColor}
+          variant={`${values.role}-${values.number}-${values.weight}` as TextVariant}
+          color={values.color as TextColor}
         >
-          {v.children as string}
+          {values.children as string}
         </Text>
       )}
-      code={(v) =>
+      code={(values) =>
         jsx(
           "Text",
           {
-            variant: `${v.role}-${v.number}-${v.weight}`,
-            color: v.color !== "primary" ? (v.color as string) : undefined,
+            variant: `${values.role}-${values.number}-${values.weight}`,
+            color: values.color !== "primary" ? (values.color as string) : undefined,
           },
-          v.children as string,
+          values.children as string,
         )
       }
     />

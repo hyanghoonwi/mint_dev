@@ -7,11 +7,11 @@ import { jsx, Playground, type Values } from "./Playground";
 const counts = [2, 3, 4, 5, 6] as const;
 const labels = ["일", "주", "월", "분기", "연", "전체"];
 
-function itemsFor(v: Values) {
-  return labels.slice(0, v.count as number).map((label, index) => ({
+function itemsFor(values: Values) {
+  return labels.slice(0, values.count as number).map((label, index) => ({
     value: `v${index + 1}`,
     label,
-    icon: v.icon ? <ListIcon /> : undefined,
+    icon: values.icon ? <ListIcon /> : undefined,
   }));
 }
 
@@ -25,27 +25,29 @@ export function SegmentedControlPlayground() {
         { prop: "icon", type: "boolean", default: false },
         { prop: "fullWidth", type: "boolean", default: false },
       ]}
-      render={(v) => (
-        <span style={{ display: "block", width: v.fullWidth ? 360 : undefined, maxWidth: "100%" }}>
+      render={(values) => (
+        <span
+          style={{ display: "block", width: values.fullWidth ? 360 : undefined, maxWidth: "100%" }}
+        >
           <SegmentedControl
             aria-label="기간"
-            items={itemsFor(v)}
-            size={v.size as SegmentedControlSize}
-            fullWidth={v.fullWidth as boolean}
+            items={itemsFor(values)}
+            size={values.size as SegmentedControlSize}
+            fullWidth={values.fullWidth as boolean}
           />
         </span>
       )}
-      code={(v) => {
-        const items = itemsFor(v)
+      code={(values) => {
+        const items = itemsFor(values)
           .map(
             (item) =>
-              `    { value: "${item.value}", label: "${item.label}"${v.icon ? ", icon: <ListIcon />" : ""} },`,
+              `    { value: "${item.value}", label: "${item.label}"${values.icon ? ", icon: <ListIcon />" : ""} },`,
           )
           .join("\n");
         return jsx("SegmentedControl", {
           "aria-label": "기간",
-          size: v.size !== "md" ? (v.size as string) : undefined,
-          fullWidth: v.fullWidth ? true : undefined,
+          size: values.size !== "md" ? (values.size as string) : undefined,
+          fullWidth: values.fullWidth ? true : undefined,
           items: { expr: `[\n${items}\n  ]` },
         });
       }}

@@ -17,15 +17,15 @@ export default function InfiniteScroll() {
   useEffect(() => {
     if (!inView || !hasMore) return;
     // 실제로는 여기서 다음 페이지를 요청한다(예시는 0.4초 뒤에 10개를 더한다)
-    const timer = setTimeout(() => setCount((c) => Math.min(c + PAGE, LAST)), 400);
+    const timer = setTimeout(() => setCount((previous) => Math.min(previous + PAGE, LAST)), 400);
     return () => clearTimeout(timer);
   }, [inView, hasMore, count]);
 
   return (
     <div ref={setRoot} style={{ height: 280, width: "100%", overflow: "auto" }}>
-      {Array.from({ length: count }, (_, i) => (
-        <Text key={i} as="p" variant="body-3-regular" className="px-4 py-3">
-          코인 {i + 1}
+      {Array.from({ length: count }, (_, index) => (
+        <Text key={index} as="p" variant="body-3-regular" className="px-4 py-3">
+          코인 {index + 1}
         </Text>
       ))}
       {hasMore ? (

@@ -11,11 +11,11 @@ import {
 import { DoDont } from "./DoDont";
 import { jsx, Playground, type Values } from "./Playground";
 
-const look = (v: Values) => ({
-  size: v.size as FramedSize,
-  error: v.error as boolean,
-  shadow: v.shadow as boolean,
-  disabled: v.disabled as boolean,
+const look = (values: Values) => ({
+  size: values.size as FramedSize,
+  error: values.error as boolean,
+  shadow: values.shadow as boolean,
+  disabled: values.disabled as boolean,
 });
 
 export function FramedPlayground() {
@@ -36,54 +36,54 @@ export function FramedPlayground() {
         { prop: "disabled", type: "boolean", default: false },
         { prop: "description", type: "boolean", default: true },
       ]}
-      render={(v) => {
-        const description = v.description ? "설명" : undefined;
+      render={(values) => {
+        const description = values.description ? "설명" : undefined;
         const box =
-          v.type === "checkbox" ? (
+          values.type === "checkbox" ? (
             <FramedCheckbox
-              key={`c-${String(v.selected)}`}
+              key={`c-${String(values.selected)}`}
               label="텍스트"
               description={description}
-              defaultChecked={v.selected as boolean}
-              {...look(v)}
+              defaultChecked={values.selected as boolean}
+              {...look(values)}
             />
-          ) : v.type === "radio" ? (
+          ) : values.type === "radio" ? (
             <RadioGroup
-              key={`r-${String(v.selected)}`}
+              key={`r-${String(values.selected)}`}
               aria-label="미리보기"
-              defaultValue={v.selected ? "a" : undefined}
+              defaultValue={values.selected ? "a" : undefined}
             >
-              <FramedRadio value="a" label="텍스트" description={description} {...look(v)} />
+              <FramedRadio value="a" label="텍스트" description={description} {...look(values)} />
             </RadioGroup>
           ) : (
-            <Framed selected={v.selected as boolean} {...look(v)}>
+            <Framed selected={values.selected as boolean} {...look(values)}>
               <span className="docs-framed-placeholder" />
             </Framed>
           );
         return <div style={{ width: 360, maxWidth: "100%" }}>{box}</div>;
       }}
-      code={(v) => {
+      code={(values) => {
         const common = {
-          size: v.size !== "md" ? (v.size as string) : undefined,
-          error: v.error as boolean,
-          shadow: v.shadow as boolean,
-          disabled: v.disabled as boolean,
+          size: values.size !== "md" ? (values.size as string) : undefined,
+          error: values.error as boolean,
+          shadow: values.shadow as boolean,
+          disabled: values.disabled as boolean,
         };
-        if (v.type === "checkbox")
+        if (values.type === "checkbox")
           return jsx("FramedCheckbox", {
             label: "텍스트",
-            description: v.description ? "설명" : undefined,
-            defaultChecked: v.selected as boolean,
+            description: values.description ? "설명" : undefined,
+            defaultChecked: values.selected as boolean,
             ...common,
           });
-        if (v.type === "radio")
+        if (values.type === "radio")
           return jsx(
             "RadioGroup",
-            { "aria-label": "요금제", defaultValue: v.selected ? "a" : undefined },
-            `\n  <FramedRadio value="a" label="텍스트"${v.description ? ' description="설명"' : ""}${common.size ? ` size="${common.size}"` : ""}${common.error ? " error" : ""}${common.shadow ? " shadow" : ""}${common.disabled ? " disabled" : ""} />\n`,
+            { "aria-label": "요금제", defaultValue: values.selected ? "a" : undefined },
+            `\n  <FramedRadio value="a" label="텍스트"${values.description ? ' description="설명"' : ""}${common.size ? ` size="${common.size}"` : ""}${common.error ? " error" : ""}${common.shadow ? " shadow" : ""}${common.disabled ? " disabled" : ""} />\n`,
             ["FramedRadio"],
           ).replace(/>\n {2}\n {2}<FramedRadio/, ">\n  <FramedRadio");
-        return jsx("Framed", { selected: v.selected as boolean, ...common }, "{/* 내용 */}");
+        return jsx("Framed", { selected: values.selected as boolean, ...common }, "{/* 내용 */}");
       }}
     />
   );

@@ -15,30 +15,30 @@ export function CheckMarkPlayground() {
         { prop: "disabled", type: "boolean", default: false },
         { prop: "children", type: "text", default: "텍스트" },
       ]}
-      render={(v) => (
+      render={(values) => (
         <CheckMark
-          size={v.size as CheckMarkSize}
-          checked={v.checked as boolean}
-          tight={v.tight as boolean}
-          disabled={v.disabled as boolean}
-          aria-label={v.label ? undefined : (v.children as string)}
+          size={values.size as CheckMarkSize}
+          checked={values.checked as boolean}
+          tight={values.tight as boolean}
+          disabled={values.disabled as boolean}
+          aria-label={values.label ? undefined : (values.children as string)}
           onClick={() => {}}
         >
-          {v.label ? (v.children as string) : undefined}
+          {values.label ? (values.children as string) : undefined}
         </CheckMark>
       )}
-      code={(v) =>
+      code={(values) =>
         jsx(
           "CheckMark",
           {
-            size: v.size !== "sm" ? (v.size as string) : undefined,
-            checked: v.checked as boolean,
-            tight: v.tight as boolean,
-            disabled: v.disabled as boolean,
-            "aria-label": v.label ? undefined : (v.children as string),
+            size: values.size !== "sm" ? (values.size as string) : undefined,
+            checked: values.checked as boolean,
+            tight: values.tight as boolean,
+            disabled: values.disabled as boolean,
+            "aria-label": values.label ? undefined : (values.children as string),
             onClick: { expr: "() => setChecked(!checked)" },
           },
-          v.label ? (v.children as string) : undefined,
+          values.label ? (values.children as string) : undefined,
         )
       }
     />

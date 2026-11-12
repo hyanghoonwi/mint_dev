@@ -23,18 +23,18 @@ const avatarControls: Control[] = [
 ];
 
 /** 고른 내용(이미지·이름·아이콘)에 따라 넘길 props. 기본값과 같은 값은 뺀다 */
-function avatarProps(v: Values) {
+function avatarProps(values: Values) {
   return {
-    size: v.size !== 40 ? (v.size as AvatarSize) : undefined,
-    variant: v.variant !== "person" ? (v.variant as "brand") : undefined,
-    src: v.content === "image" ? sample : undefined,
-    name: v.content !== "icon" ? (v.name as string) : undefined,
-    badge: v.badge === "dot" ? ("dot" as const) : v.badge === "number" ? 3 : undefined,
+    size: values.size !== 40 ? (values.size as AvatarSize) : undefined,
+    variant: values.variant !== "person" ? (values.variant as "brand") : undefined,
+    src: values.content === "image" ? sample : undefined,
+    name: values.content !== "icon" ? (values.name as string) : undefined,
+    badge: values.badge === "dot" ? ("dot" as const) : values.badge === "number" ? 3 : undefined,
     badgeSize:
-      v.badge !== "none" && v.badgeSize !== "auto"
-        ? (v.badgeSize as "xs" | "sm" | "md" | "lg" | "xl")
+      values.badge !== "none" && values.badgeSize !== "auto"
+        ? (values.badgeSize as "xs" | "sm" | "md" | "lg" | "xl")
         : undefined,
-    disabled: v.disabled as boolean,
+    disabled: values.disabled as boolean,
   };
 }
 
@@ -43,10 +43,13 @@ export function AvatarPlayground() {
   return (
     <Playground
       controls={avatarControls}
-      render={(v) => <Avatar {...avatarProps(v)} />}
-      code={(v) => {
-        const p = avatarProps(v);
-        return jsx("Avatar", { ...p, badge: typeof p.badge === "number" ? p.badge : p.badge });
+      render={(values) => <Avatar {...avatarProps(values)} />}
+      code={(values) => {
+        const props = avatarProps(values);
+        return jsx("Avatar", {
+          ...props,
+          badge: typeof props.badge === "number" ? props.badge : props.badge,
+        });
       }}
     />
   );
@@ -82,20 +85,20 @@ export function AvatarGroupPlayground() {
   return (
     <Playground
       controls={groupControls}
-      render={(v) => (
+      render={(values) => (
         <AvatarGroup
-          size={v.size as AvatarSize}
-          max={v.max as number}
-          aria-label={`참여자 ${v.items}명`}
-          items={people.slice(0, v.items as number)}
+          size={values.size as AvatarSize}
+          max={values.max as number}
+          aria-label={`참여자 ${values.items}명`}
+          items={people.slice(0, values.items as number)}
         />
       )}
-      code={(v) =>
+      code={(values) =>
         jsx("AvatarGroup", {
-          size: v.size !== 40 ? (v.size as number) : undefined,
-          max: v.max !== 3 ? (v.max as number) : undefined,
-          "aria-label": `참여자 ${v.items}명`,
-          items: { expr: itemsCode(v.items as number) },
+          size: values.size !== 40 ? (values.size as number) : undefined,
+          max: values.max !== 3 ? (values.max as number) : undefined,
+          "aria-label": `참여자 ${values.items}명`,
+          items: { expr: itemsCode(values.items as number) },
         })
       }
     />

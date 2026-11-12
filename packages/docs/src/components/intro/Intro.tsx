@@ -34,9 +34,10 @@ import type { GridLayout, ParticleScene } from "./particles";
  * WebGL을 쓸 수 없으면 점 장면 없이 자막과 카드만 보여 준다.
  */
 
-const clamp = (v: number, a = 0, b = 1) => Math.min(b, Math.max(a, v));
-const seg = (p: number, a: number, b: number) => clamp((p - a) / (b - a));
-const easeOut = (t: number) => 1 - Math.pow(1 - t, 3);
+const clamp = (value: number, min = 0, max = 1) => Math.min(max, Math.max(min, value));
+const rangeProgress = (progress: number, start: number, end: number) =>
+  clamp((progress - start) / (end - start));
+const easeOut = (progress: number) => 1 - Math.pow(1 - progress, 3);
 
 const chapters = [
   {
@@ -67,23 +68,32 @@ const chapters = [
 ] as const;
 
 /** 격자 칸 배치. 점 장면의 와이어프레임과 DOM 카드가 같은 값을 쓴다 */
-function gridLayout(w: number, h: number): GridLayout {
-  const portrait = w < 768;
-  const cols = portrait ? 2 : 4;
+function gridLayout(width: number, height: number): GridLayout {
+  const portrait = width < 768;
+  const columnCount = portrait ? 2 : 4;
   const count = portrait ? 10 : 12;
-  const rows = count / cols;
-  const gridW = portrait ? w * 0.9 : Math.min(w * 0.86, 1080);
-  const cellW = gridW / cols;
-  const cellH = Math.min(cellW * 0.62, (h * 0.5) / rows);
-  return { w, h, cols, rows, cellW, cellH, gap: 12, originY: h * 0.36 };
+  const rows = count / columnCount;
+  const gridWidth = portrait ? width * 0.9 : Math.min(width * 0.86, 1080);
+  const cellWidth = gridWidth / columnCount;
+  const cellHeight = Math.min(cellWidth * 0.62, (height * 0.5) / rows);
+  return {
+    width,
+    height,
+    columns: columnCount,
+    rows,
+    cellWidth,
+    cellHeight,
+    gap: 12,
+    originY: height * 0.36,
+  };
 }
 
 /*
  * 격자 칸 12개에 들어가는 실제 MINT 컴포넌트(라이브러리에 있는 것만). 점 와이어프레임(particles.ts cardPaths)이 같은 순서로 대응한다.
  * 세로 화면은 앞의 10칸만 보인다. 격자 전체가 inert라서 누르거나 Tab으로 들어갈 수 없다(보여 주기용)
  */
-function cell(i: number): ReactNode {
-  switch (i) {
+function cell(cellIndex: number): ReactNode {
+  switch (cellIndex) {
     case 0:
       return <Button size="lg">확인</Button>;
     case 1:
@@ -206,72 +216,78 @@ function Story() {
   const captions = useRef<(HTMLDivElement | null)[]>([]);
 
   useEffect(() => {
-    const trackEl = track.current;
-    const stageEl = stage.current;
-    const canvasEl = canvas.current;
-    if (!trackEl || !stageEl || !canvasEl) return;
+    const trackElement = track.current;
+    const stageElement = stage.current;
+    const canvasElement = canvas.current;
+    if (!trackElement || !stageElement || !canvasElement) return;
 
-    let w = 0;
-    let h = 0;
+    let width = 0;
+    let height = 0;
     let frame = 0;
-    let p = 0;
+    let progress = 0;
     let scene: ParticleScene | null = null;
     let webglFailed = false;
     let disposed = false;
 
-    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
     // DOM: 자막·진행 눈금·실제 컴포넌트 카드
     const apply = () => {
-      const layout = gridLayout(w, h);
-      const { cols, rows, cellW, cellH, gap } = layout;
-      const count = cols * rows;
-      const cs = Math.min(1, cellH / 150, cellW / 230);
+      const layout = gridLayout(width, height);
+      const { columns: columnCount, rows, cellWidth, cellHeight, gap } = layout;
+      const count = columnCount * rows;
+      const contentScale = Math.min(1, cellHeight / 150, cellWidth / 230);
       // 와이어프레임이 완성된 뒤(93%~) 실제 카드가 나타난다. WebGL이 없으면 정렬 단계에서 바로 보여 준다
-      const cardIn = easeOut(seg(p, webglFailed ? 0.6 : 0.93, webglFailed ? 0.76 : 1));
-      for (let i = 0; i < 12; i++) {
-        const el = cells.current[i];
-        if (!el) continue;
-        const gx = ((i % cols) - (cols - 1) / 2) * cellW;
-        const gy = (Math.floor(i / cols) - (rows - 1) / 2) * cellH;
-        const width = cellW - gap;
-        const height = cellH - gap;
-        el.style.width = `${width}px`;
-        el.style.height = `${height}px`;
-        el.style.transform = `translate(${gx - width / 2}px, ${gy - height / 2}px)`;
-        el.style.opacity = i < count ? String(cardIn) : "0";
-        const inner = el.firstElementChild as HTMLElement | null;
-        if (inner) inner.style.transform = `translate(-50%, -50%) scale(${cs})`;
+      const cardIn = easeOut(
+        rangeProgress(progress, webglFailed ? 0.6 : 0.93, webglFailed ? 0.76 : 1),
+      );
+      for (let cellIndex = 0; cellIndex < 12; cellIndex++) {
+        const cellElement = cells.current[cellIndex];
+        if (!cellElement) continue;
+        const offsetX = ((cellIndex % columnCount) - (columnCount - 1) / 2) * cellWidth;
+        const offsetY = (Math.floor(cellIndex / columnCount) - (rows - 1) / 2) * cellHeight;
+        const cardWidth = cellWidth - gap;
+        const cardHeight = cellHeight - gap;
+        cellElement.style.width = `${cardWidth}px`;
+        cellElement.style.height = `${cardHeight}px`;
+        cellElement.style.transform = `translate(${offsetX - cardWidth / 2}px, ${offsetY - cardHeight / 2}px)`;
+        cellElement.style.opacity = cellIndex < count ? String(cardIn) : "0";
+        const inner = cellElement.firstElementChild as HTMLElement | null;
+        if (inner) inner.style.transform = `translate(-50%, -50%) scale(${contentScale})`;
       }
 
-      chapters.forEach((chapter, i) => {
-        const [a, b] = chapter.range;
-        const el = captions.current[i];
-        if (!el) return;
-        const fadeIn = i === 0 ? 1 : seg(p, a + 0.01, a + 0.045);
-        const fadeOut = i === chapters.length - 1 ? 0 : seg(p, b - 0.04, b - 0.005);
-        const o = fadeIn * (1 - fadeOut);
-        el.style.opacity = String(o);
-        el.style.transform = `translateY(${(1 - fadeIn) * 28 - fadeOut * 16}px)`;
+      chapters.forEach((chapter, chapterIndex) => {
+        const [start, end] = chapter.range;
+        const captionElement = captions.current[chapterIndex];
+        if (!captionElement) return;
+        const fadeIn =
+          chapterIndex === 0 ? 1 : rangeProgress(progress, start + 0.01, start + 0.045);
+        const fadeOut =
+          chapterIndex === chapters.length - 1
+            ? 0
+            : rangeProgress(progress, end - 0.04, end - 0.005);
+        const opacity = fadeIn * (1 - fadeOut);
+        captionElement.style.opacity = String(opacity);
+        captionElement.style.transform = `translateY(${(1 - fadeIn) * 28 - fadeOut * 16}px)`;
       });
     };
 
     const update = () => {
       frame = 0;
-      const rect = trackEl.getBoundingClientRect();
-      p = clamp(-rect.top / (rect.height - window.innerHeight));
-      scene?.setProgress(p);
-      scene?.setVisible(rect.bottom > 0 && rect.top < window.innerHeight);
+      const bounds = trackElement.getBoundingClientRect();
+      progress = clamp(-bounds.top / (bounds.height - window.innerHeight));
+      scene?.setProgress(progress);
+      scene?.setVisible(bounds.bottom > 0 && bounds.top < window.innerHeight);
       apply();
     };
     const schedule = () => {
       if (!frame) frame = requestAnimationFrame(update);
     };
     const measure = () => {
-      const rect = stageEl.getBoundingClientRect();
-      w = rect.width;
-      h = rect.height;
-      scene?.resize(w, h, gridLayout(w, h));
+      const bounds = stageElement.getBoundingClientRect();
+      width = bounds.width;
+      height = bounds.height;
+      scene?.resize(width, height, gridLayout(width, height));
       schedule();
     };
 
@@ -282,7 +298,7 @@ function Story() {
     // 점 장면: three.js는 여기서 처음 내려받는다
     import("./particles")
       .then(({ createParticleScene }) =>
-        createParticleScene(canvasEl, gridLayout(w, h), { reducedMotion: reduced }),
+        createParticleScene(canvasElement, gridLayout(width, height), { reducedMotion }),
       )
       .then((created) => {
         if (disposed) {
@@ -312,30 +328,30 @@ function Story() {
         <canvas ref={canvas} className="intro-canvas" aria-hidden="true" />
 
         <div className="intro-grid" aria-hidden="true" inert>
-          {Array.from({ length: 12 }, (_, i) => (
+          {Array.from({ length: 12 }, (_, cellIndex) => (
             <div
-              key={i}
+              key={cellIndex}
               className="intro-cell"
-              ref={(el) => {
-                cells.current[i] = el;
+              ref={(element) => {
+                cells.current[cellIndex] = element;
               }}
               style={{ opacity: 0 }}
             >
-              <div className="intro-cell__inner">{cell(i)}</div>
+              <div className="intro-cell__inner">{cell(cellIndex)}</div>
             </div>
           ))}
         </div>
 
-        {chapters.map((chapter, i) => (
+        {chapters.map((chapter, chapterIndex) => (
           <div
             key={chapter.title}
             className={`intro-caption ${chapter.mid ? "is-mid" : ""}`}
-            ref={(el) => {
-              captions.current[i] = el;
+            ref={(element) => {
+              captions.current[chapterIndex] = element;
             }}
-            style={{ opacity: i === 0 ? 1 : 0 }}
+            style={{ opacity: chapterIndex === 0 ? 1 : 0 }}
           >
-            {i === 0 ? (
+            {chapterIndex === 0 ? (
               <h1 className="intro-caption__title">{chapter.title}</h1>
             ) : (
               <h2 className="intro-caption__title">{chapter.title}</h2>

@@ -12,7 +12,7 @@ import { DoDont } from "./DoDont";
 import { jsx, Playground, type Control, type Values } from "./Playground";
 
 const animate: Control = { prop: "animate", type: "boolean", default: true };
-const animateAttr = (v: Values) => (v.animate ? undefined : { expr: "false" });
+const animateAttribute = (values: Values) => (values.animate ? undefined : { expr: "false" });
 
 const color: Control = {
   prop: "color",
@@ -22,15 +22,16 @@ const color: Control = {
 };
 
 /** 미리보기 칸이 회색이라 normal은 흰 카드, white는 회색 카드 위에 보여 줘요 */
-function stage(v: Values, node: React.ReactNode) {
-  return v.color === "white" ? (
+function stage(values: Values, node: React.ReactNode) {
+  return values.color === "white" ? (
     <span className="docs-gray-stage">{node}</span>
   ) : (
     <span className="docs-white-stage">{node}</span>
   );
 }
 
-const colorAttr = (v: Values) => (v.color !== "normal" ? (v.color as string) : undefined);
+const colorAttribute = (values: Values) =>
+  values.color !== "normal" ? (values.color as string) : undefined;
 
 export function SkeletonTextPlayground() {
   return (
@@ -47,24 +48,24 @@ export function SkeletonTextPlayground() {
         color,
         animate,
       ]}
-      render={(v) =>
+      render={(values) =>
         stage(
-          v,
+          values,
           <SkeletonText
             width={240}
-            length={v.length as SkeletonTextLength}
-            align={v.align as SkeletonTextAlign}
-            color={v.color as SkeletonColor}
-            animate={v.animate as boolean}
+            length={values.length as SkeletonTextLength}
+            align={values.align as SkeletonTextAlign}
+            color={values.color as SkeletonColor}
+            animate={values.animate as boolean}
           />,
         )
       }
-      code={(v) =>
+      code={(values) =>
         jsx("SkeletonText", {
-          length: v.length !== "100%" ? (v.length as string) : undefined,
-          align: v.align !== "leading" ? (v.align as string) : undefined,
-          color: colorAttr(v),
-          animate: animateAttr(v),
+          length: values.length !== "100%" ? (values.length as string) : undefined,
+          align: values.align !== "leading" ? (values.align as string) : undefined,
+          color: colorAttribute(values),
+          animate: animateAttribute(values),
         })
       }
     />
@@ -76,25 +77,25 @@ export function SkeletonRectanglePlayground() {
     <Playground
       stageMinHeight={200}
       controls={[{ prop: "radius", type: "boolean", default: false }, color, animate]}
-      render={(v) =>
+      render={(values) =>
         stage(
-          v,
+          values,
           <SkeletonRectangle
             width={120}
             height={80}
-            radius={v.radius as boolean}
-            color={v.color as SkeletonColor}
-            animate={v.animate as boolean}
+            radius={values.radius as boolean}
+            color={values.color as SkeletonColor}
+            animate={values.animate as boolean}
           />,
         )
       }
-      code={(v) =>
+      code={(values) =>
         jsx("SkeletonRectangle", {
           width: 120,
           height: 80,
-          radius: v.radius ? true : undefined,
-          color: colorAttr(v),
-          animate: animateAttr(v),
+          radius: values.radius ? true : undefined,
+          color: colorAttribute(values),
+          animate: animateAttribute(values),
         })
       }
     />
@@ -110,21 +111,21 @@ export function SkeletonCirclePlayground() {
         color,
         animate,
       ]}
-      render={(v) =>
+      render={(values) =>
         stage(
-          v,
+          values,
           <SkeletonCircle
-            size={v.size as number}
-            color={v.color as SkeletonColor}
-            animate={v.animate as boolean}
+            size={values.size as number}
+            color={values.color as SkeletonColor}
+            animate={values.animate as boolean}
           />,
         )
       }
-      code={(v) =>
+      code={(values) =>
         jsx("SkeletonCircle", {
-          size: v.size !== 40 ? (v.size as number) : undefined,
-          color: colorAttr(v),
-          animate: animateAttr(v),
+          size: values.size !== 40 ? (values.size as number) : undefined,
+          color: colorAttribute(values),
+          animate: animateAttribute(values),
         })
       }
     />

@@ -22,34 +22,34 @@ export function CheckboxPlayground() {
         { prop: "disabled", type: "boolean", default: false },
         { prop: "children", type: "text", default: "텍스트" },
       ]}
-      render={(v) => (
+      render={(values) => (
         <Checkbox
           // 상태를 바꿀 때마다 새로 그려서 defaultChecked가 반영되게 한다
-          key={String(v.checked)}
-          defaultChecked={v.checked === "checked"}
-          indeterminate={v.checked === "indeterminate"}
-          size={v.size as CheckboxSize}
-          bold={v.bold as boolean}
-          tight={v.tight as boolean}
-          disabled={v.disabled as boolean}
-          aria-label={v.label ? undefined : (v.children as string)}
+          key={String(values.checked)}
+          defaultChecked={values.checked === "checked"}
+          indeterminate={values.checked === "indeterminate"}
+          size={values.size as CheckboxSize}
+          bold={values.bold as boolean}
+          tight={values.tight as boolean}
+          disabled={values.disabled as boolean}
+          aria-label={values.label ? undefined : (values.children as string)}
         >
-          {v.label ? (v.children as string) : undefined}
+          {values.label ? (values.children as string) : undefined}
         </Checkbox>
       )}
-      code={(v) =>
+      code={(values) =>
         jsx(
           "Checkbox",
           {
-            defaultChecked: v.checked === "checked",
-            indeterminate: v.checked === "indeterminate",
-            size: v.size !== "sm" ? (v.size as string) : undefined,
-            bold: v.bold as boolean,
-            tight: v.tight as boolean,
-            disabled: v.disabled as boolean,
-            "aria-label": v.label ? undefined : (v.children as string),
+            defaultChecked: values.checked === "checked",
+            indeterminate: values.checked === "indeterminate",
+            size: values.size !== "sm" ? (values.size as string) : undefined,
+            bold: values.bold as boolean,
+            tight: values.tight as boolean,
+            disabled: values.disabled as boolean,
+            "aria-label": values.label ? undefined : (values.children as string),
           },
-          v.label ? (v.children as string) : undefined,
+          values.label ? (values.children as string) : undefined,
         )
       }
     />
@@ -76,7 +76,9 @@ export function CheckboxGuide() {
             <Checkbox
               key={label}
               checked={terms[index]}
-              onChange={() => setTerms(terms.map((on, i) => (i === index ? !on : on)))}
+              onChange={() =>
+                setTerms(terms.map((on, termIndex) => (termIndex === index ? !on : on)))
+              }
             >
               {label}
             </Checkbox>

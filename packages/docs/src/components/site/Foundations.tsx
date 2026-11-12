@@ -174,14 +174,14 @@ const spacing: [string, number, string][] = [
 export function SpacingScale() {
   return (
     <div className="docs-spacing">
-      {spacing.map(([name, px, number]) => (
+      {spacing.map(([name, pixels, number]) => (
         <div key={name} className="docs-spacing__row">
           <code>{name}</code>
-          <span className="docs-mono-caption">{px}px</span>
+          <span className="docs-mono-caption">{pixels}px</span>
           <span className="docs-spacing__class">
             p-{number} · gap-{number} · m-{number}
           </span>
-          <span className="docs-spacing__bar" style={{ width: px }} />
+          <span className="docs-spacing__bar" style={{ width: pixels }} />
         </div>
       ))}
     </div>
@@ -218,11 +218,11 @@ const radii: [cls: string, px: string, usage: string][] = [
 export function RadiusScale() {
   return (
     <div className="docs-shape-grid">
-      {radii.map(([cls, px, usage]) => (
-        <div key={cls} className="docs-shape-card">
-          <span className={`docs-shape-card__radius ${cls}`} />
-          <code>{cls}</code>
-          <span className="docs-mono-caption">{px}</span>
+      {radii.map(([className, pixels, usage]) => (
+        <div key={className} className="docs-shape-card">
+          <span className={`docs-shape-card__radius ${className}`} />
+          <code>{className}</code>
+          <span className="docs-mono-caption">{pixels}</span>
           <span className="docs-shape-card__usage">{usage}</span>
         </div>
       ))}
@@ -240,10 +240,12 @@ const shadows: [cls: string, value: string, usage: string][] = [
 export function ShadowSamples() {
   return (
     <div className="docs-shape-grid docs-shape-grid--shadow">
-      {shadows.map(([cls, value, usage]) => (
-        <div key={cls} className="docs-shape-card">
-          <span className={`docs-shape-card__shadow rounded-12 bg-background-floated ${cls}`} />
-          <code>{cls}</code>
+      {shadows.map(([className, value, usage]) => (
+        <div key={className} className="docs-shape-card">
+          <span
+            className={`docs-shape-card__shadow rounded-12 bg-background-floated ${className}`}
+          />
+          <code>{className}</code>
           <span className="docs-mono-caption">{value}</span>
           <span className="docs-shape-card__usage">{usage}</span>
         </div>

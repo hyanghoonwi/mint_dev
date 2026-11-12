@@ -8,7 +8,11 @@ const exchanges = ["업비트", "빗썸", "코인원", "코빗"];
 export default function MultiSelect() {
   const [selected, setSelected] = useState<string[]>(["업비트"]);
   const toggle = (name: string) =>
-    setSelected((prev) => (prev.includes(name) ? prev.filter((n) => n !== name) : [...prev, name]));
+    setSelected((previous) =>
+      previous.includes(name)
+        ? previous.filter((selectedName) => selectedName !== name)
+        : [...previous, name],
+    );
 
   return (
     <div

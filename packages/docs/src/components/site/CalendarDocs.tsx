@@ -19,21 +19,21 @@ export function CalendarPlayground() {
         { prop: "weekStartsOn", type: "select", options: [0, 1], default: 0 },
         { prop: "marks", type: "boolean", default: true },
       ]}
-      render={(v) => (
+      render={(values) => (
         <Calendar
           today="2026-11-11"
-          size={v.size as CalendarSize}
-          weekStartsOn={v.weekStartsOn as 0 | 1}
-          marks={v.marks ? sampleMarks : undefined}
+          size={values.size as CalendarSize}
+          weekStartsOn={values.weekStartsOn as 0 | 1}
+          marks={values.marks ? sampleMarks : undefined}
           style={{ width: 340, maxWidth: "100%" }}
         />
       )}
-      code={(v) =>
+      code={(values) =>
         jsx("Calendar", {
           today: "2026-11-11",
-          size: v.size !== "md" ? (v.size as string) : undefined,
-          weekStartsOn: v.weekStartsOn !== 0 ? (v.weekStartsOn as number) : undefined,
-          marks: v.marks ? { expr: '{ "2026-11-12": [{ color: "brand" }] }' } : undefined,
+          size: values.size !== "md" ? (values.size as string) : undefined,
+          weekStartsOn: values.weekStartsOn !== 0 ? (values.weekStartsOn as number) : undefined,
+          marks: values.marks ? { expr: '{ "2026-11-12": [{ color: "brand" }] }' } : undefined,
           onChange: { expr: "setDate" },
         })
       }

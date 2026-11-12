@@ -21,24 +21,24 @@ export function BadgePlayground() {
   return (
     <Playground
       controls={controls}
-      render={(v) => (
+      render={(values) => (
         <Badge
-          variant={v.variant as "fill" | "weak"}
-          color={v.color as BadgeColor}
-          size={v.size as "sm" | "md" | "lg"}
+          variant={values.variant as "fill" | "weak"}
+          color={values.color as BadgeColor}
+          size={values.size as "sm" | "md" | "lg"}
         >
-          {v.children as string}
+          {values.children as string}
         </Badge>
       )}
-      code={(v) =>
+      code={(values) =>
         jsx(
           "Badge",
           {
-            variant: v.variant !== "fill" ? (v.variant as string) : undefined,
-            color: v.color !== "brand" ? (v.color as string) : undefined,
-            size: v.size !== "md" ? (v.size as string) : undefined,
+            variant: values.variant !== "fill" ? (values.variant as string) : undefined,
+            color: values.color !== "brand" ? (values.color as string) : undefined,
+            size: values.size !== "md" ? (values.size as string) : undefined,
           },
-          v.children as string,
+          values.children as string,
         )
       }
     />

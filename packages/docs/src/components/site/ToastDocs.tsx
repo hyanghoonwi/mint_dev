@@ -20,19 +20,19 @@ export function ToastPlayground() {
   return (
     <Playground
       controls={controls}
-      render={(v) => (
+      render={(values) => (
         <Toast
-          variant={v.variant as ToastVariant}
-          shape={v.shape as ToastShape}
+          variant={values.variant as ToastVariant}
+          shape={values.shape as ToastShape}
           style={{ width: 300, maxWidth: "100%" }}
         >
-          {v.children as string}
+          {values.children as string}
         </Toast>
       )}
-      code={(v) => {
-        const method = v.variant === "normal" ? "toast" : `toast.${v.variant as string}`;
-        const shape = v.shape !== "default" ? `, { shape: "${v.shape as string}" }` : "";
-        return `import { useToast } from "@futurewiz-rms/mint";\n\nconst toast = useToast();\n${method}("${v.children as string}"${shape});`;
+      code={(values) => {
+        const method = values.variant === "normal" ? "toast" : `toast.${values.variant as string}`;
+        const shape = values.shape !== "default" ? `, { shape: "${values.shape as string}" }` : "";
+        return `import { useToast } from "@futurewiz-rms/mint";\n\nconst toast = useToast();\n${method}("${values.children as string}"${shape});`;
       }}
     />
   );

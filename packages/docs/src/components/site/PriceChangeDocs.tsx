@@ -19,26 +19,26 @@ export function PriceChangePlayground() {
   return (
     <Playground
       controls={controls}
-      render={(v) => (
+      render={(values) => (
         <PriceChange
-          direction={v.direction as Direction}
-          type={v.type as "amount" | "percent"}
-          variant={v.variant as "text" | "weak"}
-          size={v.size as "sm" | "md" | "lg"}
+          direction={values.direction as Direction}
+          type={values.type as "amount" | "percent"}
+          variant={values.variant as "text" | "weak"}
+          size={values.size as "sm" | "md" | "lg"}
         >
-          {v.children as string}
+          {values.children as string}
         </PriceChange>
       )}
-      code={(v) =>
+      code={(values) =>
         jsx(
           "PriceChange",
           {
-            direction: v.direction as string,
-            type: v.type !== "amount" ? (v.type as string) : undefined,
-            variant: v.variant !== "text" ? (v.variant as string) : undefined,
-            size: v.size !== "md" ? (v.size as string) : undefined,
+            direction: values.direction as string,
+            type: values.type !== "amount" ? (values.type as string) : undefined,
+            variant: values.variant !== "text" ? (values.variant as string) : undefined,
+            size: values.size !== "md" ? (values.size as string) : undefined,
           },
-          v.children as string,
+          values.children as string,
         )
       }
     />

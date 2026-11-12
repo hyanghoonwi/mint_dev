@@ -121,11 +121,11 @@ type Attr = string | number | boolean | { expr: string } | undefined;
  */
 export function jsx(
   name: string,
-  attrs: Record<string, Attr>,
+  attributes: Record<string, Attr>,
   children?: string,
   imports?: string[],
 ) {
-  const parts = Object.entries(attrs).flatMap(([key, value]) => {
+  const parts = Object.entries(attributes).flatMap(([key, value]) => {
     if (value === undefined || value === false) return [];
     if (value === true) return [key];
     if (typeof value === "number") return [`${key}={${value}}`];
@@ -138,8 +138,8 @@ export function jsx(
     oneLine.length <= 80
       ? oneLine
       : children
-        ? `<${name}\n${parts.map((p) => `  ${p}`).join("\n")}\n>\n  ${children}\n</${name}>`
-        : `<${name}\n${parts.map((p) => `  ${p}`).join("\n")}\n/>`;
+        ? `<${name}\n${parts.map((part) => `  ${part}`).join("\n")}\n>\n  ${children}\n</${name}>`
+        : `<${name}\n${parts.map((part) => `  ${part}`).join("\n")}\n/>`;
   const names = [...new Set([name, ...(imports ?? [])])].sort();
   return `import { ${names.join(", ")} } from "@futurewiz-rms/mint";\n\n${element}`;
 }

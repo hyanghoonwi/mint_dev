@@ -16,7 +16,7 @@ const controls: Control[] = [
   {
     prop: "color",
     type: "select",
-    options: (v) => colorsOf[v.variant as string],
+    options: (values) => colorsOf[values.variant as string],
     default: "primary",
   },
   { prop: "size", type: "select", options: ["xs", "sm", "md", "lg"], default: "md" },
@@ -29,17 +29,17 @@ const controls: Control[] = [
 ];
 
 /** 기본값과 같은 값은 코드에서 뺀다 */
-function attrs(v: Values) {
-  const defaultColor = v.variant === "solid" ? "primary" : "neutral";
+function attrs(values: Values) {
+  const defaultColor = values.variant === "solid" ? "primary" : "neutral";
   return {
-    variant: v.variant !== "solid" ? (v.variant as string) : undefined,
-    color: v.color !== defaultColor ? (v.color as string) : undefined,
-    size: v.size !== "md" ? (v.size as string) : undefined,
-    leftAddon: v.leftAddon ? { expr: "<PlusIcon />" } : undefined,
-    rightAddon: v.rightAddon ? { expr: "<ArrowRightIcon />" } : undefined,
-    loading: v.loading as boolean,
-    disabled: v.disabled as boolean,
-    fullWidth: v.fullWidth as boolean,
+    variant: values.variant !== "solid" ? (values.variant as string) : undefined,
+    color: values.color !== defaultColor ? (values.color as string) : undefined,
+    size: values.size !== "md" ? (values.size as string) : undefined,
+    leftAddon: values.leftAddon ? { expr: "<PlusIcon />" } : undefined,
+    rightAddon: values.rightAddon ? { expr: "<ArrowRightIcon />" } : undefined,
+    loading: values.loading as boolean,
+    disabled: values.disabled as boolean,
+    fullWidth: values.fullWidth as boolean,
   };
 }
 
@@ -48,25 +48,25 @@ export function ButtonPlayground() {
   return (
     <Playground
       controls={controls}
-      render={(v) => (
-        <div style={{ width: v.fullWidth ? "100%" : undefined, maxWidth: 360 }}>
+      render={(values) => (
+        <div style={{ width: values.fullWidth ? "100%" : undefined, maxWidth: 360 }}>
           <Button
-            {...({ variant: v.variant, color: v.color } as ButtonStyle)}
-            size={v.size as "xs" | "sm" | "md" | "lg"}
-            leftAddon={v.leftAddon ? <PlusIcon /> : undefined}
-            rightAddon={v.rightAddon ? <ArrowRightIcon /> : undefined}
-            loading={v.loading as boolean}
-            disabled={v.disabled as boolean}
-            fullWidth={v.fullWidth as boolean}
+            {...({ variant: values.variant, color: values.color } as ButtonStyle)}
+            size={values.size as "xs" | "sm" | "md" | "lg"}
+            leftAddon={values.leftAddon ? <PlusIcon /> : undefined}
+            rightAddon={values.rightAddon ? <ArrowRightIcon /> : undefined}
+            loading={values.loading as boolean}
+            disabled={values.disabled as boolean}
+            fullWidth={values.fullWidth as boolean}
           >
-            {v.children as string}
+            {values.children as string}
           </Button>
         </div>
       )}
-      code={(v) =>
-        jsx("Button", attrs(v), v.children as string, [
-          ...(v.leftAddon ? ["PlusIcon"] : []),
-          ...(v.rightAddon ? ["ArrowRightIcon"] : []),
+      code={(values) =>
+        jsx("Button", attrs(values), values.children as string, [
+          ...(values.leftAddon ? ["PlusIcon"] : []),
+          ...(values.rightAddon ? ["ArrowRightIcon"] : []),
         ])
       }
     />

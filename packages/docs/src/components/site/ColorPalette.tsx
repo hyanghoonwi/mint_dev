@@ -52,11 +52,11 @@ function alphaOf(hex: string) {
 function contrastOnWhite(hex: string) {
   const value = hex.replace("#", "");
   if (value.length !== 6) return "";
-  const [r, g, b] = [0, 2, 4].map((i) => {
-    const c = parseInt(value.slice(i, i + 2), 16) / 255;
-    return c <= 0.04045 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4;
+  const [red, green, blue] = [0, 2, 4].map((offset) => {
+    const channel = parseInt(value.slice(offset, offset + 2), 16) / 255;
+    return channel <= 0.04045 ? channel / 12.92 : ((channel + 0.055) / 1.055) ** 2.4;
   });
-  const luminance = 0.2126 * r + 0.7152 * g + 0.0722 * b;
+  const luminance = 0.2126 * red + 0.7152 * green + 0.0722 * blue;
   return `${(1.05 / (luminance + 0.05)).toFixed(2)} : 1`;
 }
 
@@ -240,7 +240,9 @@ const semanticVar = (group: string, name: string) => `--mint-${group}-${name}`;
 
 /** Atomic 탭: 분류별 견본 + 전체 Token 표 */
 function AtomicPanel() {
-  const names = atomicSections.flatMap((s) => s.swatches.map(([token]) => atomicVar(token)));
+  const names = atomicSections.flatMap((section) =>
+    section.swatches.map(([token]) => atomicVar(token)),
+  );
   const values = useCssValues(names);
   return (
     <div className="docs-colors">
@@ -305,8 +307,10 @@ function AtomicPanel() {
 
 /** Semantic 탭: 분류별 Token 표. 이름 칸에 실제로 쓰는 클래스를 적는다 */
 function SemanticPanel() {
-  const names = semanticGroups.flatMap((g) =>
-    g.tokens.map(([name, , , group]) => semanticVar(group ?? g.group, name)),
+  const names = semanticGroups.flatMap((semanticGroup) =>
+    semanticGroup.tokens.map(([name, , , group]) =>
+      semanticVar(group ?? semanticGroup.group, name),
+    ),
   );
   const values = useCssValues(names);
   return (
@@ -317,17 +321,17 @@ function SemanticPanel() {
           <span role="columnheader">Value</span>
           <span role="columnheader">Atomic · 용도</span>
         </div>
-        {semanticGroups.map((g) => (
-          <div key={g.title} className="docs-token__group" role="rowgroup">
-            <p className="docs-token__group-title">{g.title}</p>
-            {g.tokens.map(([name, atomic, usage, group]) => {
-              const key = group ?? g.group;
+        {semanticGroups.map((semanticGroup) => (
+          <div key={semanticGroup.title} className="docs-token__group" role="rowgroup">
+            <p className="docs-token__group-title">{semanticGroup.title}</p>
+            {semanticGroup.tokens.map(([name, atomic, usage, group]) => {
+              const key = group ?? semanticGroup.group;
               const variable = semanticVar(key, name);
               return (
                 <div key={`${key}-${name}`} className="docs-token__row" role="row">
                   <span className="docs-token__name" role="cell">
                     <span className="docs-token__dot" style={{ background: `var(${variable})` }} />
-                    <code>{`${group ? groupPrefix[group] : g.prefix}-${key}-${name}`}</code>
+                    <code>{`${group ? groupPrefix[group] : semanticGroup.prefix}-${key}-${name}`}</code>
                   </span>
                   <span className="docs-token__value" role="cell">
                     {displayValue(values[variable])}

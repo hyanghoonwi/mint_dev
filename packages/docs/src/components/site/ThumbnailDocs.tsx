@@ -21,23 +21,23 @@ export function ThumbnailPlayground() {
   return (
     <Playground
       controls={controls}
-      render={(v) => (
+      render={(values) => (
         <Thumbnail
-          aspectRatio={v.aspectRatio as ThumbnailAspectRatio}
-          radius={v.radius as boolean}
-          border={v.border as boolean}
-          overlay={v.overlay as boolean}
+          aspectRatio={values.aspectRatio as ThumbnailAspectRatio}
+          radius={values.radius as boolean}
+          border={values.border as boolean}
+          overlay={values.overlay as boolean}
           style={{ width: 200 }}
         />
       )}
-      code={(v) =>
+      code={(values) =>
         jsx("Thumbnail", {
           src: { expr: "news.image" },
           alt: "기사 대표 이미지",
-          aspectRatio: v.aspectRatio !== "1:1" ? (v.aspectRatio as string) : undefined,
-          radius: v.radius as boolean,
-          border: v.border as boolean,
-          overlay: v.overlay as boolean,
+          aspectRatio: values.aspectRatio !== "1:1" ? (values.aspectRatio as string) : undefined,
+          radius: values.radius as boolean,
+          border: values.border as boolean,
+          overlay: values.overlay as boolean,
         })
       }
     />
@@ -50,8 +50,8 @@ export function ThumbnailGuide() {
     <DoDont
       good={
         <span style={{ display: "flex", gap: 8 }}>
-          {[0, 1, 2].map((i) => (
-            <Thumbnail key={i} aspectRatio="4:3" radius style={{ width: 72 }} />
+          {[0, 1, 2].map((index) => (
+            <Thumbnail key={index} aspectRatio="4:3" radius style={{ width: 72 }} />
           ))}
         </span>
       }

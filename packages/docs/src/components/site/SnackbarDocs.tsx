@@ -23,24 +23,24 @@ export function SnackbarPlayground() {
   return (
     <Playground
       controls={controls}
-      render={(v) => (
+      render={(values) => (
         <Snackbar
-          variant={v.variant as SnackbarVariant}
-          icon={v.icon as boolean}
-          heading={v.heading as string}
-          description={(v.description as string) || undefined}
-          action={v.action ? { label: "되돌리기", onClick: () => {} } : undefined}
-          onClose={v.onClose ? () => {} : undefined}
+          variant={values.variant as SnackbarVariant}
+          icon={values.icon as boolean}
+          heading={values.heading as string}
+          description={(values.description as string) || undefined}
+          action={values.action ? { label: "되돌리기", onClick: () => {} } : undefined}
+          onClose={values.onClose ? () => {} : undefined}
         />
       )}
-      code={(v) =>
+      code={(values) =>
         jsx("Snackbar", {
-          variant: v.variant !== "normal" ? (v.variant as string) : undefined,
-          icon: v.icon as boolean,
-          heading: v.heading as string,
-          description: (v.description as string) || undefined,
-          action: v.action ? { expr: '{ label: "되돌리기", onClick: restore }' } : undefined,
-          onClose: v.onClose ? { expr: "() => setOpen(false)" } : undefined,
+          variant: values.variant !== "normal" ? (values.variant as string) : undefined,
+          icon: values.icon as boolean,
+          heading: values.heading as string,
+          description: (values.description as string) || undefined,
+          action: values.action ? { expr: '{ label: "되돌리기", onClick: restore }' } : undefined,
+          onClose: values.onClose ? { expr: "() => setOpen(false)" } : undefined,
         })
       }
     />

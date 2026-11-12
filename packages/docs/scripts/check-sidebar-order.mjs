@@ -20,14 +20,15 @@ for (const [key, value] of Object.entries(meta)) {
   }
 }
 
-const compare = (a, b) => a.title.localeCompare(b.title, "en", { sensitivity: "base" });
+const compare = (first, second) =>
+  first.title.localeCompare(second.title, "en", { sensitivity: "base" });
 const problems = [];
 for (const group of groups) {
   const sorted = [...group.items].sort(compare);
-  if (sorted.some((item, i) => item.key !== group.items[i].key)) {
+  if (sorted.some((item, index) => item.key !== group.items[index].key)) {
     problems.push(
-      `[${group.name}] 지금: ${group.items.map((i) => i.title).join(", ")}\n` +
-        `       맞는 순서: ${sorted.map((i) => i.title).join(", ")}`,
+      `[${group.name}] 지금: ${group.items.map((item) => item.title).join(", ")}\n` +
+        `       맞는 순서: ${sorted.map((item) => item.title).join(", ")}`,
     );
   }
 }

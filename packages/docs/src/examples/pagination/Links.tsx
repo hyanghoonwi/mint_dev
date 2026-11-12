@@ -5,5 +5,12 @@ import { Pagination } from "@futurewiz-rms/mint";
 export default function Links() {
   const page = 6;
 
-  return <Pagination page={page} total={99} getHref={(p) => `?page=${p}`} linkComponent={Link} />;
+  return (
+    <Pagination
+      page={page}
+      total={99}
+      getHref={(pageNumber) => `?page=${pageNumber}`}
+      linkComponent={Link}
+    />
+  );
 }

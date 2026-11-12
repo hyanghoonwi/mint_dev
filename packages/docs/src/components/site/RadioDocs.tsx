@@ -13,12 +13,12 @@ export function RadioPlayground() {
         { prop: "tight", type: "boolean", default: false },
         { prop: "disabled", type: "boolean", default: false },
       ]}
-      render={(v) => (
+      render={(values) => (
         <RadioGroup
           aria-label="정렬 기준"
           defaultValue="latest"
-          size={v.size as RadioSize}
-          disabled={v.disabled as boolean}
+          size={values.size as RadioSize}
+          disabled={values.disabled as boolean}
         >
           {[
             ["latest", "최신순"],
@@ -28,24 +28,24 @@ export function RadioPlayground() {
             <Radio
               key={value}
               value={value}
-              tight={v.tight as boolean}
-              aria-label={v.label ? undefined : label}
+              tight={values.tight as boolean}
+              aria-label={values.label ? undefined : label}
             >
-              {v.label ? label : undefined}
+              {values.label ? label : undefined}
             </Radio>
           ))}
         </RadioGroup>
       )}
-      code={(v) => {
+      code={(values) => {
         const radio = (value: string, label: string) =>
           jsx(
             "Radio",
             {
               value,
-              tight: v.tight as boolean,
-              "aria-label": v.label ? undefined : label,
+              tight: values.tight as boolean,
+              "aria-label": values.label ? undefined : label,
             },
-            v.label ? label : undefined,
+            values.label ? label : undefined,
           )
             .split("\n")
             .slice(2)
@@ -62,8 +62,8 @@ export function RadioPlayground() {
           {
             "aria-label": "정렬 기준",
             defaultValue: "latest",
-            size: v.size !== "sm" ? (v.size as string) : undefined,
-            disabled: v.disabled as boolean,
+            size: values.size !== "sm" ? (values.size as string) : undefined,
+            disabled: values.disabled as boolean,
           },
           " ",
           ["Radio"],

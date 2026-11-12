@@ -8,20 +8,20 @@
 import type * as THREE from "three";
 
 export interface GridLayout {
-  w: number;
-  h: number;
-  cols: number;
+  width: number;
+  height: number;
+  columns: number;
   rows: number;
-  cellW: number;
-  cellH: number;
+  cellWidth: number;
+  cellHeight: number;
   gap: number;
   /** 격자 중심의 화면 위쪽부터의 거리(px) */
   originY: number;
 }
 
 export interface ParticleScene {
-  setProgress(p: number): void;
-  resize(w: number, h: number, layout: GridLayout): void;
+  setProgress(progress: number): void;
+  resize(width: number, height: number, layout: GridLayout): void;
   setVisible(visible: boolean): void;
   dispose(): void;
 }
@@ -35,29 +35,31 @@ const START_Z_PORTRAIT = 11.5;
 /* ───────────── 난수·수학 ───────────── */
 
 function mulberry32(seed: number) {
-  let a = seed >>> 0;
+  let state = seed >>> 0;
   return () => {
-    a = (a + 0x6d2b79f5) >>> 0;
-    let t = a;
-    t = Math.imul(t ^ (t >>> 15), t | 1);
-    t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
-    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+    state = (state + 0x6d2b79f5) >>> 0;
+    let mixed = state;
+    mixed = Math.imul(mixed ^ (mixed >>> 15), mixed | 1);
+    mixed ^= mixed + Math.imul(mixed ^ (mixed >>> 7), mixed | 61);
+    return ((mixed ^ (mixed >>> 14)) >>> 0) / 4294967296;
   };
 }
 
-const clamp = (v: number, a = 0, b = 1) => Math.min(b, Math.max(a, v));
-const seg = (p: number, a: number, b: number) => clamp((p - a) / (b - a));
-const lerp = (a: number, b: number, t: number) => a + (b - a) * t;
-const easeInOut = (t: number) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
+const clamp = (value: number, min = 0, max = 1) => Math.min(max, Math.max(min, value));
+const rangeProgress = (progress: number, start: number, end: number) =>
+  clamp((progress - start) / (end - start));
+const lerp = (start: number, end: number, amount: number) => start + (end - start) * amount;
+const easeInOut = (progress: number) =>
+  progress < 0.5 ? 4 * progress * progress * progress : 1 - Math.pow(-2 * progress + 2, 3) / 2;
 
-function hex(c: string): [number, number, number] {
-  const n = parseInt(c.slice(1), 16);
-  return [(n >> 16) / 255, ((n >> 8) & 255) / 255, (n & 255) / 255];
+function hex(color: string): [number, number, number] {
+  const value = parseInt(color.slice(1), 16);
+  return [(value >> 16) / 255, ((value >> 8) & 255) / 255, (value & 255) / 255];
 }
-const mix3 = (a: number[], b: number[], t: number): [number, number, number] => [
-  lerp(a[0], b[0], t),
-  lerp(a[1], b[1], t),
-  lerp(a[2], b[2], t),
+const mix3 = (start: number[], end: number[], amount: number): [number, number, number] => [
+  lerp(start[0], end[0], amount),
+  lerp(start[1], end[1], amount),
+  lerp(start[2], end[2], amount),
 ];
 
 /* ───────────── A. MINT 로고 점 데이터 ───────────── */
@@ -126,44 +128,74 @@ const LOGO_LEAVES: { curve: [Pt, Pt, Pt, Pt, Pt, Pt, Pt]; mint: boolean }[] = [
 ];
 const LOGO_CENTER = 32.5;
 
-function bezier(a: Pt, b: Pt, c: Pt, d: Pt, t: number): Pt {
-  const m = 1 - t;
-  const w = [m * m * m, 3 * m * m * t, 3 * m * t * t, t * t * t];
+function bezier(start: Pt, control1: Pt, control2: Pt, end: Pt, progress: number): Pt {
+  const remaining = 1 - progress;
+  const weights = [
+    remaining * remaining * remaining,
+    3 * remaining * remaining * progress,
+    3 * remaining * progress * progress,
+    progress * progress * progress,
+  ];
   return [
-    w[0] * a[0] + w[1] * b[0] + w[2] * c[0] + w[3] * d[0],
-    w[0] * a[1] + w[1] * b[1] + w[2] * c[1] + w[3] * d[1],
+    weights[0] * start[0] +
+      weights[1] * control1[0] +
+      weights[2] * control2[0] +
+      weights[3] * end[0],
+    weights[0] * start[1] +
+      weights[1] * control1[1] +
+      weights[2] * control2[1] +
+      weights[3] * end[1],
   ];
 }
 
 /** 잎 한 장의 윤곽을 짧은 선분으로 펼친 다각형 */
-function leafPolygon(c: [Pt, Pt, Pt, Pt, Pt, Pt, Pt]): Pt[] {
-  const pts: Pt[] = [];
-  const N = 28;
-  for (let i = 0; i <= N; i++) pts.push(bezier(c[0], c[1], c[2], c[3], i / N));
-  for (let i = 1; i < N; i++) pts.push(bezier(c[3], c[4], c[5], c[6], i / N));
-  return pts;
+function leafPolygon(curve: [Pt, Pt, Pt, Pt, Pt, Pt, Pt]): Pt[] {
+  const points: Pt[] = [];
+  const samplesPerCurve = 28;
+  for (let sample = 0; sample <= samplesPerCurve; sample++) {
+    points.push(bezier(curve[0], curve[1], curve[2], curve[3], sample / samplesPerCurve));
+  }
+  for (let sample = 1; sample < samplesPerCurve; sample++) {
+    points.push(bezier(curve[3], curve[4], curve[5], curve[6], sample / samplesPerCurve));
+  }
+  return points;
 }
 
-function insidePolygon(x: number, y: number, poly: Pt[]) {
+function insidePolygon(x: number, y: number, polygon: Pt[]) {
   let inside = false;
-  for (let i = 0, j = poly.length - 1; i < poly.length; j = i++) {
-    const [xi, yi] = poly[i];
-    const [xj, yj] = poly[j];
-    if (yi > y !== yj > y && x < ((xj - xi) * (y - yi)) / (yj - yi) + xi) inside = !inside;
+  for (
+    let index = 0, previousIndex = polygon.length - 1;
+    index < polygon.length;
+    previousIndex = index++
+  ) {
+    const [currentX, currentY] = polygon[index];
+    const [previousX, previousY] = polygon[previousIndex];
+    if (
+      currentY > y !== previousY > y &&
+      x < ((previousX - currentX) * (y - currentY)) / (previousY - currentY) + currentX
+    ) {
+      inside = !inside;
+    }
   }
   return inside;
 }
 
 /** 폴리곤 윤곽까지의 최단 거리(심볼 좌표 단위) */
-function distanceToEdge(x: number, y: number, poly: Pt[]) {
+function distanceToEdge(x: number, y: number, polygon: Pt[]) {
   let best = Infinity;
-  for (let i = 0; i < poly.length; i++) {
-    const a = poly[i];
-    const b = poly[(i + 1) % poly.length];
-    const vx = b[0] - a[0];
-    const vy = b[1] - a[1];
-    const t = clamp(((x - a[0]) * vx + (y - a[1]) * vy) / Math.max(vx * vx + vy * vy, 1e-9));
-    best = Math.min(best, Math.hypot(x - (a[0] + vx * t), y - (a[1] + vy * t)));
+  for (let index = 0; index < polygon.length; index++) {
+    const start = polygon[index];
+    const end = polygon[(index + 1) % polygon.length];
+    const edgeX = end[0] - start[0];
+    const edgeY = end[1] - start[1];
+    const projection = clamp(
+      ((x - start[0]) * edgeX + (y - start[1]) * edgeY) /
+        Math.max(edgeX * edgeX + edgeY * edgeY, 1e-9),
+    );
+    best = Math.min(
+      best,
+      Math.hypot(x - (start[0] + edgeX * projection), y - (start[1] + edgeY * projection)),
+    );
   }
   return best;
 }
@@ -173,71 +205,73 @@ function distanceToEdge(x: number, y: number, poly: Pt[]) {
  * 안쪽은 고르게 채우고, 가장자리로 갈수록 성기게 만들어 일부를 바깥으로 흘려 보내서
  * 경계가 선이 아니라 모자이크 조각이 흩어지듯 풀리게 한다. 끝이 앞으로 살짝 나오는 깊이를 준다.
  */
-function generateLogo(count: number, rng: () => number) {
+function generateLogo(count: number, random: () => number) {
   const SIZE = 3.5; // 로고 한 변(세계 단위)
   const scale = SIZE / 41;
-  const pos = new Float32Array(count * 3);
-  const col = new Float32Array(count * 3);
+  const positions = new Float32Array(count * 3);
+  const colors = new Float32Array(count * 3);
   const perLeaf = Math.floor(count / 4);
 
-  let idx = 0;
-  LOGO_LEAVES.forEach((leaf, k) => {
-    const poly = leafPolygon(leaf.curve);
-    const xs = poly.map((q) => q[0]);
-    const ys = poly.map((q) => q[1]);
-    const minX = Math.min(...xs);
-    const maxX = Math.max(...xs);
-    const minY = Math.min(...ys);
-    const maxY = Math.max(...ys);
-    const total = k === 3 ? count - idx : perLeaf;
-    const depthSign = k % 2 === 0 ? 1 : -1;
+  let pointIndex = 0;
+  LOGO_LEAVES.forEach((leaf, leafIndex) => {
+    const polygon = leafPolygon(leaf.curve);
+    const xValues = polygon.map((point) => point[0]);
+    const yValues = polygon.map((point) => point[1]);
+    const minX = Math.min(...xValues);
+    const maxX = Math.max(...xValues);
+    const minY = Math.min(...yValues);
+    const maxY = Math.max(...yValues);
+    const total = leafIndex === 3 ? count - pointIndex : perLeaf;
+    const depthSign = leafIndex % 2 === 0 ? 1 : -1;
 
-    for (let n = 0; n < total; n++) {
+    for (let leafPointIndex = 0; leafPointIndex < total; leafPointIndex++) {
       let x = 0;
       let y = 0;
       // 가장자리 가까이에서는 받아들일 확률을 낮춰 밀도가 서서히 줄어들게 한다
       for (let tries = 0; tries < 60; tries++) {
-        x = lerp(minX, maxX, rng());
-        y = lerp(minY, maxY, rng());
-        if (!insidePolygon(x, y, poly)) continue;
-        const e = distanceToEdge(x, y, poly);
-        if (rng() < clamp(0.3 + e / 2.6)) break;
+        x = lerp(minX, maxX, random());
+        y = lerp(minY, maxY, random());
+        if (!insidePolygon(x, y, polygon)) continue;
+        const edgeDistance = distanceToEdge(x, y, polygon);
+        if (random() < clamp(0.3 + edgeDistance / 2.6)) break;
       }
       // 일부 조각은 경계 밖으로 흘러나간다(지수 분포라 대부분은 가깝고 몇 개만 멀리 간다)
-      if (rng() < 0.12) {
-        const a = rng() * Math.PI * 2;
-        const r = -Math.log(1 - rng() * 0.98) * 1.1;
-        x += Math.cos(a) * r;
-        y += Math.sin(a) * r;
+      if (random() < 0.12) {
+        const angle = random() * Math.PI * 2;
+        const driftDistance = -Math.log(1 - random() * 0.98) * 1.1;
+        x += Math.cos(angle) * driftDistance;
+        y += Math.sin(angle) * driftDistance;
       }
 
-      const dx = x - LOGO_CENTER;
-      const dy = y - LOGO_CENTER;
-      const d = clamp(Math.hypot(dx, dy) / 28); // 중심 0 → 끝 1
-      const z = depthSign * (0.04 + 0.34 * d * d) + (rng() - 0.5) * 0.05;
-      pos[idx * 3] = dx * scale;
-      pos[idx * 3 + 1] = -dy * scale + 0.2;
-      pos[idx * 3 + 2] = z;
+      const offsetX = x - LOGO_CENTER;
+      const offsetY = y - LOGO_CENTER;
+      const distanceFromCenter = clamp(Math.hypot(offsetX, offsetY) / 28); // 중심 0 → 끝 1
+      const z =
+        depthSign * (0.04 + 0.34 * distanceFromCenter * distanceFromCenter) +
+        (random() - 0.5) * 0.05;
+      positions[pointIndex * 3] = offsetX * scale;
+      positions[pointIndex * 3 + 1] = -offsetY * scale + 0.2;
+      positions[pointIndex * 3 + 2] = z;
 
       // 색: 조각마다 톤이 다르다(모자이크). 로고 색 그대로 민트 두 장, 흰 두 장
-      const tone = clamp(0.25 * d + 0.75 * rng());
-      const c: [number, number, number] = leaf.mint
+      const tone = clamp(0.25 * distanceFromCenter + 0.75 * random());
+      const color: [number, number, number] = leaf.mint
         ? mix3(LEAF_BASE, LEAF_MID, tone)
         : mix3(LOGO_WHITE_DIM, LOGO_WHITE, tone);
-      const j = 0.82 + rng() * 0.3;
-      col[idx * 3] = Math.min(1, c[0] * j);
-      col[idx * 3 + 1] = Math.min(1, c[1] * j);
-      col[idx * 3 + 2] = Math.min(1, c[2] * j);
-      idx++;
+      const brightness = 0.82 + random() * 0.3;
+      colors[pointIndex * 3] = Math.min(1, color[0] * brightness);
+      colors[pointIndex * 3 + 1] = Math.min(1, color[1] * brightness);
+      colors[pointIndex * 3 + 2] = Math.min(1, color[2] * brightness);
+      pointIndex++;
     }
   });
-  return { pos, col };
+  return { positions, colors };
 }
 
 /* ───────────── C. UI 와이어프레임 점 데이터 ───────────── */
 
 interface Path {
-  pts: Pt[];
+  points: Pt[];
   color: [number, number, number];
 }
 
@@ -246,163 +280,293 @@ const WHITE: [number, number, number] = hex("#191d24");
 const WIRE_DIM: [number, number, number] = hex("#a2aab9");
 const MINT: [number, number, number] = LEAF_MID;
 
-function rrect(cx: number, cy: number, w: number, h: number, r: number): Pt[] {
-  const rr = Math.min(r, w / 2, h / 2);
-  const pts: Pt[] = [];
-  const corner = (ox: number, oy: number, a0: number) => {
-    for (let s = 0; s <= 8; s++) {
-      const a = a0 + (s / 8) * (Math.PI / 2);
-      pts.push([ox + Math.cos(a) * rr, oy + Math.sin(a) * rr]);
+function roundedRectangle(
+  centerX: number,
+  centerY: number,
+  width: number,
+  height: number,
+  radius: number,
+): Pt[] {
+  const cornerRadius = Math.min(radius, width / 2, height / 2);
+  const points: Pt[] = [];
+  const corner = (cornerCenterX: number, cornerCenterY: number, startAngle: number) => {
+    for (let step = 0; step <= 8; step++) {
+      const angle = startAngle + (step / 8) * (Math.PI / 2);
+      points.push([
+        cornerCenterX + Math.cos(angle) * cornerRadius,
+        cornerCenterY + Math.sin(angle) * cornerRadius,
+      ]);
     }
   };
-  const x0 = cx - w / 2;
-  const x1 = cx + w / 2;
-  const y0 = cy - h / 2;
-  const y1 = cy + h / 2;
-  corner(x1 - rr, y0 + rr, -Math.PI / 2);
-  corner(x1 - rr, y1 - rr, 0);
-  corner(x0 + rr, y1 - rr, Math.PI / 2);
-  corner(x0 + rr, y0 + rr, Math.PI);
-  pts.push(pts[0]);
-  return pts;
+  const left = centerX - width / 2;
+  const right = centerX + width / 2;
+  const top = centerY - height / 2;
+  const bottom = centerY + height / 2;
+  corner(right - cornerRadius, top + cornerRadius, -Math.PI / 2);
+  corner(right - cornerRadius, bottom - cornerRadius, 0);
+  corner(left + cornerRadius, bottom - cornerRadius, Math.PI / 2);
+  corner(left + cornerRadius, top + cornerRadius, Math.PI);
+  points.push(points[0]);
+  return points;
 }
 
-function circle(cx: number, cy: number, r: number): Pt[] {
-  const pts: Pt[] = [];
-  for (let s = 0; s <= 28; s++) {
-    const a = (s / 28) * Math.PI * 2;
-    pts.push([cx + Math.cos(a) * r, cy + Math.sin(a) * r]);
+function circle(centerX: number, centerY: number, radius: number): Pt[] {
+  const points: Pt[] = [];
+  for (let step = 0; step <= 28; step++) {
+    const angle = (step / 28) * Math.PI * 2;
+    points.push([centerX + Math.cos(angle) * radius, centerY + Math.sin(angle) * radius]);
   }
-  return pts;
+  return points;
 }
 
-const line = (x0: number, y0: number, x1: number, y1: number): Pt[] => [
-  [x0, y0],
-  [x1, y1],
+const line = (startX: number, startY: number, endX: number, endY: number): Pt[] => [
+  [startX, startY],
+  [endX, endY],
 ];
 
 /**
  * 카드 한 장 안의 와이어프레임. 실제 카드(Intro.tsx cell)의 MINT 컴포넌트 모양을 같은 순서로 대략 그린다.
  * 진한 선은 주인공(선택·채움), 옅은 선은 나머지다
  */
-function cardPaths(i: number, cx: number, cy: number, w: number, h: number): Path[] {
-  const out: Path[] = [{ pts: rrect(cx, cy, w, h, 16), color: WHITE }];
-  const u = h * 0.1; // 칸 높이 기준 단위
-  const push = (pts: Pt[], color: [number, number, number]) => out.push({ pts, color });
-  switch (i) {
+function cardPaths(
+  cardIndex: number,
+  centerX: number,
+  centerY: number,
+  width: number,
+  height: number,
+): Path[] {
+  const paths: Path[] = [
+    { points: roundedRectangle(centerX, centerY, width, height, 16), color: WHITE },
+  ];
+  const unit = height * 0.1; // 칸 높이 기준 단위
+  const push = (points: Pt[], color: [number, number, number]) =>
+    paths.push({ points: points, color });
+  switch (cardIndex) {
     case 0: // Button
-      push(rrect(cx, cy, w * 0.36, u * 2.6, u * 0.6), MINT);
-      push(line(cx - w * 0.06, cy, cx + w * 0.06, cy), MINT);
+      push(roundedRectangle(centerX, centerY, width * 0.36, unit * 2.6, unit * 0.6), MINT);
+      push(line(centerX - width * 0.06, centerY, centerX + width * 0.06, centerY), MINT);
       break;
     case 1: // SegmentedControl: 트랙 + 가운데 선택 칩
-      push(rrect(cx, cy, w * 0.6, u * 2.6, u * 0.6), WIRE_DIM);
-      push(rrect(cx, cy, w * 0.18, u * 1.8, u * 0.4), WHITE);
+      push(roundedRectangle(centerX, centerY, width * 0.6, unit * 2.6, unit * 0.6), WIRE_DIM);
+      push(roundedRectangle(centerX, centerY, width * 0.18, unit * 1.8, unit * 0.4), WHITE);
       break;
     case 2: // Chip 셋(첫째 선택)
-      for (let k = 0; k < 3; k++) {
+      for (let itemIndex = 0; itemIndex < 3; itemIndex++) {
         push(
-          rrect(cx + (k - 1) * w * 0.22, cy, w * 0.18, u * 2.2, u * 0.5),
-          k === 0 ? WHITE : WIRE_DIM,
+          roundedRectangle(
+            centerX + (itemIndex - 1) * width * 0.22,
+            centerY,
+            width * 0.18,
+            unit * 2.2,
+            unit * 0.5,
+          ),
+          itemIndex === 0 ? WHITE : WIRE_DIM,
         );
       }
       break;
     case 3: // Checkbox + Radio
-      push(rrect(cx - w * 0.16, cy - u * 1.4, u * 1.4, u * 1.4, u * 0.3), MINT);
-      push(line(cx - w * 0.08, cy - u * 1.4, cx + w * 0.16, cy - u * 1.4), WIRE_DIM);
-      push(circle(cx - w * 0.16, cy + u * 1.4, u * 0.7), MINT);
-      push(line(cx - w * 0.08, cy + u * 1.4, cx + w * 0.16, cy + u * 1.4), WIRE_DIM);
+      push(
+        roundedRectangle(
+          centerX - width * 0.16,
+          centerY - unit * 1.4,
+          unit * 1.4,
+          unit * 1.4,
+          unit * 0.3,
+        ),
+        MINT,
+      );
+      push(
+        line(
+          centerX - width * 0.08,
+          centerY - unit * 1.4,
+          centerX + width * 0.16,
+          centerY - unit * 1.4,
+        ),
+        WIRE_DIM,
+      );
+      push(circle(centerX - width * 0.16, centerY + unit * 1.4, unit * 0.7), MINT);
+      push(
+        line(
+          centerX - width * 0.08,
+          centerY + unit * 1.4,
+          centerX + width * 0.16,
+          centerY + unit * 1.4,
+        ),
+        WIRE_DIM,
+      );
       break;
     case 4: // AvatarGroup(겹친 원 4개)
-      for (let k = 0; k < 4; k++) {
-        push(circle(cx + (k - 1.5) * u * 2.1, cy, u * 1.4), k === 3 ? WIRE_DIM : WHITE);
+      for (let itemIndex = 0; itemIndex < 4; itemIndex++) {
+        push(
+          circle(centerX + (itemIndex - 1.5) * unit * 2.1, centerY, unit * 1.4),
+          itemIndex === 3 ? WIRE_DIM : WHITE,
+        );
       }
       break;
     case 5: // Badge 셋
-      for (let k = 0; k < 3; k++) {
+      for (let itemIndex = 0; itemIndex < 3; itemIndex++) {
         push(
-          rrect(cx + (k - 1) * w * 0.2, cy, w * 0.15, u * 1.5, u * 0.3),
-          k === 0 ? MINT : WIRE_DIM,
+          roundedRectangle(
+            centerX + (itemIndex - 1) * width * 0.2,
+            centerY,
+            width * 0.15,
+            unit * 1.5,
+            unit * 0.3,
+          ),
+          itemIndex === 0 ? MINT : WIRE_DIM,
         );
       }
       break;
     case 6: // IconButton 셋
-      for (let k = 0; k < 3; k++) {
-        push(circle(cx + (k - 1) * u * 3, cy, u * 1.2), k === 2 ? MINT : WIRE_DIM);
+      for (let itemIndex = 0; itemIndex < 3; itemIndex++) {
+        push(
+          circle(centerX + (itemIndex - 1) * unit * 3, centerY, unit * 1.2),
+          itemIndex === 2 ? MINT : WIRE_DIM,
+        );
       }
       break;
     case 7: // PageDots + PageCounter
-      for (let k = 0; k < 5; k++) {
-        push(circle(cx + (k - 2) * u * 0.9, cy - u * 1.2, u * 0.25), k === 1 ? WHITE : WIRE_DIM);
+      for (let itemIndex = 0; itemIndex < 5; itemIndex++) {
+        push(
+          circle(centerX + (itemIndex - 2) * unit * 0.9, centerY - unit * 1.2, unit * 0.25),
+          itemIndex === 1 ? WHITE : WIRE_DIM,
+        );
       }
-      push(rrect(cx, cy + u * 1.2, w * 0.2, u * 1.6, u * 0.8), WHITE);
+      push(
+        roundedRectangle(centerX, centerY + unit * 1.2, width * 0.2, unit * 1.6, unit * 0.8),
+        WHITE,
+      );
       break;
     case 8: // Skeleton: 원 + 두 줄
-      push(circle(cx - w * 0.22, cy, u * 1.3), WIRE_DIM);
-      push(line(cx - w * 0.1, cy - u * 0.6, cx + w * 0.3, cy - u * 0.6), WIRE_DIM);
-      push(line(cx - w * 0.1, cy + u * 0.6, cx + w * 0.1, cy + u * 0.6), WIRE_DIM);
+      push(circle(centerX - width * 0.22, centerY, unit * 1.3), WIRE_DIM);
+      push(
+        line(
+          centerX - width * 0.1,
+          centerY - unit * 0.6,
+          centerX + width * 0.3,
+          centerY - unit * 0.6,
+        ),
+        WIRE_DIM,
+      );
+      push(
+        line(
+          centerX - width * 0.1,
+          centerY + unit * 0.6,
+          centerX + width * 0.1,
+          centerY + unit * 0.6,
+        ),
+        WIRE_DIM,
+      );
       break;
     case 9: // Text: 제목 + 설명
-      push(line(cx - w * 0.2, cy - u * 0.8, cx + w * 0.2, cy - u * 0.8), WHITE);
-      push(line(cx - w * 0.16, cy + u * 0.8, cx + w * 0.16, cy + u * 0.8), WIRE_DIM);
+      push(
+        line(
+          centerX - width * 0.2,
+          centerY - unit * 0.8,
+          centerX + width * 0.2,
+          centerY - unit * 0.8,
+        ),
+        WHITE,
+      );
+      push(
+        line(
+          centerX - width * 0.16,
+          centerY + unit * 0.8,
+          centerX + width * 0.16,
+          centerY + unit * 0.8,
+        ),
+        WIRE_DIM,
+      );
       break;
     case 10: // Circular + 로딩 버튼
-      push(circle(cx - w * 0.2, cy, u * 0.9), MINT);
-      push(rrect(cx + w * 0.08, cy, w * 0.3, u * 2.4, u * 0.6), MINT);
+      push(circle(centerX - width * 0.2, centerY, unit * 0.9), MINT);
+      push(
+        roundedRectangle(centerX + width * 0.08, centerY, width * 0.3, unit * 2.4, unit * 0.6),
+        MINT,
+      );
       break;
     default: // FramedCheckbox: 틀 + 체크 + 두 줄
-      push(rrect(cx, cy, w * 0.66, u * 4, u * 0.8), MINT);
-      push(rrect(cx - w * 0.24, cy - u * 0.6, u * 1.2, u * 1.2, u * 0.3), MINT);
-      push(line(cx - w * 0.16, cy - u * 0.6, cx + w * 0.18, cy - u * 0.6), WIRE_DIM);
-      push(line(cx - w * 0.16, cy + u * 0.8, cx + w * 0.1, cy + u * 0.8), WIRE_DIM);
+      push(roundedRectangle(centerX, centerY, width * 0.66, unit * 4, unit * 0.8), MINT);
+      push(
+        roundedRectangle(
+          centerX - width * 0.24,
+          centerY - unit * 0.6,
+          unit * 1.2,
+          unit * 1.2,
+          unit * 0.3,
+        ),
+        MINT,
+      );
+      push(
+        line(
+          centerX - width * 0.16,
+          centerY - unit * 0.6,
+          centerX + width * 0.18,
+          centerY - unit * 0.6,
+        ),
+        WIRE_DIM,
+      );
+      push(
+        line(
+          centerX - width * 0.16,
+          centerY + unit * 0.8,
+          centerX + width * 0.1,
+          centerY + unit * 0.8,
+        ),
+        WIRE_DIM,
+      );
   }
-  return out;
+  return paths;
 }
 
 /** 격자 칸 전체의 경로를 만들고, 길이에 비례해 count개의 점을 고르게 뿌린다. 좌표는 픽셀(중심 0, y는 아래로) */
-function generateGrid(count: number, layout: GridLayout, rng: () => number) {
-  const { cols, rows, cellW, cellH, gap } = layout;
-  const total = cols * rows;
+function generateGrid(count: number, layout: GridLayout, random: () => number) {
+  const { columns: columnCount, rows, cellWidth, cellHeight, gap } = layout;
+  const total = columnCount * rows;
   const paths: Path[] = [];
-  for (let i = 0; i < total; i++) {
-    const cx = ((i % cols) - (cols - 1) / 2) * cellW;
-    const cy = (Math.floor(i / cols) - (rows - 1) / 2) * cellH;
-    paths.push(...cardPaths(i, cx, cy, cellW - gap, cellH - gap));
+  for (let cardIndex = 0; cardIndex < total; cardIndex++) {
+    const centerX = ((cardIndex % columnCount) - (columnCount - 1) / 2) * cellWidth;
+    const centerY = (Math.floor(cardIndex / columnCount) - (rows - 1) / 2) * cellHeight;
+    paths.push(...cardPaths(cardIndex, centerX, centerY, cellWidth - gap, cellHeight - gap));
   }
 
   // 구간(선분) 목록과 누적 길이
-  const segs: { a: Pt; b: Pt; len: number; color: [number, number, number] }[] = [];
-  let length = 0;
+  const segments: { start: Pt; end: Pt; length: number; color: [number, number, number] }[] = [];
+  let totalLength = 0;
   for (const path of paths) {
-    for (let k = 0; k < path.pts.length - 1; k++) {
-      const a = path.pts[k];
-      const b = path.pts[k + 1];
-      const len = Math.hypot(b[0] - a[0], b[1] - a[1]);
-      if (len > 0) {
-        segs.push({ a, b, len, color: path.color });
-        length += len;
+    for (let pointIndex = 0; pointIndex < path.points.length - 1; pointIndex++) {
+      const start = path.points[pointIndex];
+      const end = path.points[pointIndex + 1];
+      const segmentLength = Math.hypot(end[0] - start[0], end[1] - start[1]);
+      if (segmentLength > 0) {
+        segments.push({ start: start, end: end, length: segmentLength, color: path.color });
+        totalLength += segmentLength;
       }
     }
   }
 
-  const xy = new Float32Array(count * 2);
-  const col = new Float32Array(count * 3);
-  let si = 0;
-  let acc = 0;
-  for (let j = 0; j < count; j++) {
-    const s = ((j + rng() * 0.8) / count) * length;
-    while (si < segs.length - 1 && acc + segs[si].len < s) {
-      acc += segs[si].len;
-      si++;
+  const coordinates = new Float32Array(count * 2);
+  const colors = new Float32Array(count * 3);
+  let segmentIndex = 0;
+  let lengthBeforeSegment = 0;
+  for (let pointIndex = 0; pointIndex < count; pointIndex++) {
+    const distanceAlongPaths = ((pointIndex + random() * 0.8) / count) * totalLength;
+    while (
+      segmentIndex < segments.length - 1 &&
+      lengthBeforeSegment + segments[segmentIndex].length < distanceAlongPaths
+    ) {
+      lengthBeforeSegment += segments[segmentIndex].length;
+      segmentIndex++;
     }
-    const sg = segs[si];
-    const t = clamp((s - acc) / sg.len);
-    xy[j * 2] = lerp(sg.a[0], sg.b[0], t);
-    xy[j * 2 + 1] = lerp(sg.a[1], sg.b[1], t);
-    col[j * 3] = sg.color[0];
-    col[j * 3 + 1] = sg.color[1];
-    col[j * 3 + 2] = sg.color[2];
+    const segment = segments[segmentIndex];
+    const progress = clamp((distanceAlongPaths - lengthBeforeSegment) / segment.length);
+    coordinates[pointIndex * 2] = lerp(segment.start[0], segment.end[0], progress);
+    coordinates[pointIndex * 2 + 1] = lerp(segment.start[1], segment.end[1], progress);
+    colors[pointIndex * 3] = segment.color[0];
+    colors[pointIndex * 3 + 1] = segment.color[1];
+    colors[pointIndex * 3 + 2] = segment.color[2];
   }
-  return { xy, col };
+  return { coordinates, colors };
 }
 
 /* ───────────── 셰이더 ───────────── */
@@ -534,12 +698,12 @@ export async function createParticleScene(
   initial: GridLayout,
   options: { reducedMotion: boolean },
 ): Promise<ParticleScene> {
-  const T = await import("three");
+  const three = await import("three");
 
-  const portrait = initial.w < 768;
+  const portrait = initial.width < 768;
   const COUNT = portrait ? 5200 : 10500;
 
-  const renderer = new T.WebGLRenderer({
+  const renderer = new three.WebGLRenderer({
     canvas,
     alpha: true,
     antialias: false,
@@ -549,29 +713,29 @@ export async function createParticleScene(
   renderer.setPixelRatio(pixelRatio);
   renderer.setClearColor(0x000000, 0);
 
-  const scene = new T.Scene();
-  const camera = new T.PerspectiveCamera(FOV, initial.w / initial.h, 0.1, 50);
+  const scene = new three.Scene();
+  const camera = new three.PerspectiveCamera(FOV, initial.width / initial.height, 0.1, 50);
   let startZ = portrait ? START_Z_PORTRAIT : START_Z;
   camera.position.set(0, 0, startZ);
 
-  const rng = mulberry32(20260511);
-  const leaf = generateLogo(COUNT, rng);
+  const random = mulberry32(20260511);
+  const leaf = generateLogo(COUNT, random);
 
-  const geometry = new T.BufferGeometry();
+  const geometry = new three.BufferGeometry();
   const aRand = new Float32Array(COUNT * 4);
-  for (let i = 0; i < COUNT * 4; i++) aRand[i] = rng();
+  for (let index = 0; index < COUNT * 4; index++) aRand[index] = random();
   const aGrid = new Float32Array(COUNT * 3);
   const aGridColor = new Float32Array(COUNT * 3);
   const aDelay = new Float32Array(COUNT);
 
-  geometry.setAttribute("position", new T.BufferAttribute(leaf.pos, 3));
-  geometry.setAttribute("aColor", new T.BufferAttribute(leaf.col, 3));
-  geometry.setAttribute("aRand", new T.BufferAttribute(aRand, 4));
-  geometry.setAttribute("aGrid", new T.BufferAttribute(aGrid, 3));
-  geometry.setAttribute("aGridColor", new T.BufferAttribute(aGridColor, 3));
-  geometry.setAttribute("aDelay", new T.BufferAttribute(aDelay, 1));
+  geometry.setAttribute("position", new three.BufferAttribute(leaf.positions, 3));
+  geometry.setAttribute("aColor", new three.BufferAttribute(leaf.colors, 3));
+  geometry.setAttribute("aRand", new three.BufferAttribute(aRand, 4));
+  geometry.setAttribute("aGrid", new three.BufferAttribute(aGrid, 3));
+  geometry.setAttribute("aGridColor", new three.BufferAttribute(aGridColor, 3));
+  geometry.setAttribute("aDelay", new three.BufferAttribute(aDelay, 1));
   // 점이 화면 어디로 가든 잘리지 않게 한다
-  geometry.boundingSphere = new T.Sphere(new T.Vector3(), 50);
+  geometry.boundingSphere = new three.Sphere(new three.Vector3(), 50);
 
   const uniforms = {
     uTime: { value: 0 },
@@ -582,125 +746,128 @@ export async function createParticleScene(
     uSizeGrid: { value: portrait ? 2.1 : 1.9 },
     uSafe: { value: 0 },
     uFade: { value: 1 },
-    uAspect: { value: initial.w / initial.h },
+    uAspect: { value: initial.width / initial.height },
   };
-  const material = new T.ShaderMaterial({
+  const material = new three.ShaderMaterial({
     uniforms,
     vertexShader: VERTEX,
     fragmentShader: FRAGMENT,
     transparent: true,
     depthWrite: false,
   });
-  const points = new T.Points(geometry, material);
+  const points = new three.Points(geometry, material);
   points.frustumCulled = false;
   scene.add(points);
 
   // 격자 목표 좌표(픽셀 → 세계 단위). 카메라가 FINAL_Z에 있을 때 DOM 카드와 정확히 겹친다
   const buildGrid = (layout: GridLayout) => {
-    const gridRng = mulberry32(777);
-    const grid = generateGrid(COUNT, layout, gridRng);
-    const visibleH = 2 * Math.tan((FOV * Math.PI) / 360) * FINAL_Z;
-    const scale = visibleH / layout.h;
-    const halfW = (layout.cols * layout.cellW) / 2;
+    const gridRandom = mulberry32(777);
+    const grid = generateGrid(COUNT, layout, gridRandom);
+    const visibleHeight = 2 * Math.tan((FOV * Math.PI) / 360) * FINAL_Z;
+    const scale = visibleHeight / layout.height;
+    const halfGridWidth = (layout.columns * layout.cellWidth) / 2;
     const order = new Uint32Array(COUNT);
-    for (let i = 0; i < COUNT; i++) order[i] = i;
+    for (let index = 0; index < COUNT; index++) order[index] = index;
     // 잎 점과 격자 점을 무작위로 짝짓는다(섞는다)
-    for (let i = COUNT - 1; i > 0; i--) {
-      const j = Math.floor(gridRng() * (i + 1));
-      const t = order[i];
-      order[i] = order[j];
-      order[j] = t;
+    for (let index = COUNT - 1; index > 0; index--) {
+      const swapIndex = Math.floor(gridRandom() * (index + 1));
+      const swapped = order[index];
+      order[index] = order[swapIndex];
+      order[swapIndex] = swapped;
     }
-    for (let i = 0; i < COUNT; i++) {
-      const s = order[i];
-      const px = grid.xy[s * 2];
-      const py = grid.xy[s * 2 + 1];
-      aGrid[i * 3] = px * scale;
-      aGrid[i * 3 + 1] = (layout.h / 2 - (layout.originY + py)) * scale;
-      aGrid[i * 3 + 2] = 0;
-      aGridColor[i * 3] = grid.col[s * 3];
-      aGridColor[i * 3 + 1] = grid.col[s * 3 + 1];
-      aGridColor[i * 3 + 2] = grid.col[s * 3 + 2];
+    for (let pointIndex = 0; pointIndex < COUNT; pointIndex++) {
+      const gridPointIndex = order[pointIndex];
+      const gridX = grid.coordinates[gridPointIndex * 2];
+      const gridY = grid.coordinates[gridPointIndex * 2 + 1];
+      aGrid[pointIndex * 3] = gridX * scale;
+      aGrid[pointIndex * 3 + 1] = (layout.height / 2 - (layout.originY + gridY)) * scale;
+      aGrid[pointIndex * 3 + 2] = 0;
+      aGridColor[pointIndex * 3] = grid.colors[gridPointIndex * 3];
+      aGridColor[pointIndex * 3 + 1] = grid.colors[gridPointIndex * 3 + 1];
+      aGridColor[pointIndex * 3 + 2] = grid.colors[gridPointIndex * 3 + 2];
       // 왼쪽에서 오른쪽으로 쓸리듯 붙고, 점마다 조금씩 어긋난다
-      aDelay[i] = clamp((px / halfW + 1) / 2) * 0.32 + aRand[i * 4 + 1] * 0.1;
+      aDelay[pointIndex] =
+        clamp((gridX / halfGridWidth + 1) / 2) * 0.32 + aRand[pointIndex * 4 + 1] * 0.1;
     }
     (geometry.getAttribute("aGrid") as THREE.BufferAttribute).needsUpdate = true;
     (geometry.getAttribute("aGridColor") as THREE.BufferAttribute).needsUpdate = true;
     (geometry.getAttribute("aDelay") as THREE.BufferAttribute).needsUpdate = true;
   };
   buildGrid(initial);
-  renderer.setSize(initial.w, initial.h, false);
+  renderer.setSize(initial.width, initial.height, false);
 
   /* 스크롤 진행도를 부드럽게 따라가고(감쇠), 카메라·셰이더 값을 갱신한다 */
-  let target = 0;
-  let smooth = 0;
+  let targetProgress = 0;
+  let smoothProgress = 0;
   let visible = true;
-  let raf = 0;
-  let last = performance.now();
+  let animationFrameId = 0;
+  let lastTime = performance.now();
   let mouseX = 0;
   let mouseY = 0;
-  let camX = 0;
-  let camY = 0;
+  let cameraX = 0;
+  let cameraY = 0;
 
-  const onPointer = (e: PointerEvent) => {
-    mouseX = (e.clientX / window.innerWidth) * 2 - 1;
-    mouseY = (e.clientY / window.innerHeight) * 2 - 1;
+  const onPointer = (event: PointerEvent) => {
+    mouseX = (event.clientX / window.innerWidth) * 2 - 1;
+    mouseY = (event.clientY / window.innerHeight) * 2 - 1;
   };
   if (!options.reducedMotion) window.addEventListener("pointermove", onPointer, { passive: true });
 
   const frame = (now: number) => {
-    raf = requestAnimationFrame(frame);
+    animationFrameId = requestAnimationFrame(frame);
     if (!visible) {
-      last = now;
+      lastTime = now;
       return;
     }
-    const dt = Math.min(0.05, (now - last) / 1000);
-    last = now;
-    smooth += (target - smooth) * (1 - Math.exp(-dt * 7));
-    const p = smooth;
+    const elapsedSeconds = Math.min(0.05, (now - lastTime) / 1000);
+    lastTime = now;
+    smoothProgress += (targetProgress - smoothProgress) * (1 - Math.exp(-elapsedSeconds * 7));
+    const progress = smoothProgress;
 
-    uniforms.uTime.value += options.reducedMotion ? 0 : dt;
-    uniforms.uP1.value = seg(p, 0.3, 0.6);
-    uniforms.uP2.value = seg(p, 0.6, 0.86);
+    uniforms.uTime.value += options.reducedMotion ? 0 : elapsedSeconds;
+    uniforms.uP1.value = rangeProgress(progress, 0.3, 0.6);
+    uniforms.uP2.value = rangeProgress(progress, 0.6, 0.86);
     // 글자가 정중앙에 오므로 첫 장면부터 글자 뒤를 비워 두고(시인성), 격자가 되기 전에 다시 채운다
-    uniforms.uSafe.value = 1 - seg(p, 0.52, 0.66);
-    uniforms.uFade.value = 1 - seg(p, 0.92, 0.975);
+    uniforms.uSafe.value = 1 - rangeProgress(progress, 0.52, 0.66);
+    uniforms.uFade.value = 1 - rangeProgress(progress, 0.92, 0.975);
 
     // 카메라: 흩어지는 동안 다가오고, 정렬하면서 격자 거리로 물러난다
-    const dolly = easeInOut(seg(p, 0.3, 0.55));
-    const back = easeInOut(seg(p, 0.58, 0.86));
+    const dolly = easeInOut(rangeProgress(progress, 0.3, 0.55));
+    const back = easeInOut(rangeProgress(progress, 0.58, 0.86));
     const z = lerp(lerp(startZ, 4.3, dolly), FINAL_Z, back);
     // 포인터를 따라 아주 조금 움직인다(격자가 완성되면 0으로 돌아와 DOM 카드와 어긋나지 않는다)
-    const parallax = 1 - seg(p, 0.6, 0.86);
-    camX += (mouseX * 0.35 * parallax - camX) * 0.05;
-    camY += (-mouseY * 0.22 * parallax - camY) * 0.05;
-    camera.position.set(camX, camY, z);
+    const parallax = 1 - rangeProgress(progress, 0.6, 0.86);
+    cameraX += (mouseX * 0.35 * parallax - cameraX) * 0.05;
+    cameraY += (-mouseY * 0.22 * parallax - cameraY) * 0.05;
+    camera.position.set(cameraX, cameraY, z);
     camera.lookAt(0, 0, 0);
-    points.rotation.z = lerp(0, 0.5, easeInOut(seg(p, 0.3, 0.6))) * (1 - seg(p, 0.6, 0.72));
+    points.rotation.z =
+      lerp(0, 0.5, easeInOut(rangeProgress(progress, 0.3, 0.6))) *
+      (1 - rangeProgress(progress, 0.6, 0.72));
 
     renderer.render(scene, camera);
   };
-  raf = requestAnimationFrame(frame);
+  animationFrameId = requestAnimationFrame(frame);
 
   return {
-    setProgress(p) {
-      target = clamp(p);
+    setProgress(progress) {
+      targetProgress = clamp(progress);
     },
-    resize(w, h, layout) {
-      renderer.setSize(w, h, false);
-      camera.aspect = w / h;
+    resize(width, height, layout) {
+      renderer.setSize(width, height, false);
+      camera.aspect = width / height;
       camera.updateProjectionMatrix();
-      uniforms.uAspect.value = w / h;
-      const narrow = w < 768;
+      uniforms.uAspect.value = width / height;
+      const narrow = width < 768;
       startZ = narrow ? START_Z_PORTRAIT : START_Z;
       uniforms.uSize.value = narrow ? 3.9 : 2.5;
       buildGrid(layout);
     },
-    setVisible(v) {
-      visible = v;
+    setVisible(isVisible) {
+      visible = isVisible;
     },
     dispose() {
-      cancelAnimationFrame(raf);
+      cancelAnimationFrame(animationFrameId);
       window.removeEventListener("pointermove", onPointer);
       geometry.dispose();
       material.dispose();
