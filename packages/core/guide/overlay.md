@@ -19,6 +19,19 @@
   - 쌓기: 열린 Alert 위에서 다시 `open`하면 위에 쌓입니다. Esc는 맨 위 하나만 닫고, 스크롤 잠금은 마지막 Alert가 닫힐 때 풀립니다. 두 겹까지만 권장합니다
   - 결과 받기 예: `const ok = await overlay.openAsync<boolean>(({ isOpen, close }) => <Alert open={isOpen} onClose={() => close(false)} … action={<Button onClick={() => close(true)}>삭제</Button>} />)`
 
+- **`Toast`** — 사용자 행동의 결과를 짧게 알리는 메시지의 모양(Figma `Toast`). 서버 컴포넌트에서도 그릴 수 있지만, 화면에 띄울 때는 `useToast`를 씁니다. 상세 규칙은 `components/toast/AGENTS.md`
+  - `variant`: `normal`(기본) · `positive`(완료) · `cautionary`(주의) · `negative`(오류). 종류에 맞는 아이콘이 항상 앞에 붙습니다(켜고 끄는 prop 없음)
+  - `shape`: `default`(모서리 12, 기본) · `pill`(알약). `children`: 메시지 한 문장
+- **`ToastProvider`** — `useToast`로 띄운 토스트를 그리는 자리. 앱 최상단(`app/layout.tsx`)을 한 번 감쌉니다. `"use client"`라 서버 레이아웃에서 바로 import해도 됩니다
+  - `position`: `bottom`(기본, 아래 가운데) · `top`(위 가운데). 새 토스트가 화면 가장자리 쪽에 붙습니다
+  - `offset`: 가장자리에서 띄우는 거리(px, 기본 20). 하단 고정 버튼·탭 바·헤더를 가리지 않게 늘립니다(안전 영역은 자동으로 더함)
+  - `limit`(기본 3, 넘치면 오래된 것부터 사라짐) · `duration`(기본 3000ms, 가이드 2~4초) · `shape`(기본 모양)
+- **`useToast`** — 토스트를 함수 호출로 띄웁니다(FDS `useToast`와 같은 구조). 클라이언트 컴포넌트에서 씁니다. `ToastProvider` 밖에서 쓰면 오류를 던집니다
+  - `toast(message, options?)`(id 반환) · `toast.normal` · `toast.positive` · `toast.cautionary` · `toast.negative` · `toast.dismiss(id?)`(생략하면 모두)
+  - `options`: `id`(같은 id가 떠 있으면 새로 쌓지 않고 내용·시간을 새로 고침) · `variant` · `shape` · `duration`(`null`이면 닫을 때까지) · `onClose`
+  - 마우스를 올리거나 포커스가 있는 동안 멈춥니다. negative는 `role="alert"`, 나머지는 `role="status"`
+  - 버튼이 필요한 안내(Snackbar)나 꼭 읽어야 하는 안내(Alert)에는 쓰지 않습니다
+
 - **`Tooltip`** — 버튼에 마우스를 올리거나 포커스했을 때 짧은 보조 정보(이름·단축키)를 보여 주는 말풍선(Figma `Tooltip`). 클라이언트 컴포넌트지만 서버 컴포넌트에서 import해도 됩니다(열림 상태를 안에서 관리). 상세 규칙은 `components/tooltip/AGENTS.md`
   - `label`(필수): 말풍선 글자. 한 줄로 짧게. 단축키는 이름 대신 `"⌘C"`처럼 단축키 글자만 넣습니다
   - `children`(필수): 대상 요소 하나(포커스를 받을 수 있는 `Button`·`IconButton`·링크). `aria-describedby`가 자동으로 붙습니다. 아이콘 버튼은 `aria-label`도 따로 붙입니다

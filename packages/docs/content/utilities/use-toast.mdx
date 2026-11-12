@@ -1,0 +1,97 @@
+# useToast
+
+토스트를 함수 호출로 띄우는 훅이에요. 정해진 시간이 지나면 저절로 사라져요.
+
+<ComponentBadges />
+
+## Usage
+
+앱 최상단(`app/layout.tsx`)을 `ToastProvider`로 한 번 감싸요. 위치(`position`)와 가장자리 간격(`offset`)은 여기서 정해요.
+
+```tsx filename="app/layout.tsx"
+import { ToastProvider } from "@futurewiz-rms/mint";
+
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  return (
+    <html lang="ko">
+      <body>
+        <ToastProvider position="bottom" offset={20}>
+          {children}
+        </ToastProvider>
+      </body>
+    </html>
+  );
+}
+```
+
+그다음 클라이언트 컴포넌트에서 `useToast`로 띄워요. 종류마다 단축 함수가 있어요.
+
+```tsx
+const toast = useToast();
+
+toast("알림을 켰어요."); // normal
+toast.positive("저장했어요.");
+toast.negative("저장하지 못했어요.", { duration: 4000 });
+```
+
+## Examples
+
+<ExampleTabs
+  items={[
+    { title: "종류별로 띄우기", name: "use-toast/Basic" },
+    { title: "위에 띄우기", name: "use-toast/Position" },
+    { title: "하단 고정 버튼 피하기", name: "use-toast/Offset" },
+    { title: "같은 토스트 새로 고치기", name: "use-toast/SameId" },
+  ]}
+/>
+
+- **종류별로 띄우기**: `toast`(normal) · `toast.positive` · `toast.cautionary` · `toast.negative`로 띄워요. 3개를 넘으면 가장 오래된 것부터 사라져요.
+- **위에 띄우기**: `ToastProvider`의 `position="top"`이면 화면 위 가운데에 떠요. 새 토스트가 가장자리 쪽에 붙어요.
+- **하단 고정 버튼 피하기**: `offset`으로 화면 가장자리에서 띄우는 거리를 정해요. 하단 고정 버튼이나 탭 바 높이만큼 늘려요.
+- **같은 토스트 새로 고치기**: `id`를 주면 같은 id의 토스트가 떠 있을 때 새로 쌓지 않고 내용과 시간을 새로 고쳐요.
+
+## API
+
+`useToast()`가 돌려주는 값이에요.\
+클라이언트 컴포넌트에서 쓰고, 앱 최상단에 `ToastProvider`가 있어야 해요.
+
+| 이름         | 타입                                                     | 설명                                       |
+| ------------ | -------------------------------------------------------- | ------------------------------------------ |
+| `toast`      | `(message: ReactNode, options?: ToastOptions) => string` | 토스트를 띄우고 id를 돌려줘요              |
+| `normal`     | `(message, options?) => string`                          | `normal` 토스트                            |
+| `positive`   | `(message, options?) => string`                          | 완료를 알리는 토스트                       |
+| `cautionary` | `(message, options?) => string`                          | 주의를 알리는 토스트                       |
+| `negative`   | `(message, options?) => string`                          | 오류를 알리는 토스트                       |
+| `dismiss`    | `(id?: string) => void`                                  | id의 토스트를 닫아요. 생략하면 모두 닫아요 |
+
+`options`로 넘기는 값이에요.
+
+| 이름       | 타입                                                   | 기본값             | 설명                                                   |
+| ---------- | ------------------------------------------------------ | ------------------ | ------------------------------------------------------ |
+| `variant`  | `"normal" \| "positive" \| "cautionary" \| "negative"` | `"normal"`         | 종류. 단축 함수에서는 이름으로 정해요                  |
+| `shape`    | `"default" \| "pill"`                                  | Provider의 `shape` | 모양                                                   |
+| `duration` | `number \| null`                                       | Provider의 값      | 사라지기까지의 시간(ms). `null`이면 닫을 때까지 남아요 |
+| `id`       | `string`                                               | 자동               | 같은 id가 떠 있으면 내용과 시간을 새로 고쳐요          |
+| `onClose`  | `() => void`                                           | -                  | 화면에서 사라질 때 한 번 불려요                        |
+
+`ToastProvider`에 넘기는 값이에요.
+
+| 이름       | 타입                  | 기본값      | 설명                                                   |
+| ---------- | --------------------- | ----------- | ------------------------------------------------------ |
+| `position` | `"top" \| "bottom"`   | `"bottom"`  | 화면 위 또는 아래 가운데                               |
+| `offset`   | `number`              | `20`        | 화면 가장자리에서 띄우는 거리(px)                      |
+| `limit`    | `number`              | `3`         | 동시에 보이는 최대 개수. 넘치면 오래된 것부터 사라져요 |
+| `duration` | `number`              | `3000`      | 기본 표시 시간(ms)                                     |
+| `shape`    | `"default" \| "pill"` | `"default"` | 기본 모양                                              |
+
+## Guidelines
+
+- `ToastProvider`는 앱에 한 번만 둬요. 없으면 `useToast`가 오류를 알려요.
+- 마우스를 올리거나 포커스가 있는 동안에는 사라지지 않고 멈춰요.
+- 표시 시간은 2\~4초로 둬요. 글이 길면 `duration`을 조금 늘려요.
+- 같은 버튼을 여러 번 누를 수 있는 곳에는 `id`를 줘서 토스트가 쌓이지 않게 해요.
+- 하단 고정 요소가 있는 화면은 `offset`을 그 높이만큼 늘려요.

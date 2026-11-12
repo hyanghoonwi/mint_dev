@@ -31,6 +31,7 @@ import {
   Text,
   TextButton,
   Thumbnail,
+  Toast,
   Tooltip,
 } from "@futurewiz-rms/mint";
 
@@ -126,6 +127,16 @@ const components: { name: string; group: string; to: string; preview: ReactNode 
         size={32}
         items={[{ src: "/img/avatar-sample.jpg" }, { name: "김" }, { name: "이" }, {}, {}]}
       />
+    ),
+  },
+  {
+    name: "Toast",
+    group: "Feedback",
+    to: "/components/toast",
+    preview: (
+      <Toast variant="positive" style={{ width: 180 }}>
+        저장했어요.
+      </Toast>
     ),
   },
   {

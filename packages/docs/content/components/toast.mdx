@@ -1,0 +1,49 @@
+# Toast
+
+사용자 행동의 결과를 짧게 알려 주는 메시지예요. 화면 아래에 나타났다가 일정 시간 뒤에 사라져요.
+
+<ComponentBadges />
+
+<Figure height={240} />
+
+## Playground
+
+오른쪽에서 props를 바꾸면 토스트 모양과 아래 코드가 함께 바뀌어요. 화면에 띄울 때는 [`useToast`](/utilities/use-toast)를 써요.
+
+<ToastPlayground />
+
+## Examples
+
+<ExampleTabs
+  items={[
+    { title: "종류", name: "toast/Variants" },
+    { title: "모양", name: "toast/Shapes" },
+    { title: "띄우기", name: "toast/Show" },
+  ]}
+/>
+
+- **종류**: 완료는 `positive`, 주의는 `cautionary`, 오류는 `negative`예요. 종류에 맞는 아이콘이 앞에 붙어요.
+- **모양**: `default`는 모서리 12, `pill`은 알약 모양이에요. 한 서비스에서는 하나로 맞춰요.
+- **띄우기**: 앱 최상단을 `ToastProvider`로 감싸고 `useToast`로 띄워요. 버튼을 눌러 보세요. 위치·간격·시간은 [`useToast`](/utilities/use-toast)에서 정해요.
+
+## Props
+
+나머지 `<div>` 속성도 그대로 받아요.\
+토스트 모양만 그리는 컴포넌트예요. 화면에 띄우고 사라지게 하려면 `useToast`를 써요.
+
+| 이름       | 타입                                                   | 기본값      | 설명                       |
+| ---------- | ------------------------------------------------------ | ----------- | -------------------------- |
+| `variant`  | `"normal" \| "positive" \| "cautionary" \| "negative"` | `"normal"`  | 종류. 앞 아이콘이 달라져요 |
+| `shape`    | `"default" \| "pill"`                                  | `"default"` | 모서리 12 또는 알약 모양   |
+| `children` | `ReactNode`                                            | -           | 메시지. 한 문장으로 짧게   |
+
+## Guidelines
+
+<ToastGuide />
+
+- 행동의 결과를 알려요. "저장했어요"처럼 결과만 한 문장으로 써요.
+- 2\~4초 뒤 자동으로 사라져요. 글이 길면 조금 더 길게 둬요.
+- 하단 고정 요소(버튼, 탭 바)를 가리지 않게 `offset`으로 위치를 잡아요.
+- 버튼이 필요한 안내는 Toast에 넣지 않아요. [Snackbar](/components/snackbar)를 써요.
+- 꼭 읽어야 하는 안내를 Toast로 알리지 않아요. Alert를 써요.
+- 오류(`negative`)는 스크린리더가 바로 읽고(`alert`), 나머지는 하던 일을 끊지 않고 읽어요(`status`).

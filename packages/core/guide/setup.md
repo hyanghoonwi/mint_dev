@@ -116,10 +116,12 @@ import "@futurewiz-rms/mint/style.css";
 
 ## Provider
 
-- **`OverlayProvider`**: `useOverlay`(Alert 열기)를 쓰려면 `app/layout.tsx`에서 앱을 한 번 감쌉니다. 다른 컴포넌트는 Provider가 필요 없습니다.
+- **`OverlayProvider`**: `useOverlay`(Alert 열기)를 쓰려면 `app/layout.tsx`에서 앱을 한 번 감쌉니다.
+- **`ToastProvider`**: `useToast`(토스트 띄우기)를 쓰려면 같은 자리에서 한 번 감쌉니다. 위치(`position`)·간격(`offset`)을 여기서 정합니다. 두 Provider는 순서와 상관없이 겹쳐 감싸면 됩니다.
+- 다른 컴포넌트는 Provider가 필요 없습니다.
 
 ```tsx filename="app/layout.tsx"
-import { OverlayProvider } from "@futurewiz-rms/mint";
+import { OverlayProvider, ToastProvider } from "@futurewiz-rms/mint";
 
 export default function RootLayout({
   children,
@@ -129,7 +131,9 @@ export default function RootLayout({
   return (
     <html lang="ko">
       <body>
-        <OverlayProvider>{children}</OverlayProvider>
+        <OverlayProvider>
+          <ToastProvider>{children}</ToastProvider>
+        </OverlayProvider>
       </body>
     </html>
   );

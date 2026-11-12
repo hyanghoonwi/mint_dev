@@ -2,7 +2,7 @@
 
 > 색인: [`../AGENTS.md`](../AGENTS.md)
 
-모두 클라이언트 컴포넌트에서 씁니다(`"use client"`가 달려 있어 import는 어디서나 됩니다). Provider가 필요 없습니다. 브라우저 API는 effect·이벤트 안에서만 써서 서버 렌더에서 오류가 나지 않습니다. 오버레이를 여는 `useOverlay`는 [오버레이](overlay.md)에 있습니다.
+모두 클라이언트 컴포넌트에서 씁니다(`"use client"`가 달려 있어 import는 어디서나 됩니다). Provider가 필요 없습니다. 브라우저 API는 effect·이벤트 안에서만 써서 서버 렌더에서 오류가 나지 않습니다. 오버레이를 여는 `useOverlay`와 토스트를 띄우는 `useToast`는 [오버레이](overlay.md)에 있습니다(둘 다 Provider 필요).
 
 - **`useInView`** — 요소가 화면(또는 스크롤 상자)에 들어왔는지 알려 줍니다. 무한 스크롤, 보일 때 불러오기·나타나기에 씁니다. FDS `useInView`와 같은 API입니다(react-intersection-observer 방식).
   - `const { ref, inView, entry } = useInView(options)` 또는 `const [ref, inView, entry] = useInView()`. `ref`를 관찰할 요소에 붙입니다
