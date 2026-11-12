@@ -18,6 +18,13 @@
   - `color`: `brand`(기본, 강조) · `neutral`(일반) · `danger`(오류·임박) · `success`(완료) · `warning`(주의). 의미대로 고릅니다
   - `size`: `sm` 20 · `md` 24(기본) · `lg` 28px. 같은 화면에서는 하나로 맞춥니다. 구간별 객체도 받음(`{ base: "sm", tablet: "md" }`)
   - 문구는 1~4자로 짧게. 색만으로 뜻을 전하지 않고, 화살표·아이콘을 붙이지 않습니다
+- **`PriceChange`** — 가격·시세가 오르내린 정도를 보여 주는 표시 전용 부품(Figma `Price Change`). 서버 컴포넌트에서도 쓸 수 있습니다. 상세 규칙은 `components/price-change/AGENTS.md`
+  - `direction`(필수): `up`(상승, 빨강) · `down`(하락, 파랑) · `flat`(보합, 회색)
+  - `type`: `amount`(기본, 화살표 ▲ ▼, 보합은 가로선) · `percent`(부호 +, -). 한 표시에 화살표와 부호를 함께 쓰지 않습니다
+  - `children`: 숫자만 넣습니다(`"1,200"`, `"3.42%"`). 부호·화살표를 직접 넣지 않습니다. 소수점 자릿수는 맞춰서 넘깁니다(`0.00%`)
+  - `variant`: `text`(기본, 글자만) · `weak`(연한 배경)
+  - `size`: `sm`(12px, 표·목록) · `md`(14px, 기본) · `lg`(16px, 요약 카드). 구간별 객체도 받음(`{ base: "sm", desktop: "md" }`). 같은 목록에서는 하나로 맞춥니다
+  - 스크린리더에는 "상승·하락·보합"이 함께 읽힙니다. 상태·분류 라벨은 `Badge`를 씁니다
 - **`Text`** — 토큰 텍스트 스타일로 글자를 그리는 컴포넌트(Figma Typography 59개 스타일만). 서버 컴포넌트에서도 쓸 수 있습니다.
   - `variant`(필수): `title-1-bold`, `body-2-regular`처럼 역할-번호-웨이트. 구간별 객체도 받음(`{ base: "title-3-bold", desktop: "title-1-bold" }`, 같은 크기 표 안에서 고름. 큰 제목에만)
   - `as`: 태그(`span` 기본, `p`·`h1`~`h6`·`label` 등). 모양과 따로 고릅니다

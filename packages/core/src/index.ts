@@ -11,6 +11,7 @@ export * from "./components/calendar/Calendar";
 export * from "./components/category/Category";
 export * from "./components/page-indicator/PageIndicator";
 export * from "./components/pagination/Pagination";
+export * from "./components/price-change/PriceChange";
 export * from "./components/segmented-control/SegmentedControl";
 export * from "./components/check-mark/CheckMark";
 export * from "./components/checkbox/Checkbox";

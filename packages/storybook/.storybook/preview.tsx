@@ -50,7 +50,7 @@ const preview: Preview = {
             "Navigation",
             ["Category", "PageIndicator", "Pagination", "SegmentedControl"],
             "Display",
-            ["Avatar", "Badge", "Icon", "Text"],
+            ["Avatar", "Badge", "Icon", "PriceChange", "Text", "Thumbnail"],
             "Layout",
             ["Grid"],
             "Loading",

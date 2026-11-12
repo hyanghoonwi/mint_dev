@@ -42,6 +42,7 @@ grep -n -A12 '\*\*`Button`\*\*' node_modules/@futurewiz-rms/mint/guide/actions.m
 - 콘텐츠가 들어올 자리 미리 보여 주기 → `SkeletonText` · `SkeletonRectangle` · `SkeletonCircle`
 - 사용자·대상의 프로필 칸 → `Avatar`(여러 명은 `AvatarGroup`)
 - 상태·종류를 짧게 알리는 라벨(눌리지 않음) → `Badge`
+- 가격·시세가 오른 정도(▲ 1,200, +3.42%) → `PriceChange`(Badge나 색 글자로 만들지 않음)
 - 토큰 텍스트 스타일로 글자 그리기(태그·색·말줄임) → `Text`(클래스 `text-body-2-regular`를 직접 써도 됨)
 - 페이지 틀·반응형 컬럼 배치 → `Container` + `Grid`(`Grid.Item`). `div`에 그리드 클래스를 직접 쓰지 않습니다
 - 요소가 화면에 들어왔는지(무한 스크롤·보일 때 불러오기) → `useInView`
@@ -87,6 +88,7 @@ grep -n -A12 '\*\*`Button`\*\*' node_modules/@futurewiz-rms/mint/guide/actions.m
 - `AvatarGroup` — 아바타를 겹쳐 놓는 묶음(넘치면 `+N`)
 - `Text` — 토큰 텍스트 스타일 글자(59개 스타일, 태그·색·말줄임)
 - `Badge` — 상태·종류를 알리는 표시 전용 라벨(fill·weak, 5색, 3크기)
+- `PriceChange` — 시세가 오르내린 정도(금액은 화살표, 퍼센트는 부호, text·weak, 3크기)
 
 ### [로딩](guide/loading.md)
 

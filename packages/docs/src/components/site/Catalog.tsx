@@ -9,6 +9,7 @@ import {
   Category,
   PageCounter,
   PageDots,
+  PriceChange,
   Pagination,
   CheckMark,
   Checkbox,
@@ -73,6 +74,19 @@ const components: { name: string; group: string; to: string; preview: ReactNode 
         <Badge variant="weak" color="success">
           완료
         </Badge>
+      </>
+    ),
+  },
+  {
+    name: "Price change",
+    group: "Contents",
+    to: "/components/price-change",
+    preview: (
+      <>
+        <PriceChange direction="up">1,200</PriceChange>
+        <PriceChange direction="down" variant="weak" type="percent">
+          1.20%
+        </PriceChange>
       </>
     ),
   },

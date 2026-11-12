@@ -20,6 +20,7 @@ export default {
   avatar: "Avatar",
   "avatar-group": "Avatar group",
   badge: "Badge",
+  "price-change": "Price change",
   text: "Text",
   "---feedback": { type: "separator", title: "Feedback" },
   alert: "Alert",
