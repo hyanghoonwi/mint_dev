@@ -104,6 +104,33 @@ export const Overflow: Story = {
   },
 };
 
+// 마우스로 끌어서 스크롤한다(터치·트랙패드는 브라우저가 스크롤). 끈 뒤에는 칩이 선택되지 않는다
+export const DragScroll: Story = {
+  args: { items: many },
+  play: async ({ canvas, step }) => {
+    const group = canvas.getByRole("radiogroup", { name: "코인 분류" });
+    const chip = canvas.getByRole("radio", { name: "디파이" });
+    const { left, top, height } = chip.getBoundingClientRect();
+    const y = top + height / 2;
+    await step("칩 위에서 왼쪽으로 끌면 스크롤되고 선택은 그대로", async () => {
+      await userEvent.pointer([
+        { keys: "[MouseLeft>]", target: chip, coords: { clientX: left + 10, clientY: y } },
+        { target: chip, coords: { clientX: left - 40, clientY: y } },
+        { target: chip, coords: { clientX: left - 110, clientY: y } },
+        { keys: "[/MouseLeft]", target: chip, coords: { clientX: left - 110, clientY: y } },
+      ]);
+      await expect(group.scrollLeft).toBeGreaterThan(100);
+      await expect(canvas.getByRole("radio", { name: "전체" })).toBeChecked();
+      await expect(chip).not.toBeChecked();
+    });
+    await step("조금만 움직이고 떼면 그대로 선택된다", async () => {
+      const ai = canvas.getByRole("radio", { name: "AI" });
+      await userEvent.click(ai);
+      await expect(ai).toBeChecked();
+    });
+  },
+};
+
 // 선택·키보드 동작 테스트
 export const Interaction: Story = {
   args: { items: many },

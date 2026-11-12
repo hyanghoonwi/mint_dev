@@ -1,8 +1,9 @@
 "use client";
 
-// 선택 상태·키보드 이동·가장자리 그라데이션(스크롤 위치를 읽는다)이 있어서 클라이언트 컴포넌트다.
+// 선택 상태·키보드 이동·가장자리 그라데이션(스크롤 위치를 읽는다)·마우스 끌기 스크롤이 있어서 클라이언트 컴포넌트다.
 // Figma `Category`(2200:6278) · `Category Guidelines`(2200:6493).
 // 같은 목록을 거르거나 분류를 고르는 칩 목록. 한 번에 하나만 선택하고(항상 하나가 선택됨), 넘치면 가로로 스크롤한다.
+// 터치·트랙패드는 브라우저가 스크롤하고, 마우스는 끌어서 스크롤한다(useDragScroll).
 // 접근성: 한 개만 고르는 묶음이라 radiogroup/radio로 읽히고, 화살표 키로 옮기면 바로 선택된다(라디오와 같은 동작).
 import {
   useEffect,
@@ -13,6 +14,7 @@ import {
   type ReactNode,
 } from "react";
 import { cn } from "../../utils/cn";
+import { useDragScroll } from "../_internal/useDragScroll";
 import {
   responsiveClasses,
   type Responsive,
@@ -133,6 +135,7 @@ export function Category({
   const scrollerRef = useRef<HTMLDivElement>(null);
   const chipRefs = useRef(new Map<string, HTMLButtonElement>());
   const [edges, setEdges] = useState({ start: false, end: false });
+  const { dragging, handlers: dragHandlers } = useDragScroll(scrollerRef);
 
   // 스크롤 위치·크기가 바뀔 때마다 양 끝에 더 볼 칩이 있는지 계산한다(서버에서는 둘 다 false)
   useEffect(() => {
@@ -198,7 +201,12 @@ export function Category({
         aria-label={ariaLabel}
         aria-labelledby={ariaLabelledby}
         onKeyDown={onKeyDown}
-        className="flex h-14 items-center gap-2 overflow-x-auto px-4 py-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+        {...dragHandlers}
+        className={cn(
+          "flex h-14 items-center gap-2 overflow-x-auto px-4 py-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden",
+          // 끄는 동안 글자가 선택되지 않게 하고, 칩 위에서도 잡은 손 모양을 보인다
+          dragging && "cursor-grabbing select-none [&_*]:cursor-grabbing",
+        )}
       >
         {chips.map((chip) => {
           const on = chip.value === selected;
