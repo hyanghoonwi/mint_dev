@@ -19,6 +19,7 @@ import {
   RadioGroup,
   SegmentedControl,
   Circular,
+  Divider,
   Grid,
   HeartIcon,
   HouseIcon,
@@ -307,6 +308,18 @@ const components: { name: string; group: string; to: string; preview: ReactNode 
       <span aria-hidden="true" style={{ display: "flex", gap: 8, pointerEvents: "none" }}>
         <IconButton icon={<PlusIcon />} aria-label="추가" variant="background" tabIndex={-1} />
         <IconButton icon={<PlusIcon />} aria-label="추가" variant="solid" tabIndex={-1} />
+      </span>
+    ),
+  },
+  {
+    name: "Divider",
+    group: "Layout",
+    to: "/components/divider",
+    preview: (
+      <span style={{ display: "flex", flexDirection: "column", gap: 16, width: 160 }}>
+        <Divider />
+        <Divider variant="strong" />
+        <Divider variant="thick" />
       </span>
     ),
   },

@@ -1,0 +1,50 @@
+# Divider
+
+내용을 시각적으로 나누는 선이에요.
+
+<ComponentBadges />
+
+<Figure height={240} />
+
+## Playground
+
+오른쪽에서 props를 바꾸면 구분선과 아래 코드가 함께 바뀌어요. 표시 전용이라 누르거나 동작하지 않아요.
+
+<DividerPlayground />
+
+## Examples
+
+<ExampleTabs
+  items={[
+    { title: "목록 항목 사이", name: "divider/InList" },
+    { title: "영역 나누기(thick)", name: "divider/Section" },
+    { title: "또렷하게(strong)", name: "divider/Strong" },
+    { title: "세로선", name: "divider/Vertical" },
+  ]}
+/>
+
+- **목록 항목 사이**: 목록 항목 사이에는 `default`를 써요. `inset`을 켜면 좌우에 20px 여백이 생겨요.
+- **영역 나누기(thick)**: 화면 영역을 크게 나눌 때만 8px 띠를 써요. 가로선에만 있어요.
+- **또렷하게(strong)**: 합계 위처럼 더 분명하게 나눠야 할 때 써요.
+- **세로선**: 한 줄 안의 항목을 좌우로 나눠요. flex 줄 안에서는 높이가 줄 높이에 맞춰져요.
+
+## Props
+
+나머지 `<div>` 속성도 그대로 받아요.\
+서버 컴포넌트에서 바로 쓸 수 있어요.
+
+| 이름          | 타입                               | 기본값         | 설명                                      |
+| ------------- | ---------------------------------- | -------------- | ----------------------------------------- |
+| `orientation` | `"horizontal" \| "vertical"`       | `"horizontal"` | 가로선은 위아래를, 세로선은 좌우를 나눠요 |
+| `variant`     | `"default" \| "strong" \| "thick"` | `"default"`    | 일반 · 또렷하게 · 8px 띠(가로선만)        |
+| `inset`       | `boolean`                          | `false`        | 좌우 20px 여백(가로선만)                  |
+
+## Guidelines
+
+<DividerGuide />
+
+- 목록 항목 사이에는 `default`를 써요. 화면 영역을 크게 나눌 때만 `thick`을 써요.
+- 여백만으로 나뉘면 선을 더하지 않아요. 선이 많으면 화면이 답답해 보여요.
+- 선 색을 임의로 바꾸지 않아요. `variant`로만 골라요.
+- 눌러서 동작하는 요소로 쓰지 않아요.
+- 구분선은 장식이라 보조기기에서 읽지 않아요. 나뉜 내용은 제목이나 글자로도 알 수 있게 해요.

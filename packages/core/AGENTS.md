@@ -112,6 +112,7 @@ grep -n -A12 '\*\*`Button`\*\*' node_modules/@futurewiz-rms/mint/guide/actions.m
 
 - `Container` — 페이지 틀(좌우 여백, 최대 폭 1440px, 가운데 정렬)
 - `Grid` — 반응형 컬럼 그리드(모바일 4 · 태블릿 8 · 데스크톱 12). `Grid.Item`의 `span`으로 구간별 컬럼 수를 정합니다
+- `Divider` — 내용을 나누는 선(가로·세로, default·strong·thick 8px 띠, 좌우 20px 인셋)
 
 ### [아이콘](guide/icons.md)
 

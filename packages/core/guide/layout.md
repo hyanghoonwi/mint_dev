@@ -24,6 +24,11 @@ import { Container, Grid } from "@futurewiz-rms/mint";
   - `span={{ base, tablet?, desktop? }}`: `base` 1~4(모바일 4컬럼), `tablet` 1~8(8컬럼), `desktop` 1~12(12컬럼). 생략한 구간은 앞 구간 값을 따릅니다(`tablet` 생략 → `base`, `desktop` 생략 → `tablet`).
   - `span` 자체를 생략하면 한 줄을 모두 차지합니다.
   - 한 줄에 N개: 컬럼 수 ÷ N을 `span`으로 줍니다. 모바일 1개/줄 · 태블릿 2개/줄 · 데스크톱 4개/줄 → `{ base: 4, tablet: 4, desktop: 3 }`.
+- **`Divider`** — 내용을 시각적으로 나누는 선(Figma `Divider`). 서버 컴포넌트에서도 쓸 수 있습니다. 표시 전용이고 보조기기에서 읽지 않습니다(`aria-hidden`). 상세 규칙은 `components/divider/AGENTS.md`
+  - `orientation`: `horizontal`(기본, 부모 폭을 채움) · `vertical`(flex 줄 안에서 높이를 채움, flex 밖이면 `className`으로 `h-*`)
+  - `variant`: `default`(기본, `border-default` 1px, 목록 항목 사이) · `strong`(`border-strong`, 더 또렷하게) · `thick`(8px `background-lower` 띠, 화면 영역 구분, 가로선만)
+  - `inset`: 좌우 20px 여백(가로선만)
+  - 여백만으로 나뉘면 선을 더하지 않습니다. 선 색을 `className`으로 바꾸지 않습니다
 
 ## 규칙
 

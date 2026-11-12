@@ -52,7 +52,7 @@ const preview: Preview = {
             "Display",
             ["Avatar", "Badge", "Icon", "PriceChange", "Text", "Thumbnail"],
             "Layout",
-            ["Grid"],
+            ["Divider", "Grid"],
             "Loading",
             ["Circular", "Skeleton"],
             "Overlay",

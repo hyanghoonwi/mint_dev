@@ -29,4 +29,5 @@ export default {
   skeleton: "Skeleton",
   "---layout": { type: "separator", title: "Layout" },
   "container-grid": "Container · Grid",
+  divider: "Divider",
 };
