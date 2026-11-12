@@ -101,6 +101,7 @@ grep -n -A12 '\*\*`Button`\*\*' node_modules/@futurewiz-rms/mint/guide/actions.m
 
 - `Alert` — 꼭 확인해야 하는 일을 알리는 대화상자(제목·본문·버튼 1~2개). `useOverlay`로 열기를 권장
 - `useOverlay` — 오버레이(Alert 등)를 함수 호출로 여는 훅. 앱 최상단에 `OverlayProvider` 필요
+- `Tooltip` — hover·포커스로 짧은 보조 정보(이름·단축키)를 보여 주는 말풍선(위치 4 · 화살표 정렬 3 · 3크기)
 
 ### [훅](guide/hooks.md)
 

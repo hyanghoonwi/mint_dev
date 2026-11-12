@@ -56,7 +56,7 @@ const preview: Preview = {
             "Loading",
             ["Circular", "Skeleton"],
             "Overlay",
-            ["Alert"],
+            ["Alert", "Tooltip"],
           ],
           "Hooks",
           ["useOverlay", "useInView", "useClipboard", "useDebounceValue"],

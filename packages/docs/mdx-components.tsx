@@ -20,6 +20,7 @@ import {
 } from "./src/components/site/AvatarDocs";
 import { AlertGuide, AlertPlayground } from "./src/components/site/AlertDocs";
 import { BadgeGuide, BadgePlayground } from "./src/components/site/BadgeDocs";
+import { TooltipGuide, TooltipPlayground } from "./src/components/site/TooltipDocs";
 import { DividerGuide, DividerPlayground } from "./src/components/site/DividerDocs";
 import { PriceChangeGuide, PriceChangePlayground } from "./src/components/site/PriceChangeDocs";
 import { CategoryGuide, CategoryPlayground } from "./src/components/site/CategoryDocs";
@@ -118,6 +119,8 @@ export function useMDXComponents(components?: MDXComponents) {
     AvatarGroupGuide,
     BadgePlayground,
     BadgeGuide,
+    TooltipPlayground,
+    TooltipGuide,
     DividerPlayground,
     DividerGuide,
     PriceChangePlayground,

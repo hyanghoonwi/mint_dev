@@ -18,3 +18,13 @@
   - `render`는 **열 때의 값**을 캡처합니다. 오버레이 안에 바뀌는 상태가 필요하면 상태를 가진 컴포넌트를 반환하세요
   - 쌓기: 열린 Alert 위에서 다시 `open`하면 위에 쌓입니다. Esc는 맨 위 하나만 닫고, 스크롤 잠금은 마지막 Alert가 닫힐 때 풀립니다. 두 겹까지만 권장합니다
   - 결과 받기 예: `const ok = await overlay.openAsync<boolean>(({ isOpen, close }) => <Alert open={isOpen} onClose={() => close(false)} … action={<Button onClick={() => close(true)}>삭제</Button>} />)`
+
+- **`Tooltip`** — 버튼에 마우스를 올리거나 포커스했을 때 짧은 보조 정보(이름·단축키)를 보여 주는 말풍선(Figma `Tooltip`). 클라이언트 컴포넌트지만 서버 컴포넌트에서 import해도 됩니다(열림 상태를 안에서 관리). 상세 규칙은 `components/tooltip/AGENTS.md`
+  - `label`(필수): 말풍선 글자. 한 줄로 짧게. 단축키는 이름 대신 `"⌘C"`처럼 단축키 글자만 넣습니다
+  - `children`(필수): 대상 요소 하나(포커스를 받을 수 있는 `Button`·`IconButton`·링크). `aria-describedby`가 자동으로 붙습니다. 아이콘 버튼은 `aria-label`도 따로 붙입니다
+  - `position`: `top`(기본) · `bottom` · `left` · `right`. 화면 가장자리에서 자동으로 뒤집히지 않으니 잘 보이는 쪽을 고릅니다. 구간별 객체도 받음(`{ base: "bottom", desktop: "right" }`, 화살표 방향도 따라감)
+  - `arrowAlign`: `center`(기본) · `start` · `end`(위·아래면 왼쪽·오른쪽, 왼쪽·오른쪽이면 위·아래). 화살표 끝이 대상 가운데를 가리킵니다
+  - 말풍선 그림자는 `shadow-floating`(토스트·메뉴·툴팁 같은 떠 있는 요소 공통)입니다
+  - `size`: `sm` 30 · `md` 36(기본) · `lg` 42px. 구간별 객체도 받음(`{ base: "sm", desktop: "md" }`)
+  - `open`·`onOpenChange`: 직접 제어할 때. 생략하면 hover(마우스)·포커스에서 열리고 벗어나거나 Esc로 닫힙니다
+  - 안에 링크·버튼을 넣지 않고, 꼭 읽어야 하는 안내를 Tooltip에만 두지 않습니다(터치 화면에는 hover가 없음). `overflow: hidden` 영역 안에서는 잘릴 수 있습니다

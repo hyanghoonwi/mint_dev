@@ -29,6 +29,7 @@ import {
   SkeletonText,
   StarIcon,
   Text,
+  Tooltip,
 } from "@futurewiz-rms/mint";
 
 const components: { name: string; group: string; to: string; preview: ReactNode }[] = [
@@ -112,6 +113,18 @@ const components: { name: string; group: string; to: string; preview: ReactNode 
         size={32}
         items={[{ src: "/img/avatar-sample.jpg" }, { name: "김" }, { name: "이" }, {}, {}]}
       />
+    ),
+  },
+  {
+    name: "Tooltip",
+    group: "Feedback",
+    to: "/components/tooltip",
+    preview: (
+      <span style={{ paddingTop: 40 }}>
+        <Tooltip label="추가" open>
+          <IconButton icon={<PlusIcon />} aria-label="추가" variant="background" tabIndex={-1} />
+        </Tooltip>
+      </span>
     ),
   },
   {

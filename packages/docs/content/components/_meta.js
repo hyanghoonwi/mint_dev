@@ -24,6 +24,7 @@ export default {
   text: "Text",
   "---feedback": { type: "separator", title: "Feedback" },
   alert: "Alert",
+  tooltip: "Tooltip",
   "---loading": { type: "separator", title: "Loading" },
   circular: "Circular",
   skeleton: "Skeleton",

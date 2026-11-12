@@ -22,6 +22,7 @@ export * from "./components/framed/Framed";
 export * from "./components/circular/Circular";
 export * from "./components/skeleton/Skeleton";
 export * from "./components/text/Text";
+export * from "./components/tooltip/Tooltip";
 
 export * from "./components/grid/Grid";
 export * from "./components/icon/Icon";
