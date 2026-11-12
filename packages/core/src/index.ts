@@ -34,11 +34,18 @@ export * from "./components/overlay/useOverlay";
 export * from "./components/toast/Toast";
 export * from "./components/toast/ToastProvider";
 export * from "./components/toast/useToast";
+export * from "./components/snackbar/Snackbar";
 export type {
   ToastApi,
   ToastOptions,
   ToastShortcutOptions,
 } from "./components/toast/toast-context";
+export * from "./components/snackbar/useSnackbar";
+export type {
+  SnackbarApi,
+  SnackbarOptions,
+  SnackbarShortcutOptions,
+} from "./components/snackbar/snackbar-context";
 export * from "./hooks/useInView";
 export * from "./hooks/useClipboard";
 export * from "./hooks/useDebounceValue";

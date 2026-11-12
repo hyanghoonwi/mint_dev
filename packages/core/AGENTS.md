@@ -90,6 +90,7 @@ grep -n -A12 '\*\*`Button`\*\*' node_modules/@futurewiz-rms/mint/guide/actions.m
 - `Text` — 토큰 텍스트 스타일 글자(59개 스타일, 태그·색·말줄임)
 - `Badge` — 상태·종류를 알리는 표시 전용 라벨(fill·weak, 8색, 3크기)
 - `Thumbnail` — 콘텐츠 이미지를 정해진 비율로 보여 주는 틀(17가지 비율, 모서리·테두리·오버레이)
+- `Snackbar` — 다음 행동 버튼 1개가 있는 메시지(제목·설명, 닫기 선택). 본문에 두거나 `useSnackbar`로 띄움
 - `PriceChange` — 시세가 오르내린 정도(금액은 화살표, 퍼센트는 부호, text·weak, 3크기)
 
 ### [로딩](guide/loading.md)
@@ -104,6 +105,7 @@ grep -n -A12 '\*\*`Button`\*\*' node_modules/@futurewiz-rms/mint/guide/actions.m
 - `Alert` — 꼭 확인해야 하는 일을 알리는 대화상자(제목·본문·버튼 1~2개). `useOverlay`로 열기를 권장
 - `useOverlay` — 오버레이(Alert 등)를 함수 호출로 여는 훅. 앱 최상단에 `OverlayProvider` 필요
 - `Toast` · `ToastProvider` · `useToast` — 행동 결과를 짧게 알리는 토스트(4종류, default·pill). `useToast`로 띄우고 앱 최상단에 `ToastProvider` 필요(위치 top·bottom, offset)
+- `useSnackbar` — 버튼 1개가 있는 스낵바를 띄움(같은 `ToastProvider`, 토스트와 한 자리에 쌓임)
 - `Tooltip` — hover·포커스로 짧은 보조 정보(이름·단축키)를 보여 주는 말풍선(위치 4 · 화살표 정렬 3 · 3크기)
 
 ### [훅](guide/hooks.md)

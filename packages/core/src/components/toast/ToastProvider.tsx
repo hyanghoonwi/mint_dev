@@ -1,10 +1,19 @@
 "use client";
 
 // FDS ToastProvider와 같은 구조다(useToast로 띄우고, 정해진 시간 뒤 사라지고, hover·포커스 동안 멈춘다).
+// useSnackbar로 띄운 스낵바도 여기서 그린다. 토스트와 스낵바는 한 목록이라 같은 자리에 순서대로 섞여 쌓이고 limit도 함께 센다.
 // 목록은 브라우저에서 띄울 때만 생기므로 서버 렌더 결과에는 영향이 없다.
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import type { ReactNode } from "react";
 import { cn } from "../../utils/cn";
+import { Snackbar } from "../snackbar/Snackbar";
+import type { SnackbarVariant } from "../snackbar/Snackbar";
+import { SnackbarContext } from "../snackbar/snackbar-context";
+import type {
+  SnackbarApi,
+  SnackbarOptions,
+  SnackbarShortcutOptions,
+} from "../snackbar/snackbar-context";
 import { Toast } from "./Toast";
 import type { ToastShape, ToastVariant } from "./Toast";
 import { ToastContext } from "./toast-context";
@@ -24,20 +33,24 @@ export interface ToastProviderProps {
   duration?: number;
   /** 기본 모양. 기본 `default` */
   shape?: ToastShape;
+  /** 스낵바(`useSnackbar`)가 사라지기까지의 기본 시간(ms). 버튼을 누를 시간이 필요해서 토스트보다 길다. 기본 5000 */
+  snackbarDuration?: number;
 }
 
-interface Entry {
+type Entry = {
+  /** 토스트는 메시지, 스낵바는 제목 */
   message: ReactNode;
-  options: ToastOptions;
   id: string;
   /** 같은 id로 내용이 바뀔 때마다 올라간다. 올라가면 시간을 처음부터 다시 잰다 */
   revision: number;
   closing: boolean;
-}
+} & ({ kind: "toast"; options: ToastOptions } | { kind: "snackbar"; options: SnackbarOptions });
+
+type Kind = Entry["kind"];
 
 // 사라지는 전환 시간(ms, duration-200과 같다). 모션 줄이기 설정에서는 움직임 없이 같은 시간 뒤에 뺀다
 const EXIT_MS = 200;
-let nextToastNumber = 0;
+let nextNumber = 0;
 
 function Item({
   entry,
@@ -98,7 +111,7 @@ function Item({
   }, [id, closing, onRemove]);
 
   const visible = shown && !closing;
-  const variant: ToastVariant = entry.options.variant ?? "normal";
+  const variant: ToastVariant | SnackbarVariant = entry.options.variant ?? "normal";
   // 오류는 바로 읽히도록 alert, 나머지는 하던 일을 끊지 않는 status
   const role = variant === "negative" ? "alert" : "status";
 
@@ -145,22 +158,62 @@ function Item({
                 ),
           )}
         >
-          <Toast
-            role={role}
-            variant={variant}
-            shape={entry.options.shape ?? defaultShape}
-            className="min-w-[min(300px,calc(100vw-40px))]"
-          >
-            {entry.message}
-          </Toast>
+          {entry.kind === "toast" ? (
+            <Toast
+              role={role}
+              variant={variant}
+              shape={entry.options.shape ?? defaultShape}
+              className="min-w-[min(300px,calc(100vw-40px))]"
+            >
+              {entry.message}
+            </Toast>
+          ) : (
+            <SnackbarItem entry={entry} role={role} onDismiss={onDismiss} />
+          )}
         </div>
       </div>
     </div>
   );
 }
 
+/** 띄운 스낵바. 폭은 Figma 최대 420(화면이 좁으면 좌우 20을 뺀 폭), 떠 있는 요소라 shadow-floating을 준다 */
+function SnackbarItem({
+  entry,
+  role,
+  onDismiss,
+}: {
+  entry: Extract<Entry, { kind: "snackbar" }>;
+  role: "alert" | "status";
+  onDismiss: (id: string) => void;
+}) {
+  const { id, options } = entry;
+  const action = options.action;
+  return (
+    <Snackbar
+      role={role}
+      variant={options.variant}
+      heading={entry.message}
+      description={options.description}
+      icon={options.icon}
+      // 버튼을 누르면 할 일을 하고 스낵바를 닫는다
+      action={
+        action && {
+          label: action.label,
+          onClick: () => {
+            action.onClick();
+            onDismiss(id);
+          },
+        }
+      }
+      onClose={options.closable ? () => onDismiss(id) : undefined}
+      className="w-[420px] max-w-full shadow-floating"
+    />
+  );
+}
+
 /**
- * 앱 최상단에 한 번 두면 어디서든 `useToast()`로 토스트를 띄울 수 있다.
+ * 앱 최상단에 한 번 두면 어디서든 `useToast()`로 토스트를, `useSnackbar()`로 스낵바를 띄울 수 있다.
+ * 둘은 같은 자리에 띄운 순서대로 섞여 쌓인다.
  * 화면 가운데 위(`top`)나 아래(`bottom`)에 쌓이고, 정해진 시간이 지나면 사라진다.
  * 새 토스트가 화면 가장자리 쪽에 붙고, `limit`을 넘으면 가장 오래된 것부터 사라진다.
  */
@@ -171,10 +224,11 @@ export function ToastProvider({
   limit = 3,
   duration = 3000,
   shape = "default",
+  snackbarDuration = 5000,
 }: ToastProviderProps) {
   const [entries, setEntries] = useState<Entry[]>([]);
 
-  const { api, remove } = useMemo(() => {
+  const { toastApi, snackbarApi, remove, dismissOne } = useMemo(() => {
     const closeCallbacks = new Map<string, (() => void) | undefined>();
 
     const removeEntry = (id: string) => {
@@ -184,48 +238,69 @@ export function ToastProvider({
       callback?.();
     };
 
-    const show = (message: ReactNode, options: ToastOptions = {}): string => {
-      const key = options.id ?? `mint-toast-${++nextToastNumber}`;
+    // 토스트·스낵바 공통: 같은 id가 있으면 그 자리에서 내용만 바꾸고, 없으면 목록 끝(화면 가장자리 쪽)에 붙인다
+    const add = (kind: Kind, message: ReactNode, options: ToastOptions | SnackbarOptions) => {
+      const key = options.id ?? `mint-${kind}-${++nextNumber}`;
       closeCallbacks.set(key, options.onClose);
       setEntries((prev) => {
         const existing = prev.find((entry) => entry.id === key);
-        const next: Entry = {
+        const next = {
+          kind,
           message,
           options: { ...options, id: key },
           id: key,
           revision: (existing?.revision ?? 0) + 1,
           closing: false,
-        };
+        } as Entry;
         return existing ? prev.map((entry) => (entry.id === key ? next : entry)) : [...prev, next];
       });
       return key;
     };
 
-    const dismiss = (id?: string) => {
+    // id가 없으면 그 종류(토스트 또는 스낵바)만 모두 닫는다
+    const dismissKind = (kind: Kind | null, id?: string) => {
       setEntries((prev) =>
         prev.map((entry) =>
-          (id === undefined || entry.id === id) && !entry.closing
+          (id === undefined ? entry.kind === kind : entry.id === id) && !entry.closing
             ? { ...entry, closing: true }
             : entry,
         ),
       );
     };
 
-    const shortcut =
+    const showToast = (message: ReactNode, options: ToastOptions = {}) =>
+      add("toast", message, options);
+    const toastShortcut =
       (variant: ToastVariant) => (message: ReactNode, options?: ToastShortcutOptions) =>
-        show(message, { ...options, variant });
-
-    const toast: ToastApi = Object.assign(show, {
-      normal: shortcut("normal"),
-      positive: shortcut("positive"),
-      cautionary: shortcut("cautionary"),
-      negative: shortcut("negative"),
-      dismiss,
+        showToast(message, { ...options, variant });
+    const toast: ToastApi = Object.assign(showToast, {
+      normal: toastShortcut("normal"),
+      positive: toastShortcut("positive"),
+      cautionary: toastShortcut("cautionary"),
+      negative: toastShortcut("negative"),
+      dismiss: (id?: string) => dismissKind("toast", id),
     });
-    return { api: toast, remove: removeEntry };
-  }, []);
 
-  const dismiss = useCallback((id: string) => api.dismiss(id), [api]);
+    const showSnackbar = (heading: ReactNode, options: SnackbarOptions = {}) =>
+      add("snackbar", heading, options);
+    const snackbarShortcut =
+      (variant: SnackbarVariant) => (heading: ReactNode, options?: SnackbarShortcutOptions) =>
+        showSnackbar(heading, { ...options, variant });
+    const snackbar: SnackbarApi = Object.assign(showSnackbar, {
+      normal: snackbarShortcut("normal"),
+      positive: snackbarShortcut("positive"),
+      cautionary: snackbarShortcut("cautionary"),
+      negative: snackbarShortcut("negative"),
+      dismiss: (id?: string) => dismissKind("snackbar", id),
+    });
+
+    return {
+      toastApi: toast,
+      snackbarApi: snackbar,
+      remove: removeEntry,
+      dismissOne: (id: string) => dismissKind(null, id),
+    };
+  }, []);
 
   // 개수 제한: 닫는 중이 아닌 것 중 가장 오래된 것부터 넘치는 만큼 사라진다
   const active = entries.filter((entry) => !entry.closing);
@@ -234,42 +309,50 @@ export function ToastProvider({
   );
 
   return (
-    <ToastContext value={api}>
-      {children}
-      {entries.length > 0 && (
-        <div
-          role="region"
-          aria-label="알림"
-          className={cn(
-            // 토스트 사이 간격은 각 칸의 여백(pt-2·pb-2)이다. 화면 가장자리 쪽에는 여백이 없다
-            "pointer-events-none fixed inset-x-0 z-[1200] flex items-center px-5 font-mint",
-            // 새 토스트(목록 끝)가 화면 가장자리 쪽에 오도록: 아래면 위→아래, 위면 아래→위로 쌓는다
-            position === "bottom" ? "flex-col" : "flex-col-reverse",
-          )}
-          style={
-            position === "bottom"
-              ? { bottom: `calc(${offset}px + env(safe-area-inset-bottom))` }
-              : { top: `calc(${offset}px + env(safe-area-inset-top))` }
-          }
-        >
-          {entries.map((entry) => {
-            const own = entry.options.duration;
-            return (
-              <Item
-                // id만 key로 쓴다. 같은 id로 다시 띄우면 다시 마운트하지 않고 내용·시간만 바뀐다(깜빡임 없음)
-                key={entry.id}
-                entry={entry}
-                closing={entry.closing || evicted.has(entry.id)}
-                position={position}
-                duration={own === undefined ? duration : own}
-                defaultShape={shape}
-                onDismiss={dismiss}
-                onRemove={remove}
-              />
-            );
-          })}
-        </div>
-      )}
+    <ToastContext value={toastApi}>
+      <SnackbarContext value={snackbarApi}>
+        {children}
+        {entries.length > 0 && (
+          <div
+            role="region"
+            aria-label="알림"
+            className={cn(
+              // 토스트 사이 간격은 각 칸의 여백(pt-2·pb-2)이다. 화면 가장자리 쪽에는 여백이 없다
+              "pointer-events-none fixed inset-x-0 z-[1200] flex items-center px-5 font-mint",
+              // 새 토스트(목록 끝)가 화면 가장자리 쪽에 오도록: 아래면 위→아래, 위면 아래→위로 쌓는다
+              position === "bottom" ? "flex-col" : "flex-col-reverse",
+            )}
+            style={
+              position === "bottom"
+                ? { bottom: `calc(${offset}px + env(safe-area-inset-bottom))` }
+                : { top: `calc(${offset}px + env(safe-area-inset-top))` }
+            }
+          >
+            {entries.map((entry) => {
+              const own = entry.options.duration;
+              return (
+                <Item
+                  // id만 key로 쓴다. 같은 id로 다시 띄우면 다시 마운트하지 않고 내용·시간만 바뀐다(깜빡임 없음)
+                  key={entry.id}
+                  entry={entry}
+                  closing={entry.closing || evicted.has(entry.id)}
+                  position={position}
+                  duration={
+                    own === undefined
+                      ? entry.kind === "snackbar"
+                        ? snackbarDuration
+                        : duration
+                      : own
+                  }
+                  defaultShape={shape}
+                  onDismiss={dismissOne}
+                  onRemove={remove}
+                />
+              );
+            })}
+          </div>
+        )}
+      </SnackbarContext>
     </ToastContext>
   );
 }

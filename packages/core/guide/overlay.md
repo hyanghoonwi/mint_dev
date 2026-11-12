@@ -22,15 +22,19 @@
 - **`Toast`** — 사용자 행동의 결과를 짧게 알리는 메시지의 모양(Figma `Toast`). 서버 컴포넌트에서도 그릴 수 있지만, 화면에 띄울 때는 `useToast`를 씁니다. 상세 규칙은 `components/toast/AGENTS.md`
   - `variant`: `normal`(기본) · `positive`(완료) · `cautionary`(주의) · `negative`(오류). 종류에 맞는 아이콘이 항상 앞에 붙습니다(켜고 끄는 prop 없음)
   - `shape`: `default`(모서리 12, 기본) · `pill`(알약). `children`: 메시지 한 문장
-- **`ToastProvider`** — `useToast`로 띄운 토스트를 그리는 자리. 앱 최상단(`app/layout.tsx`)을 한 번 감쌉니다. `"use client"`라 서버 레이아웃에서 바로 import해도 됩니다
+- **`ToastProvider`** — `useToast`로 띄운 토스트와 `useSnackbar`로 띄운 스낵바를 그리는 자리(둘은 띄운 순서대로 한 자리에 섞여 쌓이고 `limit`도 함께 셈). 앱 최상단(`app/layout.tsx`)을 한 번 감쌉니다. `"use client"`라 서버 레이아웃에서 바로 import해도 됩니다
   - `position`: `bottom`(기본, 아래 가운데) · `top`(위 가운데). 새 토스트가 화면 가장자리 쪽에 붙습니다
   - `offset`: 가장자리에서 띄우는 거리(px, 기본 20). 하단 고정 버튼·탭 바·헤더를 가리지 않게 늘립니다(안전 영역은 자동으로 더함)
-  - `limit`(기본 3, 넘치면 오래된 것부터 사라짐) · `duration`(기본 3000ms, 가이드 2~4초) · `shape`(기본 모양)
+  - `limit`(기본 3, 넘치면 오래된 것부터 사라짐) · `duration`(토스트 기본 시간, 기본 3000ms, 가이드 2~4초) · `snackbarDuration`(스낵바 기본 시간, 기본 5000ms) · `shape`(기본 모양)
 - **`useToast`** — 토스트를 함수 호출로 띄웁니다(FDS `useToast`와 같은 구조). 클라이언트 컴포넌트에서 씁니다. `ToastProvider` 밖에서 쓰면 오류를 던집니다
   - `toast(message, options?)`(id 반환) · `toast.normal` · `toast.positive` · `toast.cautionary` · `toast.negative` · `toast.dismiss(id?)`(생략하면 모두)
   - `options`: `id`(같은 id가 떠 있으면 새로 쌓지 않고 내용·시간을 새로 고침) · `variant` · `shape` · `duration`(`null`이면 닫을 때까지) · `onClose`
   - 마우스를 올리거나 포커스가 있는 동안 멈춥니다. negative는 `role="alert"`, 나머지는 `role="status"`
-  - 버튼이 필요한 안내(Snackbar)나 꼭 읽어야 하는 안내(Alert)에는 쓰지 않습니다
+  - 버튼이 필요한 안내(`useSnackbar`)나 꼭 읽어야 하는 안내(Alert)에는 쓰지 않습니다
+- **`useSnackbar`** — 다음 행동 버튼이 있는 스낵바를 함수 호출로 띄웁니다. `useToast`와 **같은 `ToastProvider`**를 쓰고(따로 Provider 없음), 토스트와 같은 자리에 섞여 쌓입니다. 클라이언트 컴포넌트에서 씁니다. Provider 밖에서 쓰면 오류를 던집니다
+  - `snackbar(heading, options?)`(id 반환) · `snackbar.normal` · `.positive` · `.cautionary` · `.negative` · `snackbar.dismiss(id?)`(생략하면 스낵바만 모두, 토스트는 그대로)
+  - `options`: `action`(`{ label, onClick }`, 누르면 `onClick` 뒤 스낵바가 닫힘) · `description` · `icon` · `closable`(닫기 버튼) · `variant` · `duration`(`null`이면 닫을 때까지) · `id` · `onClose`
+  - 폭 420(좁은 화면은 좌우 20을 뺀 폭), 떠 있어서 `shadow-floating`. 본문에 늘 두는 안내는 `Snackbar` 컴포넌트를 그대로 렌더링합니다
 
 - **`Tooltip`** — 버튼에 마우스를 올리거나 포커스했을 때 짧은 보조 정보(이름·단축키)를 보여 주는 말풍선(Figma `Tooltip`). 클라이언트 컴포넌트지만 서버 컴포넌트에서 import해도 됩니다(열림 상태를 안에서 관리). 상세 규칙은 `components/tooltip/AGENTS.md`
   - `label`(필수): 말풍선 글자. 한 줄로 짧게. 단축키는 이름 대신 `"⌘C"`처럼 단축키 글자만 넣습니다

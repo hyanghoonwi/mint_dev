@@ -1,0 +1,56 @@
+# Snackbar
+
+작업 뒤 다음 행동을 제안하는 메시지예요. 버튼 하나를 함께 보여 줘요.
+
+<ComponentBadges />
+
+<Figure height={240} />
+
+쓰는 방법은 두 가지예요.
+
+- **본문에 두기**: 이 컴포넌트를 화면 안 알맞은 자리에 그대로 렌더링해요.
+- **띄우기**: 행동 뒤에 잠시 보여 주려면 [`useSnackbar`](/utilities/use-snackbar)로 띄워요. 토스트와 같은 자리에 쌓이고 저절로 사라져요.
+
+## Playground
+
+오른쪽에서 props를 바꾸면 스낵바와 아래 코드가 함께 바뀌어요.
+
+<SnackbarPlayground />
+
+## Examples
+
+<ExampleTabs
+  items={[
+    { title: "기본", name: "snackbar/Default" },
+    { title: "종류와 아이콘", name: "snackbar/Variants" },
+    { title: "본문에 두기", name: "snackbar/InContent" },
+  ]}
+/>
+
+- **기본**: 제목은 한 줄로 쓰고, 설명은 필요할 때만 써요.
+- **종류와 아이콘**: `icon`을 켜면 종류에 맞는 아이콘이 앞에 붙어요. 완료는 `positive`, 주의는 `cautionary`, 오류는 `negative`예요.
+- **본문에 두기**: 화면 안 알맞은 자리에 그대로 렌더링해요. 닫기 버튼(`onClose`)을 누르면 상태를 바꿔 숨겨요. 닫기는 선택이에요.
+
+## Props
+
+나머지 `<div>` 속성도 그대로 받아요.\
+서버 컴포넌트에서 바로 쓸 수 있고, `action`·`onClose`를 넘길 때만 클라이언트 컴포넌트 안에서 써요.
+
+| 이름          | 타입                                                   | 기본값     | 설명                                   |
+| ------------- | ------------------------------------------------------ | ---------- | -------------------------------------- |
+| `variant`     | `"normal" \| "positive" \| "cautionary" \| "negative"` | `"normal"` | 종류. `icon`을 켜면 아이콘이 달라져요  |
+| `heading`     | `ReactNode`                                            | -          | 제목. 한 줄로 쓰고 넘치면 말줄임이에요 |
+| `description` | `ReactNode`                                            | -          | 설명. 필요할 때만 써요                 |
+| `icon`        | `boolean`                                              | `false`    | 종류에 맞는 아이콘을 앞에 붙여요       |
+| `action`      | `{ label: string; onClick: () => void }`               | -          | 다음 행동 버튼 하나                    |
+| `onClose`     | `() => void`                                           | -          | 넘기면 닫기 버튼(X)이 생겨요           |
+
+## Guidelines
+
+<SnackbarGuide />
+
+- 결과와 함께 다음 행동을 제안해요. 결과만 알릴 때는 Toast를 써요.
+- 버튼은 하나만 둬요. 레이블은 "되돌리기"처럼 2\~4자 행동으로 써요.
+- 되돌릴 수 없는 일의 확인을 Snackbar로 받지 않아요. Alert를 써요.
+- 버튼과 닫기 버튼은 Tab으로 포커스를 받을 수 있어요.
+- 결과만 짧게 알리고 사라져야 하면 [`useToast`](/utilities/use-toast)로 토스트를 띄워요.

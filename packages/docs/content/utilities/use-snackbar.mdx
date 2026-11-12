@@ -1,0 +1,89 @@
+# useSnackbar
+
+스낵바를 함수 호출로 띄우는 훅이에요. 토스트와 같은 자리에 쌓이고, 정해진 시간이 지나면 저절로 사라져요.
+
+<ComponentBadges />
+
+## Usage
+
+`useToast`와 같은 `ToastProvider`를 써요. 이미 앱 최상단을 `ToastProvider`로 감쌌다면 더 할 일은 없어요.
+
+```tsx filename="app/layout.tsx"
+import { ToastProvider } from "@futurewiz-rms/mint";
+
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  return (
+    <html lang="ko">
+      <body>
+        <ToastProvider snackbarDuration={5000}>{children}</ToastProvider>
+      </body>
+    </html>
+  );
+}
+```
+
+그다음 클라이언트 컴포넌트에서 `useSnackbar`로 띄워요. 첫 인자는 제목이고, 버튼은 `action`으로 넘겨요.
+
+```tsx
+const snackbar = useSnackbar();
+
+snackbar("관심 코인에서 삭제했어요.", {
+  action: { label: "되돌리기", onClick: undo },
+});
+snackbar.negative("주문하지 못했어요.", { icon: true, closable: true });
+```
+
+## Examples
+
+<ExampleTabs
+  items={[
+    { title: "되돌리기", name: "use-snackbar/Undo" },
+    { title: "종류", name: "use-snackbar/Variants" },
+    { title: "토스트와 함께", name: "use-snackbar/WithToast" },
+  ]}
+/>
+
+- **되돌리기**: 방금 한 행동을 취소하는 버튼을 `action`으로 둬요. 버튼을 누르면 `onClick`이 불리고 스낵바가 닫혀요.
+- **종류**: `snackbar.positive` · `snackbar.cautionary` · `snackbar.negative`로 띄워요. `icon`은 종류에 맞는 아이콘, `closable`은 닫기 버튼이에요.
+- **토스트와 함께**: 토스트와 스낵바는 띄운 순서대로 한 자리에 쌓여요. 개수 제한(`limit`)도 함께 세요.
+
+## API
+
+`useSnackbar()`가 돌려주는 값이에요.\
+클라이언트 컴포넌트에서 쓰고, 앱 최상단에 `ToastProvider`가 있어야 해요.
+
+| 이름         | 타입                                                        | 설명                                                |
+| ------------ | ----------------------------------------------------------- | --------------------------------------------------- |
+| `snackbar`   | `(heading: ReactNode, options?: SnackbarOptions) => string` | 스낵바를 띄우고 id를 돌려줘요                       |
+| `normal`     | `(heading, options?) => string`                             | `normal` 스낵바                                     |
+| `positive`   | `(heading, options?) => string`                             | 완료를 알리는 스낵바                                |
+| `cautionary` | `(heading, options?) => string`                             | 주의를 알리는 스낵바                                |
+| `negative`   | `(heading, options?) => string`                             | 오류를 알리는 스낵바                                |
+| `dismiss`    | `(id?: string) => void`                                     | id의 스낵바를 닫아요. 생략하면 스낵바만 모두 닫아요 |
+
+`options`로 넘기는 값이에요.
+
+| 이름          | 타입                                                   | 기본값                        | 설명                                                   |
+| ------------- | ------------------------------------------------------ | ----------------------------- | ------------------------------------------------------ |
+| `variant`     | `"normal" \| "positive" \| "cautionary" \| "negative"` | `"normal"`                    | 종류. 단축 함수에서는 이름으로 정해요                  |
+| `description` | `ReactNode`                                            | -                             | 제목 아래 설명                                         |
+| `icon`        | `boolean`                                              | `false`                       | 종류에 맞는 아이콘                                     |
+| `action`      | `{ label: string; onClick: () => void }`               | -                             | 다음 행동 버튼(1개). 누르면 스낵바가 닫혀요            |
+| `closable`    | `boolean`                                              | `false`                       | 닫기 버튼                                              |
+| `duration`    | `number \| null`                                       | Provider의 `snackbarDuration` | 사라지기까지의 시간(ms). `null`이면 닫을 때까지 남아요 |
+| `id`          | `string`                                               | 자동                          | 같은 id가 떠 있으면 내용과 시간을 새로 고쳐요          |
+| `onClose`     | `() => void`                                           | -                             | 화면에서 사라질 때 한 번 불려요                        |
+
+`ToastProvider`의 나머지 값(`position`·`offset`·`limit`)은 [useToast](/utilities/use-toast)와 같아요.
+
+## Guidelines
+
+- 버튼은 하나만 둬요. 레이블은 "되돌리기"처럼 2\~4자 행동으로 써요.
+- 되돌릴 수 없는 일의 확인은 스낵바로 받지 않아요. Alert를 써요.
+- 결과만 알리면 되는 일에는 `useToast`를 써요.
+- 버튼을 누를 시간이 필요해서 기본 표시 시간이 토스트보다 길어요(5초). 마우스를 올리거나 포커스가 있는 동안에는 멈춰요.
+- 화면에 늘 두는 안내는 띄우지 않고 [Snackbar](/components/snackbar) 컴포넌트를 본문에 그대로 둬요.

@@ -80,17 +80,18 @@ toast.negative("저장하지 못했어요.", { duration: 4000 });
 
 `ToastProvider`에 넘기는 값이에요.
 
-| 이름       | 타입                  | 기본값      | 설명                                                   |
-| ---------- | --------------------- | ----------- | ------------------------------------------------------ |
-| `position` | `"top" \| "bottom"`   | `"bottom"`  | 화면 위 또는 아래 가운데                               |
-| `offset`   | `number`              | `20`        | 화면 가장자리에서 띄우는 거리(px)                      |
-| `limit`    | `number`              | `3`         | 동시에 보이는 최대 개수. 넘치면 오래된 것부터 사라져요 |
-| `duration` | `number`              | `3000`      | 기본 표시 시간(ms)                                     |
-| `shape`    | `"default" \| "pill"` | `"default"` | 기본 모양                                              |
+| 이름               | 타입                  | 기본값      | 설명                                                   |
+| ------------------ | --------------------- | ----------- | ------------------------------------------------------ |
+| `position`         | `"top" \| "bottom"`   | `"bottom"`  | 화면 위 또는 아래 가운데                               |
+| `offset`           | `number`              | `20`        | 화면 가장자리에서 띄우는 거리(px)                      |
+| `limit`            | `number`              | `3`         | 동시에 보이는 최대 개수. 넘치면 오래된 것부터 사라져요 |
+| `duration`         | `number`              | `3000`      | 기본 표시 시간(ms)                                     |
+| `shape`            | `"default" \| "pill"` | `"default"` | 기본 모양                                              |
+| `snackbarDuration` | `number`              | `5000`      | 스낵바(`useSnackbar`)의 기본 표시 시간(ms)             |
 
 ## Guidelines
 
-- `ToastProvider`는 앱에 한 번만 둬요. 없으면 `useToast`가 오류를 알려요.
+- `ToastProvider`는 앱에 한 번만 둬요. 없으면 `useToast`가 오류를 알려요. 같은 Provider로 [useSnackbar](/utilities/use-snackbar)의 스낵바도 띄워요.
 - 마우스를 올리거나 포커스가 있는 동안에는 사라지지 않고 멈춰요.
 - 표시 시간은 2\~4초로 둬요. 글이 길면 `duration`을 조금 늘려요.
 - 같은 버튼을 여러 번 누를 수 있는 곳에는 `id`를 줘서 토스트가 쌓이지 않게 해요.

@@ -117,7 +117,7 @@ import "@futurewiz-rms/mint/style.css";
 ## Provider
 
 - **`OverlayProvider`**: `useOverlay`(Alert 열기)를 쓰려면 `app/layout.tsx`에서 앱을 한 번 감쌉니다.
-- **`ToastProvider`**: `useToast`(토스트 띄우기)를 쓰려면 같은 자리에서 한 번 감쌉니다. 위치(`position`)·간격(`offset`)을 여기서 정합니다. 두 Provider는 순서와 상관없이 겹쳐 감싸면 됩니다.
+- **`ToastProvider`**: `useToast`(토스트 띄우기)·`useSnackbar`(스낵바 띄우기)를 쓰려면 같은 자리에서 한 번 감쌉니다. 위치(`position`)·간격(`offset`)을 여기서 정합니다. 두 Provider는 순서와 상관없이 겹쳐 감싸면 됩니다.
 - 다른 컴포넌트는 Provider가 필요 없습니다.
 
 ```tsx filename="app/layout.tsx"

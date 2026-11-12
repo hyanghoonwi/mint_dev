@@ -165,14 +165,14 @@ MINT는 Next.js App Router에서 **서버 컴포넌트와 클라이언트 컴포
 
 `packages/core/AGENTS.md`는 **색인**이고, 상세는 `packages/core/guide/*.md`에 있습니다. 사용하는 쪽 AI가 **필요한 파일만** 읽게 하려는 구조입니다.
 
-| 파일               | 담는 것                                                                                               |
-| ------------------ | ----------------------------------------------------------------------------------------------------- |
-| `AGENTS.md`        | 핵심 규칙, "무엇을 쓸까", **파일별 컴포넌트 색인**                                                    |
-| `guide/setup.md`   | 설치, 스타일, 토큰 클래스, 반응형 토큰, 다크 모드                                                     |
-| `guide/actions.md` | 액션 컴포넌트 props·주의점 (카테고리가 늘면 파일 추가)                                                |
-| `guide/hooks.md`   | 공개 훅(`useInView`·`useClipboard`·`useDebounceValue`) 사용법. `useOverlay`·`useToast`는 `overlay.md` |
-| `guide/layout.md`  | `Container`·`Grid` 사용법, 구간별 `span`, 레이아웃 규칙                                               |
-| `guide/icons.md`   | 아이콘 사용법과 183개 전체 이름(분류별 목록). `guide:check`가 `icons.json`의 모든 이름이 있는지 검사  |
+| 파일               | 담는 것                                                                                                             |
+| ------------------ | ------------------------------------------------------------------------------------------------------------------- |
+| `AGENTS.md`        | 핵심 규칙, "무엇을 쓸까", **파일별 컴포넌트 색인**                                                                  |
+| `guide/setup.md`   | 설치, 스타일, 토큰 클래스, 반응형 토큰, 다크 모드                                                                   |
+| `guide/actions.md` | 액션 컴포넌트 props·주의점 (카테고리가 늘면 파일 추가)                                                              |
+| `guide/hooks.md`   | 공개 훅(`useInView`·`useClipboard`·`useDebounceValue`) 사용법. `useOverlay`·`useToast`·`useSnackbar`는 `overlay.md` |
+| `guide/layout.md`  | `Container`·`Grid` 사용법, 구간별 `span`, 레이아웃 규칙                                                             |
+| `guide/icons.md`   | 아이콘 사용법과 183개 전체 이름(분류별 목록). `guide:check`가 `icons.json`의 모든 이름이 있는지 검사                |
 
 - **새 컴포넌트·훅**: 색인의 해당 묶음에 **한 줄**을 추가하고, `guide/` 파일에 props 상세를 씁니다.
 - **색인은 짧게 유지**합니다. props와 예시는 `guide/`로 보냅니다.

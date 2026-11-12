@@ -26,6 +26,7 @@ export default {
   thumbnail: "Thumbnail",
   "---feedback": { type: "separator", title: "Feedback" },
   alert: "Alert",
+  snackbar: "Snackbar",
   toast: "Toast",
   tooltip: "Tooltip",
   "---loading": { type: "separator", title: "Loading" },

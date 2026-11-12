@@ -27,6 +27,7 @@ import {
   PlusIcon,
   SkeletonCircle,
   SkeletonText,
+  Snackbar,
   StarIcon,
   Text,
   TextButton,
@@ -126,6 +127,18 @@ const components: { name: string; group: string; to: string; preview: ReactNode 
       <AvatarGroup
         size={32}
         items={[{ src: "/img/avatar-sample.jpg" }, { name: "김" }, { name: "이" }, {}, {}]}
+      />
+    ),
+  },
+  {
+    name: "Snackbar",
+    group: "Feedback",
+    to: "/components/snackbar",
+    preview: (
+      <Snackbar
+        heading="삭제했어요."
+        description="되돌릴 수 있어요."
+        style={{ minWidth: 0, width: 200 }}
       />
     ),
   },

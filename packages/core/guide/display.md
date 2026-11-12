@@ -33,6 +33,11 @@
   - `radius`(모서리 8, 카드 위에서 켬) · `border`(1px `border-default`, 흰 배경에 흰 이미지일 때) · `overlay`(이미지 위 막, 글자를 올릴 때) · `overlayColor`(막 색, 기본은 옅은 `fill-pressed`)
   - `children`: 이미지 위에 올릴 내용(제목 등). 이미지가 없으면 회색 바탕에 이미지 아이콘이 보입니다
   - 한 목록에서는 비율·모서리를 맞추고, 불러오기 전에는 같은 비율의 `SkeletonRectangle`(`height="auto"` + `style={{ aspectRatio: "16 / 9" }}`)을 보여 줍니다
+- **`Snackbar`** — 작업 뒤 다음 행동(버튼 1개)을 제안하는 메시지(Figma `Snackbar`). 이 컴포넌트는 **본문 안에 그대로 렌더링**해 두는 용도이고, 행동 뒤에 잠시 띄우려면 `useSnackbar`([오버레이](overlay.md))를 씁니다. 서버 컴포넌트에서도 쓸 수 있습니다(`action`·`onClose`를 넘길 때만 클라이언트 컴포넌트 안에서). 상세 규칙은 `components/snackbar/AGENTS.md`
+  - `heading`(필수, 한 줄·말줄임) · `description`(필요할 때만) · `variant`(`normal` 기본 · `positive` · `cautionary` · `negative`) · `icon`(종류별 아이콘, 기본 끔)
+  - `action`: `{ label, onClick }` 버튼 하나(Outline Neutral md, 레이블 2~4자). `onClose`: 넘기면 닫기 버튼(X). 숨기는 것은 사용하는 쪽이 상태로 합니다
+  - 폭은 놓인 자리를 채우고 최대 420. 본문에 붙어 있어 그림자가 없습니다(`useSnackbar`로 띄우면 `shadow-floating`)
+  - 버튼은 하나만. 되돌릴 수 없는 일의 확인은 Alert, 결과만 알리고 사라질 때는 `useToast`
 - **`Text`** — 토큰 텍스트 스타일로 글자를 그리는 컴포넌트(Figma Typography 59개 스타일만). 서버 컴포넌트에서도 쓸 수 있습니다.
   - `variant`(필수): `title-1-bold`, `body-2-regular`처럼 역할-번호-웨이트. 구간별 객체도 받음(`{ base: "title-3-bold", desktop: "title-1-bold" }`, 같은 크기 표 안에서 고름. 큰 제목에만)
   - `as`: 태그(`span` 기본, `p`·`h1`~`h6`·`label` 등). 모양과 따로 고릅니다

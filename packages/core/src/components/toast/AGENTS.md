@@ -14,6 +14,8 @@
 | 버튼   | 없음               | 1개(선택)            | Text Button 1~2개   |
 | 사라짐 | 자동으로 사라져요  | 자동으로 사라져요    | 직접 닫아야 해요    |
 
+스낵바도 같은 `ToastProvider`가 그립니다. `useSnackbar()`로 띄우면 토스트와 같은 자리에 띄운 순서대로 섞여 쌓이고 `limit`도 함께 셉니다.
+
 ## 구성
 
 | 구성            | 선택지                                            | 설명                                                  |
@@ -56,5 +58,5 @@ toast.negative("저장하지 못했어요.", { id: "save" });
 ## Props 요약
 
 - `Toast`: `variant` · `shape` · `children`(메시지)와 나머지 `<div>` 속성
-- `ToastProvider`: `position`(`top`·`bottom`, 기본 bottom) · `offset`(기본 20) · `limit`(기본 3) · `duration`(기본 3000) · `shape`(기본 default)
+- `ToastProvider`: `position`(`top`·`bottom`, 기본 bottom) · `offset`(기본 20) · `limit`(기본 3) · `duration`(기본 3000) · `snackbarDuration`(스낵바, 기본 5000) · `shape`(기본 default)
 - `useToast()`: `toast(message, options?)` · `toast.normal` · `toast.positive` · `toast.cautionary` · `toast.negative` · `toast.dismiss(id?)`. options: `id` · `variant` · `shape` · `duration`(`null`이면 닫을 때까지) · `onClose`
