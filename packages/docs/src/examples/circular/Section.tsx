@@ -1,4 +1,4 @@
-import { Circular } from "@futurewiz-rms/mint";
+import { Circular, Text } from "@futurewiz-rms/mint";
 
 export default function Section() {
   return (
@@ -14,7 +14,9 @@ export default function Section() {
       className="bg-background-default rounded-16"
     >
       <Circular color="brand" />
-      <span className="text-body-4-regular text-text-tertiary">시세를 불러오고 있어요</span>
+      <Text variant="body-4-regular" color="tertiary">
+        시세를 불러오고 있어요
+      </Text>
     </div>
   );
 }

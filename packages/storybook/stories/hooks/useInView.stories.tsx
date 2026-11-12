@@ -25,8 +25,8 @@ export const Basic: Story = {
           style={{ height: 160, overflow: "auto", border: "1px solid var(--mint-border-default)" }}
         >
           <div style={{ height: 400 }} />
-          <div ref={ref} className="bg-fill-brand-weak p-4 text-label-2-medium">
-            관찰하는 칸
+          <div ref={ref} className="bg-fill-brand-weak p-4">
+            <Text variant="label-2-medium">관찰하는 칸</Text>
           </div>
         </div>
       </div>
@@ -59,9 +59,9 @@ export const InfiniteScroll: Story = {
     return (
       <div ref={setRoot} data-testid="list" style={{ height: 240, width: 280, overflow: "auto" }}>
         {Array.from({ length: count }, (_, i) => (
-          <p key={i} className="px-4 py-3 text-body-3-regular text-text-primary">
+          <Text key={i} as="p" variant="body-3-regular" className="px-4 py-3">
             코인 {i + 1}
-          </p>
+          </Text>
         ))}
         {!done && (
           <div ref={ref} className="p-4">
@@ -89,8 +89,8 @@ export const TriggerOnce: Story = {
     return (
       <div ref={setRoot} data-testid="box" style={{ height: 160, width: 280, overflow: "auto" }}>
         <div style={{ height: 400 }} />
-        <div ref={ref} className="p-4 text-label-2-medium">
-          {inView ? "한 번 보였어요" : "아직이에요"}
+        <div ref={ref} className="p-4">
+          <Text variant="label-2-medium">{inView ? "한 번 보였어요" : "아직이에요"}</Text>
         </div>
         <div style={{ height: 400 }} />
       </div>

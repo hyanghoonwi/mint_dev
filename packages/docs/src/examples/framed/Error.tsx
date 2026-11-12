@@ -1,4 +1,4 @@
-import { FramedRadio, RadioGroup } from "@futurewiz-rms/mint";
+import { FramedRadio, RadioGroup, Text } from "@futurewiz-rms/mint";
 
 export default function Error() {
   return (
@@ -7,9 +7,9 @@ export default function Error() {
         <FramedRadio value="phone" label="휴대폰 인증" error />
         <FramedRadio value="card" label="신용카드 인증" error />
       </RadioGroup>
-      <span id="verify-error" className="text-body-5-regular text-text-danger">
+      <Text variant="body-5-regular" color="danger" id="verify-error">
         인증 방법을 골라 주세요
-      </span>
+      </Text>
     </div>
   );
 }

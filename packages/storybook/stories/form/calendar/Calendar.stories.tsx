@@ -1,7 +1,7 @@
 import { useState } from "react";
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { expect, fn, userEvent } from "storybook/test";
-import { Calendar } from "@futurewiz-rms/mint";
+import { Calendar, Text } from "@futurewiz-rms/mint";
 
 const TODAY = "2026-11-11";
 const marks = {
@@ -100,9 +100,9 @@ export const Interaction: Story = {
           month={month}
           onMonthChange={setMonth}
         />
-        <span className="text-body-3-regular text-text-secondary">
+        <Text variant="body-3-regular" color="secondary">
           선택: {value ?? "없음"} · 달: {month}
-        </span>
+        </Text>
       </div>
     );
   },

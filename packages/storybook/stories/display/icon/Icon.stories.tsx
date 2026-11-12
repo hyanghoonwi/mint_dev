@@ -8,10 +8,11 @@ import {
   HeartIcon,
   HouseIcon,
   iconCatalog,
+  type IconComponent,
   PlusIcon,
   StarIcon,
+  Text,
   WarningCircleIcon,
-  type IconComponent,
 } from "@futurewiz-rms/mint";
 
 const meta = {
@@ -106,9 +107,9 @@ export const Gallery: Story = {
     <div style={{ display: "flex", flexDirection: "column", gap: 32 }}>
       {iconCatalog.map((group) => (
         <section key={group.category} style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-          <h3 className="text-heading-3-bold" style={{ margin: 0 }}>
+          <Text as="h3" variant="heading-3-bold" style={{ margin: 0 }}>
             {group.category}
-          </h3>
+          </Text>
           <div
             style={{
               display: "grid",
@@ -130,7 +131,9 @@ export const Gallery: Story = {
                     <Icon />
                     <Icon variant="fill" />
                   </div>
-                  <code className="text-caption-1-regular text-text-secondary">{name}</code>
+                  <Text as="code" variant="caption-1-regular" color="secondary">
+                    {name}
+                  </Text>
                 </div>
               );
             })}

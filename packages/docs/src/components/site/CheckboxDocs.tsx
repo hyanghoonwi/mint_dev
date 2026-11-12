@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Checkbox, type CheckboxSize } from "@futurewiz-rms/mint";
+import { Checkbox, type CheckboxSize, Text } from "@futurewiz-rms/mint";
 import { DoDont } from "./DoDont";
 import { jsx, Playground } from "./Playground";
 
@@ -86,7 +86,9 @@ export function CheckboxGuide() {
       goodText={<>전체 선택과 하위 선택은 일부 선택(indeterminate)으로 연결해요.</>}
       bad={
         <span style={{ display: "flex", flexDirection: "column" }}>
-          <span className="text-body-3-regular text-text-secondary">결제 수단</span>
+          <Text variant="body-3-regular" color="secondary">
+            결제 수단
+          </Text>
           <Checkbox defaultChecked>카드</Checkbox>
           <Checkbox>계좌이체</Checkbox>
         </span>

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { expect, fn, userEvent } from "storybook/test";
-import { Framed, FramedCheckbox, FramedRadio, RadioGroup } from "@futurewiz-rms/mint";
+import { Framed, FramedCheckbox, FramedRadio, RadioGroup, Text } from "@futurewiz-rms/mint";
 
 const meta = {
   title: "Components/Form/Framed",
@@ -72,10 +72,10 @@ export const Placeholder: Story = {
   render: () => (
     <div style={col}>
       <Framed>
-        <span className="text-body-2-regular text-text-primary">다른 내용을 담는 틀</span>
+        <Text variant="body-2-regular">다른 내용을 담는 틀</Text>
       </Framed>
       <Framed selected size="lg" shadow>
-        <span className="text-body-2-regular text-text-primary">선택된 틀</span>
+        <Text variant="body-2-regular">선택된 틀</Text>
       </Framed>
     </div>
   ),

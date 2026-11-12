@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { expect, fn } from "storybook/test";
-import { Avatar, AvatarGroup, BellIcon } from "@futurewiz-rms/mint";
+import { Avatar, AvatarGroup, BellIcon, Text } from "@futurewiz-rms/mint";
 // 스토리용 샘플 이미지(Figma Avatar 이미지 노드 2200:3344의 캐릭터)
 import sample from "./avatar-sample.jpg";
 
@@ -185,7 +185,7 @@ export const Size16: Story = {
   render: () => (
     <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
       <Avatar size={16} name="김민수" badge="dot" />
-      <span className="text-body-4-medium text-text-primary">김민수</span>
+      <Text variant="body-4-medium">김민수</Text>
       <AvatarGroup
         size={16}
         items={[{ name: "민" }, { name: "코" }, { name: "랩" }, { name: "인" }]}

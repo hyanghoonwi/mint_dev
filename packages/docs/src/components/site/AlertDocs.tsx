@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Alert, Button } from "@futurewiz-rms/mint";
+import { Alert, Button, Text } from "@futurewiz-rms/mint";
 import { DoDont } from "./DoDont";
 import { Playground, type Control, type Values } from "./Playground";
 
@@ -91,7 +91,9 @@ export function AlertPlayground() {
 function AlertMock({ body, actions }: { body: string; actions: [string, string] }) {
   return (
     <div className="docs-alert-mock">
-      <p className="text-body-3-regular text-text-secondary">{body}</p>
+      <Text as="p" variant="body-3-regular" color="secondary">
+        {body}
+      </Text>
       <div className="docs-alert-mock__actions">
         <Button size="sm" color="secondary" tabIndex={-1}>
           {actions[0]}

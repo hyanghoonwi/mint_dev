@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Radio, RadioGroup } from "@futurewiz-rms/mint";
+import { Radio, RadioGroup, Text } from "@futurewiz-rms/mint";
 
 const fees = { card: "수수료 2%", bank: "수수료 없음", point: "포인트 차감" };
 
@@ -19,7 +19,9 @@ export default function Controlled() {
         <Radio value="bank">계좌이체</Radio>
         <Radio value="point">포인트</Radio>
       </RadioGroup>
-      <span className="text-body-3-regular text-text-secondary">{fees[method]}</span>
+      <Text variant="body-3-regular" color="secondary">
+        {fees[method]}
+      </Text>
     </div>
   );
 }

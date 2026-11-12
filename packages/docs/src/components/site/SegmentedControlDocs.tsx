@@ -1,6 +1,6 @@
 "use client";
 
-import { ListIcon, SegmentedControl, type SegmentedControlSize } from "@futurewiz-rms/mint";
+import { ListIcon, SegmentedControl, type SegmentedControlSize, Text } from "@futurewiz-rms/mint";
 import { DoDont } from "./DoDont";
 import { jsx, Playground, type Values } from "./Playground";
 
@@ -73,12 +73,14 @@ export function SegmentedControlGuide() {
           className="inline-grid grid-flow-col auto-cols-fr rounded-12 bg-fill-neutral-weak p-1"
         >
           {["홈", "시세", "내 자산"].map((label) => (
-            <span
+            <Text
               key={label}
-              className="inline-flex h-8 items-center justify-center px-3 text-label-2-medium text-text-secondary"
+              variant="label-2-medium"
+              color="secondary"
+              className="inline-flex h-8 items-center justify-center px-3"
             >
               {label}
-            </span>
+            </Text>
           ))}
         </span>
       }

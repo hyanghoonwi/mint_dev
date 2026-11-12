@@ -158,15 +158,20 @@ const components: { name: string; group: string; to: string; preview: ReactNode 
         }}
       >
         <span style={{ display: "flex", flexDirection: "column", gap: 4 }}>
-          <strong className="text-label-1-semibold text-text-strong">제목</strong>
-          <span className="text-label-3-semibold text-text-secondary">본문</span>
+          <Text as="strong" variant="label-1-semibold" color="strong">
+            제목
+          </Text>
+          <Text variant="label-3-semibold" color="secondary">
+            본문
+          </Text>
         </span>
-        <span
-          className="text-label-3-semibold"
-          style={{ display: "flex", justifyContent: "flex-end", gap: 12 }}
-        >
-          <span className="text-text-secondary">취소</span>
-          <span className="text-text-brand">확인</span>
+        <span style={{ display: "flex", justifyContent: "flex-end", gap: 12 }}>
+          <Text variant="label-3-semibold" color="secondary">
+            취소
+          </Text>
+          <Text variant="label-3-semibold" color="brand">
+            확인
+          </Text>
         </span>
       </span>
     ),
@@ -430,7 +435,11 @@ const foundations: { name: string; to: string; preview: ReactNode }[] = [
   {
     name: "Typography",
     to: "/foundations/typography",
-    preview: <span className="text-display-1-bold text-text-strong">Aa</span>,
+    preview: (
+      <Text variant="display-1-bold" color="strong">
+        Aa
+      </Text>
+    ),
   },
   {
     name: "Spacing · Grid",

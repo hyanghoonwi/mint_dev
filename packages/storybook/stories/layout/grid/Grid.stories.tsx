@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import { Container, Grid } from "@futurewiz-rms/mint";
+import { Container, Grid, Text } from "@futurewiz-rms/mint";
 
 const meta = {
   title: "Components/Layout/Grid",
@@ -19,8 +19,10 @@ export const Cards: Story = {
       <Grid>
         {Array.from({ length: 8 }, (_, index) => (
           <Grid.Item key={index} span={{ base: 4, tablet: 4, desktop: 3 }}>
-            <div className="rounded-8 bg-fill-brand-weak p-5 text-label-2-semibold text-text-brand">
-              카드 {index + 1}
+            <div className="rounded-8 bg-fill-brand-weak p-5">
+              <Text variant="label-2-semibold" color="brand">
+                카드 {index + 1}
+              </Text>
             </div>
           </Grid.Item>
         ))}
@@ -35,10 +37,14 @@ export const PageLayout: Story = {
     <Container>
       <Grid>
         <Grid.Item span={{ base: 4, tablet: 8, desktop: 3 }}>
-          <aside className="rounded-8 bg-background-lower p-5 text-body-3-medium">사이드</aside>
+          <aside className="rounded-8 bg-background-lower p-5">
+            <Text variant="body-3-medium">사이드</Text>
+          </aside>
         </Grid.Item>
         <Grid.Item span={{ base: 4, tablet: 8, desktop: 9 }}>
-          <main className="rounded-8 bg-background-lower p-5 text-body-3-medium">본문</main>
+          <main className="rounded-8 bg-background-lower p-5">
+            <Text variant="body-3-medium">본문</Text>
+          </main>
         </Grid.Item>
       </Grid>
     </Container>
@@ -51,7 +57,9 @@ export const FullRow: Story = {
     <Container>
       <Grid>
         <Grid.Item>
-          <div className="rounded-8 bg-background-lower p-5 text-body-3-medium">한 줄 전체</div>
+          <div className="rounded-8 bg-background-lower p-5">
+            <Text variant="body-3-medium">한 줄 전체</Text>
+          </div>
         </Grid.Item>
       </Grid>
     </Container>

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { expect, userEvent, waitFor, within } from "storybook/test";
-import { Alert, Button, OverlayProvider, useOverlay } from "@futurewiz-rms/mint";
+import { Alert, Button, OverlayProvider, Text, useOverlay } from "@futurewiz-rms/mint";
 
 const meta = {
   title: "Hooks/useOverlay",
@@ -116,9 +116,9 @@ export const OpenAsync: Story = {
         >
           게시글 삭제
         </Button>
-        <span className="text-body-2-regular text-text-secondary" role="status">
+        <Text variant="body-2-regular" color="secondary" role="status">
           {result}
-        </span>
+        </Text>
       </div>
     );
   },
@@ -273,9 +273,9 @@ export const Sequential: Story = {
         >
           알림 설정
         </Button>
-        <span className="text-body-2-regular text-text-secondary" role="status">
+        <Text variant="body-2-regular" color="secondary" role="status">
           {result}
-        </span>
+        </Text>
       </div>
     );
   },
@@ -326,9 +326,9 @@ export const SameOverlayId: Story = {
         >
           두 번 열기
         </Button>
-        <span className="text-body-2-regular text-text-secondary">
+        <Text variant="body-2-regular" color="secondary">
           {results.length ? `결과: ${results.join(", ")}` : ""}
-        </span>
+        </Text>
       </div>
     );
   },
@@ -370,7 +370,9 @@ export const ClosedWithoutValue: Story = {
     return (
       <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
         <Button onClick={ask}>열기</Button>
-        <span className="text-body-2-regular text-text-secondary">{result}</span>
+        <Text variant="body-2-regular" color="secondary">
+          {result}
+        </Text>
       </div>
     );
   },

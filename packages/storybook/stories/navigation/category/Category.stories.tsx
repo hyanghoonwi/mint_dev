@@ -1,7 +1,7 @@
 import { useState } from "react";
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { expect, userEvent, waitFor } from "storybook/test";
-import { Category, HouseIcon, StarIcon } from "@futurewiz-rms/mint";
+import { Category, HouseIcon, StarIcon, Text } from "@futurewiz-rms/mint";
 
 const coins = [
   { value: "major", label: "메이저" },
@@ -112,7 +112,9 @@ export const Interaction: Story = {
     return (
       <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
         <Category {...args} value={value} onChange={setValue} />
-        <span className="text-body-3-regular text-text-secondary">선택: {value}</span>
+        <Text variant="body-3-regular" color="secondary">
+          선택: {value}
+        </Text>
       </div>
     );
   },

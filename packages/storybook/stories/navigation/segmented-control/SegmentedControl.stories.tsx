@@ -1,7 +1,7 @@
 import { useState } from "react";
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { expect, userEvent } from "storybook/test";
-import { ListIcon, SegmentedControl, SquaresFourIcon, TableIcon } from "@futurewiz-rms/mint";
+import { ListIcon, SegmentedControl, SquaresFourIcon, TableIcon, Text } from "@futurewiz-rms/mint";
 
 const period = [
   { value: "day", label: "일" },
@@ -91,7 +91,9 @@ export const Interaction: Story = {
     return (
       <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
         <SegmentedControl {...args} value={value} onChange={setValue} />
-        <span className="text-body-3-regular text-text-secondary">선택: {value}</span>
+        <Text variant="body-3-regular" color="secondary">
+          선택: {value}
+        </Text>
       </div>
     );
   },

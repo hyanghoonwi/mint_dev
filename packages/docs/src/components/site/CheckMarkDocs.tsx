@@ -1,6 +1,6 @@
 "use client";
 
-import { CheckMark, type CheckMarkSize } from "@futurewiz-rms/mint";
+import { CheckMark, type CheckMarkSize, Text } from "@futurewiz-rms/mint";
 import { DoDont } from "./DoDont";
 import { jsx, Playground } from "./Playground";
 
@@ -62,7 +62,9 @@ export function CheckMarkGuide() {
       goodText={<>항목 전체를 눌러서 선택되게 해요.</>}
       bad={
         <span style={{ display: "flex", flexDirection: "column", gap: 8, width: 200 }}>
-          <span className="text-body-3-regular text-text-secondary">약관 동의 (필수)</span>
+          <Text variant="body-3-regular" color="secondary">
+            약관 동의 (필수)
+          </Text>
           <CheckMark onClick={() => {}}>이용약관</CheckMark>
           <CheckMark onClick={() => {}}>개인정보 처리방침</CheckMark>
         </span>

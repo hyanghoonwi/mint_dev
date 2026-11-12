@@ -237,6 +237,7 @@ MINT는 Next.js App Router에서 **서버 컴포넌트와 클라이언트 컴포
 - **예시는 파일 하나로 관리합니다.** `packages/docs/src/examples/<페이지슬러그>/<이름>.tsx`에 **실행되는 완결된 컴포넌트**로 쓰고, MDX에서는 `<Example name="<페이지슬러그>/<이름>" />` 한 줄로 부릅니다. `Example`은 서버 컴포넌트라 같은 파일을 읽어 코드 블록을 만듭니다. MDX에 미리보기와 ` ```tsx ` 코드 블록을 따로 쓰지 않습니다.
 - **예시 코드는 사용하는 쪽이 쓰는 코드만 보여 줍니다.** 컴포넌트가 캡슐화한 내부 동작(CSS 변수 읽기, `grid-template-columns` 같은 직접 스타일, 사용하는 쪽이 일일이 쓰게 되는 클래스 나열)을 예시로 보여 주지 않습니다. 예: 그리드는 `<div class="grid tablet:grid-cols-2">`가 아니라 `<Grid><Grid.Item span={…}>`로 보여 줍니다.
 - **토큰·아이콘 갤러리처럼 "시각 확인용" 예시**는 `<Example name="…" hideCode />`로 코드를 숨깁니다. 그 코드는 화면을 그리는 구현이라 사용법이 아닙니다. 사용법은 MDX에 짧은 코드 블록으로 따로 적습니다.
+- **글자는 `Text` 컴포넌트로 씁니다.** 예시·스토리·사이트 미리보기에서 `<p className="text-body-2-regular text-text-secondary">`처럼 태그에 글자 클래스를 직접 달지 않고 `<Text as="p" variant="body-2-regular" color="secondary">`로 씁니다(사용하는 쪽이 따라 쓰는 코드이기 때문). 상자(배경·패딩)가 필요하면 바깥 `div`는 두고 안의 글자만 `Text`로 씁니다. 예외: 입력창(`<input>`) 모양, Foundations 스토리처럼 토큰 클래스 자체를 보여 주는 화면.
 - **예시 파일 규칙**: 기본 export 컴포넌트 하나(파일 이름과 같은 함수 이름), 쓰는 것만 `@futurewiz-rms/mint`에서 import, 정의되지 않은 변수 금지. 레이아웃 배치용 `div`/`style`은 파일 밖으로 빼서 `<Example name="..." style={{ maxWidth: 375 }} />`로 넘깁니다.
 - **docs에서 쓸 수 있는 클래스는 core가 만든 것뿐**입니다. 토큰 클래스(색·글자·반경·**간격**: `text-body-2-regular`, `bg-bg-surface`, `p-5`)와 컴포넌트가 쓰는 클래스는 들어 있지만, Tailwind의 일반 유틸리티(`flex`, `grid`, `gap-*`의 스케일 밖 값, `tablet:…`)는 없을 수 있습니다. 그래서 예시의 배치는 가능하면 `Container`·`Grid` 같은 MINT 컴포넌트로 하고, 그래도 필요한 미리보기용 배치는 `style`로 씁니다.
 - Props 표는 **소스의 실제 props와 대조**해서 씁니다.

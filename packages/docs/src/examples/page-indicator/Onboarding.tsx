@@ -1,4 +1,4 @@
-import { PageDots } from "@futurewiz-rms/mint";
+import { PageDots, Text } from "@futurewiz-rms/mint";
 
 export default function Onboarding() {
   return (
@@ -11,7 +11,9 @@ export default function Onboarding() {
         width: 280,
       }}
     >
-      <span className="text-heading-3-semibold text-text-strong">관심 코인을 담아 보세요</span>
+      <Text variant="heading-3-semibold" color="strong">
+        관심 코인을 담아 보세요
+      </Text>
       <PageDots current={1} total={3} />
     </div>
   );

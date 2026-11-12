@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Category } from "@futurewiz-rms/mint";
+import { Category, Text } from "@futurewiz-rms/mint";
 
 const coins = [
   { name: "비트코인", type: "major" },
@@ -26,10 +26,10 @@ export default function Filter() {
           { value: "meme", label: "밈" },
         ]}
       />
-      <ul className="bg-background-default px-4 pb-4 text-body-3-regular text-text-primary">
+      <ul className="bg-background-default px-4 pb-4">
         {shown.map((coin) => (
           <li key={coin.name} style={{ padding: "8px 0" }}>
-            {coin.name}
+            <Text variant="body-3-regular">{coin.name}</Text>
           </li>
         ))}
       </ul>

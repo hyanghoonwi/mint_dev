@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Alert, Button, useOverlay } from "@futurewiz-rms/mint";
+import { Alert, Button, Text, useOverlay } from "@futurewiz-rms/mint";
 
 export default function Async() {
   const overlay = useOverlay();
@@ -34,7 +34,9 @@ export default function Async() {
       <Button color="destructive" onClick={deletePost}>
         게시글 삭제
       </Button>
-      <span className="text-body-2-regular text-text-secondary">{message}</span>
+      <Text variant="body-2-regular" color="secondary">
+        {message}
+      </Text>
     </div>
   );
 }

@@ -4,8 +4,9 @@ import {
   Framed,
   FramedCheckbox,
   FramedRadio,
-  RadioGroup,
   type FramedSize,
+  RadioGroup,
+  Text,
 } from "@futurewiz-rms/mint";
 import { DoDont } from "./DoDont";
 import { jsx, Playground, type Values } from "./Playground";
@@ -102,7 +103,9 @@ export function FramedGuide() {
       bad={
         <Framed size="sm" style={{ width: 240 }}>
           <Framed size="sm">
-            <span className="text-body-3-regular text-text-secondary">공지사항</span>
+            <Text variant="body-3-regular" color="secondary">
+              공지사항
+            </Text>
           </Framed>
         </Framed>
       }
