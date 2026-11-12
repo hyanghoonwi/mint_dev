@@ -25,6 +25,14 @@
   - `variant`: `text`(기본, 글자만) · `weak`(연한 배경)
   - `size`: `sm`(12px, 표·목록) · `md`(14px, 기본) · `lg`(16px, 요약 카드). 구간별 객체도 받음(`{ base: "sm", desktop: "md" }`). 같은 목록에서는 하나로 맞춥니다
   - 스크린리더에는 "상승·하락·보합"이 함께 읽힙니다. 상태·분류 라벨은 `Badge`를 씁니다
+- **`Thumbnail`** — 콘텐츠 이미지(뉴스·카드·상품)를 정해진 비율로 보여 주는 틀(Figma `Thumbnail`). 서버 컴포넌트에서도 쓸 수 있습니다. 사람·대상(프로필·거래소)은 `Avatar`를 씁니다. 상세 규칙은 `components/thumbnail/AGENTS.md`
+  - `aspectRatio`: 가로형 `1:1`(기본) `5:4` `4:3` `3:2` `16:10` `1.618:1` `16:9` `2:1` `21:9`, 세로형 `4:5` `3:4` `2:3` `10:16` `1:1.618` `9:16` `1:2` `9:21`. 가로는 `16:9`, 정사각형은 `1:1`을 기본으로. 구간별 객체도 받음(`{ base: "1:1", tablet: "16:9" }`)
+  - 폭은 부모(또는 `style`·`className`의 폭)를 따르고 높이가 비율로 정해집니다
+  - `src`·`alt`(꾸밈용이면 `""`), `loading`(기본 `lazy`, 첫 화면 위쪽은 `eager`), `fit`(`cover` 기본 · `contain`)
+  - `image`: Next.js `<Image fill />`처럼 직접 만든 이미지 요소를 넘길 때(`src` 대신). core는 `next/image`를 쓰지 않습니다
+  - `radius`(모서리 8, 카드 위에서 켬) · `border`(1px `border-default`, 흰 배경에 흰 이미지일 때) · `overlay`(이미지 위 막, 글자를 올릴 때) · `overlayColor`(막 색, 기본은 옅은 `fill-pressed`)
+  - `children`: 이미지 위에 올릴 내용(제목 등). 이미지가 없으면 회색 바탕에 이미지 아이콘이 보입니다
+  - 한 목록에서는 비율·모서리를 맞추고, 불러오기 전에는 같은 비율의 `SkeletonRectangle`(`height="auto"` + `style={{ aspectRatio: "16 / 9" }}`)을 보여 줍니다
 - **`Text`** — 토큰 텍스트 스타일로 글자를 그리는 컴포넌트(Figma Typography 59개 스타일만). 서버 컴포넌트에서도 쓸 수 있습니다.
   - `variant`(필수): `title-1-bold`, `body-2-regular`처럼 역할-번호-웨이트. 구간별 객체도 받음(`{ base: "title-3-bold", desktop: "title-1-bold" }`, 같은 크기 표 안에서 고름. 큰 제목에만)
   - `as`: 태그(`span` 기본, `p`·`h1`~`h6`·`label` 등). 모양과 따로 고릅니다

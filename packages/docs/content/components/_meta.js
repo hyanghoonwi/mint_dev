@@ -22,6 +22,7 @@ export default {
   badge: "Badge",
   "price-change": "Price change",
   text: "Text",
+  thumbnail: "Thumbnail",
   "---feedback": { type: "separator", title: "Feedback" },
   alert: "Alert",
   tooltip: "Tooltip",

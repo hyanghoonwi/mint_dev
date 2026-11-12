@@ -1,0 +1,63 @@
+# Thumbnail
+
+이미지를 항상 같은 비율로 보여 주는 틀이에요.
+
+<ComponentBadges />
+
+<Figure height={240} />
+
+## Playground
+
+오른쪽에서 props를 바꾸면 썸네일과 아래 코드가 함께 바뀌어요. 폭은 부모를 따르고, 높이는 비율에 맞춰 정해져요.
+
+<ThumbnailPlayground />
+
+## Examples
+
+<ExampleTabs
+  items={[
+    { title: "카드", name: "thumbnail/Card" },
+    { title: "목록", name: "thumbnail/List" },
+    { title: "테두리", name: "thumbnail/Border" },
+    { title: "글자 올리기", name: "thumbnail/Overlay" },
+    { title: "불러오는 중", name: "thumbnail/Loading" },
+    { title: "반응형", name: "thumbnail/Responsive" },
+  ]}
+/>
+
+- **카드**: 가로 이미지는 16:9를 기본으로 써요. 카드 위에서는 `radius`를 켜요.
+- **목록**: 한 목록 안에서는 같은 비율과 모서리를 써요. 폭은 `style`이나 감싼 요소로 정해요.
+- **테두리**: 흰 배경에 흰 이미지가 올 때 `border`를 켜요. 이미지가 없으면 회색 바탕에 이미지 아이콘이 보여요.
+- **글자 올리기**: 이미지 위에 글자를 올릴 때는 `overlay`를 켜요. 대비가 더 필요하면 `overlayColor`로 막을 진하게 해요.
+- **불러오는 중**: 이미지를 불러오기 전에는 같은 비율의 `SkeletonRectangle`을 보여 줘요.
+- **반응형**: `aspectRatio`는 구간별 값도 받아요. `{ base: "1:1", tablet: "16:9" }`면 모바일은 정사각형, 태블릿(768px)부터 16:9예요. 창 폭을 바꿔 보세요.
+
+## Props
+
+나머지 `<div>` 속성도 그대로 받아요(바깥 틀).\
+서버 컴포넌트에서 바로 쓸 수 있어요.
+
+| 이름           | 타입                                                    | 기본값    | 설명                                                                                                                                        |
+| -------------- | ------------------------------------------------------- | --------- | ------------------------------------------------------------------------------------------------------------------------------------------- |
+| `aspectRatio`  | `"1:1" \| "16:9" \| …` 또는 `{ base, tablet, desktop }` | `"1:1"`   | 가로형 9개(1:1·5:4·4:3·3:2·16:10·1.618:1·16:9·2:1·21:9), 세로형 8개(4:5·3:4·2:3·10:16·1:1.618·9:16·1:2·9:21). 객체로 주면 구간마다 달라져요 |
+| `fit`          | `"cover" \| "contain"`                                  | `"cover"` | `cover`는 잘라서 채우고, `contain`은 전체를 보여요                                                                                          |
+| `radius`       | `boolean`                                               | `false`   | 모서리 8px                                                                                                                                  |
+| `border`       | `boolean`                                               | `false`   | 1px 테두리                                                                                                                                  |
+| `overlay`      | `boolean`                                               | `false`   | 이미지 위 어두운 막                                                                                                                         |
+| `overlayColor` | `string`                                                | -         | 막 색(CSS 색). 기본은 옅은 막이에요                                                                                                         |
+| `src`          | `string`                                                | -         | 이미지 주소                                                                                                                                 |
+| `alt`          | `string`                                                | `""`      | 이미지 설명. 꾸밈용이면 비워 둬요                                                                                                           |
+| `image`        | `ReactNode`                                             | -         | `<img>` 대신 그릴 요소(예: Next.js `<Image fill />`)                                                                                        |
+| `children`     | `ReactNode`                                             | -         | 이미지 위에 올릴 내용                                                                                                                       |
+| `loading`      | `"lazy" \| "eager"`                                     | `"lazy"`  | 첫 화면 위쪽 이미지는 `"eager"`로 써요                                                                                                      |
+
+## Guidelines
+
+<ThumbnailGuide />
+
+- 콘텐츠 이미지(뉴스·카드·상품)에 써요. 사람이나 대상(프로필·거래소)은 `Avatar`를 써요.
+- 가로는 16:9, 정사각형은 1:1을 기본으로 써요.
+- 한 목록 안에서는 같은 비율과 모서리를 써요.
+- 이미지를 비율에 맞지 않게 늘이거나 찌그러뜨리지 않아요. `fit`은 `cover`(잘라서 채우기)가 기본이에요.
+- 이미지 위에 긴 글자를 올릴 때는 `overlay`를 켜요.
+- 이미지를 불러오기 전에는 같은 비율의 `SkeletonRectangle`을 보여 줘요.

@@ -29,6 +29,7 @@ import {
   SkeletonText,
   StarIcon,
   Text,
+  Thumbnail,
   Tooltip,
 } from "@futurewiz-rms/mint";
 
@@ -89,6 +90,17 @@ const components: { name: string; group: string; to: string; preview: ReactNode 
         <PriceChange direction="down" variant="weak" type="percent">
           1.20%
         </PriceChange>
+      </>
+    ),
+  },
+  {
+    name: "Thumbnail",
+    group: "Contents",
+    to: "/components/thumbnail",
+    preview: (
+      <>
+        <Thumbnail aspectRatio="16:9" radius style={{ width: 112 }} />
+        <Thumbnail aspectRatio="1:1" radius style={{ width: 63 }} />
       </>
     ),
   },
