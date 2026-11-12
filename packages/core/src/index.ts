@@ -29,6 +29,7 @@ export * from "./components/tooltip/Tooltip";
 export * from "./components/grid/Grid";
 export * from "./components/icon/Icon";
 export * from "./components/icon-button/IconButton";
+export * from "./components/toggle-icon/ToggleIcon";
 export * from "./components/overlay/OverlayProvider";
 export * from "./components/overlay/useOverlay";
 export * from "./components/toast/Toast";

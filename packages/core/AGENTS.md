@@ -27,6 +27,7 @@ grep -n -A12 '\*\*`Button`\*\*' node_modules/@futurewiz-rms/mint/guide/actions.m
 
 - 사용자의 동작을 받는 버튼 → `Button`
 - 아이콘만 있는 버튼(닫기·더보기·공유) → `IconButton`(`aria-label` 필수)
+- 눌러서 켜고 끄는 아이콘(관심 코인·좋아요·북마크) → `ToggleIcon`(`aria-label` 필수)
 - 같은 목록을 거르거나 분류 고르기(칩, 하나만 선택) → `Category`
 - 같은 영역의 보기 방식 바꾸기(목록/격자, 일/주/월, 2~6개) → `SegmentedControl`(화면 섹션 전환은 Tab)
 - 많은 목록을 페이지로 나눠 이동 → `Pagination`(링크는 `getHref`+`linkComponent`, 버튼은 `onChange`)
@@ -63,6 +64,7 @@ grep -n -A12 '\*\*`Button`\*\*' node_modules/@futurewiz-rms/mint/guide/actions.m
 - `Button` — 텍스트 버튼
 - `IconButton` — 아이콘만 있는 원형 버튼(4종류, 4크기, 뱃지)
 - `TextButton` — 글자만 있는 가장 약한 행동("전체 보기 >", 문장 속 링크). primary·neutral, 4크기, 밑줄·inline, `href`면 링크
+- `ToggleIcon` — 켜고 끄는 아이콘(꺼짐 선 · 켜짐 채움, 4크기, `aria-pressed`)
 
 ### [내비게이션](guide/navigation.md)
 

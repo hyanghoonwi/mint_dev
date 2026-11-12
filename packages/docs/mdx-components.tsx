@@ -46,6 +46,7 @@ import { FramedGuide, FramedPlayground } from "./src/components/site/FramedDocs"
 import { CircularGuide, CircularPlayground } from "./src/components/site/CircularDocs";
 import { TextGuide, TextPlayground } from "./src/components/site/TextDocs";
 import { IconButtonGuide, IconButtonPlayground } from "./src/components/site/IconButtonDocs";
+import { ToggleIconGuide, ToggleIconPlayground } from "./src/components/site/ToggleIconDocs";
 import {
   SkeletonCirclePlayground,
   SkeletonGuide,
@@ -166,6 +167,8 @@ export function useMDXComponents(components?: MDXComponents) {
     CheckMarkGuide,
     IconButtonPlayground,
     IconButtonGuide,
+    ToggleIconPlayground,
+    ToggleIconGuide,
     TextPlayground,
     TextGuide,
     CircularPlayground,

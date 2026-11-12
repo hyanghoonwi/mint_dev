@@ -16,7 +16,7 @@
 | 예시   | 닫기, 더보기, 공유         | 확인, 제출, 삭제       | 관심 코인, 좋아요         |
 | 레이블 | 없어요 (aria-label 필수)   | 있어요                 | 없어요 (aria-label 필수)  |
 
-Toggle Icon은 MINT에 아직 없습니다.
+켜고 끄는 상태가 있으면 `ToggleIcon`을 씁니다(`components/toggle-icon/AGENTS.md`).
 
 ## 구성
 

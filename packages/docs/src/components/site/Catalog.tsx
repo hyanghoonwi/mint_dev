@@ -31,6 +31,7 @@ import {
   StarIcon,
   Text,
   TextButton,
+  ToggleIcon,
   Thumbnail,
   Toast,
   Tooltip,
@@ -376,6 +377,17 @@ const components: { name: string; group: string; to: string; preview: ReactNode 
       <span aria-hidden="true" style={{ display: "flex", gap: 8, pointerEvents: "none" }}>
         <IconButton icon={<PlusIcon />} aria-label="추가" variant="background" tabIndex={-1} />
         <IconButton icon={<PlusIcon />} aria-label="추가" variant="solid" tabIndex={-1} />
+      </span>
+    ),
+  },
+  {
+    name: "Toggle icon",
+    group: "Actions",
+    to: "/components/toggle-icon",
+    preview: (
+      <span aria-hidden="true" style={{ display: "flex", gap: 8, pointerEvents: "none" }}>
+        <ToggleIcon icon={<StarIcon />} aria-label="관심 코인" defaultActive tabIndex={-1} />
+        <ToggleIcon icon={<HeartIcon />} aria-label="좋아요" tabIndex={-1} />
       </span>
     ),
   },

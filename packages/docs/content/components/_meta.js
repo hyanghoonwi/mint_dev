@@ -5,6 +5,7 @@ export default {
   button: "Button",
   "icon-button": "Icon button",
   "text-button": "Text button",
+  "toggle-icon": "Toggle icon",
   "---navigation": { type: "separator", title: "Navigation" },
   category: "Category",
   "page-indicator": "Page indicator",
