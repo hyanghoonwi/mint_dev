@@ -39,22 +39,22 @@ const base =
 // 터치 화면에서 xs·sm은 보이는 크기는 그대로 두고 눌림 영역만 44px로 넓힌다(md·lg로 바뀌는 구간에서는 넓힌 영역을 없앤다)
 const sizeClasses: ResponsiveClassTable<ButtonSize> = {
   base: {
-    xs: "h-7 px-2 rounded-8 text-label-3-semibold [&_svg]:size-3 pointer-coarse:before:absolute pointer-coarse:before:inset-x-0 pointer-coarse:before:top-1/2 pointer-coarse:before:h-11 pointer-coarse:before:-translate-y-1/2",
-    sm: "h-8 px-3 rounded-12 text-label-3-semibold [&_svg]:size-4 pointer-coarse:before:absolute pointer-coarse:before:inset-x-0 pointer-coarse:before:top-1/2 pointer-coarse:before:h-11 pointer-coarse:before:-translate-y-1/2",
-    md: "h-10 px-4 rounded-12 text-label-2-semibold [&_svg]:size-4 pointer-coarse:before:content-none",
-    lg: "h-12 px-5 rounded-12 text-label-1-semibold [&_svg]:size-5 pointer-coarse:before:content-none",
+    xs: "h-7 px-2 rounded-8 text-label-3-medium [&_svg]:size-3 pointer-coarse:before:absolute pointer-coarse:before:inset-x-0 pointer-coarse:before:top-1/2 pointer-coarse:before:h-11 pointer-coarse:before:-translate-y-1/2",
+    sm: "h-8 px-3 rounded-12 text-label-3-medium [&_svg]:size-4 pointer-coarse:before:absolute pointer-coarse:before:inset-x-0 pointer-coarse:before:top-1/2 pointer-coarse:before:h-11 pointer-coarse:before:-translate-y-1/2",
+    md: "h-10 px-4 rounded-12 text-label-2-medium [&_svg]:size-4 pointer-coarse:before:content-none",
+    lg: "h-12 px-5 rounded-12 text-label-1-medium [&_svg]:size-5 pointer-coarse:before:content-none",
   },
   tablet: {
-    xs: "tablet:h-7 tablet:px-2 tablet:rounded-8 tablet:text-label-3-semibold tablet:[&_svg]:size-3 tablet:pointer-coarse:before:absolute tablet:pointer-coarse:before:inset-x-0 tablet:pointer-coarse:before:top-1/2 tablet:pointer-coarse:before:h-11 tablet:pointer-coarse:before:-translate-y-1/2",
-    sm: "tablet:h-8 tablet:px-3 tablet:rounded-12 tablet:text-label-3-semibold tablet:[&_svg]:size-4 tablet:pointer-coarse:before:absolute tablet:pointer-coarse:before:inset-x-0 tablet:pointer-coarse:before:top-1/2 tablet:pointer-coarse:before:h-11 tablet:pointer-coarse:before:-translate-y-1/2",
-    md: "tablet:h-10 tablet:px-4 tablet:rounded-12 tablet:text-label-2-semibold tablet:[&_svg]:size-4 tablet:pointer-coarse:before:content-none",
-    lg: "tablet:h-12 tablet:px-5 tablet:rounded-12 tablet:text-label-1-semibold tablet:[&_svg]:size-5 tablet:pointer-coarse:before:content-none",
+    xs: "tablet:h-7 tablet:px-2 tablet:rounded-8 tablet:text-label-3-medium tablet:[&_svg]:size-3 tablet:pointer-coarse:before:absolute tablet:pointer-coarse:before:inset-x-0 tablet:pointer-coarse:before:top-1/2 tablet:pointer-coarse:before:h-11 tablet:pointer-coarse:before:-translate-y-1/2",
+    sm: "tablet:h-8 tablet:px-3 tablet:rounded-12 tablet:text-label-3-medium tablet:[&_svg]:size-4 tablet:pointer-coarse:before:absolute tablet:pointer-coarse:before:inset-x-0 tablet:pointer-coarse:before:top-1/2 tablet:pointer-coarse:before:h-11 tablet:pointer-coarse:before:-translate-y-1/2",
+    md: "tablet:h-10 tablet:px-4 tablet:rounded-12 tablet:text-label-2-medium tablet:[&_svg]:size-4 tablet:pointer-coarse:before:content-none",
+    lg: "tablet:h-12 tablet:px-5 tablet:rounded-12 tablet:text-label-1-medium tablet:[&_svg]:size-5 tablet:pointer-coarse:before:content-none",
   },
   desktop: {
-    xs: "desktop:h-7 desktop:px-2 desktop:rounded-8 desktop:text-label-3-semibold desktop:[&_svg]:size-3 desktop:pointer-coarse:before:absolute desktop:pointer-coarse:before:inset-x-0 desktop:pointer-coarse:before:top-1/2 desktop:pointer-coarse:before:h-11 desktop:pointer-coarse:before:-translate-y-1/2",
-    sm: "desktop:h-8 desktop:px-3 desktop:rounded-12 desktop:text-label-3-semibold desktop:[&_svg]:size-4 desktop:pointer-coarse:before:absolute desktop:pointer-coarse:before:inset-x-0 desktop:pointer-coarse:before:top-1/2 desktop:pointer-coarse:before:h-11 desktop:pointer-coarse:before:-translate-y-1/2",
-    md: "desktop:h-10 desktop:px-4 desktop:rounded-12 desktop:text-label-2-semibold desktop:[&_svg]:size-4 desktop:pointer-coarse:before:content-none",
-    lg: "desktop:h-12 desktop:px-5 desktop:rounded-12 desktop:text-label-1-semibold desktop:[&_svg]:size-5 desktop:pointer-coarse:before:content-none",
+    xs: "desktop:h-7 desktop:px-2 desktop:rounded-8 desktop:text-label-3-medium desktop:[&_svg]:size-3 desktop:pointer-coarse:before:absolute desktop:pointer-coarse:before:inset-x-0 desktop:pointer-coarse:before:top-1/2 desktop:pointer-coarse:before:h-11 desktop:pointer-coarse:before:-translate-y-1/2",
+    sm: "desktop:h-8 desktop:px-3 desktop:rounded-12 desktop:text-label-3-medium desktop:[&_svg]:size-4 desktop:pointer-coarse:before:absolute desktop:pointer-coarse:before:inset-x-0 desktop:pointer-coarse:before:top-1/2 desktop:pointer-coarse:before:h-11 desktop:pointer-coarse:before:-translate-y-1/2",
+    md: "desktop:h-10 desktop:px-4 desktop:rounded-12 desktop:text-label-2-medium desktop:[&_svg]:size-4 desktop:pointer-coarse:before:content-none",
+    lg: "desktop:h-12 desktop:px-5 desktop:rounded-12 desktop:text-label-1-medium desktop:[&_svg]:size-5 desktop:pointer-coarse:before:content-none",
   },
 };
 
@@ -123,17 +123,17 @@ const tones = {
   },
   "outline-neutral": {
     normal:
-      "border-border-strong bg-transparent text-text-strong enabled:hover:bg-fill-neutral-weak enabled:active:bg-fill-neutral-weak",
+      "border-border-strong bg-fill-white text-text-strong enabled:hover:bg-fill-neutral-weak enabled:active:bg-fill-neutral-weak",
     loading: "",
   },
   "outline-primary": {
     normal:
-      "border-border-brand bg-transparent text-text-brand enabled:hover:bg-fill-brand-weak enabled:active:bg-fill-brand-weak",
+      "border-border-brand bg-fill-white text-text-brand enabled:hover:bg-fill-brand-weak enabled:active:bg-fill-brand-weak",
     loading: "",
   },
   "ghost-neutral": {
     normal:
-      "border-transparent bg-transparent text-text-strong enabled:hover:bg-fill-neutral-weak-pressed enabled:active:bg-fill-neutral-weak-pressed",
+      "border-transparent bg-transparent text-text-secondary enabled:hover:bg-fill-neutral-weak-pressed enabled:active:bg-fill-neutral-weak-pressed",
     loading: "bg-fill-neutral-weak-pressed",
   },
 } as const;
@@ -142,7 +142,7 @@ type ToneKey = keyof typeof tones;
 
 const disabledTones = {
   solid: "border-transparent bg-fill-disabled text-text-disabled",
-  outline: "border-border-disabled bg-transparent text-text-disabled",
+  outline: "border-border-disabled bg-fill-white text-text-disabled",
   ghost: "border-transparent bg-transparent text-text-disabled",
 } as const;
 
