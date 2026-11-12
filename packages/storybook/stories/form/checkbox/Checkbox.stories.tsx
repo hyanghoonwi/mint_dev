@@ -88,14 +88,16 @@ export const SelectAll: Story = {
     const [agreed, setAgreed] = useState<string[]>([]);
     const all = agreed.length === terms.length;
     const toggle = (id: string) =>
-      setAgreed((prev) => (prev.includes(id) ? prev.filter((v) => v !== id) : [...prev, id]));
+      setAgreed((previous) =>
+        previous.includes(id) ? previous.filter((agreedId) => agreedId !== id) : [...previous, id],
+      );
     return (
       <div style={{ display: "flex", flexDirection: "column" }}>
         <Checkbox
           bold
           checked={all}
           indeterminate={agreed.length > 0 && !all}
-          onChange={(event) => setAgreed(event.target.checked ? terms.map((t) => t.id) : [])}
+          onChange={(event) => setAgreed(event.target.checked ? terms.map((term) => term.id) : [])}
         >
           전체 동의
         </Checkbox>

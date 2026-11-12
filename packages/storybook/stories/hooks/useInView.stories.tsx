@@ -54,13 +54,13 @@ export const InfiniteScroll: Story = {
     const { ref, inView } = useInView({ root, rootMargin: "0px 0px 80px 0px", skip: done });
     // 끝 칸이 보이는 동안 계속 채운다(불러온 뒤에도 여전히 보이면 한 번 더)
     useEffect(() => {
-      if (inView && !done) setCount((c) => Math.min(c + 10, 30));
+      if (inView && !done) setCount((previous) => Math.min(previous + 10, 30));
     }, [inView, done, count]);
     return (
       <div ref={setRoot} data-testid="list" style={{ height: 240, width: 280, overflow: "auto" }}>
-        {Array.from({ length: count }, (_, i) => (
-          <Text key={i} as="p" variant="body-3-regular" className="px-4 py-3">
-            코인 {i + 1}
+        {Array.from({ length: count }, (_, index) => (
+          <Text key={index} as="p" variant="body-3-regular" className="px-4 py-3">
+            코인 {index + 1}
           </Text>
         ))}
         {!done && (

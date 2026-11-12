@@ -42,7 +42,7 @@ export const Default: Story = {
         aria-label="여러 줄 입력"
         className="rounded-8 border border-border-strong p-3 text-body-3-regular"
         style={{ width: 200, height: 120 }}
-        defaultValue={Array.from({ length: 12 }, (_, i) => `${i + 1}번째 줄`).join("\n")}
+        defaultValue={Array.from({ length: 12 }, (_, index) => `${index + 1}번째 줄`).join("\n")}
       />
     </div>
   ),

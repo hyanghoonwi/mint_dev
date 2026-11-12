@@ -29,13 +29,13 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-const col = { display: "flex", flexDirection: "column", gap: 8 } as const;
+const column = { display: "flex", flexDirection: "column", gap: 8 } as const;
 
 export const Checkbox: Story = {};
 
 export const Sizes: Story = {
   render: (args) => (
-    <div style={col}>
+    <div style={column}>
       <FramedCheckbox {...args} size="sm" label="Small" />
       <FramedCheckbox {...args} size="md" label="Medium" />
       <FramedCheckbox {...args} size="lg" label="Large" />
@@ -46,7 +46,7 @@ export const Sizes: Story = {
 // 선택 · 오류 · 비활성 · 그림자
 export const States: Story = {
   render: (args) => (
-    <div style={col}>
+    <div style={column}>
       <FramedCheckbox {...args} label="선택 안 됨" />
       <FramedCheckbox {...args} label="선택됨" defaultChecked />
       <FramedCheckbox {...args} label="오류" error />
@@ -70,7 +70,7 @@ export const Radio: Story = {
 
 export const Placeholder: Story = {
   render: () => (
-    <div style={col}>
+    <div style={column}>
       <Framed>
         <Text variant="body-2-regular">다른 내용을 담는 틀</Text>
       </Framed>
@@ -97,7 +97,7 @@ export const RadioSelectOne: Story = {
   render: function Render() {
     const [plan, setPlan] = useState("basic");
     return (
-      <div style={col}>
+      <div style={column}>
         <RadioGroup aria-label="요금제" value={plan} onChange={setPlan} className="gap-2">
           <FramedRadio value="basic" label="베이직" description="월 9,900원" />
           <FramedRadio value="pro" label="프로" description="월 19,900원" />

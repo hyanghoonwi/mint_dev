@@ -124,9 +124,9 @@ export const DragScroll: Story = {
       await expect(chip).not.toBeChecked();
     });
     await step("조금만 움직이고 떼면 그대로 선택된다", async () => {
-      const ai = canvas.getByRole("radio", { name: "AI" });
-      await userEvent.click(ai);
-      await expect(ai).toBeChecked();
+      const aiChip = canvas.getByRole("radio", { name: "AI" });
+      await userEvent.click(aiChip);
+      await expect(aiChip).toBeChecked();
     });
   },
 };

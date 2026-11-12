@@ -161,11 +161,11 @@ export const Sizes: Story = {
       getComputedStyle(mark(name)).getPropertyValue("--mint-radio-ring").trim();
     const height = (name: string) => Math.round(label(name).getBoundingClientRect().height);
     const sizes = ["xs", "sm", "md", "lg"];
-    await expect(sizes.map((s) => box(`${s} 고름`))).toEqual([16, 20, 24, 32]);
+    await expect(sizes.map((size) => box(`${size} 고름`))).toEqual([16, 20, 24, 32]);
     // 흰 점 = 원 − 테두리 × 2 → 6 · 8 · 10 · 12
-    await expect(sizes.map((s) => ring(`${s} 고름`))).toEqual(["5px", "6px", "7px", "10px"]);
-    await expect(sizes.map((s) => height(`${s} 고름`))).toEqual([40, 40, 40, 48]);
-    await expect(sizes.map((s) => height(`${s} tight`))).toEqual([20, 24, 28, 32]);
+    await expect(sizes.map((size) => ring(`${size} 고름`))).toEqual(["5px", "6px", "7px", "10px"]);
+    await expect(sizes.map((size) => height(`${size} 고름`))).toEqual([40, 40, 40, 48]);
+    await expect(sizes.map((size) => height(`${size} tight`))).toEqual([20, 24, 28, 32]);
   },
 };
 

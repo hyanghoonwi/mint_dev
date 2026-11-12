@@ -121,7 +121,11 @@ export const MultiSelect: Story = {
   render: function Render() {
     const [on, setOn] = useState<string[]>(["시그널"]);
     const toggle = (name: string) =>
-      setOn((prev) => (prev.includes(name) ? prev.filter((v) => v !== name) : [...prev, name]));
+      setOn((previous) =>
+        previous.includes(name)
+          ? previous.filter((selectedName) => selectedName !== name)
+          : [...previous, name],
+      );
     return (
       <div role="group" aria-label="알림 종류" style={row}>
         {["시그널", "에어드랍", "공시"].map((name) => (

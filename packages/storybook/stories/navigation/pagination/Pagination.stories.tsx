@@ -22,7 +22,7 @@ type Story = StoryObj<typeof meta>;
 /** 칸의 글자를 순서대로(화살표 칸은 "↔") */
 const slotText = (root: HTMLElement) =>
   [...(root.querySelector("ul") as HTMLElement).querySelectorAll("li")]
-    .map((li) => li.textContent?.trim() || "↔")
+    .map((listItem) => listItem.textContent?.trim() || "↔")
     .join(" ");
 
 export const Extended: Story = {
@@ -89,32 +89,36 @@ export const Interaction: Story = {
     return <Pagination variant="extended" page={page} total={20} onChange={setPage} />;
   },
   play: async ({ canvas, step }) => {
-    const nav = within(canvas.getByRole("navigation", { name: "페이지" }));
+    const navigation = within(canvas.getByRole("navigation", { name: "페이지" }));
     await step("처음: 이전 비활성, 1페이지가 현재", async () => {
-      await expect(nav.getByRole("button", { name: "이전 페이지" })).toBeDisabled();
-      await expect(nav.getByRole("button", { name: "1페이지" })).toHaveAttribute(
+      await expect(navigation.getByRole("button", { name: "이전 페이지" })).toBeDisabled();
+      await expect(navigation.getByRole("button", { name: "1페이지" })).toHaveAttribute(
         "aria-current",
         "page",
       );
     });
     await step("다음을 누르면 2페이지", async () => {
-      await userEvent.click(nav.getByRole("button", { name: "다음 페이지" }));
-      await expect(nav.getByRole("button", { name: "2페이지" })).toHaveAttribute(
+      await userEvent.click(navigation.getByRole("button", { name: "다음 페이지" }));
+      await expect(navigation.getByRole("button", { name: "2페이지" })).toHaveAttribute(
         "aria-current",
         "page",
       );
     });
     await step("끝 번호를 누르면 다음이 비활성", async () => {
-      await userEvent.click(nav.getByRole("button", { name: "20페이지" }));
-      await expect(nav.getByRole("button", { name: "다음 페이지" })).toBeDisabled();
-      await expect(nav.getByRole("button", { name: "19페이지" })).toBeInTheDocument();
+      await userEvent.click(navigation.getByRole("button", { name: "20페이지" }));
+      await expect(navigation.getByRole("button", { name: "다음 페이지" })).toBeDisabled();
+      await expect(navigation.getByRole("button", { name: "19페이지" })).toBeInTheDocument();
     });
   },
 };
 
 // 링크: 주소로 이동(서버 컴포넌트에서 쓰는 방식)
 export const Links: Story = {
-  args: { variant: "extended", getHref: (p: number) => `?page=${p}`, onChange: undefined },
+  args: {
+    variant: "extended",
+    getHref: (pageNumber: number) => `?page=${pageNumber}`,
+    onChange: undefined,
+  },
   play: async ({ canvas }) => {
     await expect(canvas.getByRole("link", { name: "7페이지" })).toHaveAttribute("href", "?page=7");
     await expect(canvas.getByRole("link", { name: "6페이지" })).toHaveAttribute(

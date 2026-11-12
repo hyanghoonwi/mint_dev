@@ -314,7 +314,7 @@ export const SameOverlayId: Story = {
           ),
           { overlayId: "notification" },
         )
-        .then((value) => setResults((prev) => [...prev, String(value)]));
+        .then((value) => setResults((previous) => [...previous, String(value)]));
     return (
       <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
         <Button

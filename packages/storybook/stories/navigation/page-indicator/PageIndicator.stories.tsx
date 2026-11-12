@@ -20,7 +20,7 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-const col = {
+const column = {
   display: "flex",
   flexDirection: "column",
   alignItems: "flex-start",
@@ -32,7 +32,7 @@ export const Dots: Story = {};
 
 export const DotsSizes: Story = {
   render: (args) => (
-    <div style={col}>
+    <div style={column}>
       <PageDots {...args} size="md" />
       <PageDots {...args} size="sm" />
     </div>
@@ -52,7 +52,7 @@ export const DotsOnImage: Story = {
 // 점 개수 2~7
 export const DotsCount: Story = {
   render: () => (
-    <div style={col}>
+    <div style={column}>
       {[2, 3, 4, 5, 6, 7].map((total) => (
         <PageDots key={total} current={1} total={total} />
       ))}
@@ -62,7 +62,7 @@ export const DotsCount: Story = {
 
 export const Counter: Story = {
   render: () => (
-    <div style={col}>
+    <div style={column}>
       <PageCounter current={1} total={10} />
       <PageCounter current={1} total={10} size="sm" />
       <PageCounter current={1} total={10} variant="alternative" />
@@ -74,7 +74,7 @@ export const Counter: Story = {
 // 스크린리더 이름: "5개 중 2번째"
 export const Accessible: Story = {
   render: () => (
-    <div style={col}>
+    <div style={column}>
       <PageDots current={2} total={5} />
       <PageCounter current={3} total={24} />
     </div>
