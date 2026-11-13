@@ -26,8 +26,8 @@ export function Hero() {
         같은 언어로
       </h1>
       <p className="docs-hero__lead">
-        MINT는 한국경제TV 크립토랩의 디자인 시스템입니다. 시세와 차트, 커뮤니티를 만드는 데 필요한
-        파운데이션과 컴포넌트를 한곳에서 확인하세요.
+        CryptoLab Design System은 한국경제TV 크립토랩의 디자인 시스템입니다. 시세와 차트, 커뮤니티를
+        만드는 데 필요한 파운데이션과 컴포넌트를 한곳에서 확인하세요.
       </p>
       <div className="docs-hero__actions">
         <Link className="docs-btn docs-btn--solid" href="/getting-started">
@@ -151,7 +151,7 @@ export function PageLink({
 export function DocsFooter() {
   return (
     <footer className="docs-footer">
-      <span>© 2026 MINT Design System</span>
+      <span>© 2026 CryptoLab Design System</span>
       <details>
         <summary>More information</summary>
         <ul>

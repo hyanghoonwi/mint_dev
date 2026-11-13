@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { IntroStory } from "../intro/Intro";
 import { DocsFooter } from "./Landing";
 
 // 첫 화면(/). Montage 첫 화면과 같은 틀: 히어로 → 흐르는 띠 → 시작 카드 → 원칙 → FAQ → 푸터.
@@ -50,7 +49,7 @@ const principles = [
 const faqs = [
   {
     q: "누가 쓸 수 있나요?",
-    a: "MINT는 사내 패키지(GitHub Packages)로 배포합니다. 패키지 읽기 권한이 있는 GitHub 계정으로 설치할 수 있어요.",
+    a: "CryptoLab Design System은 사내 패키지(GitHub Packages)로 배포합니다. 패키지 읽기 권한이 있는 GitHub 계정으로 설치할 수 있어요.",
   },
   {
     q: "Next.js 서버 컴포넌트에서 쓸 수 있나요?",
@@ -62,7 +61,7 @@ const faqs = [
   },
   {
     q: "컴포넌트 모양을 바꿔도 되나요?",
-    a: "className으로 덮어쓸 수는 있지만, 모양을 바꿔야 한다면 먼저 Figma에서 디자인을 정하고 MINT에 반영해 주세요. 같은 화면 언어를 유지하기 위해서예요.",
+    a: "className으로 덮어쓸 수는 있지만, 모양을 바꿔야 한다면 먼저 Figma에서 디자인을 정하고 디자인 시스템에 반영해 주세요. 같은 화면 언어를 유지하기 위해서예요.",
   },
   {
     q: "새 버전에서 무엇이 바뀌었는지 어디서 보나요?",
@@ -73,18 +72,15 @@ const faqs = [
 export function Home() {
   return (
     <div className="docs-home">
-      {/* 점(three.js)이 MINT 로고 → 3D 공간 → 컴포넌트 격자로 바뀌는 스크롤 이야기 */}
-      <IntroStory />
-
       <section className="docs-home__hero">
         <h1 className="docs-home__title">
-          Mint to Coin,
+          CryptoLab
           <br />
-          Coin to CryptoLab
+          Design System
         </h1>
         <p className="docs-home__lead">
-          MINT는 크립토랩의 모든 화면을 같은 언어로 만들기 위한 디자인 시스템이에요. 같은 틀로
-          코인을 찍어 내는 조폐소처럼, 같은 컴포넌트로 화면을 만들어요.
+          크립토랩의 모든 화면을 같은 언어로 만들기 위한 디자인 시스템이에요. 같은 컴포넌트와 같은
+          토큰으로 화면을 만들어요.
         </p>
         <Link className="docs-home__cta" href="/getting-started">
           Getting Started
@@ -107,7 +103,7 @@ export function Home() {
       </div>
 
       <section className="docs-home__section">
-        <h2 className="docs-home__heading">Start Your MINT</h2>
+        <h2 className="docs-home__heading">Get started</h2>
         <div className="docs-home__cards">
           {starts.map((item) => (
             <Link key={item.to} href={item.to} className="docs-home__card">

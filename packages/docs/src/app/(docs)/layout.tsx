@@ -5,7 +5,10 @@ import { OverlayProvider } from "@futurewiz-rms/mint";
 import { SearchModal } from "../../components/SearchModal";
 
 const navbar = (
-  <Navbar logo={<img src="/img/mint-logo-light.svg" alt="MINT" height={24} />} logoLink="/">
+  <Navbar
+    logo={<span style={{ fontSize: 16, fontWeight: 700 }}>CryptoLab Design System</span>}
+    logoLink="/"
+  >
     <SearchModal />
   </Navbar>
 );

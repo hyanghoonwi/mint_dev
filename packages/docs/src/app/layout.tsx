@@ -6,8 +6,8 @@ import "@futurewiz-rms/mint/style.no-reset.css";
 import "./docs.css";
 
 export const metadata = {
-  // 탭 제목: 첫 화면은 "CryptoLab Design System - MINT", 나머지는 "{페이지 제목} - MINT"
-  title: { default: "CryptoLab Design System - MINT", template: "%s - MINT" },
+  // 탭 제목: 첫 화면은 "CryptoLab Design System", 나머지는 "{페이지 제목} - CryptoLab Design System"
+  title: { default: "CryptoLab Design System", template: "%s - CryptoLab Design System" },
   description: "크립토랩의 모든 화면을 같은 언어로",
   icons: { icon: "/img/mint-symbol.svg" },
 };
