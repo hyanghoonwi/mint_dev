@@ -33,7 +33,7 @@
   - 버튼이 필요한 안내(`useSnackbar`)나 꼭 읽어야 하는 안내(Alert)에는 쓰지 않습니다
 - **`useSnackbar`** — 다음 행동 버튼이 있는 스낵바를 함수 호출로 띄웁니다. `useToast`와 **같은 `ToastProvider`**를 쓰고(따로 Provider 없음), 토스트와 같은 자리에 섞여 쌓입니다. 클라이언트 컴포넌트에서 씁니다. Provider 밖에서 쓰면 오류를 던집니다
   - `snackbar(heading, options?)`(id 반환) · `snackbar.normal` · `.positive` · `.cautionary` · `.negative` · `snackbar.dismiss(id?)`(생략하면 스낵바만 모두, 토스트는 그대로)
-  - `options`: `action`(`{ label, onClick }`, 누르면 `onClick` 뒤 스낵바가 닫힘) · `description` · `icon` · `closable`(닫기 버튼) · `variant` · `duration`(`null`이면 닫을 때까지) · `id` · `onClose`
+  - `options`: `addOn`(`ReactNode`, 다음 행동 `Button`을 직접 넣음. 누른 뒤 닫으려면 `snackbar.dismiss(id)`, 그래서 `id`를 함께 줌) · `description` · `icon` · `closable`(닫기 버튼) · `variant` · `duration`(`null`이면 닫을 때까지) · `id` · `onClose`
   - 폭 420(좁은 화면은 좌우 20을 뺀 폭), 떠 있어서 `shadow-floating`. 본문에 늘 두는 안내는 `Snackbar` 컴포넌트를 그대로 렌더링합니다
 
 - **`Tooltip`** — 버튼에 마우스를 올리거나 포커스했을 때 짧은 보조 정보(이름·단축키)를 보여 주는 말풍선(Figma `Tooltip`). 클라이언트 컴포넌트지만 서버 컴포넌트에서 import해도 됩니다(열림 상태를 안에서 관리). 상세 규칙은 `components/tooltip/AGENTS.md`

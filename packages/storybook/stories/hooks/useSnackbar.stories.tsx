@@ -9,7 +9,10 @@ const meta = {
     docs: {
       source: {
         code: `const snackbar = useSnackbar();
-snackbar("관심 코인에서 삭제했어요.", { action: { label: "되돌리기", onClick: undo } });`,
+snackbar("관심 코인에서 삭제했어요.", {
+  id: "delete",
+  addOn: <Button onClick={undo}>되돌리기</Button>,
+});`,
       },
     },
   },
@@ -35,7 +38,7 @@ export const Default: Story = {
     await userEvent.click(canvas.getByRole("button", { name: "삭제" }));
     const snackbar = await body.findByRole("status");
     await expect(snackbar).toHaveTextContent("관심 코인에서 삭제했어요.");
-    // 버튼을 누르면 onClick이 불리고 닫힌다
+    // 버튼은 addOn으로 직접 넣고, 눌렀을 때 snackbar.dismiss(id)로 닫는다
     await userEvent.click(body.getByRole("button", { name: "되돌리기" }));
     await expect(undo).toHaveBeenCalledTimes(1);
     await waitFor(() => expect(body.queryByRole("status")).not.toBeInTheDocument());
@@ -96,7 +99,22 @@ function Buttons() {
       <Button
         color="secondary"
         onClick={() =>
-          snackbar("관심 코인에서 삭제했어요.", { action: { label: "되돌리기", onClick: undo } })
+          snackbar("관심 코인에서 삭제했어요.", {
+            id: "delete",
+            addOn: (
+              <Button
+                variant="outline"
+                color="neutral"
+                size="md"
+                onClick={() => {
+                  undo();
+                  snackbar.dismiss("delete");
+                }}
+              >
+                되돌리기
+              </Button>
+            ),
+          })
         }
       >
         삭제

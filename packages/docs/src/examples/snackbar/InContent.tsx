@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Snackbar, Text } from "@futurewiz-rms/mint";
+import { Button, Snackbar, Text } from "@futurewiz-rms/mint";
 
 export default function InContent() {
   // 본문 안에 그대로 두고, 닫기를 누르면 상태를 바꿔 숨겨요
@@ -20,7 +20,11 @@ export default function InContent() {
           icon
           heading="본인 인증이 필요해요."
           description="인증하면 출금 한도가 늘어나요."
-          action={{ label: "인증", onClick: () => {} }}
+          addOn={
+            <Button variant="outline" color="neutral" size="md">
+              인증
+            </Button>
+          }
           onClose={() => setOpen(false)}
         />
       )}

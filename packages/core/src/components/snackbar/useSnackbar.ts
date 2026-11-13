@@ -10,7 +10,7 @@ import type { SnackbarApi } from "./snackbar-context";
  * 반환값은 렌더 사이에 바뀌지 않아서 `useEffect` 의존성에 넣어도 다시 실행되지 않는다.
  *
  *   const snackbar = useSnackbar();
- *   snackbar("삭제했어요.", { action: { label: "되돌리기", onClick: undo } });
+ *   snackbar("삭제했어요.", { id: "delete", addOn: <Button onClick={undo}>되돌리기</Button> });
  */
 export function useSnackbar(): SnackbarApi {
   const value = use(SnackbarContext);

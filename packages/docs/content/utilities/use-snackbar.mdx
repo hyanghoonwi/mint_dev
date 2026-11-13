@@ -26,13 +26,26 @@ export default function RootLayout({
 }
 ```
 
-그다음 클라이언트 컴포넌트에서 `useSnackbar`로 띄워요. 첫 인자는 제목이고, 버튼은 `action`으로 넘겨요.
+그다음 클라이언트 컴포넌트에서 `useSnackbar`로 띄워요. 첫 인자는 제목이고, 다음 행동 버튼은 `addOn`에 직접 만들어 넘겨요.
 
 ```tsx
 const snackbar = useSnackbar();
 
 snackbar("관심 코인에서 삭제했어요.", {
-  action: { label: "되돌리기", onClick: undo },
+  id: "delete",
+  addOn: (
+    <Button
+      variant="outline"
+      color="neutral"
+      size="md"
+      onClick={() => {
+        undo();
+        snackbar.dismiss("delete");
+      }}
+    >
+      되돌리기
+    </Button>
+  ),
 });
 snackbar.negative("주문하지 못했어요.", { icon: true, closable: true });
 ```
@@ -47,7 +60,7 @@ snackbar.negative("주문하지 못했어요.", { icon: true, closable: true });
   ]}
 />
 
-- **되돌리기**: 방금 한 행동을 취소하는 버튼을 `action`으로 둬요. 버튼을 누르면 `onClick`이 불리고 스낵바가 닫혀요.
+- **되돌리기**: 방금 한 행동을 취소하는 버튼을 `addOn`으로 둬요. 버튼은 `id`를 정해 두고, 누른 뒤 `snackbar.dismiss(id)`로 닫아요.
 - **종류**: `snackbar.positive` · `snackbar.cautionary` · `snackbar.negative`로 띄워요. `icon`은 종류에 맞는 아이콘, `closable`은 닫기 버튼이에요.
 - **토스트와 함께**: 토스트와 스낵바는 띄운 순서대로 한 자리에 쌓여요. 개수 제한(`limit`)도 함께 세요.
 
@@ -72,7 +85,7 @@ snackbar.negative("주문하지 못했어요.", { icon: true, closable: true });
 | `variant`     | `"normal" \| "positive" \| "cautionary" \| "negative"` | `"normal"`                    | 종류. 단축 함수에서는 이름으로 정해요                  |
 | `description` | `ReactNode`                                            | -                             | 제목 아래 설명                                         |
 | `icon`        | `boolean`                                              | `false`                       | 종류에 맞는 아이콘                                     |
-| `action`      | `{ label: string; onClick: () => void }`               | -                             | 다음 행동 버튼(1개). 누르면 스낵바가 닫혀요            |
+| `addOn`       | `ReactNode`                                            | -                             | 오른쪽에 붙일 요소. 다음 행동 `Button`을 넣어요        |
 | `closable`    | `boolean`                                              | `false`                       | 닫기 버튼                                              |
 | `duration`    | `number \| null`                                       | Provider의 `snackbarDuration` | 사라지기까지의 시간(ms). `null`이면 닫을 때까지 남아요 |
 | `id`          | `string`                                               | 자동                          | 같은 id가 떠 있으면 내용과 시간을 새로 고쳐요          |

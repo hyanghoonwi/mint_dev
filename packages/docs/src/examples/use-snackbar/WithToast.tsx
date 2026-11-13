@@ -22,7 +22,13 @@ function Buttons() {
       <Button
         color="secondary"
         onClick={() =>
-          snackbar("메모를 보관했어요.", { action: { label: "보기", onClick: () => {} } })
+          snackbar("메모를 보관했어요.", {
+            addOn: (
+              <Button variant="outline" color="neutral" size="md">
+                보기
+              </Button>
+            ),
+          })
         }
       >
         스낵바

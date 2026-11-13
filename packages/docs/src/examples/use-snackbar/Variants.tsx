@@ -34,7 +34,11 @@ function Buttons() {
         onClick={() =>
           snackbar.negative("주문하지 못했어요.", {
             icon: true,
-            action: { label: "다시 시도", onClick: () => {} },
+            addOn: (
+              <Button variant="outline" color="neutral" size="md">
+                다시 시도
+              </Button>
+            ),
           })
         }
       >

@@ -5,8 +5,8 @@
 - **작업 뒤 다음 행동을 제안하는 메시지**입니다. 꼭 확인해야 하는 정보나 되돌릴 수 없는 작업에는 쓰지 않습니다.
 - **쓰는 방법은 둘**입니다.
   - 본문에 두기: `<Snackbar>`를 화면 안에 그대로 렌더링합니다. 숨기는 것은 사용하는 쪽이 상태로 정합니다(`onClose`).
-  - 띄우기: 행동 뒤에 잠시 보여 주려면 `useSnackbar()`로 띄웁니다. `useToast`와 같은 `ToastProvider`가 그리고, 토스트와 같은 자리에 띄운 순서대로 섞여 쌓입니다. 기본 5초(`snackbarDuration`) 뒤 사라지고, `action` 버튼을 누르면 `onClick` 뒤 닫힙니다.
-- 상태가 없어서 `"use client"`가 없습니다. `action.onClick`·`onClose`를 넘길 때만 클라이언트 컴포넌트 안에서 씁니다.
+  - 띄우기: 행동 뒤에 잠시 보여 주려면 `useSnackbar()`로 띄웁니다. `useToast`와 같은 `ToastProvider`가 그리고, 토스트와 같은 자리에 띄운 순서대로 섞여 쌓입니다. 기본 5초(`snackbarDuration`) 뒤 사라지고, `addOn`의 버튼을 누른 뒤 닫으려면 `snackbar.dismiss(id)`를 부릅니다(`id`를 옵션으로 정해 둡니다).
+- 상태가 없어서 `"use client"`가 없습니다. `onClose`나 `addOn`의 버튼에 `onClick`을 넘길 때만 클라이언트 컴포넌트 안에서 씁니다.
 
 ## Toast·Alert와 차이
 
@@ -23,7 +23,7 @@
 | --------------- | ------------------------------------------------- | --------------------------------------------------- |
 | 종류(`variant`) | `normal` · `positive` · `cautionary` · `negative` | 완료는 positive, 주의는 cautionary, 오류는 negative |
 | 제목·설명       | `heading` · `description`                         | 제목은 한 줄(넘치면 말줄임), 설명은 필요할 때만     |
-| 버튼            | `action` · 닫기 버튼                              | 다음 행동은 버튼 하나, 닫기는 선택(`onClose`)       |
+| 버튼            | `addOn` · 닫기 버튼                               | 다음 행동은 버튼 하나, 닫기는 선택(`onClose`)       |
 | 아이콘          | `icon`(기본 끔)                                   | 종류에 맞는 아이콘(Toast와 같은 아이콘)             |
 
 - **모양**: 배경 아토믹 gray-600(불투명, Figma가 직접 씀), 모서리 12, 패딩 왼쪽 16 · 오른쪽 12 · 세로 12, 간격 8, 높이 54 이상. 폭은 놓인 자리를 채우고 최대 420(Figma 356~420). 제목 Body 4 SemiBold, 설명 Body 5 Regular, 글자 `text-on-fill`. 본문에 두면 그림자가 없고, `useSnackbar`로 띄우면 폭 420(좁은 화면은 좌우 20을 뺀 폭)에 `shadow-floating`입니다.
@@ -33,7 +33,20 @@
 // 띄우기
 const snackbar = useSnackbar();
 snackbar("관심 코인에서 삭제했어요.", {
-  action: { label: "되돌리기", onClick: undo },
+  id: "delete",
+  addOn: (
+    <Button
+      variant="outline"
+      color="neutral"
+      size="md"
+      onClick={() => {
+        undo();
+        snackbar.dismiss("delete");
+      }}
+    >
+      되돌리기
+    </Button>
+  ),
 });
 
 // 본문에 두기
@@ -43,7 +56,11 @@ const [open, setOpen] = useState(true);
   open && (
     <Snackbar
       heading="본인 인증이 필요해요."
-      action={{ label: "인증", onClick: verify }}
+      addOn={
+        <Button variant="outline" color="neutral" size="md" onClick={verify}>
+          인증
+        </Button>
+      }
       onClose={() => setOpen(false)}
     />
   );
@@ -66,4 +83,4 @@ const [open, setOpen] = useState(true);
 
 ## Props 요약
 
-`variant` · `heading`(필수) · `description` · `icon` · `action`(`{ label, onClick }`) · `onClose`(넘기면 닫기 버튼)와 나머지 `<div>` 속성. 자세한 표는 docs의 Snackbar 페이지를 봅니다.
+`variant` · `heading`(필수) · `description` · `icon` · `addOn`(`ReactNode`, 다음 행동 버튼) · `onClose`(넘기면 닫기 버튼)와 나머지 `<div>` 속성. 자세한 표는 docs의 Snackbar 페이지를 봅니다.

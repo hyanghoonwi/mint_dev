@@ -1,6 +1,6 @@
 "use client";
 
-import { Snackbar, type SnackbarVariant } from "@futurewiz-rms/mint";
+import { Button, Snackbar, type SnackbarVariant } from "@futurewiz-rms/mint";
 import { DoDont } from "./DoDont";
 import { jsx, Playground, type Control } from "./Playground";
 
@@ -12,7 +12,7 @@ const controls: Control[] = [
     default: "normal",
   },
   { prop: "icon", type: "boolean", default: false },
-  { prop: "action", type: "boolean", default: true },
+  { prop: "addOn", type: "boolean", default: true },
   { prop: "onClose", type: "boolean", default: false },
   { prop: "heading", type: "text", default: "관심 코인에서 뺐어요." },
   { prop: "description", type: "text", default: "" },
@@ -29,7 +29,13 @@ export function SnackbarPlayground() {
           icon={values.icon as boolean}
           heading={values.heading as string}
           description={(values.description as string) || undefined}
-          action={values.action ? { label: "되돌리기", onClick: () => {} } : undefined}
+          addOn={
+            values.addOn ? (
+              <Button variant="outline" color="neutral" size="md">
+                되돌리기
+              </Button>
+            ) : undefined
+          }
           onClose={values.onClose ? () => {} : undefined}
         />
       )}
@@ -39,7 +45,11 @@ export function SnackbarPlayground() {
           icon: values.icon as boolean,
           heading: values.heading as string,
           description: (values.description as string) || undefined,
-          action: values.action ? { expr: '{ label: "되돌리기", onClick: restore }' } : undefined,
+          addOn: values.addOn
+            ? {
+                expr: '<Button variant="outline" color="neutral" size="md">되돌리기</Button>',
+              }
+            : undefined,
           onClose: values.onClose ? { expr: "() => setOpen(false)" } : undefined,
         })
       }
@@ -54,7 +64,11 @@ export function SnackbarGuide() {
       good={
         <Snackbar
           heading="삭제했어요."
-          action={{ label: "되돌리기", onClick: () => {} }}
+          addOn={
+            <Button variant="outline" color="neutral" size="md">
+              되돌리기
+            </Button>
+          }
           style={{ minWidth: 0, width: 260 }}
         />
       }
@@ -63,7 +77,11 @@ export function SnackbarGuide() {
         <Snackbar
           heading="계정을 삭제할까요?"
           description="삭제하면 되돌릴 수 없어요."
-          action={{ label: "삭제", onClick: () => {} }}
+          addOn={
+            <Button variant="outline" color="neutral" size="md">
+              삭제
+            </Button>
+          }
           style={{ minWidth: 0, width: 260 }}
         />
       }

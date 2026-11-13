@@ -27,17 +27,20 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {};
 
-// 다음 행동 버튼 하나. 닫기 버튼(X)은 선택
+// 오른쪽에 다음 행동 버튼을 직접 넣는다(addOn). 닫기 버튼(X)은 선택
 export const WithAction: Story = {
   args: {
     heading: "관심 코인에서 뺐어요.",
     description: undefined,
-    action: { label: "되돌리기", onClick: fn() },
+    addOn: (
+      <Button variant="outline" color="neutral" size="md">
+        되돌리기
+      </Button>
+    ),
     onClose: fn(),
   },
   play: async ({ canvas, args }) => {
-    await userEvent.click(canvas.getByRole("button", { name: "되돌리기" }));
-    await expect(args.action?.onClick).toHaveBeenCalled();
+    await expect(canvas.getByRole("button", { name: "되돌리기" })).toBeInTheDocument();
     await userEvent.click(canvas.getByRole("button", { name: "닫기" }));
     await expect(args.onClose).toHaveBeenCalled();
   },
@@ -68,7 +71,11 @@ export const Dismissible: Story = {
       <Snackbar
         heading="새 버전이 준비됐어요."
         description="다시 불러오면 바로 적용돼요."
-        action={{ label: "새로고침", onClick: () => {} }}
+        addOn={
+          <Button variant="outline" color="neutral" size="md">
+            새로고침
+          </Button>
+        }
         onClose={() => setOpen(false)}
       />
     ) : (

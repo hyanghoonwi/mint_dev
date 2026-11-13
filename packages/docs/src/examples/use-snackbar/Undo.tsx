@@ -18,7 +18,20 @@ function DeleteButton() {
       color="secondary"
       onClick={() =>
         snackbar("관심 코인에서 삭제했어요.", {
-          action: { label: "되돌리기", onClick: () => snackbar.positive("다시 추가했어요.") },
+          id: "delete",
+          addOn: (
+            <Button
+              variant="outline"
+              color="neutral"
+              size="md"
+              onClick={() => {
+                snackbar.dismiss("delete");
+                snackbar.positive("다시 추가했어요.");
+              }}
+            >
+              되돌리기
+            </Button>
+          ),
         })
       }
     >

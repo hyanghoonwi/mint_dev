@@ -187,7 +187,6 @@ function SnackbarItem({
   onDismiss: (id: string) => void;
 }) {
   const { id, options } = entry;
-  const action = options.action;
   return (
     <Snackbar
       role={role}
@@ -195,16 +194,7 @@ function SnackbarItem({
       heading={entry.message}
       description={options.description}
       icon={options.icon}
-      // 버튼을 누르면 할 일을 하고 스낵바를 닫는다
-      action={
-        action && {
-          label: action.label,
-          onClick: () => {
-            action.onClick();
-            onDismiss(id);
-          },
-        }
-      }
+      addOn={options.addOn}
       onClose={options.closable ? () => onDismiss(id) : undefined}
       className="w-[420px] max-w-full shadow-floating"
     />
