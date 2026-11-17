@@ -17,6 +17,7 @@ export * from "./components/segmented-control/SegmentedControl";
 export * from "./components/tab/Tab";
 export * from "./components/check-mark/CheckMark";
 export * from "./components/checkbox/Checkbox";
+export * from "./components/date-picker/DatePicker";
 export * from "./components/chip/Chip";
 export * from "./components/divider/Divider";
 export * from "./components/radio/Radio";

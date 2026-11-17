@@ -1,0 +1,86 @@
+# Date picker
+
+날짜를 입력받는 칸이에요. 칸을 누르면 달력이 뜨고, 고른 날짜가 `YYYY-MM-DD`로 칸에 들어가요.
+
+<ComponentBadges />
+
+<Figure height={240} />
+
+<Callout type="info">
+  **Figma에 없는 컴포넌트예요.** 칸([Text field](/components/text-field))을
+  누르면 [Popover](/components/popover)로 [Calendar](/components/calendar)를
+  띄우도록 묶었고, 모양은 세 컴포넌트를 그대로 따라요. Label이 내장되어 있어서
+  `Label`을 따로 붙이지 않아요.
+</Callout>
+
+## Playground
+
+칸을 눌러 달력을 열어 보세요. 오른쪽에서 크기·상태·라벨 위치를 바꿀 수 있어요.
+
+<DatePickerPlayground />
+
+## Examples
+
+<ExampleTabs
+  items={[
+    {
+      title: "기본",
+      name: "date-picker/Basic",
+      style: { alignItems: "stretch" },
+    },
+    {
+      title: "값 들고 있기",
+      name: "date-picker/Controlled",
+      style: { alignItems: "stretch" },
+    },
+    {
+      title: "고를 수 있는 날",
+      name: "date-picker/Range",
+      style: { alignItems: "stretch" },
+    },
+    {
+      title: "상태",
+      name: "date-picker/States",
+      style: { alignItems: "stretch" },
+    },
+    {
+      title: "반응형",
+      name: "date-picker/Responsive",
+      style: { alignItems: "stretch" },
+    },
+  ]}
+/>
+
+- **기본**: 칸을 누르거나 ↓·Enter를 누르면 달력이 떠요. 날짜를 고르면 칸에 들어가고 달력이 닫혀요. 직접 입력해도 되고, 틀린 날짜는 칸을 벗어날 때 원래 값으로 돌아가요. 오늘(`today`)은 꼭 넘겨요.
+- **값 들고 있기**: `value`·`onChange`로 값을 직접 들고 있어요. 지우면 `""`가 와요.
+- **고를 수 있는 날**: `min`·`max` 밖의 날과 `disabledDates`는 고를 수 없어요. 달력에서 흐리게 보이고 입력해도 들어가지 않아요.
+- **상태**: 상태·필수·비활성·읽기 전용은 Text field와 같아요. 비활성·읽기 전용은 달력이 열리지 않아요.
+- **반응형**: `size`와 `labelPosition`은 구간별 값도 받아요. `{ base: "lg", desktop: "md" }`면 모바일·태블릿은 칸 48px, 데스크톱(1024px)부터 40px이에요. 창 폭을 바꿔 보세요.
+
+## Props
+
+Text field의 속성(`label`·`helper`·`status`·`size`·`labelPosition`·`disabled`·`readOnly`·`required`·`name` 등)을 그대로 받아요.\
+클라이언트 컴포넌트예요. 서버 컴포넌트에서 import할 수 있고, `onChange`는 클라이언트 컴포넌트 안에서 넘겨요.
+
+| 이름            | 타입                     | 기본값         | 설명                                                                        |
+| --------------- | ------------------------ | -------------- | --------------------------------------------------------------------------- |
+| `placeholder`   | `string`                 | `"YYYY-MM-DD"` | 비어 있을 때 보이는 형식 안내                                               |
+| `value`         | `string`                 | -              | 고른 날(`YYYY-MM-DD`, 제어). 비어 있으면 `""`                               |
+| `defaultValue`  | `string`                 | `""`           | 처음 고른 날                                                                |
+| `today`         | `string`                 | -              | 오늘(`YYYY-MM-DD`, 필수). 서버·클라이언트 값이 같도록 넘겨요                |
+| `holidays`      | `Record<string, string>` | -              | 공휴일(날짜 → 이름). 달력에서 빨간 글자로 보여요                            |
+| `disabledDates` | `string[]`               | -              | 고를 수 없는 날들                                                           |
+| `min`           | `string`                 | -              | 고를 수 있는 처음 날(포함)                                                  |
+| `max`           | `string`                 | -              | 고를 수 있는 마지막 날(포함)                                                |
+| `weekStartsOn`  | `0 \| 1`                 | `0`            | 주의 시작 요일. 0 일요일 · 1 월요일                                         |
+| `onChange`      | `(date: string) => void` | -              | 날짜가 바뀔 때. 달력에서 고르거나 올바른 날짜를 다 입력했을 때, 지우면 `""` |
+
+## Guidelines
+
+<DatePickerGuide />
+
+- 날짜를 입력받을 때는 DatePicker를 써요. Text field·Popover·Calendar를 이미 묶어 둔 컴포넌트라 화면마다 다시 조립하지 않아요.
+- 고를 수 있는 범위가 있으면 `min`·`max`로 막고 도움말로 알려요.
+- 형식 안내(`YYYY-MM-DD`)를 지우지 않아요. 직접 입력하는 사람이 형식을 알 수 있어요.
+- 오늘(`today`)은 서버에서 정해서 넘겨요. 화면에서 현재 시각을 읽으면 서버와 브라우저 값이 달라질 수 있어요.
+- 모바일에서도 같은 달력이 칸 아래에 떠요.

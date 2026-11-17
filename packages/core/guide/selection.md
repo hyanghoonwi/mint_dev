@@ -93,3 +93,12 @@
   - `height?: number`(기본 120)는 테두리 영역의 높이(px)입니다. 라벨·도움말은 제외하고 패딩·카운터·addon은 포함합니다. `maxHeight?: number`(기본 240)는 auto·resizable에서 최대 높이입니다. height보다 작으면 height를 우선합니다. 양수가 아닌 값·비유한 값은 기본값으로 보정합니다.
   - `heightMode?: "fixed" | "auto" | "resizable"`(기본 fixed): fixed는 height를 유지하며 내부 스크롤, auto는 height부터 maxHeight까지 콘텐츠에 맞춰 확장 후 내부 스크롤, resizable은 같은 범위에서 사용자가 수직 조절합니다. disabled·readOnly에서는 수동 조절을 끕니다. counter·addon은 스크롤 영역 밖에 남습니다. resize prop은 없습니다.
   - 나머지 textarea 속성을 받습니다. `rows`는 고정된 디자인 높이를 바꾸지 않습니다. `className`·`style`은 바깥 요소, `ref`는 HTMLTextAreaElement입니다. name·form·required 등 네이티브 폼 동작을 유지합니다. 렌더 중 브라우저 API를 읽지 않습니다.
+
+- **`DatePicker`** — 날짜를 입력받는 칸(**Figma에 없음**, `TextField` + `Popover` + `Calendar`를 묶음. 모양은 세 컴포넌트를 따름). 칸을 누르거나 ↓·Enter를 누르면 달력이 칸 바로 아래에 뜨고, 고른 날짜가 `YYYY-MM-DD`로 들어가며 닫힙니다. 클라이언트 컴포넌트이고 서버 컴포넌트에서 import할 수 있습니다(`onChange`는 클라이언트 컴포넌트에서). 상세 규칙은 `components/date-picker/AGENTS.md`
+  - `today`(필수, `YYYY-MM-DD`): 서버에서 정해서 넘김(렌더 중 현재 시각을 읽지 않음)
+  - `value`(제어)·`defaultValue`·`onChange(date)`: 문자열. 달력에서 고르거나 올바른 날짜를 다 입력했을 때 불리고, 지우면 `""`
+  - 직접 입력 가능(숫자 키패드). 틀리거나 고를 수 없는 날짜는 칸을 벗어날 때 원래 값으로 돌아감. `placeholder` 기본 `"YYYY-MM-DD"`
+  - `min`·`max`(포함)·`disabledDates`·`holidays`·`weekStartsOn`: Calendar와 같음
+  - **TextField의 속성을 그대로 받음**: `label`(Label 내장, `Label`을 또 붙이지 않음)·`helper`·`helpIcon`·`status`·`size`·`labelPosition`(구간별 객체)·`disabled`·`readOnly`·`required`·`name`. 비활성·읽기 전용은 달력이 열리지 않음. `leftAddon`·`rightAddon`은 받지 않음(오른쪽에 달력 아이콘이 고정)
+  - 마우스로 열면 포커스가 칸에 남아 계속 입력할 수 있고, ↓로 열면 달력의 날짜로 포커스가 가며 Esc로 닫으면 칸으로 돌아옴. Tab으로 칸을 떠나면 닫힘
+  - 금지: TextField와 Popover·Calendar를 직접 조립해 날짜 입력 만들기, 형식 안내 지우기

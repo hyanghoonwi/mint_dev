@@ -18,6 +18,7 @@ export default {
   "check-mark": "Check mark",
   checkbox: "Checkbox",
   chip: "Chip",
+  "date-picker": "Date picker",
   framed: "Framed",
   label: "Label",
   radio: "Radio",

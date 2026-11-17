@@ -21,6 +21,7 @@ import {
   CheckMark,
   Checkbox,
   Chip,
+  DatePicker,
   FramedRadio,
   Radio,
   RadioGroup,
@@ -313,6 +314,16 @@ const components: { name: string; group: string; to: string; preview: ReactNode 
           시그널
         </Chip>
         <Chip tabIndex={-1}>에어드랍</Chip>
+      </span>
+    ),
+  },
+  {
+    name: "Date picker",
+    group: "Form",
+    to: "/components/date-picker",
+    preview: (
+      <span aria-hidden="true" style={{ display: "block", width: 200, pointerEvents: "none" }}>
+        <DatePicker size="sm" defaultValue="2026-11-17" today="2026-11-17" tabIndex={-1} />
       </span>
     ),
   },

@@ -51,6 +51,7 @@ const preview: Preview = {
               "CheckMark",
               "Checkbox",
               "Chip",
+              "DatePicker",
               "Framed",
               "Label",
               "Radio",

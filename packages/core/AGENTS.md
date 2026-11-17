@@ -40,6 +40,7 @@ Props는 **모양 → 내용 → 상태·동작 → 배치 → HTML·접근성 �
 - 배너·캐러셀·갤러리의 현재 위치 표시 → 점 `PageDots`(2~7개) · 숫자 `PageCounter`(8개 이상)
 - 필터·조건 칩 하나(선택 상태 있음, 여러 개 고르기 등) → `Chip`(행동은 `Button`)
 - 날짜 고르기·일정 있는 날 점 표시(달력) → `Calendar`(임시, 날짜는 `YYYY-MM-DD` 문자열, `today` 필수)
+- 입력 칸을 누르면 달력이 뜨고 고른 날짜가 칸에 들어가기(폼의 날짜 입력) → `DatePicker`(TextField + Popover + Calendar, 라벨 내장, 직접 입력 가능, `today` 필수)
 - 버튼·입력 칸 아래에 붙어 뜨는 상자(필터·정렬·짧은 설정, 화면을 막지 않음) → `Popover`(화면을 막는 대화 상자는 Modal. 날짜는 `DatePicker`, 목록 하나 고르기는 `Select`를 먼저)
 - 목록에서 선택된 항목에 체크 표시(Menu, Select Item) → `CheckMark`
 - 이름·이메일·검색처럼 짧은 한 줄 텍스트를 입력받기(라벨·도움말·오류 **내장**, `Label`을 또 붙이지 않음) → `TextField`(여러 줄은 Textarea, 목록에서 고르기는 `Select`)
@@ -91,6 +92,7 @@ Props는 **모양 → 내용 → 상태·동작 → 배치 → HTML·접근성 �
 ### [선택](guide/selection.md)
 
 - `Calendar` — 날짜 선택 달력(일정 점, 공휴일, min·max, 키보드 이동, 임시)
+- `DatePicker` — 날짜 입력 칸(누르면 달력 Popover, `YYYY-MM-DD`, 직접 입력·검증, min·max·disabledDates, TextField 속성 전부, Figma 없음)
 - `CheckMark` — 목록의 선택 표시(체크 아이콘 + 레이블, 4크기·구간별 객체, 항목 전체를 누름)
 - `Checkbox` — 체크박스(체크·일부 선택, 레이블을 눌러도 선택, 폼 제출, 4크기·구간별 객체)
 - `RadioGroup` — 라디오 묶음(세로 나열, 하나만 선택, 값·onChange)
