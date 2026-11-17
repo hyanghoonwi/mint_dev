@@ -81,14 +81,14 @@ export type TextButtonProps = Omit<ComponentProps<"button">, "color"> &
     size?: Responsive<TextButtonSize>;
     /** 밑줄. 문장 속 링크는 켜서 눈에 띄게 한다. 기본 `false` */
     underline?: boolean;
-    /** 문장 속 링크. 패딩과 눌림 박스가 없고 밑줄이 항상 켜진다. 기본 `false` */
-    inline?: boolean;
     /** 글자 앞 아이콘 */
     leftAddon?: ReactNode;
     /** 글자 뒤 아이콘. 화살표(>)를 붙여 이동을 암시한다 */
     rightAddon?: ReactNode;
     /** 진행 중. 글자를 숨기고 진행 원을 보여 주며 크기는 그대로 둔다. 누를 수 없다 */
     loading?: boolean;
+    /** 문장 속 링크. 패딩과 눌림 박스가 없고 밑줄이 항상 켜진다. 기본 `false` */
+    inline?: boolean;
     /** 다른 페이지로 이동하면 주소를 넘긴다. `<a>`로 그린다 */
     href?: string;
     /** `href`를 그릴 링크 컴포넌트(예: Next.js `Link`). 생략하면 `<a>` */
@@ -99,18 +99,18 @@ export function TextButton({
   color = "primary",
   size,
   underline = false,
-  inline = false,
+  children,
   leftAddon,
   rightAddon,
   loading = false,
   disabled = false,
+  inline = false,
+  type = "button",
   href,
   linkComponent,
   target,
   rel,
   className,
-  children,
-  type = "button",
   ...props
 }: TextButtonProps) {
   const blocked = disabled || loading;

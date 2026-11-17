@@ -21,8 +21,6 @@ function AlertDemo({ values }: { values: Values }) {
     <>
       <Button onClick={() => setOpen(true)}>Alert 열기</Button>
       <Alert
-        open={open}
-        onClose={close}
         heading={(values.heading as string) || undefined}
         body={values.body as string}
         action={
@@ -37,6 +35,8 @@ function AlertDemo({ values }: { values: Values }) {
             </Button>
           </>
         }
+        open={open}
+        onClose={close}
       />
     </>
   );
@@ -97,11 +97,11 @@ export function AlertPlayground() {
 function AlertMock({ body, actions }: { body: string; actions: [string, string] }) {
   return (
     <div className="docs-alert-mock">
-      <Text as="p" variant="body-3-regular" color="secondary">
+      <Text variant="body-3-regular" color="secondary" as="p">
         {body}
       </Text>
       <div className="docs-alert-mock__actions">
-        <Button size="sm" color="secondary" tabIndex={-1}>
+        <Button color="secondary" size="sm" tabIndex={-1}>
           {actions[0]}
         </Button>
         <Button size="sm" tabIndex={-1}>

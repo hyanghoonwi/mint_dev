@@ -17,11 +17,15 @@ grep -n -A12 '\*\*`Button`\*\*' node_modules/@futurewiz-rms/mint/guide/actions.m
 1. **먼저 있는 컴포넌트를 씁니다.** `<button>`을 직접 만들지 않습니다.
 2. **스타일은 `app/layout.tsx`에서 `@futurewiz-rms/mint/style.css`를 한 번만 import합니다**([설치](guide/setup.md)).
 3. **서버 컴포넌트에서 바로 import해도 됩니다.** 상태가 필요한 컴포넌트는 라이브러리가 `"use client"`를 달아 두었습니다. 사용하는 쪽이 감쌀 필요가 없습니다. 단, `onClick` 같은 함수 prop은 서버 컴포넌트에서 넘길 수 없으니 그 부분만 클라이언트 컴포넌트로 뺍니다.
-4. **크기는 `size="sm" | "md" | "lg" | "xl"`, 기본 `md`.** 터치 화면에서 누르는 요소는 `md`(40px) 이상을 씁니다. 예외는 아이콘으로, `size`가 `16 | 20 | 24`(기본 24)입니다.
+4. **크기는 `size="sm" | "md" | "lg" | "xl"`, 기본 `md`.** 터치 화면에서 누르는 요소는 `md`(40px) 이상을 씁니다. 예외는 아이콘(`size`가 `16 | 20 | 24`, 기본 24)과 `Checkbox`·`Radio`·`CheckMark`(Figma 기본을 따라 기본 `sm` 20)입니다.
 5. **반응형 레이아웃은 `Container`·`Grid`로 합니다.** `div`에 그리드 클래스를 직접 쓰지 않습니다([레이아웃](guide/layout.md)). 구간은 모바일·`tablet:`(768px~)·`desktop:`(1024px~) 3단계뿐입니다(`sm:` `md:` `lg:`는 없음). 글자 크기는 구간과 상관없이 고정이고 컬럼 수·거터·여백만 바뀝니다. `window.innerWidth`나 미디어 쿼리 훅으로 렌더를 나누지 않습니다(서버·클라이언트 결과가 달라짐).
 6. **색은 시맨틱 토큰 클래스**(`bg-fill-brand`, `text-text-primary`, `border-border-default`, `text-icon-brand` 등)로 씁니다. hex 값과 `dark:` 클래스를 쓰지 않습니다. 지금은 Light 값만 있고 브랜드색은 임시 파랑입니다([색 상세](guide/setup.md)).
 
 ---
+
+## Props 읽는 순서
+
+Props는 **모양 → 내용 → 상태·동작 → 배치 → HTML·접근성 → 이벤트 → 확장** 순서로 읽고 작성합니다. 같은 prop은 컴포넌트가 달라도 같은 상대 순서입니다([상세](guide/setup.md#props-순서)). API 이름·기본값은 컴포넌트별 설명을 따릅니다.
 
 ## 무엇을 쓸까
 
@@ -29,6 +33,7 @@ grep -n -A12 '\*\*`Button`\*\*' node_modules/@futurewiz-rms/mint/guide/actions.m
 - 아이콘만 있는 버튼(닫기·더보기·공유) → `IconButton`(`aria-label` 필수)
 - 눌러서 켜고 끄는 아이콘(관심 코인·좋아요·북마크) → `ToggleIcon`(`aria-label` 필수)
 - 같은 목록을 거르거나 분류 고르기(칩, 하나만 선택) → `Category`
+- 옵션이나 액션 여러 개를 목록으로 보여 주기(정렬·더보기 메뉴, 항목 고르기) → `Menu` + `MenuItem`(그룹은 `MenuGroup`·`MenuDivider`)
 - 같은 영역의 보기 방식 바꾸기(목록/격자, 일/주/월, 2~6개) → `SegmentedControl`(화면 섹션 전환은 `Tab`)
 - 같은 화면의 내용(섹션) 바꾸기(밑줄형, 2~6개) → `Tab`
 - 많은 목록을 페이지로 나눠 이동 → `Pagination`(링크는 `getHref`+`linkComponent`, 버튼은 `onChange`)
@@ -36,16 +41,20 @@ grep -n -A12 '\*\*`Button`\*\*' node_modules/@futurewiz-rms/mint/guide/actions.m
 - 필터·조건 칩 하나(선택 상태 있음, 여러 개 고르기 등) → `Chip`(행동은 `Button`)
 - 날짜 고르기·일정 있는 날 점 표시(달력) → `Calendar`(임시, 날짜는 `YYYY-MM-DD` 문자열, `today` 필수)
 - 목록에서 선택된 항목에 체크 표시(Menu, Select Item) → `CheckMark`
+- 이름·이메일·검색처럼 짧은 한 줄 텍스트를 입력받기(라벨·도움말·오류 **내장**, `Label`을 또 붙이지 않음) → `TextField`(여러 줄은 Textarea, 목록에서 고르기는 `Select`)
 - 여러 개 고르기·한 항목 켜고 끄기(폼, 제출할 때 적용) → `Checkbox`(전체 선택은 `indeterminate`)
 - 2~4개 중 하나만 고르기(폼) → `RadioGroup` + `Radio`
+- 선택지가 많거나 설명이 있는 항목에서 하나 또는 여러 개 고르기(펼쳐지는 목록, 라벨 포함) → `Select`
 - 설명이 긴 선택지를 카드처럼 묶어 고르기 → `FramedRadio`(`RadioGroup` 안) · `FramedCheckbox` · 다른 내용은 `Framed`
 - 흐름을 멈추고 확인을 받는 대화상자 → `Alert`(열 때는 `useOverlay`)
 - 짧은 로딩 표시 → `Circular`(버튼 로딩은 `Button`의 `loading`)
 - 콘텐츠가 들어올 자리 미리 보여 주기 → `SkeletonText` · `SkeletonRectangle` · `SkeletonCircle`
 - 사용자·대상의 프로필 칸 → `Avatar`(여러 명은 `AvatarGroup`)
 - 상태·종류를 짧게 알리는 라벨(눌리지 않음) → `Badge`
+- 값이 실시간으로 갱신 중인지(켜짐·일시정지) 점과 글자로 알리기 → `LiveStatus`
 - 가격·시세가 오른 정도(▲ 1,200, +3.42%) → `PriceChange`(Badge나 색 글자로 만들지 않음)
 - 토큰 텍스트 스타일로 글자 그리기(태그·색·말줄임) → `Text`(클래스 `text-body-2-regular`를 직접 써도 됨)
+- 요소를 묶어 방향·여백·간격·정렬을 잡는 상자(테두리·그림자, 배경은 색 토큰 className) → `Box`
 - 페이지 틀·반응형 컬럼 배치 → `Container` + `Grid`(`Grid.Item`). `div`에 그리드 클래스를 직접 쓰지 않습니다
 - 요소가 화면에 들어왔는지(무한 스크롤·보일 때 불러오기) → `useInView`
 - 글자를 클립보드에 복사(주소·ID 복사, 복사 완료 표시) → `useClipboard`
@@ -73,6 +82,7 @@ grep -n -A12 '\*\*`Button`\*\*' node_modules/@futurewiz-rms/mint/guide/actions.m
 - `PageCounter` — 현재 위치를 숫자로(1 / 10, 표시 전용)
 - `PageDots` — 현재 위치를 점으로(2~7개, 표시 전용)
 - `Category` — 목록을 거르는 칩 목록(하나만 선택, 넘치면 가로 스크롤, "전체" 칩)
+- `Menu` · `MenuItem` · `MenuGroup` · `MenuDivider` — 옵션·액션 목록 상자(체크·Radio·Checkbox 3종, 3크기, 셀 여백 8·12, 앞 이미지, 하단 액션, 최대 높이 스크롤, 방향키 이동)
 - `SegmentedControl` — 보기 방식을 바꾸는 토글형 선택(트랙 위 흰 칩, 2~6개, 3크기, 아이콘)
 - `Tab` — 화면 섹션을 바꾸는 밑줄형 탭(2~6개, 3크기, fill·hug 배치, 구간별 객체, 뱃지)
 
@@ -83,9 +93,11 @@ grep -n -A12 '\*\*`Button`\*\*' node_modules/@futurewiz-rms/mint/guide/actions.m
 - `Checkbox` — 체크박스(체크·일부 선택, 레이블을 눌러도 선택, 폼 제출, 4크기·구간별 객체)
 - `RadioGroup` — 라디오 묶음(세로 나열, 하나만 선택, 값·onChange)
 - `Radio` — 라디오(레이블을 눌러도 선택, 방향키 이동, 폼 제출, 4크기·구간별 객체)
+- `Select` — 라벨 + 펼쳐지는 목록 선택(하나·여러 개, 3크기, 칩 표시, 그룹·설명, 오류·비활성·읽기 전용, 방향키)
 - `FramedCheckbox` · `FramedRadio` — 체크박스·라디오를 담은 틀(틀 전체를 눌러 선택, 선택되면 브랜드 테두리)
 - `Framed` — 다른 내용을 담는 틀(`selected`·`size`·`error`·`shadow`)
 - `Switch` — 누르면 바로 켜지고 꺼지는 스위치(즉시 적용 설정, 레이블을 눌러도 켜짐, 폼 제출, 서버 컴포넌트 가능)
+- `TextField` — 한 줄 텍스트 입력(라벨 + 도움말, 3크기, normal·negative·positive, `leftAddon`·지우기·`rightAddon`(글자·아이콘·버튼), 라벨 위·왼쪽, 구간별 객체)
 - `Label` — 입력 칸 위에 붙는 이름(3크기·구간별 객체, 필수 `*`, 도움말 아이콘, `htmlFor`로 입력 칸과 연결)
 - `Chip` — 선택 상태가 있는 칩(solid·outline, 3크기, square·pill, 아이콘·이미지·카운트)
 
@@ -93,6 +105,7 @@ grep -n -A12 '\*\*`Button`\*\*' node_modules/@futurewiz-rms/mint/guide/actions.m
 
 - `Avatar` — 프로필 칸(이미지·이름 첫 글자·아이콘, 배지, 눌림)
 - `AvatarGroup` — 아바타를 겹쳐 놓는 묶음(넘치면 `+N`)
+- `LiveStatus` — 실시간 반영 여부 표시(빨간 점 + 퍼지는 링 / 회색 점, 문구 `label`, 링 모션 1.8초, 여러 개면 0.26초씩 어긋남)
 - `Text` — 토큰 텍스트 스타일 글자(59개 스타일, 태그·색·말줄임)
 - `Badge` — 상태·종류를 알리는 표시 전용 라벨(fill·weak, 8색, 3크기)
 - `Thumbnail` — 콘텐츠 이미지를 정해진 비율로 보여 주는 틀(17가지 비율, 모서리·테두리·오버레이)
@@ -122,6 +135,7 @@ grep -n -A12 '\*\*`Button`\*\*' node_modules/@futurewiz-rms/mint/guide/actions.m
 
 ### [레이아웃](guide/layout.md)
 
+- `Box` — 범용 레이아웃 상자(방향·여백·간격 구간별, 정렬, tone 테두리, raised 그림자, 모서리, 넘침, `as` 태그)
 - `Container` — 페이지 틀(좌우 여백, 최대 폭 1440px, 가운데 정렬)
 - `Grid` — 반응형 컬럼 그리드(모바일 4 · 태블릿 8 · 데스크톱 12). `Grid.Item`의 `span`으로 구간별 컬럼 수를 정합니다
 - `Divider` — 내용을 나누는 선(가로·세로, default·strong·thick 8px 띠, 좌우 20px 인셋)

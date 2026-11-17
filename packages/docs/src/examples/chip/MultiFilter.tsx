@@ -23,8 +23,8 @@ export default function MultiFilter() {
       {kinds.map((kind) => (
         <Chip
           key={kind.id}
-          active={on.includes(kind.id)}
           count={kind.count}
+          active={on.includes(kind.id)}
           onClick={() => toggle(kind.id)}
         >
           {kind.label}

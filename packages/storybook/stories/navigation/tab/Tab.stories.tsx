@@ -1,7 +1,7 @@
 import { useState } from "react";
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { expect, userEvent } from "storybook/test";
-import { Tab, Text } from "@futurewiz-rms/mint";
+import { Box, Tab, Text } from "@futurewiz-rms/mint";
 
 const sections = [
   { value: "home", label: "홈" },
@@ -21,8 +21,8 @@ const meta = {
   args: { items: sections, "aria-label": "내 정보" },
   argTypes: {
     size: { control: "inline-radio", options: ["sm", "md", "lg"] },
-    layout: { control: "inline-radio", options: ["fill", "hug"] },
     fade: { control: "boolean" },
+    layout: { control: "inline-radio", options: ["fill", "hug"] },
   },
   decorators: [
     (Story) => (
@@ -38,36 +38,36 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {};
 
-// Figma Size: Large 48(기본) · Medium 40 · Small 32
+// Figma Size: Large 48 · Medium 40(기본) · Small 32
 export const Sizes: Story = {
   render: (args) => (
-    <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+    <Box gap={16}>
       <Tab {...args} size="lg" />
       <Tab {...args} size="md" />
       <Tab {...args} size="sm" />
-    </div>
+    </Box>
   ),
 };
 
 // Figma layout: fill은 폭을 나눠 갖고, hug는 이름 폭만큼만 차지한다
 export const Layouts: Story = {
   render: (args) => (
-    <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+    <Box gap={16}>
       <Tab {...args} layout="fill" />
       <Tab {...args} layout="hug" />
-    </div>
+    </Box>
   ),
 };
 
 // Figma tab = 2 ~ 6. 6개는 hug로 두고 넘치면 가로로 스크롤한다
 export const Counts: Story = {
   render: (args) => (
-    <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+    <Box gap={16}>
       {[2, 3, 4, 5].map((count) => (
         <Tab key={count} {...args} items={itemsOf(count)} />
       ))}
       <Tab {...args} items={itemsOf(6)} layout="hug" />
-    </div>
+    </Box>
   ),
 };
 
@@ -88,12 +88,12 @@ export const Disabled: Story = {
 // fill이어도 이름이 안 들어가면 이름 폭을 지키고 가로로 스크롤한다(마우스는 끌어서, 놓으면 관성). 스크롤할 쪽에 그라데이션이 나타난다
 export const LongLabels: Story = {
   args: {
-    layout: "fill",
     items: [
       { value: "a", label: "자산 현황 요약" },
       { value: "b", label: "거래 내역 조회" },
       { value: "c", label: "입출금 한도 안내" },
     ],
+    layout: "fill",
   },
 };
 
@@ -114,12 +114,12 @@ export const Interaction: Story = {
   render: function Render(args) {
     const [value, setValue] = useState("home");
     return (
-      <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+      <Box gap={8}>
         <Tab {...args} value={value} onChange={setValue} />
         <Text variant="body-3-regular" color="secondary">
           선택: {value}
         </Text>
-      </div>
+      </Box>
     );
   },
   play: async ({ canvas }) => {

@@ -24,8 +24,8 @@ export interface ToastProps extends Omit<ComponentProps<"div">, "children"> {
 export function Toast({
   variant = "normal",
   shape = "default",
-  className,
   children,
+  className,
   ...props
 }: ToastProps) {
   return (

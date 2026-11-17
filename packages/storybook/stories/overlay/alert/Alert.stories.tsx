@@ -11,14 +11,14 @@ const meta = {
   },
   argTypes: {
     heading: { control: "text" },
-    open: { control: false },
     action: { control: false },
+    open: { control: false },
   },
   args: {
-    open: false,
     heading: "알림을 켤까요?",
     body: "설정에서 언제든 끌 수 있어요.",
     action: null,
+    open: false,
   },
 } satisfies Meta<typeof Alert>;
 
@@ -35,8 +35,6 @@ export const Default: Story = {
         <Button onClick={() => setOpen(true)}>Alert 열기</Button>
         <Alert
           {...args}
-          open={open}
-          onClose={() => setOpen(false)}
           action={
             <>
               <Button color="secondary" onClick={() => setOpen(false)}>
@@ -45,6 +43,8 @@ export const Default: Story = {
               <Button onClick={() => setOpen(false)}>켜기</Button>
             </>
           }
+          open={open}
+          onClose={() => setOpen(false)}
         />
       </>
     );
@@ -66,8 +66,6 @@ export const Destructive: Story = {
         </Button>
         <Alert
           {...args}
-          open={open}
-          onClose={() => setOpen(false)}
           action={
             <>
               <Button color="secondary" onClick={() => setOpen(false)}>
@@ -78,6 +76,8 @@ export const Destructive: Story = {
               </Button>
             </>
           }
+          open={open}
+          onClose={() => setOpen(false)}
         />
       </>
     );
@@ -94,8 +94,6 @@ export const WithoutHeading: Story = {
         <Button onClick={() => setOpen(true)}>Alert 열기</Button>
         <Alert
           {...args}
-          open={open}
-          onClose={() => setOpen(false)}
           action={
             <>
               <Button color="secondary" onClick={() => setOpen(false)}>
@@ -104,6 +102,8 @@ export const WithoutHeading: Story = {
               <Button onClick={() => setOpen(false)}>나가기</Button>
             </>
           }
+          open={open}
+          onClose={() => setOpen(false)}
         />
       </>
     );
@@ -120,9 +120,9 @@ export const SingleAction: Story = {
         <Button onClick={() => setOpen(true)}>Alert 열기</Button>
         <Alert
           {...args}
+          action={<Button onClick={() => setOpen(false)}>확인</Button>}
           open={open}
           onClose={() => setOpen(false)}
-          action={<Button onClick={() => setOpen(false)}>확인</Button>}
         />
       </>
     );

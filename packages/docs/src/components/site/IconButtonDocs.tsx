@@ -20,24 +20,24 @@ export function IconButtonPlayground() {
       ]}
       render={(values) => (
         <IconButton
-          icon={<PlusIcon />}
-          aria-label="추가"
           variant={values.variant as IconButtonProps["variant"]}
           size={values.size as IconButtonProps["size"]}
+          icon={<PlusIcon />}
           badge={values.badge as boolean}
           disabled={values.disabled as boolean}
+          aria-label="추가"
         />
       )}
       code={(values) =>
         jsx(
           "IconButton",
           {
-            icon: { expr: "<PlusIcon />" },
-            "aria-label": "추가",
             variant: values.variant !== "normal" ? (values.variant as string) : undefined,
             size: values.size !== "md" ? (values.size as string) : undefined,
+            icon: { expr: "<PlusIcon />" },
             badge: values.badge as boolean,
             disabled: values.disabled as boolean,
+            "aria-label": "추가",
           },
           undefined,
           ["PlusIcon"],
@@ -54,14 +54,14 @@ export function IconButtonGuide() {
       good={
         <span style={{ display: "flex", gap: 8 }}>
           <IconButton icon={<XIcon />} aria-label="닫기" />
-          <IconButton icon={<BellIcon />} aria-label="알림" badge />
+          <IconButton icon={<BellIcon />} badge aria-label="알림" />
         </span>
       }
       goodText={<>닫기·알림처럼 의미가 널리 알려진 아이콘을 쓰고 이름을 붙여요.</>}
       bad={
         <span style={{ display: "flex", gap: 4 }}>
           {[1, 2, 3, 4, 5].map((number) => (
-            <IconButton key={number} icon={<PlusIcon />} aria-label={`동작 ${number}`} size="sm" />
+            <IconButton key={number} size="sm" icon={<PlusIcon />} aria-label={`동작 ${number}`} />
           ))}
         </span>
       }

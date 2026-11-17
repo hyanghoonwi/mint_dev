@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Radio, RadioGroup, Text } from "@futurewiz-rms/mint";
+import { Box, Radio, RadioGroup, Text } from "@futurewiz-rms/mint";
 
 const fees = { card: "수수료 2%", bank: "수수료 없음", point: "포인트 차감" };
 
@@ -9,10 +9,10 @@ export default function Controlled() {
   const [method, setMethod] = useState<keyof typeof fees>("card");
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+    <Box gap={8}>
       <RadioGroup
-        aria-label="결제 수단"
         value={method}
+        aria-label="결제 수단"
         onChange={(value) => setMethod(value as keyof typeof fees)}
       >
         <Radio value="card">카드</Radio>
@@ -22,6 +22,6 @@ export default function Controlled() {
       <Text variant="body-3-regular" color="secondary">
         {fees[method]}
       </Text>
-    </div>
+    </Box>
   );
 }

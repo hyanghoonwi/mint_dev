@@ -7,10 +7,10 @@ import { jsx, Playground, type Control } from "./Playground";
 type Direction = "up" | "down" | "flat";
 
 const controls: Control[] = [
-  { prop: "direction", type: "select", options: ["up", "down", "flat"], default: "up" },
-  { prop: "type", type: "select", options: ["amount", "percent"], default: "amount" },
   { prop: "variant", type: "select", options: ["text", "weak"], default: "text" },
   { prop: "size", type: "select", options: ["sm", "md", "lg"], default: "md" },
+  { prop: "type", type: "select", options: ["amount", "percent"], default: "amount" },
+  { prop: "direction", type: "select", options: ["up", "down", "flat"], default: "up" },
   { prop: "children", type: "text", default: "1,200" },
 ];
 
@@ -21,10 +21,10 @@ export function PriceChangePlayground() {
       controls={controls}
       render={(values) => (
         <PriceChange
-          direction={values.direction as Direction}
-          type={values.type as "amount" | "percent"}
           variant={values.variant as "text" | "weak"}
           size={values.size as "sm" | "md" | "lg"}
+          type={values.type as "amount" | "percent"}
+          direction={values.direction as Direction}
         >
           {values.children as string}
         </PriceChange>
@@ -33,10 +33,10 @@ export function PriceChangePlayground() {
         jsx(
           "PriceChange",
           {
-            direction: values.direction as string,
-            type: values.type !== "amount" ? (values.type as string) : undefined,
             variant: values.variant !== "text" ? (values.variant as string) : undefined,
             size: values.size !== "md" ? (values.size as string) : undefined,
+            type: values.type !== "amount" ? (values.type as string) : undefined,
+            direction: values.direction as string,
           },
           values.children as string,
         )
@@ -51,16 +51,16 @@ export function PriceChangeGuide() {
     <DoDont
       good={
         <>
-          <PriceChange direction="up" variant="weak">
+          <PriceChange variant="weak" direction="up">
             100,000
           </PriceChange>
-          <PriceChange direction="up" variant="weak" type="percent">
+          <PriceChange variant="weak" type="percent" direction="up">
             3.42%
           </PriceChange>
-          <PriceChange direction="down" variant="weak">
+          <PriceChange variant="weak" direction="down">
             100
           </PriceChange>
-          <PriceChange direction="down" variant="weak" type="percent">
+          <PriceChange variant="weak" type="percent" direction="down">
             1.20%
           </PriceChange>
         </>
@@ -68,10 +68,10 @@ export function PriceChangeGuide() {
       goodText={<>금액은 화살표(▲ ▼)로, 퍼센트는 부호(+, -)로 따로 써요.</>}
       bad={
         <>
-          <PriceChange direction="up" size="sm">
+          <PriceChange size="sm" direction="up">
             1,200
           </PriceChange>
-          <PriceChange direction="up" size="lg" type="percent">
+          <PriceChange size="lg" type="percent" direction="up">
             3.42%
           </PriceChange>
         </>

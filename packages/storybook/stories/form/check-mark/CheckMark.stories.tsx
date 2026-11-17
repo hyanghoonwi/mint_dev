@@ -12,8 +12,8 @@ const meta = {
   argTypes: {
     size: { control: "inline-radio", options: ["xs", "sm", "md", "lg"] },
     checked: { control: "boolean" },
-    tight: { control: "boolean" },
     disabled: { control: "boolean" },
+    tight: { control: "boolean" },
     role: {
       control: "select",
       options: ["checkbox", "radio", "option", "menuitemcheckbox", "menuitemradio"],
@@ -49,7 +49,7 @@ export const States: Story = {
 };
 
 export const Tight: Story = {
-  args: { tight: true, checked: true },
+  args: { checked: true, tight: true },
 };
 
 // 레이블 없이: aria-label을 준다
@@ -59,7 +59,7 @@ export const IconOnly: Story = {
 
 // 표시용(onClick 없음): 감싸는 항목이 선택 여부를 알린다
 export const Display: Story = {
-  args: { onClick: undefined, checked: true },
+  args: { checked: true, onClick: undefined },
 };
 
 // 하나만 고르는 목록: 항목 전체를 누른다
@@ -75,8 +75,8 @@ export const SingleSelectList: Story = {
         {["최신순", "인기순", "가격순"].map((label) => (
           <CheckMark
             key={label}
-            role="radio"
             checked={sort === label}
+            role="radio"
             onClick={() => setSort(label)}
             className="w-full"
           >
@@ -120,9 +120,9 @@ export const InListbox: Story = {
         {["KRW", "USD", "BTC"].map((label) => (
           <CheckMark
             key={label}
-            role="option"
-            tight
             checked={value === label}
+            tight
+            role="option"
             onClick={() => setValue(label)}
             className="w-full"
           >

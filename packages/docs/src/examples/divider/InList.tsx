@@ -8,7 +8,7 @@ export default function InList() {
       {menus.map((menu, index) => (
         <div key={menu}>
           {index > 0 && <Divider inset />}
-          <Text as="p" variant="body-2-regular" className="px-5 py-4">
+          <Text variant="body-2-regular" as="p" className="px-5 py-4">
             {menu}
           </Text>
         </div>

@@ -16,22 +16,22 @@ export function ToggleIconPlayground() {
         <ToggleIcon
           // 처음 상태를 바꾸면 다시 그려서 바로 보이게 한다
           key={String(values.defaultActive)}
-          icon={<StarIcon />}
-          aria-label="관심 코인"
           size={values.size as ToggleIconProps["size"]}
+          icon={<StarIcon />}
           defaultActive={values.defaultActive as boolean}
           disabled={values.disabled as boolean}
+          aria-label="관심 코인"
         />
       )}
       code={(values) =>
         jsx(
           "ToggleIcon",
           {
-            icon: { expr: "<StarIcon />" },
-            "aria-label": "관심 코인",
             size: values.size !== "md" ? (values.size as string) : undefined,
+            icon: { expr: "<StarIcon />" },
             defaultActive: values.defaultActive as boolean,
             disabled: values.disabled as boolean,
+            "aria-label": "관심 코인",
           },
           undefined,
           ["StarIcon"],
@@ -47,7 +47,7 @@ export function ToggleIconGuide() {
     <DoDont
       good={
         <span style={{ display: "flex", gap: 8 }}>
-          <ToggleIcon icon={<StarIcon />} aria-label="관심 코인" defaultActive />
+          <ToggleIcon icon={<StarIcon />} defaultActive aria-label="관심 코인" />
           <ToggleIcon icon={<HeartIcon />} aria-label="좋아요" />
         </span>
       }
@@ -57,8 +57,8 @@ export function ToggleIconGuide() {
           <ToggleIcon
             icon={<StarIcon />}
             activeIcon={<HeartIcon />}
-            aria-label="관심 코인"
             defaultActive
+            aria-label="관심 코인"
           />
         </span>
       }

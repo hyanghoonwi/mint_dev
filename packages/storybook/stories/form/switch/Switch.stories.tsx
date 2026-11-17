@@ -1,7 +1,7 @@
 import { useState } from "react";
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { expect, fn, userEvent } from "storybook/test";
-import { Switch, Text } from "@futurewiz-rms/mint";
+import { Box, Switch, Text } from "@futurewiz-rms/mint";
 
 const meta = {
   title: "Components/Form/Switch",
@@ -23,20 +23,20 @@ export const Default: Story = {};
 // Figma Active: False · True
 export const Active: Story = {
   render: (args) => (
-    <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+    <Box gap={16}>
       <Switch {...args} defaultChecked={false} />
       <Switch {...args} defaultChecked />
-    </div>
+    </Box>
   ),
 };
 
 // Figma State: Normal · Disabled (Pressed는 누르는 동안·hover에서 보인다)
 export const Disabled: Story = {
   render: (args) => (
-    <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
-      <Switch {...args} disabled defaultChecked={false} />
-      <Switch {...args} disabled defaultChecked />
-    </div>
+    <Box gap={16}>
+      <Switch {...args} defaultChecked={false} disabled />
+      <Switch {...args} defaultChecked disabled />
+    </Box>
   ),
 };
 
@@ -50,12 +50,12 @@ export const Controlled: Story = {
   render: function Render(args) {
     const [on, setOn] = useState(true);
     return (
-      <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+      <Box gap={8}>
         <Switch {...args} checked={on} onChange={(event) => setOn(event.target.checked)} />
         <Text variant="body-3-regular" color="secondary">
           {on ? "켜짐" : "꺼짐"}
         </Text>
-      </div>
+      </Box>
     );
   },
 };

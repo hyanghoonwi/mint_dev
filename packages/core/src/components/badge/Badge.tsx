@@ -75,8 +75,8 @@ export function Badge({
   variant = "fill",
   color = "brand",
   size,
-  className,
   children,
+  className,
   ...props
 }: BadgeProps) {
   return (

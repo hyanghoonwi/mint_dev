@@ -10,10 +10,10 @@ const meta = {
   parameters: { layout: "centered" },
   args: { current: 1, total: 5 },
   argTypes: {
-    current: { control: { type: "number", min: 1 } },
-    total: { control: { type: "number", min: 2, max: 7 } },
     variant: { control: "inline-radio", options: ["normal", "white"] },
     size: { control: "inline-radio", options: ["md", "sm"] },
+    current: { control: { type: "number", min: 1 } },
+    total: { control: { type: "number", min: 2, max: 7 } },
   },
 } satisfies Meta<typeof PageDots>;
 
@@ -64,9 +64,9 @@ export const Counter: Story = {
   render: () => (
     <div style={column}>
       <PageCounter current={1} total={10} />
-      <PageCounter current={1} total={10} size="sm" />
-      <PageCounter current={1} total={10} variant="alternative" />
-      <PageCounter current={1} total={10} variant="alternative" size="sm" />
+      <PageCounter size="sm" current={1} total={10} />
+      <PageCounter variant="alternative" current={1} total={10} />
+      <PageCounter variant="alternative" size="sm" current={1} total={10} />
     </div>
   ),
 };

@@ -54,9 +54,9 @@ export const Variants: Story = {
         <Snackbar
           key={variant}
           variant={variant}
-          icon
           heading="메시지에 마침표를 찍어요."
           description="설명은 필요할 때만 써요."
+          icon
         />
       ))}
     </div>

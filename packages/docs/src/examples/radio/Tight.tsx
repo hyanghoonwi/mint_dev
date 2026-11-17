@@ -2,7 +2,7 @@ import { Radio, RadioGroup } from "@futurewiz-rms/mint";
 
 export default function Tight() {
   return (
-    <RadioGroup aria-label="표시 통화" defaultValue="KRW" style={{ gap: 12 }}>
+    <RadioGroup defaultValue="KRW" aria-label="표시 통화" style={{ gap: 12 }}>
       <Radio value="KRW" tight>
         KRW
       </Radio>

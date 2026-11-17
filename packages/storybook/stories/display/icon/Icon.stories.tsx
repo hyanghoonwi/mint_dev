@@ -3,13 +3,16 @@ import * as mint from "@futurewiz-rms/mint";
 import {
   ArrowRightIcon,
   BellIcon,
+  Box,
   Button,
   CheckCircleIcon,
+  CheckIcon,
   HeartIcon,
   HouseIcon,
   iconCatalog,
   type IconComponent,
   PlusIcon,
+  SelectedCheckIcon,
   StarIcon,
   Text,
   WarningCircleIcon,
@@ -21,10 +24,10 @@ const meta = {
   tags: ["autodocs"],
   parameters: { layout: "centered" },
   argTypes: {
-    size: { control: "inline-radio", options: [16, 20, 24] },
     variant: { control: "inline-radio", options: ["line", "fill"] },
+    size: { control: "inline-radio", options: [16, 20, 24] },
   },
-  args: { size: 24, variant: "line" },
+  args: { variant: "line", size: 24 },
 } satisfies Meta<typeof HouseIcon>;
 
 export default meta;
@@ -35,51 +38,51 @@ export const Default: Story = {};
 // 16 · 20 · 24px. 16과 20은 24px 아이콘을 비율대로 줄인 것이다
 export const Sizes: Story = {
   render: () => (
-    <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
+    <Box direction="horizontal" align="center" gap={16}>
       <HouseIcon size={16} />
       <HouseIcon size={20} />
       <HouseIcon size={24} />
-    </div>
+    </Box>
   ),
 };
 
 // 선(line, Regular 굵기)과 채움(fill)
 export const Variants: Story = {
   render: () => (
-    <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
+    <Box direction="horizontal" align="center" gap={16}>
       <HeartIcon variant="line" />
       <HeartIcon variant="fill" />
       <StarIcon variant="line" />
       <StarIcon variant="fill" />
       <BellIcon variant="line" />
       <BellIcon variant="fill" />
-    </div>
+    </Box>
   ),
 };
 
 // 색은 글자색을 따라간다. 글자색 토큰 클래스로 지정한다
 export const Colors: Story = {
   render: () => (
-    <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
-      <CheckCircleIcon className="text-icon-brand" variant="fill" />
-      <WarningCircleIcon className="text-icon-danger" variant="fill" />
+    <Box direction="horizontal" align="center" gap={16}>
+      <CheckCircleIcon variant="fill" className="text-icon-brand" />
+      <WarningCircleIcon variant="fill" className="text-icon-danger" />
       <WarningCircleIcon className="text-icon-secondary" />
-    </div>
+    </Box>
   ),
 };
 
 // 버튼 안의 아이콘은 버튼 크기에 맞게 자동으로 조절된다
 export const InButton: Story = {
   render: () => (
-    <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+    <Box direction="horizontal" align="center" gap={12}>
       <Button size="sm" leftAddon={<PlusIcon />}>
         추가
       </Button>
       <Button leftAddon={<PlusIcon />}>추가</Button>
-      <Button size="lg" variant="outline" rightAddon={<ArrowRightIcon />}>
+      <Button variant="outline" size="lg" rightAddon={<ArrowRightIcon />}>
         더보기
       </Button>
-    </div>
+    </Box>
   ),
 };
 
@@ -104,10 +107,10 @@ export const Gallery: Story = {
     },
   },
   render: () => (
-    <div style={{ display: "flex", flexDirection: "column", gap: 32 }}>
+    <Box gap={32}>
       {iconCatalog.map((group) => (
         <section key={group.category} style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-          <Text as="h3" variant="heading-3-bold" style={{ margin: 0 }}>
+          <Text variant="heading-3-bold" as="h3" style={{ margin: 0 }}>
             {group.category}
           </Text>
           <div
@@ -131,7 +134,7 @@ export const Gallery: Story = {
                     <Icon />
                     <Icon variant="fill" />
                   </div>
-                  <Text as="code" variant="caption-1-regular" color="secondary">
+                  <Text variant="caption-1-regular" color="secondary" as="code">
                     {name}
                   </Text>
                 </div>
@@ -140,6 +143,16 @@ export const Gallery: Story = {
           </div>
         </section>
       ))}
-    </div>
+    </Box>
+  ),
+};
+
+// Phosphor 목록에 없는 전용 아이콘: 고른 항목 끝의 체크(20px, 선 2). 얇은 CheckIcon과 굵기를 견준다
+export const SelectedCheck: Story = {
+  render: () => (
+    <Box direction="horizontal" align="center" gap={16}>
+      <CheckIcon size={20} className="text-icon-brand" />
+      <SelectedCheckIcon className="text-icon-brand" />
+    </Box>
   ),
 };

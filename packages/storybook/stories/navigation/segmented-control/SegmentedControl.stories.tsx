@@ -1,7 +1,14 @@
 import { useState } from "react";
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { expect, userEvent } from "storybook/test";
-import { ListIcon, SegmentedControl, SquaresFourIcon, TableIcon, Text } from "@futurewiz-rms/mint";
+import {
+  Box,
+  ListIcon,
+  SegmentedControl,
+  SquaresFourIcon,
+  TableIcon,
+  Text,
+} from "@futurewiz-rms/mint";
 
 const period = [
   { value: "day", label: "일" },
@@ -45,12 +52,12 @@ export const Sizes: Story = {
 // Figma icon = true: 글자 앞 아이콘(lg 20 · md·sm 16)
 export const WithIcon: Story = {
   args: {
-    "aria-label": "보기 방식",
     items: [
       { value: "list", label: "목록", icon: <ListIcon /> },
       { value: "grid", label: "격자", icon: <SquaresFourIcon /> },
       { value: "table", label: "표", icon: <TableIcon /> },
     ],
+    "aria-label": "보기 방식",
   },
 };
 
@@ -89,12 +96,12 @@ export const Interaction: Story = {
   render: function Render(args) {
     const [value, setValue] = useState("day");
     return (
-      <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+      <Box gap={8}>
         <SegmentedControl {...args} value={value} onChange={setValue} />
         <Text variant="body-3-regular" color="secondary">
           선택: {value}
         </Text>
-      </div>
+      </Box>
     );
   },
   play: async ({ canvas, canvasElement, step }) => {
@@ -146,7 +153,7 @@ export const SkipDisabled: Story = {
 
 // 모바일은 꽉 채우고 태블릿부터 내용 폭
 export const Mobile: Story = {
-  args: { fullWidth: { base: true, tablet: false }, size: "lg" },
+  args: { size: "lg", fullWidth: { base: true, tablet: false } },
   globals: { viewport: { value: "mobile" } },
 };
 

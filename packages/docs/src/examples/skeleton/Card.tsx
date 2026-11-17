@@ -7,7 +7,7 @@ export default function Card() {
       className="bg-background-default rounded-16"
       style={{ padding: 16, display: "flex", flexDirection: "column", gap: 12, width: 240 }}
     >
-      <SkeletonRectangle height={140} radius />
+      <SkeletonRectangle radius height={140} />
       <SkeletonText />
       <SkeletonText length="25%" />
     </div>

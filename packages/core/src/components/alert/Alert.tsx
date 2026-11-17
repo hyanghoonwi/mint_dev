@@ -27,10 +27,6 @@ export interface AlertProps extends Omit<
   ComponentProps<"dialog">,
   "open" | "onClose" | "children" | "role"
 > {
-  /** 열림 여부. 상태는 사용하는 쪽이 갖는다 */
-  open: boolean;
-  /** Esc를 눌렀을 때 호출된다. 여기서 `open`을 `false`로 바꾼다. 버튼을 눌렀을 때는 각 버튼의 `onClick`에서 닫는다 */
-  onClose?: () => void;
   /** 한 줄로 상황을 요약한다. 없으면 제목 줄이 사라진다 */
   heading?: ReactNode;
   /** 본문. 해결 방법을 적는다 */
@@ -40,16 +36,20 @@ export interface AlertProps extends Omit<
    * 취소 같은 보조 행동은 앞에, 주된 행동은 뒤(오른쪽 끝)에 둔다. 버튼을 눌러 닫는 것은 각 버튼의 `onClick`에서 `open`을 바꿔서 한다.
    */
   action: ReactNode;
+  /** 열림 여부. 상태는 사용하는 쪽이 갖는다 */
+  open: boolean;
+  /** Esc를 눌렀을 때 호출된다. 여기서 `open`을 `false`로 바꾼다. 버튼을 눌렀을 때는 각 버튼의 `onClick`에서 닫는다 */
+  onClose?: () => void;
 }
 
 export function Alert({
-  open,
-  onClose,
   heading,
   body,
   action,
-  className,
+  open,
   onCancel,
+  onClose,
+  className,
   ref,
   ...props
 }: AlertProps) {

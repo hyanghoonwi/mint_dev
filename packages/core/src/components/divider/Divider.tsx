@@ -15,10 +15,10 @@ const colorClasses: Record<DividerVariant, string> = {
 };
 
 export interface DividerProps extends Omit<ComponentProps<"div">, "children"> {
-  /** `horizontal`은 위아래를, `vertical`은 좌우를 나눈다. 기본 `horizontal` */
-  orientation?: DividerOrientation;
   /** `default` 일반 구분 · `strong` 더 또렷하게 · `thick` 8px 띠(영역 구분, 가로선만). 기본 `default` */
   variant?: DividerVariant;
+  /** `horizontal`은 위아래를, `vertical`은 좌우를 나눈다. 기본 `horizontal` */
+  orientation?: DividerOrientation;
   /** 좌우에 20px 여백(가로선만). 기본 `false` */
   inset?: boolean;
 }
@@ -28,8 +28,8 @@ export interface DividerProps extends Omit<ComponentProps<"div">, "children"> {
  * 세로선을 flex 밖에서 쓰면 `className`으로 높이(`h-*`)를 준다.
  */
 export function Divider({
-  orientation = "horizontal",
   variant = "default",
+  orientation = "horizontal",
   inset = false,
   className,
   ...props

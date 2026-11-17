@@ -45,3 +45,14 @@ export function responsiveClasses<T extends string | number | boolean>(
   }
   return classNames.join(" ");
 }
+
+/** 반응형 값의 각 구간 값을 다른 값으로 바꾼다. 값 하나면 하나만 바꾼다(예: 크기 이름을 다른 컴포넌트의 크기 이름으로) */
+export function mapResponsive<T, U>(value: Responsive<T>, convert: (input: T) => U): Responsive<U> {
+  if (!isResponsiveObject(value)) return convert(value as T);
+  const result: Partial<Record<Breakpoint, U>> = {};
+  for (const breakpoint of ["base", "tablet", "desktop"] as const) {
+    const entry = value[breakpoint];
+    if (entry !== undefined) result[breakpoint] = convert(entry);
+  }
+  return result;
+}

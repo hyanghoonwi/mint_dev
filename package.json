@@ -12,6 +12,8 @@
     "docs:preview": "npm run preview -w @mint/docs",
     "build-storybook": "npm run build-storybook -w @mint/storybook",
     "lint": "oxlint",
+    "props:check": "node scripts/sort-props.mjs",
+    "props:sort": "node scripts/sort-props.mjs --write && npm run format && npm run format:docs",
     "format:docs": "prettier --write \"packages/docs/content/**/*.{md,mdx}\" && node scripts/format-docs-snippets.mjs",
     "format": "prettier --write \"packages/core/src/**/*.{ts,tsx}\" \"packages/storybook/{stories,.storybook}/**/*.{ts,tsx}\" \"packages/docs/src/**/*.{ts,tsx}\" \"packages/docs/*.{ts,tsx,mjs}\" \"packages/docs/scripts/*.mjs\" \"packages/core/*.ts\" \"packages/*/vite*.ts\" \"scripts/*.mjs\" \"packages/core/scripts/*.mjs\"",
     "format:check": "prettier --check \"packages/core/src/**/*.{ts,tsx}\" \"packages/storybook/{stories,.storybook}/**/*.{ts,tsx}\" \"packages/docs/src/**/*.{ts,tsx}\" \"packages/docs/*.{ts,tsx,mjs}\" \"packages/docs/scripts/*.mjs\" \"packages/core/*.ts\" \"packages/*/vite*.ts\" \"scripts/*.mjs\" \"packages/core/scripts/*.mjs\""

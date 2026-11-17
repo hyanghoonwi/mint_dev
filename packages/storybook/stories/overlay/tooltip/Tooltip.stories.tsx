@@ -13,14 +13,14 @@ const meta = {
     layout: "centered",
   },
   argTypes: {
-    position: { control: "inline-radio", options: positions },
-    arrowAlign: { control: "inline-radio", options: aligns },
     size: { control: "inline-radio", options: ["sm", "md", "lg"] },
     open: { control: "boolean" },
+    position: { control: "inline-radio", options: positions },
+    arrowAlign: { control: "inline-radio", options: aligns },
   },
   args: {
-    label: "공유",
     children: <IconButton icon={<ShareNetworkIcon />} aria-label="공유" />,
+    label: "공유",
   },
 } satisfies Meta<typeof Tooltip>;
 
@@ -57,8 +57,8 @@ export const Positions: Story = {
       {positions.flatMap((position) =>
         aligns.map((align) => (
           <div key={`${position}-${align}`} style={{ display: "flex", justifyContent: "center" }}>
-            <Tooltip label="역할" position={position} arrowAlign={align} size={args.size} open>
-              <Button size="sm" color="secondary">
+            <Tooltip size={args.size} label="역할" open position={position} arrowAlign={align}>
+              <Button color="secondary" size="sm">
                 {position} · {align}
               </Button>
             </Tooltip>
@@ -74,8 +74,8 @@ export const Sizes: Story = {
   render: () => (
     <div style={{ display: "flex", gap: 48, paddingTop: 56 }}>
       {(["sm", "md", "lg"] as const).map((size) => (
-        <Tooltip key={size} label="역할" size={size} open>
-          <Button size="sm" color="secondary">
+        <Tooltip key={size} size={size} label="역할" open>
+          <Button color="secondary" size="sm">
             {size}
           </Button>
         </Tooltip>
@@ -89,7 +89,7 @@ export const Shortcut: Story = {
   render: () => (
     <div style={{ paddingTop: 56 }}>
       <Tooltip label="⌘C" open>
-        <Button size="sm" color="secondary">
+        <Button color="secondary" size="sm">
           복사
         </Button>
       </Tooltip>
@@ -100,9 +100,9 @@ export const Shortcut: Story = {
 // 구간별 값: 모바일·태블릿은 아래(bottom)·sm, 데스크톱(1024px~)부터 오른쪽(right)·md
 export const Responsive: Story = {
   args: {
+    size: { base: "sm", desktop: "md" },
     open: true,
     position: { base: "bottom", desktop: "right" },
-    size: { base: "sm", desktop: "md" },
   },
   play: async ({ canvas }) => {
     const tooltip = canvas.getByRole("tooltip");

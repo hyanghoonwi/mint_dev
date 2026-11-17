@@ -19,12 +19,6 @@ export function PageIndicatorPlayground() {
         },
         { prop: "size", type: "select", options: ["md", "sm"], default: "md" },
         {
-          prop: "total",
-          type: "select",
-          options: (values) => (values.type === "dots" ? [2, 3, 4, 5, 6, 7] : [10, 24, 100]),
-          default: 5,
-        },
-        {
           prop: "current",
           type: "select",
           // 점은 1~total 전부, 숫자는 처음·중간·끝 몇 개만 고를 수 있게 한다
@@ -36,12 +30,18 @@ export function PageIndicatorPlayground() {
           },
           default: 1,
         },
+        {
+          prop: "total",
+          type: "select",
+          options: (values) => (values.type === "dots" ? [2, 3, 4, 5, 6, 7] : [10, 24, 100]),
+          default: 5,
+        },
       ]}
       render={(values) => {
         const common = {
+          size: values.size as "md" | "sm",
           current: values.current as number,
           total: values.total as number,
-          size: values.size as "md" | "sm",
         };
         const node =
           values.type === "dots" ? (
@@ -58,10 +58,10 @@ export function PageIndicatorPlayground() {
       }}
       code={(values) =>
         jsx(values.type === "dots" ? "PageDots" : "PageCounter", {
-          current: values.current as number,
-          total: values.total as number,
           variant: values.variant !== "normal" ? (values.variant as string) : undefined,
           size: values.size !== "md" ? (values.size as string) : undefined,
+          current: values.current as number,
+          total: values.total as number,
         })
       }
     />
@@ -75,11 +75,11 @@ export function PageIndicatorGuide() {
       good={
         <span style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 12 }}>
           <PageDots current={2} total={5} />
-          <PageCounter current={7} total={24} variant="alternative" />
+          <PageCounter variant="alternative" current={7} total={24} />
         </span>
       }
       goodText={<>점은 7개 이하일 때만 쓰고, 더 많으면 숫자로 바꿔요.</>}
-      bad={<PageDots current={4} total={12} size="sm" />}
+      bad={<PageDots size="sm" current={4} total={12} />}
       badText={<>점이 8개 이상이면 위치를 알아보기 어려워요. Counter를 써요.</>}
     />
   );

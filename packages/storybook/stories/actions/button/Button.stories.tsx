@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { expect, fn } from "storybook/test";
-import { ArrowRightIcon, Button, PlusIcon } from "@futurewiz-rms/mint";
+import { ArrowRightIcon, Box, Button, PlusIcon } from "@futurewiz-rms/mint";
 
 const meta = {
   title: "Components/Actions/Button",
@@ -21,11 +21,11 @@ const meta = {
       options: ["xs", "sm", "md", "lg"],
       description: '값 하나 또는 구간별 객체 `{ base: "lg", tablet: "md" }`',
     },
-    loading: { control: "boolean" },
-    fullWidth: { control: "boolean" },
-    disabled: { control: "boolean" },
     leftAddon: { control: false },
     rightAddon: { control: false },
+    loading: { control: "boolean" },
+    disabled: { control: "boolean" },
+    fullWidth: { control: "boolean" },
   },
   args: {
     children: "확인",
@@ -82,28 +82,28 @@ export const Hierarchy: Story = {
 // 높이 28 · 32 · 40 · 48px. 모서리는 xs만 8
 export const Sizes: Story = {
   render: () => (
-    <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+    <Box direction="horizontal" align="center" gap={12}>
       <Button size="xs">xs</Button>
       <Button size="sm">sm</Button>
       <Button size="md">md</Button>
       <Button size="lg">lg</Button>
-    </div>
+    </Box>
   ),
 };
 
 // 아이콘은 앞 또는 뒤 중 하나만. xs는 아이콘이 없다
 export const WithIcon: Story = {
   render: () => (
-    <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+    <Box direction="horizontal" align="center" gap={12}>
       <Button leftAddon={<PlusIcon />}>추가</Button>
       <Button rightAddon={<ArrowRightIcon />}>더 보기</Button>
-    </div>
+    </Box>
   ),
 };
 
 export const Disabled: Story = {
   render: () => (
-    <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+    <Box direction="horizontal" align="center" gap={12}>
       <Button disabled>Primary</Button>
       <Button variant="outline" disabled>
         Outline
@@ -111,14 +111,14 @@ export const Disabled: Story = {
       <Button variant="ghost" disabled>
         Ghost
       </Button>
-    </div>
+    </Box>
   ),
 };
 
 // 레이블은 숨기고 크기는 그대로 유지하며 클릭은 막힌다
 export const Loading: Story = {
   render: () => (
-    <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+    <Box direction="horizontal" align="center" gap={12}>
       <Button loading>Primary</Button>
       <Button color="secondary" loading>
         Secondary
@@ -129,13 +129,13 @@ export const Loading: Story = {
       <Button variant="ghost" loading>
         Ghost
       </Button>
-    </div>
+    </Box>
   ),
 };
 
 // 부모 폭을 꽉 채운다. 모바일 화면 하단 버튼 등에 쓴다
 export const FullWidth: Story = {
-  args: { fullWidth: true, size: "lg" },
+  args: { size: "lg", fullWidth: true },
   parameters: { layout: "padded" },
 };
 
@@ -144,7 +144,7 @@ export const Pair: Story = {
   parameters: { layout: "padded" },
   globals: { viewport: { value: "mobile" } },
   render: () => (
-    <div style={{ display: "flex", gap: 8 }}>
+    <Box direction="horizontal" gap={8}>
       <div style={{ flex: 3 }}>
         <Button color="secondary" size="lg" fullWidth>
           닫기
@@ -155,15 +155,15 @@ export const Pair: Story = {
           참여하기
         </Button>
       </div>
-    </div>
+    </Box>
   ),
 };
 
 // 구간별 값: 모바일 lg·가로 꽉 채움 → 태블릿(768px~)부터 md·내용 폭. 툴바의 뷰포트를 바꿔 확인한다
 export const Responsive: Story = {
   args: {
-    children: "참여하기",
     size: { base: "lg", tablet: "md" },
+    children: "참여하기",
     fullWidth: { base: true, tablet: false },
   },
   parameters: { layout: "padded" },
@@ -181,7 +181,7 @@ export const ResponsiveMobile: Story = {
 
 // xs에서는 아이콘을 그리지 않는다(구간별 크기여도 CSS로 숨김)
 export const XsHidesAddon: Story = {
-  args: { size: "xs", leftAddon: <PlusIcon />, children: "추가" },
+  args: { size: "xs", children: "추가", leftAddon: <PlusIcon /> },
   play: async ({ canvasElement }) => {
     const addon = canvasElement.querySelector("button svg")?.parentElement as HTMLElement;
     await expect(getComputedStyle(addon).display).toBe("none");

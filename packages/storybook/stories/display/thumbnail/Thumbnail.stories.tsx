@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { expect } from "storybook/test";
-import { Text, Thumbnail } from "@futurewiz-rms/mint";
+import { Box, Text, Thumbnail } from "@futurewiz-rms/mint";
 
 const ratios = [
   "1:1",
@@ -30,11 +30,11 @@ const meta = {
     layout: "centered",
   },
   argTypes: {
-    aspectRatio: { control: "select", options: ratios },
-    fit: { control: "inline-radio", options: ["cover", "contain"] },
     radius: { control: "boolean" },
     border: { control: "boolean" },
     overlay: { control: "boolean" },
+    fit: { control: "inline-radio", options: ["cover", "contain"] },
+    aspectRatio: { control: "select", options: ratios },
   },
   args: {
     aspectRatio: "16:9",
@@ -68,7 +68,7 @@ export const AspectRatios: Story = {
     >
       {ratios.map((ratio) => (
         <div key={ratio} style={{ width: 100, display: "flex", flexDirection: "column", gap: 4 }}>
-          <Thumbnail aspectRatio={ratio} radius />
+          <Thumbnail radius aspectRatio={ratio} />
           <Text variant="caption-1-regular" color="tertiary">
             {ratio}
           </Text>
@@ -81,11 +81,11 @@ export const AspectRatios: Story = {
 // 모서리 · 테두리 · 오버레이
 export const Decorations: Story = {
   render: () => (
-    <div style={{ display: "flex", gap: 16 }}>
-      <Thumbnail aspectRatio="4:3" radius style={{ width: 120 }} />
-      <Thumbnail aspectRatio="4:3" radius border style={{ width: 120 }} />
-      <Thumbnail aspectRatio="4:3" radius overlay style={{ width: 120 }} />
-    </div>
+    <Box direction="horizontal" gap={16}>
+      <Thumbnail radius aspectRatio="4:3" style={{ width: 120 }} />
+      <Thumbnail radius border aspectRatio="4:3" style={{ width: 120 }} />
+      <Thumbnail radius overlay aspectRatio="4:3" style={{ width: 120 }} />
+    </Box>
   ),
 };
 
@@ -97,9 +97,9 @@ export const WithText: Story = {
     overlayColor: "rgba(0, 0, 0, 0.4)",
     children: (
       <Text
-        as="p"
         variant="heading-3-semibold"
         color="on-fill"
+        as="p"
         style={{ position: "absolute", left: 16, bottom: 16 }}
       >
         비트코인 ETF 순유입 지속

@@ -23,10 +23,10 @@ export interface PageCounterProps extends PageIndicatorBase {
 
 /** 현재 / 전체를 숫자로 보여 준다(예: 1 / 10). 개수 제한이 없어서 이미지가 많은 갤러리에 쓴다 */
 export function PageCounter({
-  current,
-  total,
   variant = "normal",
   size = "md",
+  current,
+  total,
   className,
   ...props
 }: PageCounterProps) {
@@ -59,10 +59,10 @@ export interface PageDotsProps extends PageIndicatorBase {
 
 /** 점으로 위치를 보여 준다. 2~7개일 때만 쓰고, 8개 이상이면 `PageCounter`를 쓴다 */
 export function PageDots({
-  current,
-  total,
   variant = "normal",
   size = "md",
+  current,
+  total,
   className,
   ...props
 }: PageDotsProps) {

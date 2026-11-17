@@ -17,14 +17,14 @@ export default function Filter() {
   return (
     <div style={{ width: 360, maxWidth: "100%" }}>
       <Category
-        aria-label="코인 분류"
-        value={type}
-        onChange={setType}
         items={[
           { value: "major", label: "메이저" },
           { value: "defi", label: "디파이" },
           { value: "meme", label: "밈" },
         ]}
+        value={type}
+        aria-label="코인 분류"
+        onChange={setType}
       />
       <ul className="bg-background-default px-4 pb-4">
         {shown.map((coin) => (

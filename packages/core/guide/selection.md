@@ -4,28 +4,28 @@
 
 - **`Calendar`** — 날짜를 고르고, 일정이 있는 날을 점으로 보여 주는 달력. **임시 컴포넌트**입니다(Figma 시안 전, 모양은 바뀔 수 있고 API는 유지). 클라이언트 컴포넌트입니다(`"use client"`가 달려 있어 서버 컴포넌트에서 import해도 됩니다. 단 `onChange`·`onMonthChange`는 클라이언트 컴포넌트에서 넘깁니다).
   - 날짜는 모두 문자열(`YYYY-MM-DD`, 달은 `YYYY-MM`). `Date`를 넘기지 않습니다. 날짜 라이브러리는 필요 없고, 쓰는 중이면 이 형식으로 바꿔 넘깁니다
-  - `today`(필수): 오늘. 렌더 중 `new Date()`로 만들지 말고 서버에서 한 번 만들어 넘깁니다(`new Intl.DateTimeFormat("sv-SE", { timeZone: "Asia/Seoul" }).format(new Date())`)
+  - `size`: `md`(칸 48, 기본)·`lg`(56). 폭은 부모를 꽉 채움. 구간별 객체도 받음(`{ base: "lg", desktop: "md" }`)
   - `value`·`onChange`(제어) 또는 `defaultValue`. 보이는 달은 `month`·`onMonthChange`(제어) 또는 `defaultMonth`(기본: 선택한 날 → 오늘의 달)
+  - `today`(필수): 오늘. 렌더 중 `new Date()`로 만들지 말고 서버에서 한 번 만들어 넘깁니다(`new Intl.DateTimeFormat("sv-SE", { timeZone: "Asia/Seoul" }).format(new Date())`)
   - `marks`: 날짜별 점 `{ "2026-11-12": [{ color: "brand", label: "결제일" }] }`. 최대 3개 보임. `color`: `brand`(기본)·`danger`·`success`·`neutral`. `label`은 스크린리더용(없으면 "일정 N개"). 달이 바뀌면 `onMonthChange`에서 그 달의 일정을 불러와 바꿉니다
   - `holidays`: 공휴일(날짜 → 이름). 계산할 수 없어서 서비스 데이터로 넘깁니다. 일요일·공휴일 빨강, 토요일 파랑
   - `min`·`max`·`disabledDates`: 고를 수 없는 날. `weekStartsOn`: 0 일요일(기본)·1 월요일
-  - `size`: `md`(칸 48, 기본)·`lg`(56). 폭은 부모를 꽉 채움. 구간별 객체도 받음(`{ base: "lg", desktop: "md" }`)
   - 접근성: `role="grid"`, 오늘 `aria-current="date"`, 선택 `aria-selected`. 키보드 ←→↑↓(하루·한 주), PageUp·PageDown(달), Home·End(주의 처음·끝). Tab은 선택한 날(없으면 오늘) 하나에만 들어옵니다
   - 금지: 점으로 내용 전하기(점은 표시만, 내용은 달력 아래), 기간 선택(아직 없음)
 - **`CheckMark`** — 목록에서 선택된 항목을 표시하는 체크 표시(체크 아이콘 + 레이블). 서버 컴포넌트에서도 쓸 수 있습니다(`onClick`을 넘길 때만 클라이언트 컴포넌트 안에서 씁니다). 값을 고르는 폼 컨트롤은 `Checkbox`입니다.
-  - `checked`: 선택 여부(기본 `false`). 체크 안 됨은 회색 체크, 체크됨은 브랜드 색 체크. hover·누름은 한 단계 진하게
+  - `size`: `xs`(체크 16, Body 4) · `sm`(20, Body 2, 기본, Figma 기본) · `md`(24, Body 1) · `lg`(32, Heading 2 Medium, 높이 48). 구간별 객체도 받음(`{ base: "md", desktop: "sm" }`)
   - `children`: 레이블. 없으면 체크만 보이므로 `aria-label`을 줍니다
-  - `size`: `xs`(체크 16, Body 4) · `sm`(20, Body 2, 기본) · `md`(24, Body 1) · `lg`(32, Heading 2 Medium, 높이 48). 구간별 객체도 받음(`{ base: "md", desktop: "sm" }`)
-  - `tight`: 바깥 여백 8 → 0(높이 40 → 20·24·28·32). 촘촘한 목록에서만 씁니다. 터치 화면에서는 두 크기 모두 눌림 영역이 44px로 넓어집니다
+  - `checked`: 선택 여부(기본 `false`). 체크 안 됨은 회색 체크, 체크됨은 브랜드 색 체크. hover·누름은 한 단계 진하게
   - `disabled`: 연한 회색 체크·회색 글자, 누를 수 없음
-  - `onClick`을 주면 항목 전체가 눌리는 `<button>`이 됩니다(없으면 표시용 `<span>`). 항목 폭으로 넓히려면 `className="w-full"`
+  - `tight`: 바깥 여백 8 → 0(높이 40 → 20·24·28·32). 촘촘한 목록에서만 씁니다. 터치 화면에서는 두 크기 모두 눌림 영역이 44px로 넓어집니다
   - `role`(눌릴 때): `checkbox`(기본, `aria-checked`) · `radio` · `option`(`aria-selected`, listbox 안) · `menuitemcheckbox` · `menuitemradio`(메뉴 안)
+  - `onClick`을 주면 항목 전체가 눌리는 `<button>`이 됩니다(없으면 표시용 `<span>`). 항목 폭으로 넓히려면 `className="w-full"`
   - 금지: 폼 입력용으로 쓰기(Checkbox를 씀), 체크 색만으로 선택 알리기. 상세 규칙은 `components/check-mark/AGENTS.md`
 - **`Checkbox`** — 여러 개를 고르거나 한 항목을 켜고 끄는 체크박스. 클라이언트 컴포넌트입니다(`"use client"`가 달려 있어 서버 컴포넌트에서 import해도 됩니다. 단 `onChange`는 클라이언트 컴포넌트에서 넘깁니다). 진짜 `<input type="checkbox">`를 `<label>`로 감싸서 레이블을 눌러도 선택되고 폼 제출(`name`·`value`)이 그대로 됩니다.
+  - `size`: `xs`(상자 16, Body 4) · `sm`(20, Body 2, 기본, Figma 기본) · `md`(24, Body 1) · `lg`(32, Heading 2, 높이 48). 구간별 객체도 받음(`{ base: "md", desktop: "sm" }`)
+  - `children`: 레이블(크기에 따라 Body 4~Heading 2). 없으면 `aria-label`을 꼭 줍니다. `bold`: SemiBold 강조 레이블(전체 선택 등. `xs` Label 2 · `sm` Body 2 · `md` Heading 3 · `lg` Heading 2 SemiBold)
   - `checked`·`onChange`(제어) 또는 `defaultChecked`(비제어). 나머지 `<input>` 속성은 입력에, `className`·`style`은 바깥 `<label>`에 붙습니다
   - `indeterminate`: 하위 항목 일부만 선택된 전체 선택 칸(가로 막대, 스크린리더 "mixed")
-  - `children`: 레이블(크기에 따라 Body 4~Heading 2). 없으면 `aria-label`을 꼭 줍니다. `bold`: SemiBold 강조 레이블(전체 선택 등. `xs` Label 2 · `sm` Body 2 · `md` Heading 3 · `lg` Heading 2 SemiBold)
-  - `size`: `xs`(상자 16, Body 4) · `sm`(20, Body 2, 기본) · `md`(24, Body 1) · `lg`(32, Heading 2, 높이 48). 구간별 객체도 받음(`{ base: "md", desktop: "sm" }`)
   - `tight`: 바깥 여백 8 → 0(높이 40 → 20·24·28·32), 촘촘한 목록에서만. `disabled`
   - 색: 체크 안 됨은 흰 상자·회색 테두리, 체크·일부 선택은 브랜드 상자. hover·누름은 한 단계 진하게. 터치 화면 눌림 영역은 44px 이상
   - 금지: 하나만 고르기(Radio), 누르자마자 적용되는 설정(Switch). 목록의 선택 표시는 `CheckMark`. 상세 규칙은 `components/checkbox/AGENTS.md`
@@ -37,14 +37,25 @@
 - **`RadioGroup`** — 라디오 묶음. 선택지를 세로로 나열하고 그 안에서 하나만 선택되게 합니다(`role="radiogroup"`). 클라이언트 컴포넌트입니다(`"use client"`가 달려 있어 서버 컴포넌트에서 import해도 됩니다. 단 `onChange`는 클라이언트 컴포넌트에서 넘깁니다).
   - `value`·`onChange(value)`(제어) 또는 `defaultValue`(비제어, 처음부터 하나를 선택해 둡니다). `name`(생략하면 자동, 폼 제출 이름), `disabled`(그룹 전체), `aria-label`
 - **`Radio`** — 여러 선택지 중 하나만 고르는 라디오(2\~4개). 진짜 `<input type="radio">`를 `<label>`로 감싸서 레이블을 눌러도 선택되고, 방향키로 옮기고 Space로 고르는 것과 폼 제출이 브라우저 기본 동작 그대로입니다.
+  - `size`: `xs`(원 16, Body 4) · `sm`(20, Body 2, 기본, Figma 기본) · `md`(24, Body 1) · `lg`(32, Heading 2, 높이 48). `RadioGroup`에 주면 그룹 전체, `Radio`에 주면 그 라디오만(우선). 구간별 객체도 받음(`{ base: "md", desktop: "sm" }`) 나머지 `<input>` 속성은 입력에, `className`·`style`은 바깥 `<label>`에
   - `value`(그룹 안에서 필수), `children`(레이블, 없으면 `aria-label`), `tight`(여백 8 → 0, 높이 40 → 20·24·28·32), `disabled`.
-  - `size`: `xs`(원 16, Body 4) · `sm`(20, Body 2, 기본) · `md`(24, Body 1) · `lg`(32, Heading 2, 높이 48). `RadioGroup`에 주면 그룹 전체, `Radio`에 주면 그 라디오만(우선). 구간별 객체도 받음(`{ base: "md", desktop: "sm" }`) 나머지 `<input>` 속성은 입력에, `className`·`style`은 바깥 `<label>`에
   - 색: 안 고름은 흰 원·회색 테두리, 고름은 브랜드 원 + 흰 점. hover·누름은 한 단계 진하게. 터치 화면 눌림 영역 44px 이상
   - 금지: 선택 해제 기능, 5개 이상 선택지(Select), 여러 개 고르기(`Checkbox`). 상세 규칙은 `components/radio/AGENTS.md`
+- **`Select`** — 라벨 + 누르는 칸 + 펼쳐지는 목록. 하나 또는 여러 개를 고릅니다(Figma `Select`). 라벨은 `Label`을 그대로 써서 `required`·`helpIcon`이 같습니다. 클라이언트 컴포넌트입니다(`"use client"`가 달려 있어 서버 컴포넌트에서 import해도 됩니다. 단 `onChange`·`onOpenChange`는 클라이언트 컴포넌트에서 넘깁니다). Menu와 모양·역할이 달라 Menu를 재사용하지 않습니다(`listbox`·`option`).
+  - `size`: `lg`(칸 48) · `md`(40, 기본) · `sm`(32). 목록 항목·칩도 같은 크기(48·40·32). 구간별 객체도 받음(`{ base: "lg", desktop: "md" }`)
+  - 값: 하나는 `value`·`onChange(value: string)`(제어) 또는 `defaultValue`. `multiple`이면 `string[]`이고 `onChange`가 고른 값 전체를 배열로 받습니다(고른 뒤에도 목록이 열려 있고, 다시 누르면 해제)
+  - `label`(없으면 `aria-label` 필수), `labelPosition`: `top`(기본) · `left`, 구간별 객체도 받음(`{ base: "top", desktop: "left" }`). `required`, `helpIcon`, `helper`(칸 아래 도움말), `placeholder`(기본 "선택해 주세요"), `leadingIcon`(칸 안 왼쪽 20px)
+  - 고른 항목의 오른쪽 체크는 `Menu`와 같은 `SelectedCheckIcon`(Phosphor 목록에 없는 전용 아이콘, [아이콘](icons.md))입니다
+  - `options`(필수): `{ value, label, description?, leadingIcon?, trailingContent?, disabled? }[]`. 묶으려면 `{ group, options }`(그룹 사이 가로선 자동)
+  - 상태: `status`(`normal` 기본 · `negative` 오류 = 빨간 테두리·도움말 + 경고 아이콘 · `positive` 확인 완료 = 초록 테두리·도움말, `TextField`와 같은 이름) · `disabled` · `readOnly`(값만 보임, 못 바꿈). `name`을 주면 값마다 숨은 `<input>`으로 폼 제출
+  - 칩(`multiple`에서만): `render="chip"`이면 칸에는 쉼표 글자, 칸 **아래**에 지울 수 있는 `Chip`이 나옵니다(칸 안에 쌓는 모양은 없음). 칩 크기는 `size`를 따름(`lg` 40 · `md` 32 · `sm` 28). 칩을 누르면 해제, 많으면 줄바꿈
+  - `open`·`onOpenChange`(제어, 생략하면 눌러서 열고 닫음), `menuMaxHeight`(기본 320, 넘치면 스크롤). 목록은 포털 없이 칸 아래에 겹쳐 그려서 `overflow: hidden` 안에서는 잘릴 수 있습니다
+  - 키보드: 칸에서 ↑·↓(열기·이동)·Home·End·Enter/Space(고르기)·Esc(닫기). 바깥을 누르거나 포커스가 나가면 닫힙니다
+  - 금지: 2~4개 중 하나 고르기(`RadioGroup`), 옵션·액션을 펼치는 목록(`Menu`), 긴 문장 라벨(라벨은 짧게, 설명은 `helper`)
 - **`FramedCheckbox`** · **`FramedRadio`** · **`Framed`** — 선택지를 틀로 묶어 한 덩어리로 보여 주고, 선택된 틀을 테두리로 강조합니다(Figma Framed Style). 클라이언트 컴포넌트입니다.
+  - `Framed`: 다른 내용을 담는 틀만(`children`). 선택 표시는 `selected`
   - `FramedCheckbox`: 체크박스를 담은 틀. `label`(필수)·`description`, `checked`·`defaultChecked`·`indeterminate`·`onChange`·`disabled`. 틀 전체가 `<label>`이라 어디를 눌러도 체크가 바뀝니다
   - `FramedRadio`: 라디오를 담은 틀. `RadioGroup` 안에서 `value`·`label`·`description`. 틀 사이 간격은 `RadioGroup`에 `className="gap-2"`
-  - `Framed`: 다른 내용을 담는 틀만(`children`). 선택 표시는 `selected`
   - 공통: `size`(`sm` 여백12·모서리8 · `md` 16·12 기본 · `lg` 20·16), `error`(오류: 빨간 테두리 + `aria-invalid`), `shadow`. 선택되면 브랜드 테두리, 누름은 회색, 비활성은 회색 바탕
   - 금지: 틀 안에 틀 중첩, 선택 의미 없는 장식용 박스. 상세 규칙은 `components/framed/AGENTS.md`
 - **`Switch`** — 누르면 바로 켜지고 꺼지는 컨트롤. 즉시 적용되는 설정(알림 켜기, 다크 모드)에만 쓰고, 제출할 때 적용되는 선택은 `Checkbox`를 씁니다. 서버 컴포넌트에서도 쓸 수 있습니다(`"use client"` 없음. `onChange`를 넘길 때만 클라이언트 컴포넌트 안에서). 진짜 `<input type="checkbox" role="switch">`를 `<label>`로 감싸서 레이블을 눌러도 켜지고 폼 제출(`name`·`value`)이 그대로 됩니다.
@@ -53,11 +64,21 @@
   - 크기는 하나뿐(트랙 44×24). 나머지 `<input>` 속성(`name`·`value`·`required`)은 그대로 전달
   - 스크린리더는 "스위치, 켜짐/꺼짐"으로 읽고 Space로 켜고 끕니다. 터치 화면에서는 눌림 영역이 44px로 넓어집니다
   - 금지: 제출이 필요한 선택(Checkbox를 씀), 여러 개 중 하나 고르기(Radio). 상세 규칙은 `components/switch/AGENTS.md`
+- **`TextField`** — 한 줄 텍스트 입력(Figma `Text Input`의 Text Field). 라벨 + 입력 칸 + 도움말 한 묶음이고 라벨은 `Label`을 그대로 씁니다. 이름·이메일·검색처럼 짧은 글에 쓰고, 긴 글은 Textarea(아직 없음), 목록에서 고르기는 `Select`입니다. 클라이언트 컴포넌트입니다(`"use client"`가 달려 있어 서버 컴포넌트에서 import해도 됩니다. 단 `onChange`는 클라이언트 컴포넌트에서 넘깁니다). 진짜 `<input>`이라 `name`·`type`·`autoComplete`·`maxLength` 등 나머지 속성은 입력에, `className`·`style`은 바깥 요소에 붙고 `ref`는 `<input>`에 붙습니다.
+  - `size`: `lg`(칸 48) · `md`(40, 기본) · `sm`(32). 구간별 객체도 받음(`{ base: "lg", desktop: "md" }`)
+  - `label`(없으면 `aria-label` 필수), `labelPosition`: `top`(기본) · `left`, 구간별 객체도 받음(`{ base: "top", desktop: "left" }`). `required`(라벨 `*` + `<input>` required), `helpIcon`, `helper`(칸 아래 도움말), `placeholder`
+  - `value`·`onChange`(제어) 또는 `defaultValue`(비제어). `type`(기본 `text`)
+  - `status`: `normal`(기본) · `negative`(오류, 빨간 테두리·도움말) · `positive`(확인 완료, 초록). `disabled`(흐리게, 제출 안 됨) · `readOnly`(회색 칸 + 진한 값, 선택·복사·제출됨, 지우기 버튼 없음, Select와 같은 모양). 입력 중(포커스)에는 테두리가 진해집니다(2px)
+  - 앞뒤 구성: `leftAddon`·`rightAddon`(둘 다 `ReactNode`, `Button`과 같은 이름). 아이콘은 20px로 맞춰지고 글자(타이머 `<Text variant="body-4-medium" color="secondary">03:00</Text>`)·버튼(`<Button size="sm" color="secondary">`)은 직접 넘김, 여러 개는 `<>…</>`. `clearButton`(기본 `true`, 값이 있고 입력 중일 때만 ×, 누르면 `onChange`가 빈 값으로 호출됨)
+  - 오류는 `status="negative"`와 함께 `helper`에 이유와 해결 방법을 적습니다("잘못된 입력이에요"만 쓰지 않음). 색만으로 알리지 않습니다
+  - 금지: 라벨 없이 쓰기, 여러 줄 입력(Textarea), 목록에서 고르기(Select). 상세 규칙은 `components/text-field/AGENTS.md`
 - **`Label`** — 입력 칸 위에 붙는 이름. 무엇을 입력하는지 알려 주고, 입력 예시는 Placeholder가 맡습니다. 서버 컴포넌트에서도 쓸 수 있습니다(`"use client"` 없음).
-  - `children`(필수): 라벨 글자. 이름, 휴대폰 번호처럼 명사로 짧게
-  - `htmlFor`: 이어 줄 입력 칸의 `id`. 주면 라벨을 눌러도 입력 칸이 선택됩니다(글자는 `<label>`)
   - `size`: `sm`(12) · `md`(14, 기본) · `lg`(16). 입력 칸 크기에 맞춰 고름. 구간별 객체도 받음(`{ base: "md", desktop: "lg" }`)
-  - `required`: 글자 옆에 빨간 `*`(스크린리더는 "(필수)"). 필수 입력일 때만 켬
-  - `disabled`: 입력 칸을 쓸 수 없을 때 글자·아이콘색을 흐리게(상태 표시만, 입력 칸은 따로 `disabled`)
+  - **주의: `TextField`·`Select`에는 Label이 내장되어 있습니다.** `label` prop만 주고 `Label`을 또 붙이지 않습니다(라벨이 두 번 나옴)
+  - `children`(필수): 라벨 글자. 이름, 휴대폰 번호처럼 명사로 짧게
+  - 체크박스·라디오 묶음의 이름에도 씁니다: 묶음에 `role="group"` + `aria-labelledby`, Label에 `id`. 선택지 옆 글자는 Label이 아니라 각 컴포넌트가 그립니다
   - `helpIcon`: `true`면 물음표 아이콘(16). 누르면 설명이 나오게 하려면 `Tooltip`으로 감싼 버튼 같은 요소를 직접 넘김(`<label>` 밖에 놓임)
+  - `disabled`: 입력 칸을 쓸 수 없을 때 글자·아이콘색을 흐리게(상태 표시만, 입력 칸은 따로 `disabled`)
+  - `required`: 글자 옆에 빨간 `*`(스크린리더는 "(필수)"). 필수 입력일 때만 켬
+  - `htmlFor`: 이어 줄 입력 칸의 `id`. Label을 따로 쓸 때만 필요하고, 주면 라벨을 눌러도 입력 칸이 선택됩니다(글자는 `<label>`)
   - 금지: 글자색을 임의로 바꾸기(시맨틱 색만), Placeholder만 두고 Label 생략. 상세 규칙은 `components/label/AGENTS.md`

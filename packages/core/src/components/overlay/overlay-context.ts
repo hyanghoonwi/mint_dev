@@ -6,14 +6,14 @@ import type { ReactNode } from "react";
 
 /** overlay를 그리는 함수가 받는 값 */
 export interface OverlayRenderProps<T = unknown> {
-  /** 이 overlay의 id */
-  overlayId: string;
-  /** 열림 여부. false가 되면 `exitDelay` 뒤에 자동으로 제거된다. */
-  isOpen: boolean;
   /** overlay를 닫는다. `openAsync`로 열었다면 넘긴 값이 Promise의 결과가 된다. */
   close: (value?: T) => void;
   /** 닫힘 애니메이션이 끝난 뒤 등, overlay를 즉시 트리에서 제거한다. */
   exit: () => void;
+  /** 열림 여부. false가 되면 `exitDelay` 뒤에 자동으로 제거된다. */
+  isOpen: boolean;
+  /** 이 overlay의 id */
+  overlayId: string;
 }
 
 export type OverlayRender<T = unknown> = (props: OverlayRenderProps<T>) => ReactNode;

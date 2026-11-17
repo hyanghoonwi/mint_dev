@@ -48,9 +48,9 @@
 | `variant`       | `"extended" \| "compact"` 또는 `{ base, tablet, desktop }` | `{ base: "compact", tablet: "extended" }` | 9칸 · 7칸. 객체로 주면 구간마다 달라져요     |
 | `page`          | `number`                                                   | -                                         | 현재 페이지(1부터, 필수)                     |
 | `total`         | `number`                                                   | -                                         | 전체 페이지 수(필수). 1 이하면 그리지 않아요 |
-| `getHref`       | `(page: number) => string`                                 | -                                         | 링크로 쓸 때 주소를 만들어요                 |
 | `linkComponent` | `ElementType`                                              | `"a"`                                     | 링크 컴포넌트. Next.js는 `Link`를 넘겨요     |
 | `aria-label`    | `string`                                                   | `"페이지"`                                | 묶음 이름                                    |
+| `getHref`       | `(page: number) => string`                                 | -                                         | 링크로 쓸 때 주소를 만들어요                 |
 | `onChange`      | `(page: number) => void`                                   | -                                         | 버튼으로 쓸 때 다른 페이지를 누르면 불려요   |
 
 ## Guidelines

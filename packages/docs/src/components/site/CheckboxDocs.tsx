@@ -9,29 +9,29 @@ export function CheckboxPlayground() {
   return (
     <Playground
       controls={[
+        { prop: "size", type: "select", options: ["xs", "sm", "md", "lg"], default: "sm" },
+        { prop: "bold", type: "boolean", default: false },
+        { prop: "children", type: "text", default: "텍스트" },
+        { prop: "label", type: "boolean", default: true },
         {
           prop: "checked",
           type: "select",
           options: ["unchecked", "checked", "indeterminate"],
           default: "checked",
         },
-        { prop: "size", type: "select", options: ["xs", "sm", "md", "lg"], default: "sm" },
-        { prop: "label", type: "boolean", default: true },
-        { prop: "bold", type: "boolean", default: false },
-        { prop: "tight", type: "boolean", default: false },
         { prop: "disabled", type: "boolean", default: false },
-        { prop: "children", type: "text", default: "텍스트" },
+        { prop: "tight", type: "boolean", default: false },
       ]}
       render={(values) => (
         <Checkbox
           // 상태를 바꿀 때마다 새로 그려서 defaultChecked가 반영되게 한다
           key={String(values.checked)}
-          defaultChecked={values.checked === "checked"}
-          indeterminate={values.checked === "indeterminate"}
           size={values.size as CheckboxSize}
           bold={values.bold as boolean}
-          tight={values.tight as boolean}
+          defaultChecked={values.checked === "checked"}
+          indeterminate={values.checked === "indeterminate"}
           disabled={values.disabled as boolean}
+          tight={values.tight as boolean}
           aria-label={values.label ? undefined : (values.children as string)}
         >
           {values.label ? (values.children as string) : undefined}
@@ -41,12 +41,12 @@ export function CheckboxPlayground() {
         jsx(
           "Checkbox",
           {
-            defaultChecked: values.checked === "checked",
-            indeterminate: values.checked === "indeterminate",
             size: values.size !== "sm" ? (values.size as string) : undefined,
             bold: values.bold as boolean,
-            tight: values.tight as boolean,
+            defaultChecked: values.checked === "checked",
+            indeterminate: values.checked === "indeterminate",
             disabled: values.disabled as boolean,
+            tight: values.tight as boolean,
             "aria-label": values.label ? undefined : (values.children as string),
           },
           values.label ? (values.children as string) : undefined,

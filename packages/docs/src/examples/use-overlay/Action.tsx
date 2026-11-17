@@ -10,8 +10,6 @@ export default function Action() {
   const confirmDelete = () =>
     overlay.open(({ isOpen, close }) => (
       <Alert
-        open={isOpen}
-        onClose={close}
         heading="게시글을 삭제할까요?"
         body="삭제한 글은 되돌릴 수 없어요."
         action={
@@ -30,6 +28,8 @@ export default function Action() {
             </Button>
           </>
         }
+        open={isOpen}
+        onClose={close}
       />
     ));
 

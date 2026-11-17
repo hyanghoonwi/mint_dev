@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { expect } from "storybook/test";
-import { PriceChange } from "@futurewiz-rms/mint";
+import { Box, PriceChange } from "@futurewiz-rms/mint";
 
 const directions = ["up", "down", "flat"] as const;
 
@@ -12,10 +12,10 @@ const meta = {
     layout: "centered",
   },
   argTypes: {
-    direction: { control: "inline-radio", options: directions },
-    type: { control: "inline-radio", options: ["amount", "percent"] },
     variant: { control: "inline-radio", options: ["text", "weak"] },
     size: { control: "inline-radio", options: ["sm", "md", "lg"] },
+    type: { control: "inline-radio", options: ["amount", "percent"] },
+    direction: { control: "inline-radio", options: directions },
   },
   args: {
     direction: "up",
@@ -44,57 +44,57 @@ export const Percent: Story = {
 // 방향 × 종류: 금액은 화살표(▲ ▼ −), 퍼센트는 부호(+, -, 보합은 없음)
 export const Directions: Story = {
   render: () => (
-    <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+    <Box gap={12}>
       {(["amount", "percent"] as const).map((type) => (
         <div key={type} style={{ display: "flex", alignItems: "center", gap: 12 }}>
           {directions.map((direction) => (
-            <PriceChange key={direction} direction={direction} type={type}>
+            <PriceChange key={direction} type={type} direction={direction}>
               {type === "amount" ? "1,200" : direction === "flat" ? "0.00%" : "3.42%"}
             </PriceChange>
           ))}
         </div>
       ))}
-    </div>
+    </Box>
   ),
 };
 
 // 연한 배경
 export const Weak: Story = {
   render: () => (
-    <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-      <PriceChange direction="up" variant="weak">
+    <Box direction="horizontal" align="center" gap={12}>
+      <PriceChange variant="weak" direction="up">
         100,000
       </PriceChange>
-      <PriceChange direction="up" variant="weak" type="percent">
+      <PriceChange variant="weak" type="percent" direction="up">
         3.42%
       </PriceChange>
-      <PriceChange direction="down" variant="weak">
+      <PriceChange variant="weak" direction="down">
         100
       </PriceChange>
-      <PriceChange direction="down" variant="weak" type="percent">
+      <PriceChange variant="weak" type="percent" direction="down">
         1.20%
       </PriceChange>
-      <PriceChange direction="flat" variant="weak" type="percent">
+      <PriceChange variant="weak" type="percent" direction="flat">
         0.00%
       </PriceChange>
-    </div>
+    </Box>
   ),
 };
 
 // sm 표·목록 · md 기본 · lg 요약 카드
 export const Sizes: Story = {
   render: () => (
-    <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+    <Box gap={12}>
       {(["text", "weak"] as const).map((variant) => (
         <div key={variant} style={{ display: "flex", alignItems: "center", gap: 12 }}>
           {(["sm", "md", "lg"] as const).map((size) => (
-            <PriceChange key={size} direction="up" variant={variant} size={size}>
+            <PriceChange key={size} variant={variant} size={size} direction="up">
               1,200
             </PriceChange>
           ))}
         </div>
       ))}
-    </div>
+    </Box>
   ),
 };
 

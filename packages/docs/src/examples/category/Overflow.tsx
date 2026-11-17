@@ -3,7 +3,6 @@ import { Category } from "@futurewiz-rms/mint";
 export default function Overflow() {
   return (
     <Category
-      aria-label="코인 분류"
       shape="pill"
       items={[
         { value: "major", label: "메이저" },
@@ -13,6 +12,7 @@ export default function Overflow() {
         { value: "ai", label: "AI" },
         { value: "game", label: "게임" },
       ]}
+      aria-label="코인 분류"
       style={{ width: 320, maxWidth: "100%" }}
     />
   );

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { expect, fn, userEvent, within } from "storybook/test";
-import { Pagination } from "@futurewiz-rms/mint";
+import { Box, Pagination } from "@futurewiz-rms/mint";
 
 const meta = {
   title: "Components/Navigation/Pagination",
@@ -74,11 +74,11 @@ export const Mobile: Story = {
 // 처음·끝에서는 이전·다음이 비활성
 export const Edges: Story = {
   render: (args) => (
-    <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+    <Box gap={16}>
       <Pagination {...args} variant="extended" page={1} />
       <Pagination {...args} variant="extended" page={99} />
       <Pagination {...args} variant="extended" page={3} total={7} />
-    </div>
+    </Box>
   ),
 };
 
@@ -130,7 +130,7 @@ export const Links: Story = {
 
 // 1페이지뿐이면 그리지 않는다
 export const SinglePage: Story = {
-  args: { total: 1, page: 1 },
+  args: { page: 1, total: 1 },
   play: async ({ canvasElement }) => {
     await expect(canvasElement.querySelector("nav")).toBeNull();
   },

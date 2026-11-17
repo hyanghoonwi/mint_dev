@@ -17,11 +17,18 @@ const TYPOGRAPHY_TOKEN =
  */
 const RADIUS_TOKEN = /^\d+$/;
 
+/**
+ * 그림자 토큰(styles/shape.css의 `--shadow-*`). tailwind-merge는 `shadow-md` 같은 이름만 알아서,
+ * 이 이름을 그림자 색으로 잘못 보면 `shadow-raised shadow-floating`을 둘 다 남긴다. 토큰이 늘면 여기에 더한다.
+ */
+const SHADOW_TOKENS = ["raised", "floating", "drawer"];
+
 const twMerge = extendTailwindMerge({
   extend: {
     classGroups: {
       "font-size": [{ text: [(value: string) => TYPOGRAPHY_TOKEN.test(value)] }],
       rounded: [{ rounded: [(value: string) => RADIUS_TOKEN.test(value)] }],
+      shadow: [{ shadow: SHADOW_TOKENS }],
     },
   },
 });

@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { expect, fn } from "storybook/test";
-import { Avatar, AvatarGroup, BellIcon, Text } from "@futurewiz-rms/mint";
+import { Avatar, AvatarGroup, BellIcon, Box, Text } from "@futurewiz-rms/mint";
 // 스토리용 샘플 이미지(Figma Avatar 이미지 노드 2200:3344의 캐릭터)
 import sample from "./avatar-sample.jpg";
 
@@ -14,11 +14,11 @@ const meta = {
     layout: "centered",
   },
   argTypes: {
-    size: { control: "inline-radio", options: sizes },
     variant: { control: "inline-radio", options: ["person", "brand"] },
+    size: { control: "inline-radio", options: sizes },
+    icon: { control: false },
     badge: { control: false },
     badgeSize: { control: "inline-radio", options: ["xs", "sm", "md", "lg", "xl"] },
-    icon: { control: false },
     disabled: { control: "boolean" },
   },
   args: {
@@ -43,7 +43,7 @@ export const Icon: Story = {
 };
 
 export const CustomIcon: Story = {
-  args: { name: undefined, icon: <BellIcon /> },
+  args: { icon: <BellIcon />, name: undefined },
 };
 
 // brand는 사람이 아닌 대상(서비스·코인·조직)에 쓰는 둥근 사각형
@@ -54,7 +54,7 @@ export const Brand: Story = {
 // 16 · 24 · 32 · 40 · 48 · 64px
 export const Sizes: Story = {
   render: () => (
-    <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
+    <Box direction="horizontal" align="center" gap={16}>
       {sizes.map((size) => (
         <Avatar key={size} size={size} src={sample} />
       ))}
@@ -64,24 +64,24 @@ export const Sizes: Story = {
       {sizes.map((size) => (
         <Avatar key={`c${size}`} size={size} />
       ))}
-    </div>
+    </Box>
   ),
 };
 
 export const BrandSizes: Story = {
   render: () => (
-    <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
+    <Box direction="horizontal" align="center" gap={16}>
       {sizes.map((size) => (
-        <Avatar key={size} size={size} variant="brand" name="코인" />
+        <Avatar key={size} variant="brand" size={size} name="코인" />
       ))}
-    </div>
+    </Box>
   ),
 };
 
 // 점 또는 개수. 99를 넘으면 99+. 크기에 맞춰 배지 크기가 정해진다
 export const Badge: Story = {
   render: () => (
-    <div style={{ display: "flex", alignItems: "center", gap: 24 }}>
+    <Box direction="horizontal" align="center" gap={24}>
       {sizes.map((size) => (
         <Avatar key={size} size={size} name="김민수" badge="dot" />
       ))}
@@ -89,65 +89,65 @@ export const Badge: Story = {
         <Avatar key={`n${size}`} size={size} name="김민수" badge={12} />
       ))}
       <Avatar size={48} name="김민수" badge={120} />
-    </div>
+    </Box>
   ),
 };
 
 // 배지 크기는 아바타 크기와 따로 고를 수 있다(생략하면 아바타 크기에 맞춤). 위치는 아바타 크기를 따른다
 export const BadgeSize: Story = {
   render: () => (
-    <div style={{ display: "flex", alignItems: "center", gap: 24 }}>
+    <Box direction="horizontal" align="center" gap={24}>
       {(["xs", "sm", "md", "lg", "xl"] as const).map((badgeSize) => (
         <Avatar key={badgeSize} size={48} name="김민수" badge={1} badgeSize={badgeSize} />
       ))}
-    </div>
+    </Box>
   ),
 };
 
 // onClick을 주면 눌리는 아바타. hover와 pressed는 같은 색이다
 export const Interactive: Story = {
   render: (args) => (
-    <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
+    <Box direction="horizontal" align="center" gap={16}>
       <Avatar {...args} src={sample} onClick={fn()} />
       <Avatar {...args} onClick={fn()} />
       <Avatar {...args} name={undefined} onClick={fn()} />
-    </div>
+    </Box>
   ),
 };
 
 export const Disabled: Story = {
   render: (args) => (
-    <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
+    <Box direction="horizontal" align="center" gap={16}>
       <Avatar {...args} src={sample} disabled />
       <Avatar {...args} disabled />
       <Avatar {...args} name={undefined} disabled />
-    </div>
+    </Box>
   ),
 };
 
 // 아바타 그룹: 겹쳐 놓고 넘치면 +N
 export const Group: Story = {
   render: () => (
-    <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-start", gap: 16 }}>
+    <Box align="start" gap={16}>
       {sizes.map((size) => (
         <AvatarGroup
           key={size}
           size={size}
-          aria-label="참여자"
           items={[{ src: sample }, { name: "김민수" }, {}]}
+          aria-label="참여자"
         />
       ))}
       <AvatarGroup
-        aria-label="참여자"
         items={[{ src: sample }, { name: "김민수" }, {}, { name: "이" }, { name: "박" }]}
+        aria-label="참여자"
       />
-    </div>
+    </Box>
   ),
 };
 
 // 구간별 값: 모바일 32 → 태블릿(768px~) 48. 배지 위치·자동 배지 크기도 따라간다
 export const Responsive: Story = {
-  args: { name: "김민수", size: { base: 32, tablet: 48 }, badge: 3 },
+  args: { size: { base: 32, tablet: 48 }, name: "김민수", badge: 3 },
   play: async ({ canvasElement }) => {
     const root = canvasElement.querySelector("[role=img]") as HTMLElement;
     await expect(root).toHaveClass("size-8", "tablet:size-12");
@@ -160,7 +160,6 @@ export const Responsive: Story = {
 export const GroupResponsive: Story = {
   render: () => (
     <AvatarGroup
-      aria-label="참여자 5명"
       size={{ base: 24, tablet: 40 }}
       items={[
         { name: "김민수" },
@@ -169,6 +168,7 @@ export const GroupResponsive: Story = {
         { name: "최유진" },
         { name: "정하늘" },
       ]}
+      aria-label="참여자 5명"
     />
   ),
   play: async ({ canvas }) => {

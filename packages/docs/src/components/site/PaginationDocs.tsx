@@ -17,7 +17,7 @@ function Demo({
 }) {
   const [page, setPage] = useState(start);
   return (
-    <Pagination page={Math.min(page, total)} total={total} variant={variant} onChange={setPage} />
+    <Pagination variant={variant} page={Math.min(page, total)} total={total} onChange={setPage} />
   );
 }
 
@@ -32,7 +32,6 @@ export function PaginationPlayground() {
           options: ["extended", "compact", "default"],
           default: "extended",
         },
-        { prop: "total", type: "select", options: [5, 7, 20, 99], default: 99 },
         {
           prop: "page",
           type: "select",
@@ -42,6 +41,7 @@ export function PaginationPlayground() {
             ),
           default: 6,
         },
+        { prop: "total", type: "select", options: [5, 7, 20, 99], default: 99 },
       ]}
       render={(values) => (
         <Demo
@@ -53,9 +53,9 @@ export function PaginationPlayground() {
       )}
       code={(values) =>
         jsx("Pagination", {
+          variant: values.variant !== "default" ? (values.variant as string) : undefined,
           page: { expr: "page" },
           total: values.total as number,
-          variant: values.variant !== "default" ? (values.variant as string) : undefined,
           onChange: { expr: "setPage" },
         })
       }
@@ -67,11 +67,11 @@ export function PaginationPlayground() {
 export function PaginationGuide() {
   return (
     <DoDont
-      good={<Pagination page={6} total={99} variant="compact" />}
+      good={<Pagination variant="compact" page={6} total={99} />}
       goodText={<>모바일에서는 Compact로 번호를 줄여 누르기 쉽게 해요.</>}
       bad={
         <span style={{ display: "inline-block", maxWidth: 260, overflow: "hidden" }}>
-          <Pagination page={6} total={99} variant="extended" />
+          <Pagination variant="extended" page={6} total={99} />
         </span>
       }
       badText={<>모바일에서 Extended를 쓰지 않아요. 번호가 넘치거나 작아져 누르기 어려워요.</>}

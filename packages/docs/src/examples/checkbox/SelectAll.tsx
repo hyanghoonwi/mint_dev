@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Checkbox } from "@futurewiz-rms/mint";
+import { Box, Checkbox } from "@futurewiz-rms/mint";
 
 const terms = [
   { id: "service", label: "서비스 이용약관 동의 (필수)" },
@@ -19,7 +19,7 @@ export default function SelectAll() {
     );
 
   return (
-    <div style={{ display: "flex", flexDirection: "column" }}>
+    <Box>
       <Checkbox
         bold
         checked={all}
@@ -33,6 +33,6 @@ export default function SelectAll() {
           {term.label}
         </Checkbox>
       ))}
-    </div>
+    </Box>
   );
 }

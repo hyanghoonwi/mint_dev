@@ -9,9 +9,8 @@ export default function Basic() {
     <>
       <Button onClick={() => setOpen(true)}>알림 설정</Button>
       <Alert
-        open={open}
-        onClose={() => setOpen(false)}
         heading="알림을 켤까요?"
+        body="설정에서 언제든 끌 수 있어요."
         action={
           <>
             <Button color="secondary" onClick={() => setOpen(false)}>
@@ -20,7 +19,8 @@ export default function Basic() {
             <Button onClick={() => setOpen(false)}>켜기</Button>
           </>
         }
-        body="설정에서 언제든 끌 수 있어요."
+        open={open}
+        onClose={() => setOpen(false)}
       />
     </>
   );

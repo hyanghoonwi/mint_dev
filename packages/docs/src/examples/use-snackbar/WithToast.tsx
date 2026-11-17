@@ -1,6 +1,6 @@
 "use client";
 
-import { Button, ToastProvider, useSnackbar, useToast } from "@futurewiz-rms/mint";
+import { Box, Button, ToastProvider, useSnackbar, useToast } from "@futurewiz-rms/mint";
 
 export default function WithToast() {
   return (
@@ -15,7 +15,7 @@ function Buttons() {
   const toast = useToast();
   const snackbar = useSnackbar();
   return (
-    <div style={{ display: "flex", gap: 8, justifyContent: "center" }}>
+    <Box direction="horizontal" justify="center" gap={8}>
       <Button color="secondary" onClick={() => toast.positive("저장했어요.")}>
         토스트
       </Button>
@@ -33,6 +33,6 @@ function Buttons() {
       >
         스낵바
       </Button>
-    </div>
+    </Box>
   );
 }

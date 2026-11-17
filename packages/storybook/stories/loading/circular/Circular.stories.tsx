@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import { Button, Circular } from "@futurewiz-rms/mint";
+import { Box, Button, Circular } from "@futurewiz-rms/mint";
 
 const meta = {
   title: "Components/Loading/Circular",
@@ -38,18 +38,18 @@ export const OnFill: Story = {
 
 export const Sizes: Story = {
   render: () => (
-    <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
+    <Box direction="horizontal" align="center" gap={16}>
       {[12, 16, 20, 28, 40].map((size) => (
-        <Circular key={size} size={size} color="brand" />
+        <Circular key={size} color="brand" size={size} />
       ))}
-    </div>
+    </Box>
   ),
 };
 
 // 버튼의 loading은 버튼 크기에 맞춰 원 크기가 달라진다: xs 12 · sm 16 · md 16 · lg 20
 export const InButton: Story = {
   render: () => (
-    <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+    <Box direction="horizontal" align="center" gap={12}>
       <Button size="xs" loading>
         확인
       </Button>
@@ -62,6 +62,6 @@ export const InButton: Story = {
       <Button size="lg" loading>
         확인
       </Button>
-    </div>
+    </Box>
   ),
 };

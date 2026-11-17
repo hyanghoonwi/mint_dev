@@ -5,10 +5,9 @@
 // 위치는 CSS(absolute)로만 정한다. 포털·화면 크기 측정이 없어서 서버 렌더와 결과가 같다.
 // `size`·`position`은 구간별 값도 받는다(클래스 표 + CSS 변수). 열림 상태와 Esc 닫기만 JS로 다룬다(그래서 "use client").
 import {
-  cloneElement,
-  isValidElement,
   useEffect,
   useId,
+  useRef,
   useState,
   type ComponentProps,
   type ReactElement,
@@ -389,18 +388,18 @@ function Arrow({
 }
 
 export interface TooltipProps extends Omit<ComponentProps<"span">, "children"> {
-  /** 말풍선 글자. 이름이나 단축키(`⌘C`)처럼 한 줄로 짧게 쓴다 */
-  label: ReactNode;
+  /** 높이 `sm` 30 · `md` 36 · `lg` 42px. 기본 `md`. 구간별로 바꾸려면 `{ base: "sm", desktop: "md" }` */
+  size?: Responsive<TooltipSize>;
   /** 대상(버튼 등) 요소 하나. 마우스를 올리거나 포커스하면 말풍선이 열린다 */
   children: ReactElement;
+  /** 말풍선 글자. 이름이나 단축키(`⌘C`)처럼 한 줄로 짧게 쓴다 */
+  label: ReactNode;
+  /** 열림 여부를 직접 정할 때(제어). 생략하면 hover·포커스로 열리고 닫힌다 */
+  open?: boolean;
   /** 대상 기준 위치. 기본 `top`. 구간별로 바꾸려면 `{ base: "bottom", desktop: "right" }` */
   position?: Responsive<TooltipPosition>;
   /** 화살표 위치. 위·아래면 왼쪽·가운데·오른쪽, 왼쪽·오른쪽이면 위·가운데·아래. 기본 `center` */
   arrowAlign?: TooltipArrowAlign;
-  /** 높이 `sm` 30 · `md` 36 · `lg` 42px. 기본 `md`. 구간별로 바꾸려면 `{ base: "sm", desktop: "md" }` */
-  size?: Responsive<TooltipSize>;
-  /** 열림 여부를 직접 정할 때(제어). 생략하면 hover·포커스로 열리고 닫힌다 */
-  open?: boolean;
   /** 열림이 바뀔 때(hover·포커스·Esc) */
   onOpenChange?: (open: boolean) => void;
 }
@@ -411,21 +410,23 @@ export interface TooltipProps extends Omit<ComponentProps<"span">, "children"> {
  * 안에 링크·버튼을 넣지 않고, 꼭 읽어야 하는 안내를 Tooltip에만 두지 않는다(터치 화면에서는 hover가 없다).
  */
 export function Tooltip({
-  label,
+  size,
   children,
+  label,
+  open: openProp,
   position,
   arrowAlign = "center",
-  size,
-  open: openProp,
+  onBlur,
+  onFocus,
   onOpenChange,
-  className,
   onPointerEnter,
   onPointerLeave,
-  onFocus,
-  onBlur,
+  className,
+  ref,
   ...props
 }: TooltipProps) {
   const id = useId();
+  const rootRef = useRef<HTMLSpanElement | null>(null);
   const [openState, setOpenState] = useState(false);
   const open = openProp ?? openState;
 
@@ -447,17 +448,31 @@ export function Tooltip({
     return () => document.removeEventListener("keydown", onKeyDown);
   }, [open, openProp, onOpenChange]);
 
-  const trigger = isValidElement<{ "aria-describedby"?: string }>(children)
-    ? cloneElement(children, {
-        "aria-describedby": [children.props["aria-describedby"], id].filter(Boolean).join(" "),
-      })
-    : children;
+  // 말풍선을 대상의 `aria-describedby`에 연결한다. 자식을 `cloneElement`로 복제하지 않고 마운트 뒤에 DOM에 붙인다.
+  // 서버 컴포넌트가 넘긴 자식은 서버 렌더 단계에서 아직 풀리지 않은 상태라 `isValidElement`가 거짓이 되어,
+  // 복제하면 서버 HTML에는 속성이 없고 브라우저에만 생겨 hydration이 어긋난다(예전 방식의 버그).
+  useEffect(() => {
+    const target = rootRef.current?.firstElementChild;
+    if (!target) return;
+    const previous = target.getAttribute("aria-describedby");
+    const ids = previous?.split(" ").filter(Boolean) ?? [];
+    if (!ids.includes(id)) target.setAttribute("aria-describedby", [...ids, id].join(" "));
+    return () => {
+      if (previous === null) target.removeAttribute("aria-describedby");
+      else target.setAttribute("aria-describedby", previous);
+    };
+  });
 
   const byPosition = (table: ResponsiveClassTable<TooltipPosition>) =>
     responsiveClasses<TooltipPosition>(position, "top", table);
 
   return (
     <span
+      ref={(node) => {
+        rootRef.current = node;
+        if (typeof ref === "function") ref(node);
+        else if (ref) ref.current = node;
+      }}
       className={cn("relative inline-flex", className)}
       onPointerEnter={(event) => {
         onPointerEnter?.(event);
@@ -477,7 +492,7 @@ export function Tooltip({
       }}
       {...props}
     >
-      {trigger}
+      {children}
       <span
         id={id}
         role="tooltip"

@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { expect, fn, userEvent, waitFor, within } from "storybook/test";
-import { Button, ToastProvider, useSnackbar, useToast } from "@futurewiz-rms/mint";
+import { Box, Button, ToastProvider, useSnackbar, useToast } from "@futurewiz-rms/mint";
 
 const meta = {
   title: "Hooks/useSnackbar",
@@ -95,7 +95,7 @@ function Buttons() {
   const snackbar = useSnackbar();
   const toast = useToast();
   return (
-    <div style={{ display: "flex", gap: 8 }}>
+    <Box direction="horizontal" gap={8}>
       <Button
         color="secondary"
         onClick={() =>
@@ -131,6 +131,6 @@ function Buttons() {
       <Button color="secondary" onClick={() => snackbar.dismiss()}>
         스낵바 모두 닫기
       </Button>
-    </div>
+    </Box>
   );
 }

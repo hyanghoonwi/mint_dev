@@ -10,15 +10,15 @@ export function RadioPlayground() {
       controls={[
         { prop: "size", type: "select", options: ["xs", "sm", "md", "lg"], default: "sm" },
         { prop: "label", type: "boolean", default: true },
-        { prop: "tight", type: "boolean", default: false },
         { prop: "disabled", type: "boolean", default: false },
+        { prop: "tight", type: "boolean", default: false },
       ]}
       render={(values) => (
         <RadioGroup
-          aria-label="정렬 기준"
-          defaultValue="latest"
           size={values.size as RadioSize}
+          defaultValue="latest"
           disabled={values.disabled as boolean}
+          aria-label="정렬 기준"
         >
           {[
             ["latest", "최신순"],
@@ -60,10 +60,10 @@ export function RadioPlayground() {
         const open = jsx(
           "RadioGroup",
           {
-            "aria-label": "정렬 기준",
-            defaultValue: "latest",
             size: values.size !== "sm" ? (values.size as string) : undefined,
+            defaultValue: "latest",
             disabled: values.disabled as boolean,
+            "aria-label": "정렬 기준",
           },
           " ",
           ["Radio"],
@@ -81,7 +81,7 @@ export function RadioGuide() {
   return (
     <DoDont
       good={
-        <RadioGroup aria-label="결제 수단" defaultValue="card">
+        <RadioGroup defaultValue="card" aria-label="결제 수단">
           <Radio value="card">카드</Radio>
           <Radio value="bank">계좌이체</Radio>
           <Radio value="point">포인트</Radio>

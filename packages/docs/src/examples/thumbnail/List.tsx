@@ -14,12 +14,12 @@ export default function List() {
     >
       {news.map((item) => (
         <div key={item.title} style={{ display: "flex", gap: 12, alignItems: "center" }}>
-          <Thumbnail src={item.image} alt="" aspectRatio="4:3" radius style={{ width: 80 }} />
+          <Thumbnail radius aspectRatio="4:3" src={item.image} alt="" style={{ width: 80 }} />
           <div>
-            <Text as="p" variant="body-3-medium" color="strong">
+            <Text variant="body-3-medium" color="strong" as="p">
               {item.title}
             </Text>
-            <Text as="p" variant="caption-1-regular" color="tertiary">
+            <Text variant="caption-1-regular" color="tertiary" as="p">
               {item.time}
             </Text>
           </div>

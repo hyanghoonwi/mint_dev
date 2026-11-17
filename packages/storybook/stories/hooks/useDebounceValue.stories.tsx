@@ -1,7 +1,7 @@
 import { useState } from "react";
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { expect, userEvent, waitFor, within } from "storybook/test";
-import { Button, Text, useDebounceValue } from "@futurewiz-rms/mint";
+import { Button, Text, TextField, useDebounceValue } from "@futurewiz-rms/mint";
 
 const meta = {
   title: "Hooks/useDebounceValue",
@@ -18,12 +18,11 @@ export const Search: Story = {
     const { debouncedValue, isDebouncing, flush, cancel } = useDebounceValue(query, 300);
     return (
       <div style={{ display: "flex", flexDirection: "column", gap: 8, width: 280 }}>
-        <input
-          aria-label="코인 검색"
+        <TextField
           value={query}
+          aria-label="코인 검색"
           onChange={(event) => setQuery(event.target.value)}
           onKeyDown={(event) => event.key === "Enter" && flush()}
-          className="h-10 rounded-8 border border-border-strong px-3 text-body-2-regular"
         />
         <Text variant="body-3-regular" color="secondary">
           요청 값: {debouncedValue || "(없음)"}
@@ -31,7 +30,7 @@ export const Search: Story = {
         <Text variant="caption-1-regular" color="tertiary">
           {isDebouncing ? "입력 중…" : "확정됨"}
         </Text>
-        <Button size="sm" variant="outline" onClick={cancel}>
+        <Button variant="outline" size="sm" onClick={cancel}>
           취소
         </Button>
       </div>

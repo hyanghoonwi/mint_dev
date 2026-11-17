@@ -15,9 +15,9 @@ export default function Tight() {
       {["KRW", "USD", "BTC"].map((code) => (
         <CheckMark
           key={code}
-          role="option"
-          tight
           checked={currency === code}
+          tight
+          role="option"
           onClick={() => setCurrency(code)}
           className="w-full"
         >

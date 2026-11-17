@@ -39,6 +39,7 @@
   | `sm`(기본) | 20 · 16 · 10×2     | Body 2 Regular(16/24)   | Body 2 SemiBold(16/24)    | 40 · 24              |
   | `md`       | 24 · 20 · 12×2.5   | Body 1 Regular(17/28)   | Heading 3 SemiBold(18/26) | 40 · 28(bold 26)     |
   | `lg`       | 32 · 26 · 16×3     | Heading 2 Medium(20/30) | Heading 2 SemiBold(20/30) | 48 · 32              |
+  - 기본 크기는 Figma 기본인 `sm`(Small 20)입니다. MINT의 `md` 기본 규칙에서 예외입니다(2026-11 결정).
   - 레이블은 Figma(2278:30242)가 글자 토큰에 맞춘 그대로입니다(2026-11-11). `bold` 레이블은 일반 레이블과 스타일 줄이 다릅니다(XSmall은 Label 2, Medium은 Heading 3).
   - 구간별 값도 받습니다(`size={{ base: "md", desktop: "sm" }}`). 같은 목록에서는 크기를 하나로 맞춥니다.
   - `FramedCheckbox`의 상자는 지금처럼 Small(20) 하나입니다.

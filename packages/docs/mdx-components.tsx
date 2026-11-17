@@ -28,6 +28,11 @@ import { TooltipGuide, TooltipPlayground } from "./src/components/site/TooltipDo
 import { DividerGuide, DividerPlayground } from "./src/components/site/DividerDocs";
 import { PriceChangeGuide, PriceChangePlayground } from "./src/components/site/PriceChangeDocs";
 import { CategoryGuide, CategoryPlayground } from "./src/components/site/CategoryDocs";
+import { BoxGuide, BoxPlayground } from "./src/components/site/BoxDocs";
+import { TextFieldGuide, TextFieldPlayground } from "./src/components/site/TextFieldDocs";
+import { LiveStatusGuide, LiveStatusPlayground } from "./src/components/site/LiveStatusDocs";
+import { MenuGuide, MenuPlayground } from "./src/components/site/MenuDocs";
+import { SelectGuide, SelectPlayground } from "./src/components/site/SelectDocs";
 import { CalendarGuide, CalendarPlayground } from "./src/components/site/CalendarDocs";
 import {
   SegmentedControlGuide,
@@ -154,6 +159,16 @@ export function useMDXComponents(components?: MDXComponents) {
     PageIndicatorGuide,
     CategoryPlayground,
     CategoryGuide,
+    MenuPlayground,
+    MenuGuide,
+    LiveStatusPlayground,
+    LiveStatusGuide,
+    BoxPlayground,
+    BoxGuide,
+    TextFieldPlayground,
+    TextFieldGuide,
+    SelectPlayground,
+    SelectGuide,
     CalendarPlayground,
     CalendarGuide,
     SegmentedControlPlayground,

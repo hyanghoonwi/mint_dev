@@ -31,21 +31,21 @@ export interface SegmentedControlProps extends Omit<
   ComponentProps<"div">,
   "children" | "onChange" | "defaultValue"
 > {
+  /**
+   * `sm` 32 · `md` 40(기본) · `lg` 48(트랙 높이). 글자 label-3 · label-2 · label-1.
+   * 구간별로 바꾸려면 객체를 준다: `{ base: "lg", desktop: "md" }`
+   */
+  size?: Responsive<SegmentedControlSize>;
   /** 항목 목록. 2~6개 */
   items: SegmentedControlItem[];
   /** 선택된 값(제어). 생략하면 컴포넌트가 직접 상태를 가진다 */
   value?: string;
   /** 처음 선택 값(비제어). 기본은 첫 항목 */
   defaultValue?: string;
-  /** 다른 항목을 눌렀을 때 새 값으로 호출된다 */
-  onChange?: (value: string) => void;
-  /**
-   * `sm` 32 · `md` 40(기본) · `lg` 48(트랙 높이). 글자 label-3 · label-2 · label-1.
-   * 구간별로 바꾸려면 객체를 준다: `{ base: "lg", desktop: "md" }`
-   */
-  size?: Responsive<SegmentedControlSize>;
   /** 부모 폭을 꽉 채운다(항목은 같은 폭으로 나눈다). 기본 `false`(가장 긴 항목 폭에 맞춰 같은 폭). 구간별 값도 받는다 */
   fullWidth?: Responsive<boolean>;
+  /** 다른 항목을 눌렀을 때 새 값으로 호출된다 */
+  onChange?: (value: string) => void;
 }
 
 // 트랙: 회색(fill/neutral-weak) · 안쪽 여백 4 · 모서리 lg·md 12, sm 10. 항목은 모두 같은 폭(auto-cols-fr)
@@ -122,12 +122,12 @@ const fullWidthClasses: ResponsiveClassTable<"true" | "false"> = {
 
 /** 같은 영역의 보기 방식을 바로 바꾸는 토글형 선택 컨트롤. 항상 하나가 선택돼 있다 */
 export function SegmentedControl({
+  size = "md",
   items,
   value,
   defaultValue,
-  onChange,
-  size = "md",
   fullWidth = false,
+  onChange,
   className,
   ...props
 }: SegmentedControlProps) {

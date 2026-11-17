@@ -13,20 +13,20 @@ const colors: Record<CircularColor, string> = {
 };
 
 export interface CircularProps extends Omit<ComponentProps<"svg">, "children" | "color"> {
-  /** 지름(px). 기본 28. 버튼 안에서는 버튼 크기에 맞춰 20 · 16 · 12로 쓴다 */
-  size?: number;
   /** `default` 회색 · `brand` 브랜드색 · `on-fill` 진한 배경 위의 흰색. 기본 `default` */
   color?: CircularColor;
+  /** 지름(px). 기본 28. 버튼 안에서는 버튼 크기에 맞춰 20 · 16 · 12로 쓴다 */
+  size?: number;
   /** 스크린리더가 읽을 이름. 기본 `로딩 중`. 장식용이면 `aria-hidden`을 준다 */
   label?: string;
 }
 
 export function Circular({
-  size = 28,
   color = "default",
+  size = 28,
   label = "로딩 중",
-  className,
   "aria-hidden": ariaHidden,
+  className,
   ...props
 }: CircularProps) {
   const decorative = ariaHidden === true || ariaHidden === "true";

@@ -21,8 +21,8 @@ export function SegmentedControlPlayground() {
       stageMinHeight={200}
       controls={[
         { prop: "size", type: "select", options: ["sm", "md", "lg"], default: "md" },
-        { prop: "count", type: "select", options: counts, default: 3 },
         { prop: "icon", type: "boolean", default: false },
+        { prop: "count", type: "select", options: counts, default: 3 },
         { prop: "fullWidth", type: "boolean", default: false },
       ]}
       render={(values) => (
@@ -30,10 +30,10 @@ export function SegmentedControlPlayground() {
           style={{ display: "block", width: values.fullWidth ? 360 : undefined, maxWidth: "100%" }}
         >
           <SegmentedControl
-            aria-label="기간"
-            items={itemsFor(values)}
             size={values.size as SegmentedControlSize}
+            items={itemsFor(values)}
             fullWidth={values.fullWidth as boolean}
+            aria-label="기간"
           />
         </span>
       )}
@@ -45,10 +45,10 @@ export function SegmentedControlPlayground() {
           )
           .join("\n");
         return jsx("SegmentedControl", {
-          "aria-label": "기간",
           size: values.size !== "md" ? (values.size as string) : undefined,
-          fullWidth: values.fullWidth ? true : undefined,
           items: { expr: `[\n${items}\n  ]` },
+          fullWidth: values.fullWidth ? true : undefined,
+          "aria-label": "기간",
         });
       }}
     />
@@ -61,11 +61,11 @@ export function SegmentedControlGuide() {
     <DoDont
       good={
         <SegmentedControl
-          aria-label="좋은 예"
           items={[
             { value: "list", label: "목록" },
             { value: "grid", label: "격자" },
           ]}
+          aria-label="좋은 예"
         />
       }
       goodText={<>이름은 1~4자로 짧게 쓰고, 처음부터 하나를 선택해 둬요.</>}

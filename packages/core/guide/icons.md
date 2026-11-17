@@ -8,13 +8,13 @@ Phosphor Icons 기반 아이콘 183개입니다. **아이콘마다 컴포넌트�
 import { ArrowLeftIcon, HouseIcon } from "@futurewiz-rms/mint";
 
 <ArrowLeftIcon />                        // 24px 선(기본)
-<HouseIcon size={20} variant="fill" />   // 20px 채움
+<HouseIcon variant="fill" size={20} />   // 20px 채움
 ```
 
 - **`Icon` 하나에 `name`을 넘기는 방식은 없습니다.** 아이콘을 쓰려면 이름에 맞는 컴포넌트를 import합니다. `<svg>`를 직접 그리지 않습니다.
 - **이름 규칙**: 아래 목록의 이름(kebab-case)을 PascalCase로 바꾸고 `Icon`을 붙입니다. `arrow-left` → `ArrowLeftIcon`, `magnifying-glass` → `MagnifyingGlassIcon`, `x` → `XIcon`.
-- **`size`**: `16` · `20` · `24`(기본 `24`)만 됩니다. `size`는 컨트롤 크기(`sm|md|lg|xl`)와 달리 아이콘만 숫자입니다.
 - **`variant`**: `"line"`(선, 기본) · `"fill"`(채움).
+- **`size`**: `16` · `20` · `24`(기본 `24`)만 됩니다. `size`는 컨트롤 크기(`sm|md|lg|xl`)와 달리 아이콘만 숫자입니다.
 - **색**: 글자색을 따라갑니다. 글자색 토큰 클래스로 지정합니다(`className="text-icon-danger"`). hex를 쓰지 않습니다.
 - **접근성**: 기본은 장식용(`aria-hidden`)입니다. 아이콘만으로 뜻을 전하는 곳에는 `aria-label="검색"`을 줍니다.
 - 없는 아이콘은 만들지 않습니다. 필요하면 Figma `Icon / Components`에 먼저 추가를 요청합니다.
@@ -40,3 +40,9 @@ import { ArrowLeftIcon, HouseIcon } from "@futurewiz-rms/mint";
 - **문서, 편집**: `file-text` · `clipboard` · `note-pencil` · `archive` · `folder-open` · `table` · `translate`
 - **상태, 기타**: `seal-check` · `prohibit` · `lightbulb` · `lightning` · `sun` · `moon` · `fire-simple` · `trophy` · `sparkle` · `thumbs-down` · `target` · `rocket-launch` · `siren`
 - **그 외**: `cursor` · `hand-pointing` · `robot` · `text-aa` · `microphone-stage` · `briefcase`
+
+## 디자인 시스템 전용 아이콘
+
+Phosphor 목록(위 183개)에 없고 Figma에서 따로 그린 아이콘은 `icons.json`·생성 파일이 아니라 **직접 등록**합니다. 쓰는 방법은 다른 아이콘과 같고(`import`해서 컴포넌트로 사용, 색은 글자색, 서버 컴포넌트 가능) 크기는 20 하나입니다.
+
+- **`SelectedCheckIcon`** — 목록에서 고른 항목 끝의 체크(Figma `Selected Check`, 20px · 선 2 · 둥근 끝). Phosphor `CheckIcon`(얇은 선)과 굵기가 달라서 따로 두었고 `Menu`·`Select`의 고른 항목 체크와 `CheckMark`의 체크가 모두 이 아이콘입니다(2026-11 통일, 세 곳의 체크는 같은 모양). 색은 보통 `text-icon-brand`입니다.

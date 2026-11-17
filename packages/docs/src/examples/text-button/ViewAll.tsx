@@ -11,10 +11,10 @@ export default function ViewAll() {
         alignItems: "center",
       }}
     >
-      <Text as="h3" variant="heading-3-semibold" color="strong">
+      <Text variant="heading-3-semibold" color="strong" as="h3">
         오늘의 뉴스
       </Text>
-      <TextButton href="/news" color="neutral" size="sm" rightAddon={<CaretRightIcon />}>
+      <TextButton color="neutral" size="sm" rightAddon={<CaretRightIcon />} href="/news">
         전체 보기
       </TextButton>
     </div>

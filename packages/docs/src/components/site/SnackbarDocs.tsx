@@ -11,11 +11,11 @@ const controls: Control[] = [
     options: ["normal", "positive", "cautionary", "negative"],
     default: "normal",
   },
+  { prop: "heading", type: "text", default: "관심 코인에서 뺐어요." },
+  { prop: "description", type: "text", default: "" },
   { prop: "icon", type: "boolean", default: false },
   { prop: "addOn", type: "boolean", default: true },
   { prop: "onClose", type: "boolean", default: false },
-  { prop: "heading", type: "text", default: "관심 코인에서 뺐어요." },
-  { prop: "description", type: "text", default: "" },
 ];
 
 /** 샌드박스: 왼쪽에 스낵바, 오른쪽에서 props를 바꾸면 아래 코드도 같이 바뀌어요 */
@@ -26,9 +26,9 @@ export function SnackbarPlayground() {
       render={(values) => (
         <Snackbar
           variant={values.variant as SnackbarVariant}
-          icon={values.icon as boolean}
           heading={values.heading as string}
           description={(values.description as string) || undefined}
+          icon={values.icon as boolean}
           addOn={
             values.addOn ? (
               <Button variant="outline" color="neutral" size="md">
@@ -42,9 +42,9 @@ export function SnackbarPlayground() {
       code={(values) =>
         jsx("Snackbar", {
           variant: values.variant !== "normal" ? (values.variant as string) : undefined,
-          icon: values.icon as boolean,
           heading: values.heading as string,
           description: (values.description as string) || undefined,
+          icon: values.icon as boolean,
           addOn: values.addOn
             ? {
                 expr: '<Button variant="outline" color="neutral" size="md">되돌리기</Button>',

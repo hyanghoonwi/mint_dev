@@ -142,8 +142,6 @@ export interface ChipProps extends Omit<ComponentProps<"button">, "children" | "
   size?: Responsive<ChipSize>;
   /** `square` 둥근 사각형(기본) · `pill` 알약형. 한 서비스에서는 한 가지만 쓴다 */
   shape?: NonNullable<ChipVariantProps["shape"]>;
-  /** 선택(켜짐) 여부. 스크린리더에는 `aria-pressed`로 알린다. 기본 `false` */
-  active?: boolean;
   /** 레이블. 8자를 넘기지 않는다 */
   children: ReactNode;
   /** 레이블 왼쪽(앞) 아이콘(`<StarIcon />` 등). Figma의 leading icon. Button의 `leftAddon`과 같은 이름이다. 앞뒤 구성(아이콘·이미지·카운트)은 한 칩에 하나만 */
@@ -152,10 +150,12 @@ export interface ChipProps extends Omit<ComponentProps<"button">, "children" | "
   rightAddon?: ReactNode;
   /** 레이블 앞 둥근 이미지(코인 로고 등). `<img src alt="" />`를 넘기면 16px(Small 14px) 원으로 잘린다 */
   leadingImage?: ReactNode;
-  /** 레이블 뒤 개수(예: `12`). 고름 상태에서는 흰 글자 80% */
-  count?: ReactNode;
   /** 레이블 오른쪽 위의 빨간 점(새 소식) */
   badge?: boolean;
+  /** 레이블 뒤 개수(예: `12`). 고름 상태에서는 흰 글자 80% */
+  count?: ReactNode;
+  /** 선택(켜짐) 여부. 스크린리더에는 `aria-pressed`로 알린다. 기본 `false` */
+  active?: boolean;
   /** 누를 수 없는 상태 */
   disabled?: boolean;
 }
@@ -165,16 +165,16 @@ export function Chip({
   variant = "solid",
   size = "md",
   shape = "square",
-  active = false,
   children,
   leftAddon,
   rightAddon,
   leadingImage,
-  count,
   badge = false,
+  count,
+  active = false,
   disabled = false,
-  className,
   type = "button",
+  className,
   ...props
 }: ChipProps) {
   // 개수 색: 기본 tertiary, 고른 solid는 흰 글자 80%, 비활성은 disabled

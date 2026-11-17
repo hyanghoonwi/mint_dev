@@ -38,34 +38,34 @@ export function SkeletonTextPlayground() {
     <Playground
       stageMinHeight={200}
       controls={[
-        { prop: "length", type: "select", options: ["100%", "75%", "50%", "25%"], default: "100%" },
+        color,
+        animate,
         {
           prop: "align",
           type: "select",
           options: ["leading", "center", "trailing"],
           default: "leading",
         },
-        color,
-        animate,
+        { prop: "length", type: "select", options: ["100%", "75%", "50%", "25%"], default: "100%" },
       ]}
       render={(values) =>
         stage(
           values,
           <SkeletonText
-            width={240}
-            length={values.length as SkeletonTextLength}
-            align={values.align as SkeletonTextAlign}
             color={values.color as SkeletonColor}
             animate={values.animate as boolean}
+            align={values.align as SkeletonTextAlign}
+            length={values.length as SkeletonTextLength}
+            width={240}
           />,
         )
       }
       code={(values) =>
         jsx("SkeletonText", {
-          length: values.length !== "100%" ? (values.length as string) : undefined,
-          align: values.align !== "leading" ? (values.align as string) : undefined,
           color: colorAttribute(values),
           animate: animateAttribute(values),
+          align: values.align !== "leading" ? (values.align as string) : undefined,
+          length: values.length !== "100%" ? (values.length as string) : undefined,
         })
       }
     />
@@ -76,26 +76,26 @@ export function SkeletonRectanglePlayground() {
   return (
     <Playground
       stageMinHeight={200}
-      controls={[{ prop: "radius", type: "boolean", default: false }, color, animate]}
+      controls={[color, { prop: "radius", type: "boolean", default: false }, animate]}
       render={(values) =>
         stage(
           values,
           <SkeletonRectangle
+            color={values.color as SkeletonColor}
+            radius={values.radius as boolean}
+            animate={values.animate as boolean}
             width={120}
             height={80}
-            radius={values.radius as boolean}
-            color={values.color as SkeletonColor}
-            animate={values.animate as boolean}
           />,
         )
       }
       code={(values) =>
         jsx("SkeletonRectangle", {
+          color: colorAttribute(values),
+          radius: values.radius ? true : undefined,
+          animate: animateAttribute(values),
           width: 120,
           height: 80,
-          radius: values.radius ? true : undefined,
-          color: colorAttribute(values),
-          animate: animateAttribute(values),
         })
       }
     />
@@ -107,24 +107,24 @@ export function SkeletonCirclePlayground() {
     <Playground
       stageMinHeight={200}
       controls={[
-        { prop: "size", type: "select", options: [24, 32, 40, 48, 64], default: 40 },
         color,
+        { prop: "size", type: "select", options: [24, 32, 40, 48, 64], default: 40 },
         animate,
       ]}
       render={(values) =>
         stage(
           values,
           <SkeletonCircle
-            size={values.size as number}
             color={values.color as SkeletonColor}
+            size={values.size as number}
             animate={values.animate as boolean}
           />,
         )
       }
       code={(values) =>
         jsx("SkeletonCircle", {
-          size: values.size !== 40 ? (values.size as number) : undefined,
           color: colorAttribute(values),
+          size: values.size !== 40 ? (values.size as number) : undefined,
           animate: animateAttribute(values),
         })
       }
@@ -146,7 +146,7 @@ export function SkeletonGuide() {
         </span>
       }
       goodText={<>실제 콘텐츠와 같은 모양·크기로 자리를 잡아요.</>}
-      bad={<SkeletonRectangle width={220} height={64} radius />}
+      bad={<SkeletonRectangle radius width={220} height={64} />}
       badText={<>영역 전체를 덩어리 하나로 덮지 않아요.</>}
     />
   );

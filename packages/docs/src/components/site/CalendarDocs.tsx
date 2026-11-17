@@ -16,24 +16,24 @@ export function CalendarPlayground() {
       stageMinHeight={420}
       controls={[
         { prop: "size", type: "select", options: ["md", "lg"], default: "md" },
-        { prop: "weekStartsOn", type: "select", options: [0, 1], default: 0 },
         { prop: "marks", type: "boolean", default: true },
+        { prop: "weekStartsOn", type: "select", options: [0, 1], default: 0 },
       ]}
       render={(values) => (
         <Calendar
-          today="2026-11-11"
           size={values.size as CalendarSize}
-          weekStartsOn={values.weekStartsOn as 0 | 1}
+          today="2026-11-11"
           marks={values.marks ? sampleMarks : undefined}
+          weekStartsOn={values.weekStartsOn as 0 | 1}
           style={{ width: 340, maxWidth: "100%" }}
         />
       )}
       code={(values) =>
         jsx("Calendar", {
-          today: "2026-11-11",
           size: values.size !== "md" ? (values.size as string) : undefined,
-          weekStartsOn: values.weekStartsOn !== 0 ? (values.weekStartsOn as number) : undefined,
+          today: "2026-11-11",
           marks: values.marks ? { expr: '{ "2026-11-12": [{ color: "brand" }] }' } : undefined,
+          weekStartsOn: values.weekStartsOn !== 0 ? (values.weekStartsOn as number) : undefined,
           onChange: { expr: "setDate" },
         })
       }

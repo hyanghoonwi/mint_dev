@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { expect } from "storybook/test";
-import { Badge } from "@futurewiz-rms/mint";
+import { Badge, Box } from "@futurewiz-rms/mint";
 
 const colors = [
   "brand",
@@ -42,7 +42,7 @@ export const Weak: Story = {
 // 색은 의미로 고른다: brand 강조 · neutral 일반 · danger 오류·임박 · success 완료 · warning 주의 · teal·violet·pink 의미 없는 분류용
 export const Colors: Story = {
   render: () => (
-    <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+    <Box gap={12}>
       {(["fill", "weak"] as const).map((variant) => (
         <div key={variant} style={{ display: "flex", gap: 8 }}>
           {colors.map((color) => (
@@ -52,18 +52,18 @@ export const Colors: Story = {
           ))}
         </div>
       ))}
-    </div>
+    </Box>
   ),
 };
 
 // 높이 20 · 22 · 28px. 같은 화면에서는 하나로 맞춘다
 export const Sizes: Story = {
   render: () => (
-    <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+    <Box direction="horizontal" align="center" gap={8}>
       <Badge size="sm">NEW</Badge>
       <Badge size="md">NEW</Badge>
       <Badge size="lg">NEW</Badge>
-    </div>
+    </Box>
   ),
 };
 

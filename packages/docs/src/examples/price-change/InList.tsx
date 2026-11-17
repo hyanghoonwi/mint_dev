@@ -22,9 +22,9 @@ export default function InList() {
               {coin.price}
             </Text>
             <PriceChange
-              direction={coin.rate > 0 ? "up" : coin.rate < 0 ? "down" : "flat"}
-              type="percent"
               size="sm"
+              type="percent"
+              direction={coin.rate > 0 ? "up" : coin.rate < 0 ? "down" : "flat"}
             >
               {Math.abs(coin.rate).toFixed(2)}%
             </PriceChange>

@@ -15,7 +15,7 @@ export default function Banner() {
       }}
     >
       {/* 배너 이미지 위: white */}
-      <PageDots current={2} total={4} variant="white" />
+      <PageDots variant="white" current={2} total={4} />
     </div>
   );
 }

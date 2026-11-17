@@ -97,26 +97,26 @@ function Arrow({ direction }: { direction: PriceChangeDirection }) {
 }
 
 export interface PriceChangeProps extends Omit<ComponentProps<"span">, "children"> {
-  /** 오름 `up`(빨강) · 내림 `down`(파랑) · 변동 없음 `flat`(회색) */
-  direction: PriceChangeDirection;
-  /** `amount`는 화살표(▲ ▼ −), `percent`는 부호(+, -)를 붙인다. 기본 `amount` */
-  type?: PriceChangeType;
   /** `text`는 글자만, `weak`는 연한 배경. 기본 `text` */
   variant?: PriceChangeVariant;
   /** 글자 `sm` 12 · `md` 14 · `lg` 16px. 기본 `md`. 구간별로 바꾸려면 `{ base: "sm", desktop: "md" }` */
   size?: Responsive<PriceChangeSize>;
+  /** `amount`는 화살표(▲ ▼ −), `percent`는 부호(+, -)를 붙인다. 기본 `amount` */
+  type?: PriceChangeType;
+  /** 오름 `up`(빨강) · 내림 `down`(파랑) · 변동 없음 `flat`(회색) */
+  direction: PriceChangeDirection;
   /** 숫자만 넣는다(`"1,200"`, `"3.42%"`). 화살표·부호는 컴포넌트가 붙인다 */
   children: ReactNode;
 }
 
 /** 시세가 오르내린 정도. 금액은 화살표, 퍼센트는 부호로 방향을 알린다 */
 export function PriceChange({
-  direction,
-  type = "amount",
   variant = "text",
   size,
-  className,
+  type = "amount",
+  direction,
   children,
+  className,
   ...props
 }: PriceChangeProps) {
   const sign =

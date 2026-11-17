@@ -11,16 +11,16 @@ export function ChipPlayground() {
         { prop: "variant", type: "select", options: ["solid", "outline"], default: "solid" },
         { prop: "size", type: "select", options: ["lg", "md", "sm"], default: "md" },
         { prop: "shape", type: "select", options: ["square", "pill"], default: "square" },
+        { prop: "children", type: "text", default: "시그널" },
+        { prop: "badge", type: "boolean", default: false },
+        { prop: "active", type: "boolean", default: true },
+        { prop: "disabled", type: "boolean", default: false },
         {
           prop: "addon",
           type: "select",
           options: ["none", "leftAddon", "rightAddon", "leadingImage", "count"],
           default: "none",
         },
-        { prop: "active", type: "boolean", default: true },
-        { prop: "badge", type: "boolean", default: false },
-        { prop: "disabled", type: "boolean", default: false },
-        { prop: "children", type: "text", default: "시그널" },
       ]}
       render={(values) => (
         <span className={values.variant === "outline" ? "docs-gray-stage" : "docs-white-stage"}>
@@ -28,13 +28,13 @@ export function ChipPlayground() {
             variant={values.variant as ChipProps["variant"]}
             size={values.size as ChipProps["size"]}
             shape={values.shape as ChipProps["shape"]}
-            active={values.active as boolean}
-            badge={values.badge as boolean}
-            disabled={values.disabled as boolean}
             leftAddon={values.addon === "leftAddon" ? <StarIcon /> : undefined}
             rightAddon={values.addon === "rightAddon" ? <ArrowRightIcon /> : undefined}
             leadingImage={values.addon === "leadingImage" ? <span /> : undefined}
+            badge={values.badge as boolean}
             count={values.addon === "count" ? 12 : undefined}
+            active={values.active as boolean}
+            disabled={values.disabled as boolean}
           >
             {values.children as string}
           </Chip>
@@ -47,15 +47,15 @@ export function ChipPlayground() {
             variant: values.variant !== "solid" ? (values.variant as string) : undefined,
             size: values.size !== "md" ? (values.size as string) : undefined,
             shape: values.shape !== "square" ? (values.shape as string) : undefined,
-            active: values.active as boolean,
             leftAddon: values.addon === "leftAddon" ? { expr: "<StarIcon />" } : undefined,
             rightAddon: values.addon === "rightAddon" ? { expr: "<ArrowRightIcon />" } : undefined,
             leadingImage:
               values.addon === "leadingImage"
                 ? { expr: '<img src={coin.logo} alt="" />' }
                 : undefined,
-            count: values.addon === "count" ? 12 : undefined,
             badge: values.badge as boolean,
+            count: values.addon === "count" ? 12 : undefined,
+            active: values.active as boolean,
             disabled: values.disabled as boolean,
           },
           values.children as string,
@@ -76,7 +76,7 @@ export function ChipGuide() {
     <DoDont
       good={
         <span style={{ display: "flex", gap: 8 }}>
-          <Chip active count={12}>
+          <Chip count={12} active>
             시그널
           </Chip>
           <Chip count={3}>에어드랍</Chip>

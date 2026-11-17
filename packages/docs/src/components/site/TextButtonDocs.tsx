@@ -8,11 +8,11 @@ const controls: Control[] = [
   { prop: "color", type: "select", options: ["primary", "neutral"], default: "primary" },
   { prop: "size", type: "select", options: ["xs", "sm", "md", "lg"], default: "md" },
   { prop: "underline", type: "boolean", default: false },
+  { prop: "children", type: "text", default: "전체 보기" },
   { prop: "leftAddon", type: "boolean", default: false },
   { prop: "rightAddon", type: "boolean", default: false },
-  { prop: "disabled", type: "boolean", default: false },
   { prop: "loading", type: "boolean", default: false },
-  { prop: "children", type: "text", default: "전체 보기" },
+  { prop: "disabled", type: "boolean", default: false },
 ];
 
 /** 샌드박스: 왼쪽에 텍스트 버튼, 오른쪽에서 props를 바꾸면 아래 코드도 같이 바뀌어요 */
@@ -27,8 +27,8 @@ export function TextButtonPlayground() {
           underline={values.underline as boolean}
           leftAddon={values.leftAddon ? <PlusIcon /> : undefined}
           rightAddon={values.rightAddon ? <CaretRightIcon /> : undefined}
-          disabled={values.disabled as boolean}
           loading={values.loading as boolean}
+          disabled={values.disabled as boolean}
         >
           {values.children as string}
         </TextButton>
@@ -42,8 +42,8 @@ export function TextButtonPlayground() {
             underline: values.underline as boolean,
             leftAddon: values.leftAddon ? { expr: "<PlusIcon />" } : undefined,
             rightAddon: values.rightAddon ? { expr: "<CaretRightIcon />" } : undefined,
-            disabled: values.disabled as boolean,
             loading: values.loading as boolean,
+            disabled: values.disabled as boolean,
           },
           values.children as string,
           [

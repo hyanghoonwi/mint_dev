@@ -9,8 +9,8 @@ export default function Links() {
     <Pagination
       page={page}
       total={99}
-      getHref={(pageNumber) => `?page=${pageNumber}`}
       linkComponent={Link}
+      getHref={(pageNumber) => `?page=${pageNumber}`}
     />
   );
 }

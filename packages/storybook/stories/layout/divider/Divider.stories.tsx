@@ -10,8 +10,8 @@ const meta = {
     layout: "padded",
   },
   argTypes: {
-    orientation: { control: "inline-radio", options: ["horizontal", "vertical"] },
     variant: { control: "inline-radio", options: ["default", "strong", "thick"] },
+    orientation: { control: "inline-radio", options: ["horizontal", "vertical"] },
     inset: { control: "boolean" },
   },
 } satisfies Meta<typeof Divider>;
@@ -49,11 +49,11 @@ export const Inset: Story = {
   args: { inset: true },
   render: (args) => (
     <div style={{ width: 320, background: "var(--mint-background-default)" }}>
-      <Text as="p" variant="body-2-regular" className="p-5">
+      <Text variant="body-2-regular" as="p" className="p-5">
         알림 설정
       </Text>
       <Divider {...args} />
-      <Text as="p" variant="body-2-regular" className="p-5">
+      <Text variant="body-2-regular" as="p" className="p-5">
         개인정보 보호
       </Text>
     </div>
@@ -71,7 +71,7 @@ export const Vertical: Story = {
       <Text variant="body-4-regular" color="secondary">
         인기순
       </Text>
-      <Divider orientation="vertical" variant="strong" />
+      <Divider variant="strong" orientation="vertical" />
       <Text variant="body-4-regular" color="secondary">
         거래량순
       </Text>

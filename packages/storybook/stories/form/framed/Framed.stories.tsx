@@ -12,10 +12,10 @@ const meta = {
   args: { label: "텍스트", description: "설명", onChange: fn() },
   argTypes: {
     size: { control: "inline-radio", options: ["sm", "md", "lg"] },
-    error: { control: "boolean" },
-    shadow: { control: "boolean" },
-    disabled: { control: "boolean" },
     indeterminate: { control: "boolean" },
+    error: { control: "boolean" },
+    disabled: { control: "boolean" },
+    shadow: { control: "boolean" },
   },
   decorators: [
     (Story) => (
@@ -50,9 +50,9 @@ export const States: Story = {
       <FramedCheckbox {...args} label="선택 안 됨" />
       <FramedCheckbox {...args} label="선택됨" defaultChecked />
       <FramedCheckbox {...args} label="오류" error />
-      <FramedCheckbox {...args} label="오류 · 선택됨" error defaultChecked />
+      <FramedCheckbox {...args} label="오류 · 선택됨" defaultChecked error />
       <FramedCheckbox {...args} label="비활성" disabled />
-      <FramedCheckbox {...args} label="비활성 · 선택됨" disabled defaultChecked />
+      <FramedCheckbox {...args} label="비활성 · 선택됨" defaultChecked disabled />
       <FramedCheckbox {...args} label="그림자" shadow />
     </div>
   ),
@@ -60,10 +60,10 @@ export const States: Story = {
 
 export const Radio: Story = {
   render: () => (
-    <RadioGroup aria-label="요금제" defaultValue="basic" className="gap-2">
-      <FramedRadio value="basic" label="베이직" description="월 9,900원 · 시세 알림 10개" />
-      <FramedRadio value="pro" label="프로" description="월 19,900원 · 시세 알림 무제한" />
-      <FramedRadio value="team" label="팀" description="문의 필요" disabled />
+    <RadioGroup defaultValue="basic" aria-label="요금제" className="gap-2">
+      <FramedRadio label="베이직" description="월 9,900원 · 시세 알림 10개" value="basic" />
+      <FramedRadio label="프로" description="월 19,900원 · 시세 알림 무제한" value="pro" />
+      <FramedRadio label="팀" description="문의 필요" value="team" disabled />
     </RadioGroup>
   ),
 };
@@ -74,7 +74,7 @@ export const Placeholder: Story = {
       <Framed>
         <Text variant="body-2-regular">다른 내용을 담는 틀</Text>
       </Framed>
-      <Framed selected size="lg" shadow>
+      <Framed size="lg" selected shadow>
         <Text variant="body-2-regular">선택된 틀</Text>
       </Framed>
     </div>
@@ -98,9 +98,9 @@ export const RadioSelectOne: Story = {
     const [plan, setPlan] = useState("basic");
     return (
       <div style={column}>
-        <RadioGroup aria-label="요금제" value={plan} onChange={setPlan} className="gap-2">
-          <FramedRadio value="basic" label="베이직" description="월 9,900원" />
-          <FramedRadio value="pro" label="프로" description="월 19,900원" />
+        <RadioGroup value={plan} aria-label="요금제" onChange={setPlan} className="gap-2">
+          <FramedRadio label="베이직" description="월 9,900원" value="basic" />
+          <FramedRadio label="프로" description="월 19,900원" value="pro" />
         </RadioGroup>
         <output>{plan}</output>
       </div>

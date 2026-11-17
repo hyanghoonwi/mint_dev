@@ -59,7 +59,7 @@ export const InfiniteScroll: Story = {
     return (
       <div ref={setRoot} data-testid="list" style={{ height: 240, width: 280, overflow: "auto" }}>
         {Array.from({ length: count }, (_, index) => (
-          <Text key={index} as="p" variant="body-3-regular" className="px-4 py-3">
+          <Text key={index} variant="body-3-regular" as="p" className="px-4 py-3">
             코인 {index + 1}
           </Text>
         ))}

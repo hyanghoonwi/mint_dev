@@ -52,11 +52,11 @@
 | 이름           | 타입                                                                      | 기본값     | 설명                                                            |
 | -------------- | ------------------------------------------------------------------------- | ---------- | --------------------------------------------------------------- |
 | `size`         | `"sm" \| "md" \| "lg"` 또는 `{ base, tablet, desktop }`                   | `"md"`     | 높이 30 · 36 · 42px. 객체로 주면 구간마다 달라져요              |
+| `children`     | `ReactElement`                                                            | -          | 대상 요소 하나(버튼·링크)                                       |
+| `label`        | `ReactNode`                                                               | -          | 말풍선 글자. 한 줄로 짧게 써요                                  |
+| `open`         | `boolean`                                                                 | -          | 열림을 직접 정할 때. 생략하면 hover·포커스로 열려요             |
 | `position`     | `"top" \| "bottom" \| "left" \| "right"` 또는 `{ base, tablet, desktop }` | `"top"`    | 대상 기준 위치. 객체로 주면 구간마다 달라져요                   |
 | `arrowAlign`   | `"start" \| "center" \| "end"`                                            | `"center"` | 화살표 위치. 위·아래면 왼쪽·오른쪽, 왼쪽·오른쪽이면 위·아래예요 |
-| `label`        | `ReactNode`                                                               | -          | 말풍선 글자. 한 줄로 짧게 써요                                  |
-| `children`     | `ReactElement`                                                            | -          | 대상 요소 하나(버튼·링크)                                       |
-| `open`         | `boolean`                                                                 | -          | 열림을 직접 정할 때. 생략하면 hover·포커스로 열려요             |
 | `onOpenChange` | `(open: boolean) => void`                                                 | -          | 열림이 바뀔 때                                                  |
 
 ## Guidelines

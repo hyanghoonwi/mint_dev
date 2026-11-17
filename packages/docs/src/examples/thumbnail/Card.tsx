@@ -8,12 +8,12 @@ export default function Card() {
     <div
       style={{ width: "100%", maxWidth: 280, display: "flex", flexDirection: "column", gap: 12 }}
     >
-      <Thumbnail src={news.image} alt={news.title} aspectRatio="16:9" radius />
+      <Thumbnail radius aspectRatio="16:9" src={news.image} alt={news.title} />
       <div>
-        <Text as="p" variant="body-2-semibold" color="strong">
+        <Text variant="body-2-semibold" color="strong" as="p">
           {news.title}
         </Text>
-        <Text as="p" variant="caption-1-regular" color="tertiary">
+        <Text variant="caption-1-regular" color="tertiary" as="p">
           {news.date}
         </Text>
       </div>

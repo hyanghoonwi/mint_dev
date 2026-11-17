@@ -1,7 +1,7 @@
 import { useState } from "react";
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { expect, fn, userEvent } from "storybook/test";
-import { Radio, RadioGroup } from "@futurewiz-rms/mint";
+import { Box, Button, Radio, RadioGroup } from "@futurewiz-rms/mint";
 
 const meta = {
   title: "Components/Form/Radio",
@@ -9,7 +9,7 @@ const meta = {
   subcomponents: { Radio },
   tags: ["autodocs"],
   parameters: { layout: "centered" },
-  args: { "aria-label": "정렬 기준", defaultValue: "latest", onChange: fn(), children: null },
+  args: { children: null, defaultValue: "latest", "aria-label": "정렬 기준", onChange: fn() },
   argTypes: {
     size: { control: "inline-radio", options: ["xs", "sm", "md", "lg"] },
     disabled: { control: "boolean" },
@@ -32,11 +32,11 @@ export const Default: Story = {};
 export const States: Story = {
   render: () => (
     <div style={{ display: "grid", gridTemplateColumns: "auto auto", gap: 8 }}>
-      <RadioGroup aria-label="기본" defaultValue="b">
+      <RadioGroup defaultValue="b" aria-label="기본">
         <Radio value="a">안 고름</Radio>
         <Radio value="b">고름</Radio>
       </RadioGroup>
-      <RadioGroup aria-label="비활성" defaultValue="b" disabled>
+      <RadioGroup defaultValue="b" disabled aria-label="비활성">
         <Radio value="a">비활성</Radio>
         <Radio value="b">비활성 고름</Radio>
       </RadioGroup>
@@ -46,7 +46,7 @@ export const States: Story = {
 
 export const Tight: Story = {
   render: () => (
-    <RadioGroup aria-label="통화" defaultValue="KRW" style={{ gap: 12 }}>
+    <RadioGroup defaultValue="KRW" aria-label="통화" style={{ gap: 12 }}>
       <Radio value="KRW" tight>
         KRW
       </Radio>
@@ -97,14 +97,14 @@ export const Controlled: Story = {
   render: function Render() {
     const [method, setMethod] = useState("card");
     return (
-      <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-        <RadioGroup aria-label="결제 수단" value={method} onChange={setMethod}>
+      <Box gap={8}>
+        <RadioGroup value={method} aria-label="결제 수단" onChange={setMethod}>
           <Radio value="card">카드</Radio>
           <Radio value="bank">계좌이체</Radio>
           <Radio value="point">포인트</Radio>
         </RadioGroup>
         <output>{method}</output>
-      </div>
+      </Box>
     );
   },
   play: async ({ canvas }) => {
@@ -125,11 +125,13 @@ export const InForm: Story = {
         }}
         style={{ display: "flex", flexDirection: "column", alignItems: "flex-start" }}
       >
-        <RadioGroup aria-label="정렬 기준" name="sort" defaultValue="latest">
+        <RadioGroup defaultValue="latest" name="sort" aria-label="정렬 기준">
           <Radio value="latest">최신순</Radio>
           <Radio value="popular">인기순</Radio>
         </RadioGroup>
-        <button type="submit">제출</button>
+        <Button size="sm" type="submit">
+          제출
+        </Button>
         <output>{sent}</output>
       </form>
     );
@@ -144,14 +146,14 @@ export const InForm: Story = {
 // Figma Size: XSmall 16 · Small 20(기본) · Medium 24 · Large 32. 가운데 흰 점 6·8·10·12, 높이 40·40·40·48 · tight 20·24·28·32
 export const Sizes: Story = {
   render: () => (
-    <div style={{ display: "flex", gap: 24 }}>
+    <Box direction="horizontal" gap={24}>
       {(["xs", "sm", "md", "lg"] as const).map((size) => (
-        <RadioGroup key={size} aria-label={`${size} 크기`} defaultValue="a" size={size}>
+        <RadioGroup key={size} size={size} defaultValue="a" aria-label={`${size} 크기`}>
           <Radio value="a">{`${size} 고름`}</Radio>
           <Radio value="b" tight>{`${size} tight`}</Radio>
         </RadioGroup>
       ))}
-    </div>
+    </Box>
   ),
   play: async ({ canvas }) => {
     const label = (name: string) => canvas.getByRole("radio", { name }).closest("label")!;
@@ -172,9 +174,9 @@ export const Sizes: Story = {
 // 라디오마다 준 size가 그룹 size보다 우선
 export const SizeOverride: Story = {
   render: () => (
-    <RadioGroup aria-label="크기 우선" defaultValue="a" size="lg">
+    <RadioGroup size="lg" defaultValue="a" aria-label="크기 우선">
       <Radio value="a">그룹 크기</Radio>
-      <Radio value="b" size="xs">
+      <Radio size="xs" value="b">
         라디오 크기
       </Radio>
     </RadioGroup>

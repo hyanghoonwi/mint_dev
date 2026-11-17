@@ -45,26 +45,26 @@ export interface CategoryProps extends Omit<
   ComponentProps<"div">,
   "children" | "onChange" | "defaultValue"
 > {
+  /** `solid` 흰 화면(기본) · `outline` 회색 배경 위 */
+  variant?: CategoryVariant;
+  /** `lg` 40(모바일웹 권장) · `md` 32(기본, 촘촘한 영역). Figma Large·Medium, Chip과 같은 이름. 구간별로 바꾸려면 `{ base: "lg", desktop: "md" }` */
+  size?: Responsive<CategorySize>;
+  /** `square` 둥근 사각형(기본) · `pill` 알약형 */
+  shape?: CategoryShape;
   /** 칩 목록. 3~7개를 권장하고, 넘치면 가로로 스크롤한다 */
   items: CategoryItem[];
-  /** 선택된 값(제어). 생략하면 컴포넌트가 직접 상태를 가진다 */
-  value?: string;
-  /** 처음 선택 값(비제어). 기본은 "전체"(`all`이 켜져 있으면) 또는 첫 칩 */
-  defaultValue?: string;
-  /** 다른 칩을 눌렀을 때 새 값으로 호출된다 */
-  onChange?: (value: string) => void;
   /** 맨 앞에 "전체" 칩을 둔다(값 `"all"`). 기본 `true` */
   all?: boolean;
   /** "전체" 칩 글자. 기본 `"전체"` */
   allLabel?: ReactNode;
-  /** `solid` 흰 화면(기본) · `outline` 회색 배경 위 */
-  variant?: CategoryVariant;
-  /** `lg` 40(기본, 모바일웹 기본) · `md` 32(촘촘한 영역). Figma Large·Medium, Chip과 같은 이름. 구간별로 바꾸려면 `{ base: "lg", desktop: "md" }` */
-  size?: Responsive<CategorySize>;
-  /** `square` 둥근 사각형(기본) · `pill` 알약형 */
-  shape?: CategoryShape;
+  /** 선택된 값(제어). 생략하면 컴포넌트가 직접 상태를 가진다 */
+  value?: string;
+  /** 처음 선택 값(비제어). 기본은 "전체"(`all`이 켜져 있으면) 또는 첫 칩 */
+  defaultValue?: string;
   /** 칩이 넘칠 때 스크롤할 쪽 가장자리에 그라데이션을 보여 준다. 기본 `true`(넘칠 때만 자동으로 나타남) */
   fade?: boolean;
+  /** 다른 칩을 눌렀을 때 새 값으로 호출된다 */
+  onChange?: (value: string) => void;
 }
 
 // 칩 높이·좌우 여백·모서리(Figma: Large 40 / Medium 32, Square 12·8 / Pill full). md(32)는 터치 화면에서 눌림 영역만 44px.
@@ -113,19 +113,19 @@ const chipColors: Record<CategoryVariant, { off: string; on: string }> = {
 
 /** 같은 목록을 거르거나 분류를 고르는 칩 목록. 한 번에 하나만 선택한다 */
 export function Category({
+  variant = "solid",
+  size = "md",
+  shape = "square",
   items,
-  value,
-  defaultValue,
-  onChange,
   all = true,
   allLabel = "전체",
-  variant = "solid",
-  size = "lg",
-  shape = "square",
+  value,
+  defaultValue,
   fade = true,
-  className,
   "aria-label": ariaLabel,
   "aria-labelledby": ariaLabelledby,
+  onChange,
+  className,
   ...props
 }: CategoryProps) {
   const chips: CategoryItem[] = all ? [{ value: CATEGORY_ALL, label: allLabel }, ...items] : items;
@@ -231,7 +231,7 @@ export function Category({
                 "[&_svg]:size-4 [&_svg]:shrink-0",
                 responsiveClasses<CategorySize>(
                   size,
-                  "lg",
+                  "md",
                   shape === "pill" ? pillSizeClasses : squareSizeClasses,
                 ),
                 on ? chipColors[variant].on : chipColors[variant].off,

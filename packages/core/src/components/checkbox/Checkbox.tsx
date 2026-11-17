@@ -20,7 +20,7 @@ import {
 } from "../../utils/responsive";
 import { CheckboxMark } from "../_internal/controlMarks";
 
-/** Figma Size: XSmall(상자 16) · Small(20, 기본) · Medium(24) · Large(32) */
+/** Figma Size: XSmall(상자 16) · Small(20, 기본) · Medium(24). Figma 기본(Small)을 따라서 MINT의 `md` 기본 규칙에서 예외다(2026-11 결정) · Large(32) */
 export type CheckboxSize = "xs" | "sm" | "md" | "lg";
 
 // 상자 · 체크 · 일부 선택 막대(Figma 2261:28970 Checkbox Box): 16·12·8×1.5 / 20·16·10×2 / 24·20·12×2.5 / 32·26·16×3. 모서리는 모두 4
@@ -134,31 +134,31 @@ const heightClasses: ResponsiveClassTable<CheckboxSize> = {
 };
 
 export interface CheckboxProps extends Omit<ComponentProps<"input">, "type" | "children" | "size"> {
-  /** 레이블. 없으면 상자만 보이므로 `aria-label`을 꼭 준다 */
-  children?: ReactNode;
-  /** 일부만 선택된 상태(전체 선택 칸). 체크 대신 가로 막대를 보여 주고 스크린리더에는 "일부 선택"으로 읽힌다 */
-  indeterminate?: boolean;
   /**
    * `xs` 상자 16 · `sm` 20(기본) · `md` 24 · `lg` 32. 레이블 글자와 높이(기본 40, `lg` 48)도 함께 바뀐다.
    * 구간별로 바꾸려면 객체를 준다: `{ base: "md", desktop: "sm" }`
    */
   size?: Responsive<CheckboxSize>;
-  /** 바깥 여백(8px)을 없앤 촘촘한 모양. 촘촘한 목록에서만 쓴다. 기본 `false` */
-  tight?: boolean;
   /** 레이블을 굵게(SemiBold). 전체 선택 같은 강조 레이블에 쓴다. 기본 `false` */
   bold?: boolean;
+  /** 레이블. 없으면 상자만 보이므로 `aria-label`을 꼭 준다 */
+  children?: ReactNode;
+  /** 일부만 선택된 상태(전체 선택 칸). 체크 대신 가로 막대를 보여 주고 스크린리더에는 "일부 선택"으로 읽힌다 */
+  indeterminate?: boolean;
+  /** 바깥 여백(8px)을 없앤 촘촘한 모양. 촘촘한 목록에서만 쓴다. 기본 `false` */
+  tight?: boolean;
 }
 
 /** 여러 개를 고르거나 한 항목을 켜고 끄는 체크박스. 레이블을 눌러도 선택된다 */
 export function Checkbox({
-  children,
-  indeterminate = false,
   size = "sm",
-  tight = false,
   bold = false,
+  children,
   checked,
   defaultChecked,
+  indeterminate = false,
   disabled = false,
+  tight = false,
   onChange,
   className,
   style,

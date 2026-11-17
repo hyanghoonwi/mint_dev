@@ -6,18 +6,18 @@ import { jsx, Playground, type Control } from "./Playground";
 
 const controls: Control[] = [
   {
-    prop: "orientation",
-    type: "select",
-    options: ["horizontal", "vertical"],
-    default: "horizontal",
-  },
-  {
     prop: "variant",
     type: "select",
     // thick은 가로선만
     options: (values) =>
       values.orientation === "vertical" ? ["default", "strong"] : ["default", "strong", "thick"],
     default: "default",
+  },
+  {
+    prop: "orientation",
+    type: "select",
+    options: ["horizontal", "vertical"],
+    default: "horizontal",
   },
   { prop: "inset", type: "boolean", default: false },
 ];
@@ -33,21 +33,21 @@ export function DividerPlayground() {
             <Text variant="body-4-regular" color="secondary">
               최신순
             </Text>
-            <Divider orientation="vertical" variant={values.variant as "default" | "strong"} />
+            <Divider variant={values.variant as "default" | "strong"} orientation="vertical" />
             <Text variant="body-4-regular" color="secondary">
               인기순
             </Text>
           </div>
         ) : (
           <div style={{ width: 280, background: "var(--mint-background-default)" }}>
-            <Text as="p" variant="body-3-regular" className="p-4">
+            <Text variant="body-3-regular" as="p" className="p-4">
               알림 설정
             </Text>
             <Divider
               variant={values.variant as "default" | "strong" | "thick"}
               inset={values.inset as boolean}
             />
-            <Text as="p" variant="body-3-regular" className="p-4">
+            <Text variant="body-3-regular" as="p" className="p-4">
               개인정보 보호
             </Text>
           </div>
@@ -55,9 +55,9 @@ export function DividerPlayground() {
       }
       code={(values) =>
         jsx("Divider", {
+          variant: values.variant !== "default" ? (values.variant as string) : undefined,
           orientation:
             values.orientation !== "horizontal" ? (values.orientation as string) : undefined,
-          variant: values.variant !== "default" ? (values.variant as string) : undefined,
           inset: values.orientation === "horizontal" && values.inset ? true : undefined,
         })
       }
@@ -75,7 +75,7 @@ export function DividerGuide() {
           {rows.map((row, index) => (
             <div key={row}>
               {index > 0 && <Divider />}
-              <Text as="p" variant="body-4-regular" className="px-4 py-3">
+              <Text variant="body-4-regular" as="p" className="px-4 py-3">
                 {row}
               </Text>
             </div>
@@ -88,7 +88,7 @@ export function DividerGuide() {
           {rows.map((row, index) => (
             <div key={row}>
               {index > 0 && <Divider variant="thick" />}
-              <Text as="p" variant="body-4-regular" className="px-4 py-3">
+              <Text variant="body-4-regular" as="p" className="px-4 py-3">
                 {row}
               </Text>
             </div>

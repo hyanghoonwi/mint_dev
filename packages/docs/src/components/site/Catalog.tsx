@@ -4,9 +4,15 @@ import {
   Avatar,
   AvatarGroup,
   Badge,
+  Box,
   Button,
   Calendar,
   Category,
+  LiveStatus,
+  Menu,
+  MenuItem,
+  Select,
+  TextField,
   PageCounter,
   PageDots,
   PriceChange,
@@ -88,13 +94,24 @@ const components: { name: string; group: string; to: string; preview: ReactNode 
     ),
   },
   {
+    name: "Live status",
+    group: "Contents",
+    to: "/components/live-status",
+    preview: (
+      <span aria-hidden="true" style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+        <LiveStatus />
+        <LiveStatus active={false} />
+      </span>
+    ),
+  },
+  {
     name: "Price change",
     group: "Contents",
     to: "/components/price-change",
     preview: (
       <>
         <PriceChange direction="up">1,200</PriceChange>
-        <PriceChange direction="down" variant="weak" type="percent">
+        <PriceChange variant="weak" type="percent" direction="down">
           1.20%
         </PriceChange>
       </>
@@ -106,8 +123,8 @@ const components: { name: string; group: string; to: string; preview: ReactNode 
     to: "/components/thumbnail",
     preview: (
       <>
-        <Thumbnail aspectRatio="16:9" radius style={{ width: 112 }} />
-        <Thumbnail aspectRatio="1:1" radius style={{ width: 63 }} />
+        <Thumbnail radius aspectRatio="16:9" style={{ width: 112 }} />
+        <Thumbnail radius aspectRatio="1:1" style={{ width: 63 }} />
       </>
     ),
   },
@@ -163,7 +180,7 @@ const components: { name: string; group: string; to: string; preview: ReactNode 
     preview: (
       <span style={{ paddingTop: 40 }}>
         <Tooltip label="추가" open>
-          <IconButton icon={<PlusIcon />} aria-label="추가" variant="background" tabIndex={-1} />
+          <IconButton variant="background" icon={<PlusIcon />} tabIndex={-1} aria-label="추가" />
         </Tooltip>
       </span>
     ),
@@ -186,7 +203,7 @@ const components: { name: string; group: string; to: string; preview: ReactNode 
         }}
       >
         <span style={{ display: "flex", flexDirection: "column", gap: 4 }}>
-          <Text as="strong" variant="label-1-semibold" color="strong">
+          <Text variant="label-1-semibold" color="strong" as="strong">
             제목
           </Text>
           <Text variant="label-3-semibold" color="secondary">
@@ -211,7 +228,7 @@ const components: { name: string; group: string; to: string; preview: ReactNode 
     preview: (
       <>
         <Button size="sm">확인</Button>
-        <Button size="sm" variant="outline">
+        <Button variant="outline" size="sm">
           취소
         </Button>
       </>
@@ -223,14 +240,14 @@ const components: { name: string; group: string; to: string; preview: ReactNode 
     to: "/components/category",
     preview: (
       <Category
-        aria-label="분류 미리보기"
         size="md"
         shape="pill"
-        fade={false}
         items={[
           { value: "a", label: "메이저" },
           { value: "b", label: "밈" },
         ]}
+        fade={false}
+        aria-label="분류 미리보기"
         style={{ width: 220, background: "transparent" }}
       />
     ),
@@ -242,8 +259,8 @@ const components: { name: string; group: string; to: string; preview: ReactNode 
     preview: (
       <span aria-hidden="true" style={{ width: 220, pointerEvents: "none" }}>
         <Calendar
-          today="2026-11-11"
           defaultValue="2026-11-12"
+          today="2026-11-11"
           marks={{ "2026-11-20": [{ color: "brand" }] }}
           inert
         />
@@ -285,9 +302,9 @@ const components: { name: string; group: string; to: string; preview: ReactNode 
     to: "/components/framed",
     preview: (
       <span aria-hidden="true" style={{ pointerEvents: "none", width: 200 }}>
-        <RadioGroup aria-label="미리보기" defaultValue="a" className="gap-2">
-          <FramedRadio value="a" label="베이직" size="sm" tabIndex={-1} />
-          <FramedRadio value="b" label="프로" size="sm" tabIndex={-1} />
+        <RadioGroup defaultValue="a" aria-label="미리보기" className="gap-2">
+          <FramedRadio size="sm" label="베이직" value="a" tabIndex={-1} />
+          <FramedRadio size="sm" label="프로" value="b" tabIndex={-1} />
         </RadioGroup>
       </span>
     ),
@@ -298,7 +315,7 @@ const components: { name: string; group: string; to: string; preview: ReactNode 
     to: "/components/label",
     preview: (
       <span aria-hidden="true" style={{ pointerEvents: "none" }}>
-        <Label required helpIcon>
+        <Label helpIcon required>
           이름
         </Label>
       </span>
@@ -310,7 +327,7 @@ const components: { name: string; group: string; to: string; preview: ReactNode 
     to: "/components/radio",
     preview: (
       <span aria-hidden="true" style={{ pointerEvents: "none" }}>
-        <RadioGroup aria-label="미리보기" defaultValue="a">
+        <RadioGroup defaultValue="a" aria-label="미리보기">
           <Radio value="a" tabIndex={-1}>
             최신순
           </Radio>
@@ -318,6 +335,34 @@ const components: { name: string; group: string; to: string; preview: ReactNode 
             인기순
           </Radio>
         </RadioGroup>
+      </span>
+    ),
+  },
+  {
+    name: "Select",
+    group: "Form",
+    to: "/components/select",
+    preview: (
+      <span aria-hidden="true" style={{ display: "block", width: 220, pointerEvents: "none" }}>
+        <Select
+          size="md"
+          label="시장"
+          options={[
+            { value: "krw", label: "원화" },
+            { value: "btc", label: "BTC" },
+          ]}
+          defaultValue="krw"
+        />
+      </span>
+    ),
+  },
+  {
+    name: "Text field",
+    group: "Form",
+    to: "/components/text-field",
+    preview: (
+      <span aria-hidden="true" style={{ display: "block", width: 220, pointerEvents: "none" }}>
+        <TextField size="md" label="이름" placeholder="홍길동" tabIndex={-1} />
       </span>
     ),
   },
@@ -347,6 +392,23 @@ const components: { name: string; group: string; to: string; preview: ReactNode 
     ),
   },
   {
+    name: "Menu",
+    group: "Navigation",
+    to: "/components/menu",
+    preview: (
+      <span aria-hidden="true" style={{ pointerEvents: "none" }}>
+        <Menu size="sm" defaultValue="latest" aria-label="정렬 미리보기">
+          <MenuItem value="latest" tabIndex={-1}>
+            최신순
+          </MenuItem>
+          <MenuItem value="popular" tabIndex={-1}>
+            인기순
+          </MenuItem>
+        </Menu>
+      </span>
+    ),
+  },
+  {
     name: "Page indicator",
     group: "Navigation",
     to: "/components/page-indicator",
@@ -363,7 +425,7 @@ const components: { name: string; group: string; to: string; preview: ReactNode 
     to: "/components/pagination",
     preview: (
       <span aria-hidden="true" style={{ pointerEvents: "none" }}>
-        <Pagination page={6} total={99} variant="compact" />
+        <Pagination variant="compact" page={6} total={99} />
       </span>
     ),
   },
@@ -374,13 +436,13 @@ const components: { name: string; group: string; to: string; preview: ReactNode 
     preview: (
       <span aria-hidden="true" style={{ pointerEvents: "none" }}>
         <SegmentedControl
-          aria-label="미리보기"
           size="sm"
           items={[
             { value: "day", label: "일" },
             { value: "week", label: "주" },
             { value: "month", label: "월" },
           ]}
+          aria-label="미리보기"
         />
       </span>
     ),
@@ -392,13 +454,13 @@ const components: { name: string; group: string; to: string; preview: ReactNode 
     preview: (
       <span aria-hidden="true" style={{ pointerEvents: "none", display: "block", width: 200 }}>
         <Tab
-          aria-label="미리보기"
           size="sm"
           items={[
             { value: "home", label: "홈" },
             { value: "market", label: "시세" },
             { value: "assets", label: "내 자산" },
           ]}
+          aria-label="미리보기"
         />
       </span>
     ),
@@ -422,8 +484,8 @@ const components: { name: string; group: string; to: string; preview: ReactNode 
     to: "/components/icon-button",
     preview: (
       <span aria-hidden="true" style={{ display: "flex", gap: 8, pointerEvents: "none" }}>
-        <IconButton icon={<PlusIcon />} aria-label="추가" variant="background" tabIndex={-1} />
-        <IconButton icon={<PlusIcon />} aria-label="추가" variant="solid" tabIndex={-1} />
+        <IconButton variant="background" icon={<PlusIcon />} tabIndex={-1} aria-label="추가" />
+        <IconButton variant="solid" icon={<PlusIcon />} tabIndex={-1} aria-label="추가" />
       </span>
     ),
   },
@@ -433,8 +495,8 @@ const components: { name: string; group: string; to: string; preview: ReactNode 
     to: "/components/toggle-icon",
     preview: (
       <span aria-hidden="true" style={{ display: "flex", gap: 8, pointerEvents: "none" }}>
-        <ToggleIcon icon={<StarIcon />} aria-label="관심 코인" defaultActive tabIndex={-1} />
-        <ToggleIcon icon={<HeartIcon />} aria-label="좋아요" tabIndex={-1} />
+        <ToggleIcon icon={<StarIcon />} defaultActive tabIndex={-1} aria-label="관심 코인" />
+        <ToggleIcon icon={<HeartIcon />} tabIndex={-1} aria-label="좋아요" />
       </span>
     ),
   },
@@ -448,6 +510,19 @@ const components: { name: string; group: string; to: string; preview: ReactNode 
         <Divider variant="strong" />
         <Divider variant="thick" />
       </span>
+    ),
+  },
+  {
+    name: "Box",
+    group: "Layout",
+    to: "/components/box",
+    preview: (
+      <Box tone="brand" padding={16} gap={4} className="w-[160px] bg-fill-brand-weak">
+        <Text variant="label-2-semibold">Box</Text>
+        <Text variant="body-5-regular" color="secondary">
+          tone · padding · gap
+        </Text>
+      </Box>
     ),
   },
   {

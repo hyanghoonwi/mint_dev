@@ -5,8 +5,8 @@ import { DoDont } from "./DoDont";
 import { jsx, Playground, type Control } from "./Playground";
 
 const controls: Control[] = [
-  { prop: "size", type: "select", options: [12, 16, 20, 28, 40], default: 28 },
   { prop: "color", type: "select", options: ["default", "brand", "on-fill"], default: "default" },
+  { prop: "size", type: "select", options: [12, 16, 20, 28, 40], default: 28 },
   { prop: "label", type: "text", default: "로딩 중" },
 ];
 
@@ -18,8 +18,8 @@ export function CircularPlayground() {
       render={(values) => {
         const circular = (
           <Circular
-            size={values.size as number}
             color={values.color as CircularColor}
+            size={values.size as number}
             label={values.label as string}
           />
         );
@@ -31,8 +31,8 @@ export function CircularPlayground() {
       }}
       code={(values) =>
         jsx("Circular", {
-          size: values.size !== 28 ? (values.size as number) : undefined,
           color: values.color !== "default" ? (values.color as string) : undefined,
+          size: values.size !== 28 ? (values.size as number) : undefined,
           label: values.label !== "로딩 중" ? (values.label as string) : undefined,
         })
       }
@@ -52,7 +52,7 @@ export function CircularGuide() {
       }
       bad={
         <span style={{ display: "inline-flex", alignItems: "center", gap: 8 }}>
-          <Circular size={16} color="brand" />
+          <Circular color="brand" size={16} />
           <Button disabled>저장</Button>
         </span>
       }

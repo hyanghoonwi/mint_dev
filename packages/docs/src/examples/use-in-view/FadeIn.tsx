@@ -10,7 +10,7 @@ export default function FadeIn() {
 
   return (
     <div ref={setRoot} style={{ height: 240, width: "100%", overflow: "auto" }}>
-      <Text as="p" variant="body-3-regular" color="tertiary" className="p-4">
+      <Text variant="body-3-regular" color="tertiary" as="p" className="p-4">
         아래로 스크롤해 보세요
       </Text>
       <div style={{ height: 320 }} />
@@ -23,7 +23,7 @@ export default function FadeIn() {
           transition: "opacity 0.4s, transform 0.4s",
         }}
       >
-        <Text as="p" variant="heading-3-bold">
+        <Text variant="heading-3-bold" as="p">
           이번 주 인기 코인
         </Text>
       </div>

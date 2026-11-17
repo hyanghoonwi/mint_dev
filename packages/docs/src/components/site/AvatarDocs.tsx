@@ -7,8 +7,8 @@ import { jsx, Playground, type Control, type Values } from "./Playground";
 const sample = "/img/avatar-sample.jpg";
 
 const avatarControls: Control[] = [
-  { prop: "size", type: "select", options: [16, 24, 32, 40, 48, 64], default: 48 },
   { prop: "variant", type: "select", options: ["person", "brand"], default: "person" },
+  { prop: "size", type: "select", options: [16, 24, 32, 40, 48, 64], default: 48 },
   { prop: "content", type: "select", options: ["image", "name", "icon"], default: "image" },
   { prop: "name", type: "text", default: "김민수" },
   { prop: "badge", type: "select", options: ["none", "dot", "number"], default: "dot" },
@@ -25,8 +25,8 @@ const avatarControls: Control[] = [
 /** 고른 내용(이미지·이름·아이콘)에 따라 넘길 props. 기본값과 같은 값은 뺀다 */
 function avatarProps(values: Values) {
   return {
-    size: values.size !== 40 ? (values.size as AvatarSize) : undefined,
     variant: values.variant !== "person" ? (values.variant as "brand") : undefined,
+    size: values.size !== 40 ? (values.size as AvatarSize) : undefined,
     src: values.content === "image" ? sample : undefined,
     name: values.content !== "icon" ? (values.name as string) : undefined,
     badge: values.badge === "dot" ? ("dot" as const) : values.badge === "number" ? 3 : undefined,
@@ -88,17 +88,17 @@ export function AvatarGroupPlayground() {
       render={(values) => (
         <AvatarGroup
           size={values.size as AvatarSize}
+          items={people.slice(0, values.items as number)}
           max={values.max as number}
           aria-label={`참여자 ${values.items}명`}
-          items={people.slice(0, values.items as number)}
         />
       )}
       code={(values) =>
         jsx("AvatarGroup", {
           size: values.size !== 40 ? (values.size as number) : undefined,
+          items: { expr: itemsCode(values.items as number) },
           max: values.max !== 3 ? (values.max as number) : undefined,
           "aria-label": `참여자 ${values.items}명`,
-          items: { expr: itemsCode(values.items as number) },
         })
       }
     />
@@ -134,13 +134,13 @@ export function AvatarGroupGuide() {
   const many = [...people, { name: "정" }, { name: "한" }];
   return (
     <DoDont
-      good={<AvatarGroup aria-label="참여자 8명" items={many} max={3} />}
+      good={<AvatarGroup items={many} max={3} aria-label="참여자 8명" />}
       goodText={
         <>
           많으면 <code>max</code>로 줄이고 나머지는 <code>+N</code>으로 보여 줘요.
         </>
       }
-      bad={<AvatarGroup aria-label="참여자 8명" items={many} max={8} />}
+      bad={<AvatarGroup items={many} max={8} aria-label="참여자 8명" />}
       badText={<>5개 넘게 펼치지 않아요.</>}
     />
   );

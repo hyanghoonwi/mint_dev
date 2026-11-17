@@ -36,3 +36,9 @@ import { Container, Grid } from "@futurewiz-rms/mint";
 - **글자 크기는 구간과 상관없이 고정**입니다. 반응형은 컬럼 수·거터·여백으로만 합니다.
 - 간격은 Figma 스케일 12단계(`p-1` 4px … `p-24` 96px, 번호 = px ÷ 4)만 씁니다. `p-5`는 20px입니다.
 - `Grid.Item`의 `span`에 구간마다 넣을 수 있는 최댓값이 다릅니다(모바일 4, 태블릿 8, 데스크톱 12). 타입이 막아 주니 이 범위를 넘기지 않습니다.
+
+- **`Box`** — 콘텐츠를 담고 배치하는 범용 레이아웃 상자(Figma `Box`). 카드 안, 페이지 영역, 콘텐츠 묶음의 구조를 잡습니다. 서버 컴포넌트에서 그대로 쓸 수 있습니다(`"use client"` 없음). 나머지 `<div>` 속성을 받고 `as`로 태그를 바꿉니다(`section`·`ul`·`li` 등).
+  - 배치: `direction`(`vertical` 기본 · `horizontal`), `padding`(0 · 8 · 16 · 20 · 24, 기본 0), `gap`(0 · 4 · 8 · 12 · 16 · 24 · 32, 기본 0) — 셋 다 구간별 객체도 받음(`{ base: "vertical", desktop: "horizontal" }`). `align`(`start`·`center`·`end`·`stretch` 기본), `justify`(`start` 기본·`center`·`between`·`end`), `overflow`(`visible` 기본·`hidden`·`scroll`)
+  - 겉면: `tone`(`none` 기본·`outline`·`neutral`·`brand`·`success`·`warning`·`danger`)은 **테두리만** 바꿉니다. 배경은 `className`에 같은 의미의 색 토큰을 줍니다(`tone="brand" className="bg-fill-brand-weak"`). `elevation="raised"`는 흰 바탕 + `shadow-raised`. `radius`(0 · 4 · 8 기본 · 12 · 16 · 20 · `full`)
+  - 폭·높이는 `className`(`w-full`, `w-[240px]`). 단계에 없는 여백이 꼭 필요하면 간격 토큰 클래스(`p-3`)를 `className`으로 줍니다. hex 색·임의 그림자는 쓰지 않습니다
+  - 페이지 전체 컬럼 배치는 `Container`·`Grid`를 씁니다. 상세 규칙은 `components/box/AGENTS.md`

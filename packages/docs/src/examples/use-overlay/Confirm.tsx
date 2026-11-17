@@ -8,8 +8,6 @@ export default function Confirm() {
   const openAlert = () =>
     overlay.open(({ isOpen, close }) => (
       <Alert
-        open={isOpen}
-        onClose={close}
         heading="알림을 켤까요?"
         body="설정에서 언제든 끌 수 있어요."
         action={
@@ -20,6 +18,8 @@ export default function Confirm() {
             <Button onClick={() => close()}>켜기</Button>
           </>
         }
+        open={isOpen}
+        onClose={close}
       />
     ));
 

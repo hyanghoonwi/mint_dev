@@ -17,10 +17,9 @@ export default function WithImage() {
       {coins.map((item) => (
         <Chip
           key={item.symbol}
-          variant="outline"
-          active={coin === item.symbol}
-          // 실제로는 코인 로고 <img src={logo} alt="" />를 넘겨요
+          variant="outline" // 실제로는 코인 로고 <img src={logo} alt="" />를 넘겨요
           leadingImage={<span style={{ background: item.color }} />}
+          active={coin === item.symbol}
           onClick={() => setCoin(item.symbol)}
         >
           {item.symbol}

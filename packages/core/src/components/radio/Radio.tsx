@@ -23,7 +23,7 @@ import {
 import { RadioMark } from "../_internal/controlMarks";
 import { RadioGroupContext, type RadioGroupSize } from "../_internal/radioGroupContext";
 
-/** Figma Size: XSmall(원 16) · Small(20, 기본) · Medium(24) · Large(32) */
+/** Figma Size: XSmall(원 16) · Small(20, 기본) · Medium(24). Figma 기본(Small)을 따라서 MINT의 `md` 기본 규칙에서 예외다(2026-11 결정) · Large(32) */
 export type RadioSize = RadioGroupSize;
 
 // 원 · 가운데 흰 점(Figma Radio Circle 2280:32059): 16·6 / 20·8 / 24·10 / 32·12. 점 크기 = 원 − 브랜드 테두리(--mint-radio-ring) × 2
@@ -117,34 +117,34 @@ export interface RadioGroupProps extends Omit<
   ComponentProps<"div">,
   "onChange" | "defaultValue" | "role"
 > {
-  /** 선택된 값(제어). 생략하면 컴포넌트가 직접 상태를 가진다 */
-  value?: string;
-  /** 처음 선택 값(비제어). Figma 규칙: 처음부터 기본값 하나를 선택해 둔다 */
-  defaultValue?: string;
-  /** 다른 선택지를 골랐을 때 새 값으로 호출된다 */
-  onChange?: (value: string) => void;
-  /** 폼으로 제출할 이름. 생략하면 자동으로 만든다 */
-  name?: string;
-  /** 그룹 전체를 누를 수 없게 한다 */
-  disabled?: boolean;
-  /** `Radio` 2~4개 */
-  children: ReactNode;
   /**
    * 그룹 안 라디오의 크기. `xs` 원 16 · `sm` 20(기본) · `md` 24 · `lg` 32. 라디오마다 `size`를 주면 그 값이 우선.
    * 구간별로 바꾸려면 객체를 준다: `{ base: "md", desktop: "sm" }`
    */
   size?: Responsive<RadioSize>;
+  /** `Radio` 2~4개 */
+  children: ReactNode;
+  /** 선택된 값(제어). 생략하면 컴포넌트가 직접 상태를 가진다 */
+  value?: string;
+  /** 처음 선택 값(비제어). Figma 규칙: 처음부터 기본값 하나를 선택해 둔다 */
+  defaultValue?: string;
+  /** 그룹 전체를 누를 수 없게 한다 */
+  disabled?: boolean;
+  /** 폼으로 제출할 이름. 생략하면 자동으로 만든다 */
+  name?: string;
+  /** 다른 선택지를 골랐을 때 새 값으로 호출된다 */
+  onChange?: (value: string) => void;
 }
 
 /** 라디오 묶음. 선택지를 세로로 나열하고, 그 안에서 하나만 선택되게 한다 */
 export function RadioGroup({
-  value,
-  defaultValue,
-  onChange,
-  name,
-  disabled = false,
   size,
   children,
+  value,
+  defaultValue,
+  disabled = false,
+  name,
+  onChange,
   className,
   ...props
 }: RadioGroupProps) {
@@ -167,28 +167,28 @@ export function RadioGroup({
 }
 
 export interface RadioProps extends Omit<ComponentProps<"input">, "type" | "children" | "size"> {
-  /** 선택 값. `RadioGroup` 안에서는 필수 */
-  value?: string;
-  /** 레이블. 없으면 원만 보이므로 `aria-label`을 준다 */
-  children?: ReactNode;
   /**
    * `xs` 원 16 · `sm` 20(기본) · `md` 24 · `lg` 32. 레이블 글자와 높이(기본 40, `lg` 48)도 함께 바뀐다.
    * 생략하면 `RadioGroup`의 `size`를 따른다. 구간별로 바꾸려면 객체를 준다: `{ base: "md", desktop: "sm" }`
    */
   size?: Responsive<RadioSize>;
+  /** 레이블. 없으면 원만 보이므로 `aria-label`을 준다 */
+  children?: ReactNode;
+  /** 선택 값. `RadioGroup` 안에서는 필수 */
+  value?: string;
   /** 바깥 여백(8px)을 없앤 촘촘한 모양. 촘촘한 목록에서만 쓴다. 기본 `false` */
   tight?: boolean;
 }
 
 /** 여러 선택지 중 하나만 고르는 라디오. 보통 `RadioGroup` 안에 넣는다 */
 export function Radio({
-  value,
-  children,
   size: sizeProp,
-  tight = false,
+  children,
+  value,
   checked,
   defaultChecked,
   disabled,
+  tight = false,
   name,
   onChange,
   className,

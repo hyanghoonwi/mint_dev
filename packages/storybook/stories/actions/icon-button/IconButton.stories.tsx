@@ -11,9 +11,9 @@ const meta = {
   argTypes: {
     variant: { control: "inline-radio", options: ["normal", "background", "outline", "solid"] },
     size: { control: "inline-radio", options: ["xs", "sm", "md", "lg"] },
+    icon: { control: false },
     badge: { control: "boolean" },
     disabled: { control: "boolean" },
-    icon: { control: false },
   },
 } satisfies Meta<typeof IconButton>;
 
@@ -59,7 +59,7 @@ export const Disabled: Story = {
 
 // 뱃지: 이름에 "(새 소식)"이 붙는다
 export const Badge: Story = {
-  args: { icon: <BellIcon />, "aria-label": "알림", badge: true },
+  args: { icon: <BellIcon />, badge: true, "aria-label": "알림" },
   play: async ({ canvas }) => {
     await expect(canvas.getByRole("button", { name: "알림 (새 소식)" })).toBeInTheDocument();
   },
@@ -70,8 +70,8 @@ export const Common: Story = {
   render: () => (
     <div style={row}>
       <IconButton icon={<XIcon />} aria-label="닫기" />
-      <IconButton icon={<DotsThreeIcon />} aria-label="더보기" variant="background" size="sm" />
-      <IconButton icon={<PlusIcon />} aria-label="코인 추가" variant="solid" size="lg" />
+      <IconButton variant="background" size="sm" icon={<DotsThreeIcon />} aria-label="더보기" />
+      <IconButton variant="solid" size="lg" icon={<PlusIcon />} aria-label="코인 추가" />
     </div>
   ),
 };

@@ -11,11 +11,11 @@ const meta = {
   args: { icon: <StarIcon />, "aria-label": "관심 코인", onActiveChange: fn() },
   argTypes: {
     size: { control: "inline-radio", options: ["xs", "sm", "md", "lg"] },
+    icon: { control: false },
+    activeIcon: { control: false },
     active: { control: "boolean" },
     defaultActive: { control: "boolean" },
     disabled: { control: "boolean" },
-    icon: { control: false },
-    activeIcon: { control: false },
   },
 } satisfies Meta<typeof ToggleIcon>;
 
@@ -60,7 +60,7 @@ export const Disabled: Story = {
 export const Common: Story = {
   render: () => (
     <div style={row}>
-      <ToggleIcon icon={<StarIcon />} aria-label="관심 코인" defaultActive />
+      <ToggleIcon icon={<StarIcon />} defaultActive aria-label="관심 코인" />
       <ToggleIcon icon={<HeartIcon />} aria-label="좋아요" />
       <ToggleIcon icon={<BookmarkSimpleIcon />} aria-label="북마크" />
       <ToggleIcon icon={<BellIcon />} aria-label="가격 알림" />

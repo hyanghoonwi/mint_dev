@@ -17,8 +17,8 @@ export default function SortList() {
       {options.map((label) => (
         <CheckMark
           key={label}
-          role="radio"
           checked={sort === label}
+          role="radio"
           onClick={() => setSort(label)}
           className="w-full"
         >

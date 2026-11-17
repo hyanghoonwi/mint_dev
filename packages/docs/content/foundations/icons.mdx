@@ -33,8 +33,8 @@
 
 | 이름         | 타입               | 기본값   | 설명                                      |
 | ------------ | ------------------ | -------- | ----------------------------------------- |
-| `size`       | `16 \| 20 \| 24`   | `24`     | 크기(px)                                  |
 | `variant`    | `"line" \| "fill"` | `"line"` | 선 또는 채움                              |
+| `size`       | `16 \| 20 \| 24`   | `24`     | 크기(px)                                  |
 | `aria-label` | `string`           | -        | 아이콘만으로 뜻을 전할 때 읽힐 이름       |
 | `className`  | `string`           | -        | 추가 클래스. 색은 글자 색 클래스로 정해요 |
 
@@ -52,3 +52,4 @@
 - 색은 `text-icon-*` 클래스로만 정해요. hex 값을 쓰지 않아요.
 - 누르는 아이콘은 아이콘 대신 [`IconButton`](/components/icon-button)을 써요.
 - 아이콘 도형은 [Phosphor Icons](https://phosphoricons.com)(MIT)예요.
+- Phosphor에 없고 Figma에서 따로 그린 전용 아이콘은 목록과 별도로 등록해요. 지금은 `SelectedCheckIcon`(고른 항목 끝의 체크, 20px 선 2)이 있고 `Menu`·`Select`·`CheckMark`가 같은 체크로 써요. 쓰는 방법은 다른 아이콘과 같아요.

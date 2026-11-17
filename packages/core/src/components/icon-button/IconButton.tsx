@@ -63,10 +63,6 @@ const sizeClasses: ResponsiveClassTable<IconButtonSize> = {
 };
 
 export interface IconButtonProps extends Omit<ComponentProps<"button">, "children"> {
-  /** 보여 줄 아이콘(`<XIcon />` 등). 크기는 버튼 크기에 맞춰진다 */
-  icon: ReactNode;
-  /** 버튼 이름(필수). 아이콘만 있어서 스크린리더가 읽을 이름이 따로 있어야 한다. 예: "닫기" */
-  "aria-label": string;
   /** `normal` 배경 없음(기본) · `background` 회색 바탕 · `outline` 테두리 · `solid` 브랜드(가장 강조) */
   variant?: NonNullable<IconButtonVariantProps["variant"]>;
   /**
@@ -74,19 +70,23 @@ export interface IconButtonProps extends Omit<ComponentProps<"button">, "childre
    * 구간별로 바꾸려면 객체를 준다: `{ base: "sm", tablet: "md" }`. 빈 구간은 앞 구간 값을 이어받는다
    */
   size?: Responsive<IconButtonSize>;
+  /** 보여 줄 아이콘(`<XIcon />` 등). 크기는 버튼 크기에 맞춰진다 */
+  icon: ReactNode;
   /** 오른쪽 위 빨간 점. 알림처럼 새 소식을 알린다 */
   badge?: boolean;
+  /** 버튼 이름(필수). 아이콘만 있어서 스크린리더가 읽을 이름이 따로 있어야 한다. 예: "닫기" */
+  "aria-label": string;
 }
 
 /** 아이콘만으로 동작을 실행하는 원형 버튼 */
 export function IconButton({
-  icon,
   variant = "normal",
   size = "md",
+  icon,
   badge = false,
-  className,
   type = "button",
   "aria-label": label,
+  className,
   ...props
 }: IconButtonProps) {
   return (

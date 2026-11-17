@@ -286,16 +286,16 @@ const autoBadgePaddingClasses: ResponsiveClassTable<`${AvatarSize}`> = {
 };
 
 export interface AvatarProps extends Omit<ComponentProps<"div">, "children" | "onClick"> {
-  /** 지름(px). 기본 40. 구간별로 바꾸려면 `{ base: 32, tablet: 40 }`(배지 위치·자동 배지 크기도 함께 바뀐다) */
-  size?: Responsive<AvatarSize>;
   /** `person`은 원형, `brand`는 둥근 사각형(서비스·코인·조직 등 사람이 아닌 대상). 기본 `person` */
   variant?: "person" | "brand";
+  /** 지름(px). 기본 40. 구간별로 바꾸려면 `{ base: 32, tablet: 40 }`(배지 위치·자동 배지 크기도 함께 바뀐다) */
+  size?: Responsive<AvatarSize>;
+  /** `src`와 `name`이 모두 없을 때 보여 줄 아이콘. 생략하면 사용자 아이콘 */
+  icon?: ReactNode;
   /** 이미지 주소. 주면 이미지를 보여 준다(불러오는 동안·실패하면 회색 바탕) */
   src?: string;
   /** 이름. `src`가 없으면 첫 글자를 보여 주고, 스크린리더에는 이름으로 읽힌다 */
   name?: string;
-  /** `src`와 `name`이 모두 없을 때 보여 줄 아이콘. 생략하면 사용자 아이콘 */
-  icon?: ReactNode;
   /** 알림 배지. `"dot"`은 점, 숫자는 개수(99를 넘으면 `99+`, 0 이하는 숨김) */
   badge?: "dot" | number;
   /** 배지 크기. 생략하면 아바타 크기에 맞춘다(16 점 8px · 24 xs · 32 sm · 40 md · 48 lg · 64 xl) */
@@ -313,17 +313,17 @@ function initialOf(name: string) {
 }
 
 export function Avatar({
-  size = 40,
   variant = "person",
+  size = 40,
+  icon,
   src,
   name,
-  icon,
   badge,
   badgeSize,
   disabled = false,
+  "aria-label": ariaLabel,
   onClick,
   className,
-  "aria-label": ariaLabel,
   ...props
 }: AvatarProps) {
   const sizeClasses = <K extends string>(table: ResponsiveClassTable<K>) =>
@@ -516,14 +516,14 @@ const countClasses: ResponsiveClassTable<`${AvatarSize}`> = {
 export type AvatarGroupItem = Pick<AvatarProps, "src" | "name" | "icon">;
 
 export interface AvatarGroupProps extends Omit<ComponentProps<"div">, "children"> {
-  /** 겹쳐 보여 줄 아바타들 */
-  items: AvatarGroupItem[];
   /** 지름(px). 기본 40. 구간별 값도 받는다(`{ base: 32, tablet: 40 }`) */
   size?: Responsive<AvatarSize>;
-  /** 보여 줄 최대 개수. 넘치면 마지막에 `+N`이 붙는다. 기본 3 */
-  max?: number;
   /** 넘친 칸의 글자를 직접 정한다(기본은 `+남은 수`) */
   count?: string;
+  /** 겹쳐 보여 줄 아바타들 */
+  items: AvatarGroupItem[];
+  /** 보여 줄 최대 개수. 넘치면 마지막에 `+N`이 붙는다. 기본 3 */
+  max?: number;
 }
 
 /**
@@ -532,10 +532,10 @@ export interface AvatarGroupProps extends Omit<ComponentProps<"div">, "children"
  * 묶음을 `isolate`로 감싸서 이 값이 바깥 요소의 쌓임에 영향을 주지 않게 한다.
  */
 export function AvatarGroup({
-  items,
   size = 40,
-  max = 3,
   count,
+  items,
+  max = 3,
   className,
   ...props
 }: AvatarGroupProps) {

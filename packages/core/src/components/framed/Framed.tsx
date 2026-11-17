@@ -92,10 +92,10 @@ export interface FramedProps extends FramedLook, ComponentProps<"div"> {
 /** 다른 내용을 담는 틀. 안의 컨트롤이 선택을 맡고, 틀은 `selected`로 강조만 한다 */
 export function Framed({
   size,
-  error,
-  shadow,
   selected = false,
+  error,
   disabled = false,
+  shadow,
   className,
   ...props
 }: FramedProps) {
@@ -125,15 +125,15 @@ export type FramedCheckboxProps = FramedControlProps & {
 
 /** 체크박스를 담은 틀. 틀 어디를 눌러도 체크가 바뀌고, 체크되면 테두리가 진해진다 */
 export function FramedCheckbox({
+  size,
   label,
   description,
-  size,
-  error,
-  shadow,
-  indeterminate = false,
   checked,
   defaultChecked,
+  indeterminate = false,
+  error,
   disabled = false,
+  shadow,
   onChange,
   className,
   style,
@@ -195,15 +195,15 @@ export type FramedRadioProps = FramedControlProps & {
 
 /** 라디오를 담은 틀. `RadioGroup` 안에 넣고, 틀 어디를 눌러도 선택된다 */
 export function FramedRadio({
+  size,
   label,
   description,
-  size,
-  error,
-  shadow,
   value,
   checked,
   defaultChecked,
+  error,
   disabled,
+  shadow,
   name,
   onChange,
   className,

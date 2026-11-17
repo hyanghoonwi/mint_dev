@@ -43,36 +43,36 @@ export interface CalendarProps extends Omit<
   ComponentProps<"div">,
   "onChange" | "defaultValue" | "children"
 > {
-  /** 오늘(`YYYY-MM-DD`, 필수). 서버·클라이언트 값이 같도록 사용하는 쪽이 넘긴다 */
-  today: string;
-  /** 선택한 날(제어). 생략하면 컴포넌트가 직접 상태를 가진다 */
-  value?: string | null;
-  /** 처음 선택한 날(비제어) */
-  defaultValue?: string;
-  /** 날짜를 누르면 그 날짜로 불린다 */
-  onChange?: (date: string) => void;
-  /** 보이는 달(`YYYY-MM`, 제어) */
-  month?: string;
-  /** 처음 보이는 달(비제어). 기본은 선택한 날의 달, 없으면 오늘의 달 */
-  defaultMonth?: string;
-  /** 보이는 달이 바뀌면 불린다. 여기서 그 달의 일정(`marks`)을 불러온다 */
-  onMonthChange?: (month: string) => void;
-  /** 날짜별 점(최대 3개까지 보인다). `{ "2026-11-12": [{ color: "brand" }] }` */
-  marks?: Record<string, CalendarMark[]>;
-  /** 공휴일(날짜 → 이름). 일요일처럼 빨간 글자로 보이고 이름이 스크린리더에 읽힌다 */
-  holidays?: Record<string, string>;
-  /** 고를 수 있는 처음·마지막 날(포함) */
-  min?: string;
-  max?: string;
-  /** 고를 수 없는 날들 */
-  disabledDates?: string[];
-  /** 주의 시작 요일. 0 일요일(기본) · 1 월요일 */
-  weekStartsOn?: 0 | 1;
   /**
    * `md` 칸 높이 48(기본) · `lg` 56(모바일 주요 화면). 폭은 부모를 꽉 채워 7칸으로 나눈다.
    * 구간별로 바꾸려면 객체를 준다: `{ base: "lg", desktop: "md" }`
    */
   size?: Responsive<CalendarSize>;
+  /** 선택한 날(제어). 생략하면 컴포넌트가 직접 상태를 가진다 */
+  value?: string | null;
+  /** 처음 선택한 날(비제어) */
+  defaultValue?: string;
+  /** 오늘(`YYYY-MM-DD`, 필수). 서버·클라이언트 값이 같도록 사용하는 쪽이 넘긴다 */
+  today: string;
+  /** 보이는 달(`YYYY-MM`, 제어) */
+  month?: string;
+  /** 처음 보이는 달(비제어). 기본은 선택한 날의 달, 없으면 오늘의 달 */
+  defaultMonth?: string;
+  /** 날짜별 점(최대 3개까지 보인다). `{ "2026-11-12": [{ color: "brand" }] }` */
+  marks?: Record<string, CalendarMark[]>;
+  /** 공휴일(날짜 → 이름). 일요일처럼 빨간 글자로 보이고 이름이 스크린리더에 읽힌다 */
+  holidays?: Record<string, string>;
+  /** 고를 수 없는 날들 */
+  disabledDates?: string[];
+  /** 고를 수 있는 처음·마지막 날(포함) */
+  min?: string;
+  max?: string;
+  /** 주의 시작 요일. 0 일요일(기본) · 1 월요일 */
+  weekStartsOn?: 0 | 1;
+  /** 날짜를 누르면 그 날짜로 불린다 */
+  onChange?: (date: string) => void;
+  /** 보이는 달이 바뀌면 불린다. 여기서 그 달의 일정(`marks`)을 불러온다 */
+  onMonthChange?: (month: string) => void;
 }
 
 // 칸 높이(임시): md 48 · lg 56
@@ -118,20 +118,20 @@ const MAX_MARKS = 3;
 
 /** 날짜·월 단위로 고르는 달력. 날짜 밑에 일정 점을 보여 줄 수 있다 */
 export function Calendar({
-  today,
+  size = "md",
   value,
   defaultValue,
-  onChange,
+  today,
   month,
   defaultMonth,
-  onMonthChange,
   marks,
   holidays,
+  disabledDates,
   min,
   max,
-  disabledDates,
   weekStartsOn = 0,
-  size = "md",
+  onChange,
+  onMonthChange,
   className,
   ...props
 }: CalendarProps) {

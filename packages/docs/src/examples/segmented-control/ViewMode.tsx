@@ -8,13 +8,13 @@ export default function ViewMode() {
   return (
     <>
       <SegmentedControl
-        aria-label="보기 방식"
-        value={view}
-        onChange={setView}
         items={[
           { value: "list", label: "목록", icon: <ListIcon /> },
           { value: "grid", label: "격자", icon: <SquaresFourIcon /> },
         ]}
+        value={view}
+        aria-label="보기 방식"
+        onChange={setView}
       />
       <Text variant="body-3-regular" color="secondary">
         {view === "list" ? "코인을 한 줄씩 보여 줘요" : "코인을 카드로 보여 줘요"}

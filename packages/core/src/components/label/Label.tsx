@@ -15,24 +15,24 @@ import {
 export type LabelSize = "sm" | "md" | "lg";
 
 export interface LabelProps extends Omit<ComponentProps<"div">, "children"> {
-  /** 라벨 글자. 이름, 휴대폰 번호처럼 명사로 짧게 쓴다 */
-  children: ReactNode;
-  /** 이어 줄 입력 칸의 `id`. 주면 라벨을 눌러도 입력 칸이 선택된다 */
-  htmlFor?: string;
   /**
    * `sm` 12 · `md` 14(기본) · `lg` 16(글자 크기). 입력 칸 크기에 맞춰 고른다.
    * 구간별로 바꾸려면 객체를 준다: `{ base: "md", desktop: "lg" }`
    */
   size?: Responsive<LabelSize>;
-  /** 필수 입력이면 글자 옆에 빨간 `*`를 붙인다. 스크린리더는 "(필수)"로 읽는다 */
-  required?: boolean;
-  /** 입력 칸을 쓸 수 없을 때 글자색을 흐리게 한다 */
-  disabled?: boolean;
+  /** 라벨 글자. 이름, 휴대폰 번호처럼 명사로 짧게 쓴다 */
+  children: ReactNode;
   /**
    * 글자 오른쪽에 도움말 아이콘을 둔다. `true`면 물음표 아이콘(16)을 보이고,
    * 누르면 설명이 나오게 하려면 `Tooltip`으로 감싼 버튼 같은 요소를 직접 준다
    */
   helpIcon?: boolean | ReactNode;
+  /** 입력 칸을 쓸 수 없을 때 글자색을 흐리게 한다 */
+  disabled?: boolean;
+  /** 필수 입력이면 글자 옆에 빨간 `*`를 붙인다. 스크린리더는 "(필수)"로 읽는다 */
+  required?: boolean;
+  /** 이어 줄 입력 칸의 `id`. 주면 라벨을 눌러도 입력 칸이 선택된다 */
+  htmlFor?: string;
 }
 
 // 글자: lg Label 1 SemiBold(16/20) · md Label 2 SemiBold(14/20) · sm Label 3 SemiBold(12/16)
@@ -63,12 +63,12 @@ const requiredClasses: ResponsiveClassTable<LabelSize> = {
 
 /** 입력 칸 위에 붙는 이름. 필수 표시와 도움말 아이콘을 붙일 수 있다 */
 export function Label({
-  children,
-  htmlFor,
   size = "md",
-  required = false,
-  disabled = false,
+  children,
   helpIcon = false,
+  disabled = false,
+  required = false,
+  htmlFor,
   className,
   ...props
 }: LabelProps) {

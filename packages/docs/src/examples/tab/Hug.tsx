@@ -3,8 +3,6 @@ import { Tab } from "@futurewiz-rms/mint";
 export default function Hug() {
   return (
     <Tab
-      aria-label="고객센터"
-      layout="hug"
       items={[
         { value: "home", label: "홈" },
         { value: "market", label: "시세" },
@@ -13,6 +11,8 @@ export default function Hug() {
         { value: "wallet", label: "입출금" },
         { value: "support", label: "고객센터" },
       ]}
+      layout="hug"
+      aria-label="고객센터"
     />
   );
 }

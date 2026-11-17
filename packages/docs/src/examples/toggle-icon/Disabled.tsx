@@ -1,10 +1,10 @@
-import { StarIcon, ToggleIcon } from "@futurewiz-rms/mint";
+import { Box, StarIcon, ToggleIcon } from "@futurewiz-rms/mint";
 
 export default function Disabled() {
   return (
-    <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-      <ToggleIcon icon={<StarIcon />} aria-label="관심 코인" disabled />
-      <ToggleIcon icon={<StarIcon />} aria-label="관심 코인" defaultActive disabled />
-    </div>
+    <Box direction="horizontal" align="center" gap={12}>
+      <ToggleIcon icon={<StarIcon />} disabled aria-label="관심 코인" />
+      <ToggleIcon icon={<StarIcon />} defaultActive disabled aria-label="관심 코인" />
+    </Box>
   );
 }

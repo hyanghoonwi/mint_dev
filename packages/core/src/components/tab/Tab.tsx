@@ -40,26 +40,26 @@ export interface TabProps extends Omit<
   ComponentProps<"div">,
   "children" | "onChange" | "defaultValue"
 > {
+  /**
+   * `sm` 32 · `md` 40(기본) · `lg` 48(막대 높이). 글자 label-2 · label-2 · label-1.
+   * 구간별로 바꾸려면 객체를 준다: `{ base: "lg", desktop: "md" }`
+   */
+  size?: Responsive<TabSize>;
   /** 탭 목록. 2~6개 */
   items: TabItem[];
   /** 선택된 값(제어). 생략하면 컴포넌트가 직접 상태를 가진다 */
   value?: string;
   /** 처음 선택 값(비제어). 기본은 첫 탭 */
   defaultValue?: string;
-  /** 다른 탭을 눌렀을 때 새 값으로 호출된다 */
-  onChange?: (value: string) => void;
-  /**
-   * `sm` 32 · `md` 40 · `lg` 48(기본, 막대 높이). 글자 label-2 · label-2 · label-1.
-   * 구간별로 바꾸려면 객체를 준다: `{ base: "lg", desktop: "md" }`
-   */
-  size?: Responsive<TabSize>;
+  /** 탭이 넘칠 때 스크롤할 쪽 가장자리에 그라데이션을 보여 준다. 기본 `true`(넘칠 때만 자동으로 나타남) */
+  fade?: boolean;
   /**
    * `fill`(기본)은 탭이 폭을 똑같이 나눠 가지고, 이름이 길어 안 들어가면 이름 폭을 지키며 가로로 스크롤한다. `hug`는 탭이 이름 폭만큼만 차지하고 왼쪽부터 놓이며 넘치면 가로로 스크롤한다.
    * 5개 이하는 fill, 6개이거나 이름이 길면 hug. 구간별 값도 받는다
    */
   layout?: Responsive<TabLayout>;
-  /** 탭이 넘칠 때 스크롤할 쪽 가장자리에 그라데이션을 보여 준다. 기본 `true`(넘칠 때만 자동으로 나타남) */
-  fade?: boolean;
+  /** 다른 탭을 눌렀을 때 새 값으로 호출된다 */
+  onChange?: (value: string) => void;
 }
 
 // 막대 높이: lg 48 · md 40 · sm 32. 아래 1px 구분선은 항상 부모 폭을 채운다
@@ -124,16 +124,16 @@ const itemLayoutClasses: ResponsiveClassTable<TabLayout> = {
 
 /** 같은 화면에서 보는 내용(섹션)을 바꾸는 밑줄형 탭. 항상 하나가 선택돼 있다 */
 export function Tab({
+  size = "md",
   items,
   value,
   defaultValue,
-  onChange,
-  size = "lg",
-  layout = "fill",
   fade = true,
-  className,
+  layout = "fill",
   "aria-label": ariaLabel,
   "aria-labelledby": ariaLabelledby,
+  onChange,
+  className,
   ...props
 }: TabProps) {
   const [inner, setInner] = useState(() => defaultValue ?? items[0]?.value);
@@ -215,7 +215,7 @@ export function Tab({
         {...dragHandlers}
         className={cn(
           "flex w-full items-start overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden",
-          responsiveClasses<TabSize>(size, "lg", barClasses),
+          responsiveClasses<TabSize>(size, "md", barClasses),
           responsiveClasses<TabLayout>(layout, "fill", barLayoutClasses),
           // 끄는 동안 글자가 선택되지 않게 하고, 탭 위에서도 잡은 손 모양을 보인다
           dragging && "cursor-grabbing select-none [&_*]:cursor-grabbing",
@@ -241,13 +241,13 @@ export function Tab({
                 "relative inline-flex h-full cursor-pointer items-center justify-center whitespace-nowrap rounded-8 transition-colors duration-250 ease-[cubic-bezier(0.4,0,0.2,1)]",
                 "focus-visible:-outline-offset-2 focus-visible:outline-2 focus-visible:outline-border-focus",
                 "disabled:cursor-not-allowed disabled:text-text-disabled",
-                responsiveClasses<TabSize>(size, "lg", itemSizeClasses),
+                responsiveClasses<TabSize>(size, "md", itemSizeClasses),
                 responsiveClasses<TabLayout>(layout, "fill", itemLayoutClasses),
                 // 선택: 굵은 글자 strong + 아래 밑줄. 선택 안 됨: 회색(tertiary)
                 on
                   ? cn(
                       "text-text-strong",
-                      responsiveClasses<TabSize>(size, "lg", selectedWeightClasses),
+                      responsiveClasses<TabSize>(size, "md", selectedWeightClasses),
                     )
                   : "text-text-tertiary enabled:hover:text-text-strong",
               )}

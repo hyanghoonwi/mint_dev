@@ -1,7 +1,7 @@
 import { useState } from "react";
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { expect, fn, userEvent } from "storybook/test";
-import { Checkbox } from "@futurewiz-rms/mint";
+import { Box, Button, Checkbox } from "@futurewiz-rms/mint";
 
 const meta = {
   title: "Components/Form/Checkbox",
@@ -11,11 +11,11 @@ const meta = {
   args: { children: "텍스트", onChange: fn() },
   argTypes: {
     size: { control: "inline-radio", options: ["xs", "sm", "md", "lg"] },
+    bold: { control: "boolean" },
     checked: { control: "boolean" },
     indeterminate: { control: "boolean" },
-    bold: { control: "boolean" },
-    tight: { control: "boolean" },
     disabled: { control: "boolean" },
+    tight: { control: "boolean" },
   },
 } satisfies Meta<typeof Checkbox>;
 
@@ -32,10 +32,10 @@ export const States: Story = {
       <Checkbox defaultChecked>체크됨</Checkbox>
       <Checkbox indeterminate>일부 선택</Checkbox>
       <Checkbox disabled>비활성</Checkbox>
-      <Checkbox disabled defaultChecked>
+      <Checkbox defaultChecked disabled>
         비활성 체크
       </Checkbox>
-      <Checkbox disabled indeterminate>
+      <Checkbox indeterminate disabled>
         비활성 일부
       </Checkbox>
     </div>
@@ -43,7 +43,7 @@ export const States: Story = {
 };
 
 export const Bold: Story = {
-  args: { bold: true, defaultChecked: true, children: "전체 동의" },
+  args: { bold: true, children: "전체 동의", defaultChecked: true },
 };
 
 export const Tight: Story = {
@@ -92,7 +92,7 @@ export const SelectAll: Story = {
         previous.includes(id) ? previous.filter((agreedId) => agreedId !== id) : [...previous, id],
       );
     return (
-      <div style={{ display: "flex", flexDirection: "column" }}>
+      <Box>
         <Checkbox
           bold
           checked={all}
@@ -110,7 +110,7 @@ export const SelectAll: Story = {
             {term.label}
           </Checkbox>
         ))}
-      </div>
+      </Box>
     );
   },
   play: async ({ canvas, step }) => {
@@ -149,13 +149,15 @@ export const InForm: Story = {
         }}
         style={{ display: "flex", flexDirection: "column", alignItems: "flex-start" }}
       >
-        <Checkbox name="interest" value="btc" defaultChecked>
+        <Checkbox value="btc" defaultChecked name="interest">
           비트코인
         </Checkbox>
-        <Checkbox name="interest" value="eth">
+        <Checkbox value="eth" name="interest">
           이더리움
         </Checkbox>
-        <button type="submit">제출</button>
+        <Button size="sm" type="submit">
+          제출
+        </Button>
         <output>{sent}</output>
       </form>
     );

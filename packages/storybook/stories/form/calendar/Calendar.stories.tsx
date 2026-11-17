@@ -61,7 +61,7 @@ export const WithMarks: Story = {
 
 // 고를 수 있는 범위(min·max)와 막힌 날
 export const MinMax: Story = {
-  args: { min: "2026-11-05", max: "2026-11-25", disabledDates: ["2026-11-15"] },
+  args: { disabledDates: ["2026-11-15"], min: "2026-11-05", max: "2026-11-25" },
   play: async ({ canvas }) => {
     await expect(canvas.getByRole("button", { name: /11월 4일/ })).toBeDisabled();
     await expect(canvas.getByRole("button", { name: /11월 15일/ })).toBeDisabled();
@@ -96,8 +96,8 @@ export const Interaction: Story = {
         <Calendar
           {...args}
           value={value}
-          onChange={setValue}
           month={month}
+          onChange={setValue}
           onMonthChange={setMonth}
         />
         <Text variant="body-3-regular" color="secondary">

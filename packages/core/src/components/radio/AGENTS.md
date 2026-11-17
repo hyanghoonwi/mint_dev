@@ -39,6 +39,7 @@
   | `sm`(기본) | 20 · 8            | Body 2 Regular(16/24)   | 40 · 24              |
   | `md`       | 24 · 10           | Body 1 Regular(17/28)   | 40 · 28              |
   | `lg`       | 32 · 12           | Heading 2 Medium(20/30) | 48 · 32              |
+  - 기본 크기는 Figma 기본인 `sm`(Small 20)입니다. MINT의 `md` 기본 규칙에서 예외입니다(2026-11 결정).
   - `RadioGroup`에 `size`를 주면 그룹 안 라디오가 모두 그 크기예요. 라디오마다 `size`를 주면 그 값이 우선입니다. 같은 그룹은 크기를 하나로 맞춥니다.
   - 구간별 값도 받습니다(`size={{ base: "md", desktop: "sm" }}`). `FramedRadio`의 원은 지금처럼 Small(20) 하나입니다.
 

@@ -161,17 +161,17 @@ export type ButtonProps = Omit<ComponentProps<"button">, "color"> &
   };
 
 export function Button({
-  className,
-  size,
   variant = "solid",
   color,
-  fullWidth,
+  size,
+  children,
   leftAddon,
   rightAddon,
   loading = false,
   disabled,
-  children,
+  fullWidth,
   type = "button",
+  className,
   ref,
   ...props
 }: ButtonProps) {

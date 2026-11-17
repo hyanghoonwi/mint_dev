@@ -8,9 +8,9 @@ export default function Gallery() {
     >
       {/* 이미지가 많은 갤러리: 오른쪽 아래에 숫자 */}
       <PageCounter
+        size="sm"
         current={3}
         total={24}
-        size="sm"
         style={{ position: "absolute", right: 12, bottom: 12 }}
       />
     </div>

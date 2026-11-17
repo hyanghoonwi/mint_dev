@@ -11,15 +11,15 @@ export default function InContent() {
     <div
       style={{ display: "flex", flexDirection: "column", gap: 16, width: "100%", maxWidth: 420 }}
     >
-      <Text as="h3" variant="heading-3-semibold" color="strong">
+      <Text variant="heading-3-semibold" color="strong" as="h3">
         내 지갑
       </Text>
       {open && (
         <Snackbar
           variant="cautionary"
-          icon
           heading="본인 인증이 필요해요."
           description="인증하면 출금 한도가 늘어나요."
+          icon
           addOn={
             <Button variant="outline" color="neutral" size="md">
               인증
@@ -28,7 +28,7 @@ export default function InContent() {
           onClose={() => setOpen(false)}
         />
       )}
-      <Text as="p" variant="body-3-regular" color="tertiary">
+      <Text variant="body-3-regular" color="tertiary" as="p">
         보유 자산 12,450,000원
       </Text>
     </div>

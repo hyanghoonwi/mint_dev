@@ -3,10 +3,10 @@ import { Circular } from "@futurewiz-rms/mint";
 export default function Sizes() {
   return (
     <>
-      <Circular size={16} color="brand" />
-      <Circular size={20} color="brand" />
-      <Circular size={28} color="brand" />
-      <Circular size={40} color="brand" />
+      <Circular color="brand" size={16} />
+      <Circular color="brand" size={20} />
+      <Circular color="brand" size={28} />
+      <Circular color="brand" size={40} />
     </>
   );
 }

@@ -61,35 +61,35 @@ const itemStyles = {
 };
 
 export interface PaginationProps extends Omit<ComponentProps<"nav">, "onChange" | "children"> {
-  /** 현재 페이지(1부터) */
-  page: number;
-  /** 전체 페이지 수. 1 이하면 아무것도 그리지 않는다(Figma 규칙: 1개뿐이면 보여 주지 않는다) */
-  total: number;
   /**
    * `extended` 9칸(웹·태블릿) · `compact` 7칸(모바일). 값 하나 또는 구간별 객체를 받는다.
    * 기본 `{ base: "compact", tablet: "extended" }`(모바일 7칸, 태블릿부터 9칸). 객체에서 `base`를 빼면 `compact`
    */
   variant?: Responsive<PaginationVariant>;
-  /** 버튼으로 쓸 때: 다른 페이지를 누르면 그 번호로 불린다 */
-  onChange?: (page: number) => void;
-  /** 링크로 쓸 때: 페이지 번호로 주소를 만든다(예: `(p) => "?page=" + p`). 주면 버튼 대신 링크가 된다 */
-  getHref?: (page: number) => string;
+  /** 현재 페이지(1부터) */
+  page: number;
+  /** 전체 페이지 수. 1 이하면 아무것도 그리지 않는다(Figma 규칙: 1개뿐이면 보여 주지 않는다) */
+  total: number;
   /** 링크로 쓸 때의 링크 컴포넌트. Next.js는 `Link`를 넘긴다. 기본 `<a>` */
   linkComponent?: ElementType;
   /** 묶음 이름. 기본 "페이지" */
   "aria-label"?: string;
+  /** 링크로 쓸 때: 페이지 번호로 주소를 만든다(예: `(p) => "?page=" + p`). 주면 버튼 대신 링크가 된다 */
+  getHref?: (page: number) => string;
+  /** 버튼으로 쓸 때: 다른 페이지를 누르면 그 번호로 불린다 */
+  onChange?: (page: number) => void;
 }
 
 /** 많은 데이터를 여러 페이지로 나눠 보여 줄 때의 페이지 이동 */
 export function Pagination({
+  variant = DEFAULT_VARIANT,
   page,
   total,
-  variant = DEFAULT_VARIANT,
-  onChange,
-  getHref,
   linkComponent: Link = "a",
-  className,
   "aria-label": ariaLabel = "페이지",
+  getHref,
+  onChange,
+  className,
   ...props
 }: PaginationProps) {
   if (total <= 1) return null;

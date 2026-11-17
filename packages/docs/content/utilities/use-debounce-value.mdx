@@ -13,7 +13,11 @@ const [query, setQuery] = useState("");
 const { debouncedValue, isDebouncing } = useDebounceValue(query, 300);
 
 // 입력창에는 query, 요청에는 debouncedValue
-<input value={query} onChange={(event) => setQuery(event.target.value)} />;
+<TextField
+  aria-label="코인 검색"
+  value={query}
+  onChange={(event) => setQuery(event.target.value)}
+/>;
 useEffect(() => {
   search(debouncedValue);
 }, [debouncedValue]);
@@ -24,7 +28,10 @@ Enter나 검색 버튼처럼 바로 요청해야 하면 `flush()`를, 기다리�
 ```tsx
 const { debouncedValue, flush } = useDebounceValue(query, 300);
 
-<input onKeyDown={(event) => event.key === "Enter" && flush()} />;
+<TextField
+  aria-label="코인 검색"
+  onKeyDown={(event) => event.key === "Enter" && flush()}
+/>;
 ```
 
 ## Examples

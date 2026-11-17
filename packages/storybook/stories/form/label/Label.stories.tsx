@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { expect, userEvent } from "storybook/test";
-import { Label, QuestionIcon, Tooltip } from "@futurewiz-rms/mint";
+import { Box, Label, QuestionIcon, TextField, Tooltip } from "@futurewiz-rms/mint";
 
 const meta = {
   title: "Components/Form/Label",
@@ -10,9 +10,9 @@ const meta = {
   args: { children: "라벨" },
   argTypes: {
     size: { control: "inline-radio", options: ["sm", "md", "lg"] },
-    required: { control: "boolean" },
-    disabled: { control: "boolean" },
     helpIcon: { control: "boolean" },
+    disabled: { control: "boolean" },
+    required: { control: "boolean" },
   },
 } satisfies Meta<typeof Label>;
 
@@ -24,11 +24,11 @@ export const Default: Story = {};
 // Figma Size: Large 16 · Medium 14(기본) · Small 12
 export const Sizes: Story = {
   render: (args) => (
-    <div style={{ display: "flex", flexDirection: "column", gap: 16, alignItems: "flex-start" }}>
+    <Box align="start" gap={16}>
       <Label {...args} size="lg" />
       <Label {...args} size="md" />
       <Label {...args} size="sm" />
-    </div>
+    </Box>
   ),
 };
 
@@ -36,11 +36,11 @@ export const Sizes: Story = {
 export const Required: Story = {
   args: { required: true },
   render: (args) => (
-    <div style={{ display: "flex", flexDirection: "column", gap: 16, alignItems: "flex-start" }}>
+    <Box align="start" gap={16}>
       <Label {...args} size="lg" />
       <Label {...args} size="md" />
       <Label {...args} size="sm" />
-    </div>
+    </Box>
   ),
 };
 
@@ -64,7 +64,7 @@ export const HelpIconWithTooltip: Story = {
 
 // Figma state = disabled: 글자와 아이콘이 흐려진다(필수 표시의 빨강은 그대로)
 export const Disabled: Story = {
-  args: { disabled: true, required: true, helpIcon: true },
+  args: { helpIcon: true, disabled: true, required: true },
 };
 
 // 화면 폭에 따라 크기가 바뀐다(툴바의 뷰포트로 확인)
@@ -72,13 +72,11 @@ export const Responsive: Story = {
   args: { size: { base: "md", desktop: "lg" } },
 };
 
-// 입력 칸과 이어 두면 라벨을 눌러도 입력 칸에 포커스가 간다
-export const WithInput: Story = {
-  args: { required: true, htmlFor: "name" },
-  render: (args) => (
-    <div style={{ display: "flex", flexDirection: "column", gap: 8, maxWidth: 280 }}>
-      <Label {...args}>이름</Label>
-      <input id="name" placeholder="홍길동" style={{ border: "1px solid #ccc", padding: 8 }} />
+// TextField에는 Label이 내장되어 있다. label을 주면 라벨을 눌러도 입력 칸에 포커스가 가고 필수 표시도 붙는다(Label을 또 붙이지 않는다)
+export const InsideTextField: Story = {
+  render: () => (
+    <div style={{ maxWidth: 280 }}>
+      <TextField label="이름" placeholder="홍길동" required />
     </div>
   ),
   play: async ({ canvas }) => {

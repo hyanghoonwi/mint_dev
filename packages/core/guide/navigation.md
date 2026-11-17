@@ -7,11 +7,21 @@
   - `value`·`onChange`(제어) 또는 `defaultValue`(비제어). 항상 하나가 선택되어 있습니다
   - `all`: 맨 앞 "전체" 칩(기본 `true`, 값 `"all"` = `CATEGORY_ALL`, 처음 선택). 글자는 `allLabel`
   - `variant`: `solid`(흰 화면, 기본) · `outline`(회색 배경 위)
-  - `size`: `lg`(40, 기본, 모바일웹 기본) · `md`(32, 촘촘한 영역. 터치 눌림 영역은 44). Figma Large·Medium, `Chip`과 같은 이름. 구간별 객체도 받음(`{ base: "lg", desktop: "md" }`)
+  - `size`: `lg`(40, 모바일웹 권장) · `md`(32, 기본, 촘촘한 영역. 터치 눌림 영역은 44). Figma Large·Medium, `Chip`과 같은 이름. 구간별 객체도 받음(`{ base: "lg", desktop: "md" }`)
   - `shape`: `square`(기본) · `pill`
   - `fade`: 넘칠 때 스크롤할 쪽 가장자리 그라데이션(기본 `true`, 자동으로 나타남)
   - `aria-label`을 꼭 줍니다(`radiogroup`의 이름). 키보드는 ←·→·Home·End로 선택
   - 금지: 두 줄 줄바꿈, 복수 선택(Checkbox를 씀), 화면 섹션 전환(Tab을 씀). 상세 규칙은 `components/category/AGENTS.md`
+- **`Menu`** · **`MenuItem`** · **`MenuGroup`** · **`MenuDivider`** — 옵션이나 액션을 쌓아 보여 주는 목록 상자(Figma `Menu`). 열고 닫는 것·위치는 정하지 않습니다(떠 있게 하려면 `className="shadow-floating"`). 클라이언트 컴포넌트입니다(`"use client"`가 달려 있어 서버 컴포넌트에서 import해도 됩니다. 단 `onChange`·`onClick`은 클라이언트 컴포넌트에서 넘깁니다). `Menu.Item`처럼 점으로 접근하지 말고 각각 import합니다.
+  - `Menu`: 상자. `variant`: `normal`(고른 항목에 체크 표시, 기본) · `radio`(하나만, 앞에 원) · `checkbox`(여러 개, 앞에 상자). `aria-label`을 줍니다(`role="menu"`의 이름)
+  - 값: `normal`·`radio`는 `value`·`onChange(value: string)`(제어) 또는 `defaultValue`(비제어). `checkbox`는 `string[]`이고 `onChange`가 고른 값 전체를 배열로 받습니다
+  - `size`: `sm`(항목 36, 폭 200) · `md`(44, 240, 기본) · `lg`(52, 280). 폭은 `className="w-full"`로 늘립니다(최소 160). 구간별 객체는 받지 않습니다. 터치 화면에서 누르는 메뉴는 `md` 이상
+  - `cellPadding`: `8`(촘촘한 목록, 기본) · `12`(일반 목록). `maxHeight`: 항목 영역의 최대 높이, 넘치면 그 안에서 스크롤(숫자는 px)
+  - `actionArea`: 아래 52px 액션 줄(위에 선). 선택을 적용·초기화하는 버튼 둘을 `<Button variant="ghost" color="neutral" size="sm">`·`<Button size="sm">`로 넣습니다(양끝으로 벌어짐)
+  - `MenuItem`: 항목 하나(`<button>` 전체가 눌림). `value`(고를 수 있는 항목. 생략하면 고르지 않고 `onClick`만 하는 액션), `children`(동사로 짧게), `leadingImage`(앞 24px 동그란 이미지 주소, 세 종류 모두), `disabled`. 일반 모양에서 선택된 항목은 굵은 글자 + 오른쪽 체크, Radio·Checkbox는 글자만 브랜드 색. hover·누름은 같은 색
+  - `MenuGroup`(`label`): 항목을 이름 붙은 묶음으로 나눔. `MenuDivider`: 묶음 사이 가로선
+  - 키보드: ↑·↓로 항목 이동(끝에서 반대쪽으로), Home·End로 처음·끝
+  - 금지: Menu 안에 Menu를 겹쳐 펼치기, 값을 골라 입력하는 폼(Select를 씀), 5개 이상에서 하나만 고르기, 위험한 동작을 맨 위에 두기. 상세 규칙은 `components/menu/AGENTS.md`
 - **`SegmentedControl`** — 같은 영역의 보기 방식(목록/격자, 일/주/월)을 바로 바꾸는 토글형 선택 컨트롤. 회색 트랙 위에 선택된 항목이 흰 칩으로 보입니다. 클라이언트 컴포넌트입니다(`"use client"`가 달려 있어 서버 컴포넌트에서 import해도 됩니다. 단 `onChange`는 클라이언트 컴포넌트에서 넘깁니다).
   - `items`(필수): `{ value, label, icon?, disabled? }[]`. 2~6개. 이름은 1~4자. `icon`은 글자 앞 아이콘(lg 20 · md·sm 16, 크기는 자동)
   - `value`·`onChange`(제어) 또는 `defaultValue`(비제어, 기본 첫 항목). 항상 하나가 선택되어 있습니다(선택 없음 상태 없음)
@@ -23,7 +33,7 @@
 - **`Tab`** — 같은 화면에서 보는 내용(섹션)을 바꾸는 밑줄형 탭. 항상 하나가 선택돼 있고 선택된 탭은 굵은 글자와 아래 밑줄로 표시됩니다. 클라이언트 컴포넌트입니다(`"use client"`가 달려 있어 서버 컴포넌트에서 import해도 됩니다. 단 `onChange`는 클라이언트 컴포넌트에서 넘깁니다).
   - `items`(필수): `{ value, label, badge?, disabled? }[]`. 2~6개. 이름은 2~6자 명사. `badge`는 새 소식이 있는 탭에만(브랜드 색 점, 스크린리더는 "(새 소식)")
   - `value`·`onChange`(제어) 또는 `defaultValue`(비제어, 기본 첫 탭)
-  - `size`: `lg`(막대 48, 기본) · `md`(40) · `sm`(32). 구간별 객체도 받음(`{ base: "lg", desktop: "md" }`)
+  - `size`: `lg`(막대 48) · `md`(40, 기본) · `sm`(32). 구간별 객체도 받음(`{ base: "lg", desktop: "md" }`)
   - `layout`: `fill`(기본, 탭이 폭을 똑같이 나눔. 이름이 안 들어가면 이름 폭을 지키고 가로 스크롤. 마우스는 끌어서, 놓으면 관성) · `hug`(이름 폭만큼만, 넘치면 가로 스크롤). 5개 이하는 fill, 6개이거나 이름이 길면 hug. 구간별 객체도 받음
   - `fade`: 탭이 넘칠 때 스크롤할 쪽 가장자리에 그라데이션(기본 `true`, 넘칠 때만 자동으로 나타남. 선택된 탭이 화면 밖이면 보이게 스크롤됨)
   - `aria-label`을 꼭 줍니다(`tablist`의 이름). 키보드는 ←·→·Home·End로 선택. `tabpanel` 연결(`aria-controls`)은 아직 없음

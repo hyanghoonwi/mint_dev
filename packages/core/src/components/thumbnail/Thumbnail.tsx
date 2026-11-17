@@ -93,16 +93,6 @@ const aspectClasses: ResponsiveClassTable<ThumbnailAspectRatio> = {
 };
 
 export interface ThumbnailProps extends Omit<ComponentProps<"div">, "children"> {
-  /** 이미지 주소. `image`를 넘기면 쓰지 않는다 */
-  src?: string;
-  /** 이미지 설명(스크린리더). 꾸밈용 이미지면 `""` */
-  alt?: string;
-  /** `<img>` 대신 그릴 이미지 요소(예: Next.js `<Image fill />`). 틀을 가득 채우게 넘긴다 */
-  image?: ReactNode;
-  /** 가로:세로 비율. 기본 `"1:1"`. 구간별로 바꾸려면 `{ base: "1:1", tablet: "16:9" }` */
-  aspectRatio?: Responsive<ThumbnailAspectRatio>;
-  /** 이미지를 채우는 방식. `cover`는 잘라서 채우고, `contain`은 이미지 전체를 보인다. 기본 `cover` */
-  fit?: "cover" | "contain";
   /** 모서리 8px. 카드 위에서는 켜고, 전체 폭 이미지는 끈다. 기본 `false` */
   radius?: boolean;
   /** 1px 테두리(`border-default`). 흰 배경에 흰 이미지가 올 때 켠다. 기본 `false` */
@@ -111,24 +101,34 @@ export interface ThumbnailProps extends Omit<ComponentProps<"div">, "children"> 
   overlay?: boolean;
   /** 오버레이 색(CSS 색). 기본은 `fill-pressed`(옅은 막). 글자 대비가 더 필요하면 진하게 바꾼다 */
   overlayColor?: string;
+  /** 이미지를 채우는 방식. `cover`는 잘라서 채우고, `contain`은 이미지 전체를 보인다. 기본 `cover` */
+  fit?: "cover" | "contain";
+  /** 가로:세로 비율. 기본 `"1:1"`. 구간별로 바꾸려면 `{ base: "1:1", tablet: "16:9" }` */
+  aspectRatio?: Responsive<ThumbnailAspectRatio>;
   /** 이미지·오버레이 위에 올릴 내용(제목·배지 등) */
   children?: ReactNode;
+  /** `<img>` 대신 그릴 이미지 요소(예: Next.js `<Image fill />`). 틀을 가득 채우게 넘긴다 */
+  image?: ReactNode;
+  /** 이미지 주소. `image`를 넘기면 쓰지 않는다 */
+  src?: string;
+  /** 이미지 설명(스크린리더). 꾸밈용 이미지면 `""` */
+  alt?: string;
   /** `<img>`의 loading. 첫 화면 위쪽 이미지는 `"eager"`로. 기본 `"lazy"` */
   loading?: "lazy" | "eager";
 }
 
 /** 폭은 부모(또는 `className`의 `w-*`)를 따르고 높이는 비율로 정해진다. 이미지가 없으면 회색 바탕에 이미지 아이콘을 보인다 */
 export function Thumbnail({
-  src,
-  alt = "",
-  image,
-  aspectRatio,
-  fit = "cover",
   radius = false,
   border = false,
   overlay = false,
   overlayColor,
+  fit = "cover",
+  aspectRatio,
   children,
+  image,
+  src,
+  alt = "",
   loading = "lazy",
   className,
   ...props

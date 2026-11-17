@@ -11,9 +11,8 @@ export default function Destructive() {
         탈퇴하기
       </Button>
       <Alert
-        open={open}
-        onClose={() => setOpen(false)}
         heading="탈퇴할까요?"
+        body="탈퇴하면 관심 코인과 알림 설정이 모두 사라져요."
         action={
           <>
             <Button color="secondary" onClick={() => setOpen(false)}>
@@ -24,7 +23,8 @@ export default function Destructive() {
             </Button>
           </>
         }
-        body="탈퇴하면 관심 코인과 알림 설정이 모두 사라져요."
+        open={open}
+        onClose={() => setOpen(false)}
       />
     </>
   );

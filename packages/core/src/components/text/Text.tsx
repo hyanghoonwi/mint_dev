@@ -303,13 +303,13 @@ const lineClasses = {
 type TextOwnProps<E extends ElementType> = {
   /** 텍스트 스타일(필수). 예: `"title-1-bold"`. 구간별로 바꾸려면 `{ base: "title-3-bold", desktop: "title-1-bold" }` */
   variant: Responsive<TextVariant>;
-  /** 그릴 태그. 기본 `span`. 문서 구조에 맞춰 `h1`~`h6`·`p`·`label` 등을 고른다 */
-  as?: E;
   /** 글자색(시맨틱 토큰). 기본 `primary`. 감싼 요소의 색을 따르려면 `inherit`을 일부러 준다(MINT는 body 색을 정하지 않아서, 생략 시 이어받으면 토큰이 아닌 색이 나올 수 있다) */
   color?: TextColor;
+  children?: ReactNode;
   /** 이 줄 수를 넘으면 말줄임(…)으로 자른다. 1~4 */
   lines?: keyof typeof lineClasses;
-  children?: ReactNode;
+  /** 그릴 태그. 기본 `span`. 문서 구조에 맞춰 `h1`~`h6`·`p`·`label` 등을 고른다 */
+  as?: E;
 };
 
 export type TextProps<E extends ElementType = "span"> = TextOwnProps<E> &
@@ -318,9 +318,9 @@ export type TextProps<E extends ElementType = "span"> = TextOwnProps<E> &
 /** 토큰 텍스트 스타일로 글자를 그린다 */
 export function Text<E extends ElementType = "span">({
   variant,
-  as,
   color = "primary",
   lines,
+  as,
   className,
   ...props
 }: TextProps<E> & { className?: string }) {

@@ -13,10 +13,10 @@ const meta = {
     variant: { control: "inline-radio", options: ["solid", "outline"] },
     size: { control: "inline-radio", options: ["lg", "md", "sm"] },
     shape: { control: "inline-radio", options: ["square", "pill"] },
-    active: { control: "boolean" },
-    disabled: { control: "boolean" },
     badge: { control: "boolean" },
     count: { control: "text" },
+    active: { control: "boolean" },
+    disabled: { control: "boolean" },
   },
 } satisfies Meta<typeof Chip>;
 
@@ -93,7 +93,7 @@ export const Addons: Story = {
       <Chip {...args} count={12}>
         시그널
       </Chip>
-      <Chip {...args} active count={12}>
+      <Chip {...args} count={12} active>
         시그널
       </Chip>
       <Chip {...args} badge>

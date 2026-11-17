@@ -12,10 +12,10 @@ export interface IconProps extends Omit<
   ComponentProps<"svg">,
   "children" | "width" | "height" | "viewBox" | "fill"
 > {
-  /** 크기(px). 기본 24 */
-  size?: IconSize;
   /** 선 또는 채움. 기본 `line` */
   variant?: IconVariant;
+  /** 크기(px). 기본 24 */
+  size?: IconSize;
 }
 
 export type IconComponent = (props: IconProps) => ReactElement;
@@ -28,12 +28,12 @@ export type IconComponent = (props: IconProps) => ReactElement;
  */
 export function createIcon(displayName: string, line: string, fill: string): IconComponent {
   function Icon({
-    size = 24,
     variant = "line",
-    className,
-    ref,
+    size = 24,
     "aria-label": ariaLabel,
     "aria-labelledby": ariaLabelledby,
+    className,
+    ref,
     ...props
   }: IconProps) {
     const labelled = ariaLabel !== undefined || ariaLabelledby !== undefined;

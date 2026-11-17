@@ -53,6 +53,7 @@ npm run build              # core 빌드 (토큰 → tsc → vite → css → th
 npm run build-storybook    # Storybook 정적 빌드
 npm run lint               # oxlint
 npm run format:check       # 포맷 검사
+npm run props:check        # core·docs·Storybook의 props 순서 검사
 npm run guide:check -w @futurewiz-rms/mint  # 사용 가이드가 공개 컴포넌트·훅과 맞는지 검사
 npm run format:docs        # docs의 md/mdx와 코드 예시 포맷
 npm run docs               # docs 개발 서버 (3000, 검색 안 됨)
@@ -131,19 +132,28 @@ MINT는 Next.js App Router에서 **서버 컴포넌트와 클라이언트 컴포
 - **변형은 `cva`**, 클래스 병합은 `cn()`(`src/utils/cn.ts`)으로 합니다. `className`을 받고 마지막에 병합합니다.
 - **색·모서리·타이포는 토큰만**: `bg-fill-brand`, `text-text-primary`, `rounded-8`, `text-label-2-semibold` 등. hex 색을 직접 쓰지 않습니다. 다크 모드가 생기면 `--mint-*` 변수 값이 `[data-theme="dark"]`에서 바뀌므로 컴포넌트에 `dark:` 클래스를 쓰지 않습니다.
 - **색은 두 단계**: 아토믹(`src/styles/atomic.css`, `--color-atomic-*`, Figma `Atomic` 변수와 이름·값이 같은 고정값) → 시맨틱(`src/styles/colors.css`, `--mint-*`, Figma `Color - Semantic` 90개, `var(--color-atomic-*)` 참조). **컴포넌트는 시맨틱만 씁니다.** 아토믹 값은 Figma에서만 바꾸고 코드는 그대로 옮깁니다. 시맨틱 이름은 Figma 변수의 `/`를 `-`로 바꿉니다(`fill/brand-weak` → `bg-fill-brand-weak`). 지금은 Light만 있고 브랜드는 임시 blue-600입니다.
-- **그림자는 두 가지뿐**입니다(`src/styles/shape.css`, Figma Effect). 토스트·메뉴·툴팁 같은 떠 있는 요소는 `shadow-floating`, 오른쪽에서 나오는 패널은 `shadow-drawer`를 씁니다. `shadow-[…]`처럼 임의 그림자를 만들지 않습니다.
+- **그림자는 세 가지뿐**입니다(`src/styles/shape.css`, Figma Effect). 화면에 붙은 카드·상자는 `shadow-raised`(Figma `shadow/normal/small`, 2026-11 추가), 토스트·메뉴·툴팁 같은 떠 있는 요소는 `shadow-floating`, 오른쪽에서 나오는 패널은 `shadow-drawer`를 씁니다. 그림자 토큰을 늘리면 `src/utils/cn.ts`의 `SHADOW_TOKENS`에도 더합니다. `shadow-[…]`처럼 임의 그림자를 만들지 않습니다.
 - **시세 색**: Figma 시맨틱의 `text-up`·`text-down`·`text-flat`, `fill-up-weak`·`fill-down-weak`, `icon-up`·`icon-down`(2026-11-12 추가)을 씁니다. 상승은 빨강, 하락은 파랑, 보합은 회색입니다. 시세 등락 표시는 `PriceChange`로 하고, `danger`·`brand` 색을 시세에 빌려 쓰지 않습니다.
-- **크기**: `size`는 `"sm" | "md" | "lg"`가 기본 틀이고 기본값은 `md`. 컴포넌트가 Figma에서 더 필요하면 `Button`(`xs` 28 · `sm` 32 · `md` 40 · `lg` 48)처럼 Figma 스펙을 따른다.
+- **크기**: `size`는 `"sm" | "md" | "lg"`가 기본 틀이고 기본값은 `md`(2026-11 통일). 예외: `Checkbox`·`Radio`·`CheckMark`는 Figma 기본인 `sm`(20)이 기본값입니다. 컴포넌트가 Figma에서 더 필요하면 `Button`(`xs` 28 · `sm` 32 · `md` 40 · `lg` 48)처럼 Figma 스펙을 따른다.
 - **레이아웃·변형은 prop으로 캡슐화**합니다. 사용하는 쪽이 조각을 직접 조립해야 하는 API를 피합니다.
 - **날짜·시간은 문자열**(`YYYY-MM-DD`, `HH:mm`)입니다. `Date`를 prop으로 받지 않습니다.
 - **접근성**: 역할·`aria-*`·키보드 조작·포커스(`focus-visible`)를 함께 구현합니다(Storybook a11y 애드온이 검사합니다).
 - **새 export**는 `src/index.ts`에 추가하고, 공개하지 않을 내부 구현은 `src/components/_internal/`에 둡니다.
 - **아이콘은 `scripts/icons.json`이 원본이고 컴포넌트는 생성물입니다.** `icons.generated.ts`·`iconCatalog.generated.ts`는 손으로 고치지 않고 `npm run icons:generate -w @futurewiz-rms/mint`로 만듭니다(`@phosphor-icons/core` 버전은 고정). **아이콘 하나에 컴포넌트 하나**(`ArrowLeftIcon`)로 내보냅니다. `Icon.ArrowLeft`처럼 객체에 모으거나 `<Icon name="…" />`로 이름을 넘기는 방식은 쓰지 않습니다 — 쓰지 않는 아이콘이 번들에서 빠지지 않아서, 아이콘 1개를 써도 183개(gzip 약 39KB)가 들어갑니다(개별 export는 1개에 약 1KB). 생성 파일의 `/* @__PURE__ */` 표시를 지우지 않습니다.
+  - **Phosphor에 없고 Figma에서 따로 그린 전용 아이콘**(예: `Selected Check` 2204:12343)은 `icons.json`에 넣지 않고 `src/components/icon/<이름>Icon.tsx`에 직접 만들어 `src/index.ts`에서 export합니다(`SelectedCheckIcon`). 생성 파일에 손으로 추가하지 않습니다. 이름은 Figma 이름을 PascalCase로 바꾸고 `Icon`을 붙이며, `guide/icons.md`의 "디자인 시스템 전용 아이콘"과 docs `foundations/icons.mdx` 가이드라인에도 적습니다. 갤러리 개수(183)에는 포함하지 않습니다.
 - **스크롤바는 꾸미지 않습니다.** MINT 전체 기본 스크롤바(`src/styles/scrollbar.css`, Figma `Scroll Bar` 2204:15703)가 모든 스크롤 영역에 적용됩니다. 스크롤되는 컴포넌트(Select 목록·Textarea·Modal 본문 등)는 `overflow-auto`만 주고, 숨겨야 할 때만 `[scrollbar-width:none] [&::-webkit-scrollbar]:hidden`을 씁니다. `scrollbar-width`·`scrollbar-color`를 컴포넌트에 걸면 Chrome에서 MINT 스크롤바가 무시되니 쓰지 않습니다.
 - **이름은 줄이지 않습니다.** 매개변수·지역 변수·반복 변수·`catch` 변수에 한 글자 이름(`c`, `i`, `e`, `v`, `p`)이나 줄임말(`prev`, `el`, `idx`, `opts`, `btn`, `cb`, `px`, `cls`, `rect`, `dt`, `dx`)을 쓰지 않고 뜻이 드러나는 낱말로 씁니다(`coin`, `index`, `event`, `previous`, `element`, `options`, `bounds`). core·docs 예시·사이트 코드·스토리·md 문서 안의 코드 예시 모두 같습니다. 예시 코드는 사용하는 쪽이 그대로 따라 쓰기 때문입니다.
   - `.map((coin) => …)`, `onChange={(event) => …}`, `setItems((previous) => …)`, `for (let index = 0; …)`, `catch (error)`
   - 예외: 좌표값 `x`·`y`·`z`, 제네릭 타입 매개변수(`T`), 외부 API·HTML·props가 정한 이름(`ref`, `src`, Next.js `params`), 원래 낱말인 이름(`max`, `min`, `row`, `tab`), 쓰지 않는 값 `_`.
 - **Prettier 서식**은 루트 `.prettierrc`(printWidth 100, 큰따옴표)를 따릅니다.
+
+### Props 순서
+
+- core의 props 타입·매개변수, docs Props 표·Playground 컨트롤·복사 코드·예시, Storybook `argTypes`·`args`·예시는 **모양 → 내용 → 상태·동작 → 배치 → HTML·접근성 → 이벤트 → 확장** 순서로 맞춥니다. 세부 순서는 `scripts/prop-order.mjs`가 원본입니다.
+- 모양은 `variant` → `color` → `size`, 내용은 `children` → `label` → `placeholder` → `helper` → `helpIcon` → 앞뒤 요소, 상태는 값 → `status` → `loading` → `disabled` → `readOnly` → `required`, 배치는 `fullWidth`·`labelPosition` 등입니다. 마지막은 `className` → `style` → `ref`입니다. 해당 없는 prop은 건너뜁니다.
+- 타입의 상속·유니온 경계는 유지합니다. 기본값이 앞 prop을 참조하면 의존 순서가 우선이고, JSX의 `key`는 맨 앞에 둡니다. spread를 넘어 props를 옮기지 않습니다(덮어쓰기 순서 보존).
+- 비슷한 Playground는 공통 prop의 컨트롤 종류·선택지·기본값도 맞춥니다. `Select`·`TextField`의 공통 컨트롤은 `fieldControls.ts`에서 관리합니다. 컴포넌트 고유 기능과 실제 기본값의 차이는 유지합니다. Text의 `role` → `number` → `weight`처럼 하나의 prop을 만드는 종속 선택기는 의존 순서로 둡니다.
+- `npm run props:check`로 확인하고 `npm run props:sort`로 정리합니다. 자동 정리 후 변경을 검토하고 타입·빌드 검증을 실행합니다. 내부 DOM 속성이나 일반 데이터 객체는 정렬 대상이 아닙니다.
 
 ---
 
@@ -218,7 +228,7 @@ MINT는 Next.js App Router에서 **서버 컴포넌트와 클라이언트 컴포
      - 첫 줄은 나머지 HTML 속성을 받는지(`<태그>`), 둘째 줄은 서버·클라이언트 컴포넌트에서 쓰는 조건이에요. 첫 줄 끝의 `\`로 줄을 바꿔요(한 문단 안의 줄바꿈).
      - 열은 항상 `이름 | 타입 | 기본값 | 설명` 네 개예요. 이름·타입·기본값은 백틱으로 쓰고, 기본값이 없으면 `-`를 써요.
      - 설명은 짧게 한 구절이나 "~요" 한 문장으로 써요. 표 아래에는 글을 두지 않아요.
-     - 줄 순서: 모양(`variant`·`color`·`size`) → 내용(`children`·아이콘 등) → 상태(`loading`·`disabled`) → 배치(`fullWidth`) → HTML 속성(`type`) → 이벤트(`onClick`)
+     - 줄 순서: [Props 순서](#props-순서)를 따릅니다. 같은 prop은 core·Playground·Storybook과 같은 상대 순서로 둡니다.
 
   5. `## Guidelines`: Do/Don't 그림 → 규칙 목록(**예외: Guidelines도 글이 그림 아래**)
 - 섹션 제목(H2)은 영문(Playground · Examples · Props · Guidelines), 본문은 한국어입니다.
@@ -244,7 +254,7 @@ MINT는 Next.js App Router에서 **서버 컴포넌트와 클라이언트 컴포
 - **토큰·아이콘 갤러리처럼 "시각 확인용" 예시**는 `<Example name="…" hideCode />`로 코드를 숨깁니다. 그 코드는 화면을 그리는 구현이라 사용법이 아닙니다. 사용법은 MDX에 짧은 코드 블록으로 따로 적습니다.
 - **글자는 `Text` 컴포넌트로 씁니다.** 예시·스토리·사이트 미리보기에서 `<p className="text-body-2-regular text-text-secondary">`처럼 태그에 글자 클래스를 직접 달지 않고 `<Text as="p" variant="body-2-regular" color="secondary">`로 씁니다(사용하는 쪽이 따라 쓰는 코드이기 때문). 상자(배경·패딩)가 필요하면 바깥 `div`는 두고 안의 글자만 `Text`로 씁니다. 예외: 입력창(`<input>`) 모양, Foundations 스토리처럼 토큰 클래스 자체를 보여 주는 화면.
 - **예시 파일 규칙**: 기본 export 컴포넌트 하나(파일 이름과 같은 함수 이름), 쓰는 것만 `@futurewiz-rms/mint`에서 import, 정의되지 않은 변수 금지, 이름은 줄이지 않음(`(c) =>`가 아니라 `(coin) =>`, [컴포넌트 작성 규칙](#컴포넌트-작성-규칙)). 레이아웃 배치용 `div`/`style`은 파일 밖으로 빼서 `<Example name="..." style={{ maxWidth: 375 }} />`로 넘깁니다.
-- **docs에서 쓸 수 있는 클래스는 core가 만든 것뿐**입니다. 토큰 클래스(색·글자·반경·**간격**: `text-body-2-regular`, `bg-bg-surface`, `p-5`)와 컴포넌트가 쓰는 클래스는 들어 있지만, Tailwind의 일반 유틸리티(`flex`, `grid`, `gap-*`의 스케일 밖 값, `tablet:…`)는 없을 수 있습니다. 그래서 예시의 배치는 가능하면 `Container`·`Grid` 같은 MINT 컴포넌트로 하고, 그래도 필요한 미리보기용 배치는 `style`로 씁니다.
+- **docs에서 쓸 수 있는 클래스는 core가 만든 것뿐**입니다. 토큰 클래스(색·글자·반경·**간격**: `text-body-2-regular`, `bg-bg-surface`, `p-5`)와 컴포넌트가 쓰는 클래스는 들어 있지만, Tailwind의 일반 유틸리티(`flex`, `grid`, `gap-*`의 스케일 밖 값, `tablet:…`)는 없을 수 있습니다. 그래서 예시의 배치는 가능하면 `Container`·`Grid`·`Box` 같은 MINT 컴포넌트로 하고, 그래도 필요한 미리보기용 배치는 `style`로 씁니다. **예시·스토리에서 요소를 묶어 쌓고 정렬하는 `div`는 `Box`로 씁니다**(`<Box direction="horizontal" gap={12} align="center">`). `Box`가 표현하는 것은 방향, 간격 0·4·8·12·16·24·32, 여백 0·8·16·20·24, 정렬뿐이라 **줄바꿈(`flexWrap`)·폭·높이·`grid`·단계 밖 값(`paddingTop: 40`, 간격 `64px 16px`)이 필요한 `div`는 그대로 `style`**로 두거나, 바깥 여백·폭은 `ExampleTabs` 항목의 `style`로 뺍니다. 임의 폭 클래스(`w-[360px]`)는 core CSS에 그 값이 있을 때만 적용되므로(`w-[160px]`·`w-[200px]`·`w-[240px]`·`w-[280px]`처럼 core 컴포넌트가 쓰는 값만) 예시에서 새로 만들지 않습니다.
 - Props 표는 **소스의 실제 props와 대조**해서 씁니다.
 - "Changelog" 페이지(`content/getting-started/changelog.mdx`, 제목 `# Changelog`)는 `packages/core/CHANGELOG.md`에서 만들어지는 **생성물**입니다. 직접 고치지 않습니다.
 - 포맷은 **저장소 루트에서** `npm run format:docs` 또는 `npx prettier --write <파일>`로 합니다.
@@ -274,6 +284,7 @@ MINT는 Next.js App Router에서 **서버 컴포넌트와 클라이언트 컴포
 
 # 2) 포맷 (루트에서!)
 npm run format:check
+npm run props:check
 
 # 3) 사용 가이드 색인
 npm run guide:check -w @futurewiz-rms/mint

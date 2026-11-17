@@ -9,18 +9,18 @@ export function CheckMarkPlayground() {
     <Playground
       controls={[
         { prop: "size", type: "select", options: ["xs", "sm", "md", "lg"], default: "sm" },
-        { prop: "checked", type: "boolean", default: true },
-        { prop: "label", type: "boolean", default: true },
-        { prop: "tight", type: "boolean", default: false },
-        { prop: "disabled", type: "boolean", default: false },
         { prop: "children", type: "text", default: "텍스트" },
+        { prop: "label", type: "boolean", default: true },
+        { prop: "checked", type: "boolean", default: true },
+        { prop: "disabled", type: "boolean", default: false },
+        { prop: "tight", type: "boolean", default: false },
       ]}
       render={(values) => (
         <CheckMark
           size={values.size as CheckMarkSize}
           checked={values.checked as boolean}
-          tight={values.tight as boolean}
           disabled={values.disabled as boolean}
+          tight={values.tight as boolean}
           aria-label={values.label ? undefined : (values.children as string)}
           onClick={() => {}}
         >
@@ -33,8 +33,8 @@ export function CheckMarkPlayground() {
           {
             size: values.size !== "sm" ? (values.size as string) : undefined,
             checked: values.checked as boolean,
-            tight: values.tight as boolean,
             disabled: values.disabled as boolean,
+            tight: values.tight as boolean,
             "aria-label": values.label ? undefined : (values.children as string),
             onClick: { expr: "() => setChecked(!checked)" },
           },
@@ -51,7 +51,7 @@ export function CheckMarkGuide() {
     <DoDont
       good={
         <span style={{ display: "flex", flexDirection: "column", width: 200 }}>
-          <CheckMark role="radio" checked onClick={() => {}} className="w-full">
+          <CheckMark checked role="radio" onClick={() => {}} className="w-full">
             최신순
           </CheckMark>
           <CheckMark role="radio" onClick={() => {}} className="w-full">

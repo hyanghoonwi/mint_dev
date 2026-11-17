@@ -6,7 +6,7 @@ export default function Headings() {
       <Text variant="title-2-bold" as="h1">
         내 자산
       </Text>
-      <Text variant="body-3-regular" as="p" color="secondary">
+      <Text variant="body-3-regular" color="secondary" as="p">
         오늘 오후 3시 기준이에요
       </Text>
     </div>

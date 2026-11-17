@@ -9,8 +9,7 @@ export default function BodyOnly() {
     <>
       <Button onClick={() => setOpen(true)}>나가기</Button>
       <Alert
-        open={open}
-        onClose={() => setOpen(false)}
+        body="저장하지 않은 내용이 있어요."
         action={
           <>
             <Button color="secondary" onClick={() => setOpen(false)}>
@@ -19,7 +18,8 @@ export default function BodyOnly() {
             <Button onClick={() => setOpen(false)}>나가기</Button>
           </>
         }
-        body="저장하지 않은 내용이 있어요."
+        open={open}
+        onClose={() => setOpen(false)}
       />
     </>
   );

@@ -8,8 +8,6 @@ export default function Stacked() {
   const confirmLeave = () =>
     overlay.open(({ isOpen, close }) => (
       <Alert
-        open={isOpen}
-        onClose={close}
         heading="정말 탈퇴할까요?"
         body="탈퇴하면 관심 코인과 알림 설정이 모두 사라져요."
         action={
@@ -22,14 +20,14 @@ export default function Stacked() {
             </Button>
           </>
         }
+        open={isOpen}
+        onClose={close}
       />
     ));
 
   const openNotice = () =>
     overlay.open(({ isOpen, close }) => (
       <Alert
-        open={isOpen}
-        onClose={close}
         heading="탈퇴 안내"
         body="탈퇴 전에 보유 자산을 확인해 주세요."
         action={
@@ -40,6 +38,8 @@ export default function Stacked() {
             <Button onClick={confirmLeave}>계속</Button>
           </>
         }
+        open={isOpen}
+        onClose={close}
       />
     ));
 

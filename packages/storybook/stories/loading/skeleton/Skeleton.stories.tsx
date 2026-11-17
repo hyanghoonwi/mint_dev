@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import { SkeletonCircle, SkeletonRectangle, SkeletonText } from "@futurewiz-rms/mint";
+import { Box, SkeletonCircle, SkeletonRectangle, SkeletonText } from "@futurewiz-rms/mint";
 
 const meta = {
   title: "Components/Loading/Skeleton",
@@ -9,12 +9,12 @@ const meta = {
     layout: "padded",
   },
   argTypes: {
-    length: { control: "inline-radio", options: ["100%", "75%", "50%", "25%"] },
-    align: { control: "inline-radio", options: ["leading", "center", "trailing"] },
     color: { control: "inline-radio", options: ["normal", "white"] },
+    animate: { control: "boolean" },
+    align: { control: "inline-radio", options: ["leading", "center", "trailing"] },
+    length: { control: "inline-radio", options: ["100%", "75%", "50%", "25%"] },
     width: { control: "text" },
     height: { control: "number" },
-    animate: { control: "boolean" },
   },
   args: { width: 240 },
 } satisfies Meta<typeof SkeletonText>;
@@ -27,23 +27,23 @@ export const Text: Story = {};
 // length: 줄 칸 폭에 대한 비율
 export const TextLengths: Story = {
   render: (args) => (
-    <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+    <Box gap={16}>
       <SkeletonText {...args} length="100%" />
       <SkeletonText {...args} length="75%" />
       <SkeletonText {...args} length="50%" />
       <SkeletonText {...args} length="25%" />
-    </div>
+    </Box>
   ),
 };
 
 // align: 짧은 줄을 칸 안의 어디에 둘지
 export const TextAligns: Story = {
   render: (args) => (
-    <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
-      <SkeletonText {...args} length="50%" align="leading" />
-      <SkeletonText {...args} length="50%" align="center" />
-      <SkeletonText {...args} length="50%" align="trailing" />
-    </div>
+    <Box gap={16}>
+      <SkeletonText {...args} align="leading" length="50%" />
+      <SkeletonText {...args} align="center" length="50%" />
+      <SkeletonText {...args} align="trailing" length="50%" />
+    </Box>
   ),
 };
 
@@ -54,22 +54,22 @@ export const Static: Story = {
 
 export const Rectangle: Story = {
   render: () => (
-    <div style={{ display: "flex", gap: 24 }}>
+    <Box direction="horizontal" gap={24}>
       <SkeletonRectangle width={120} height={80} />
-      <SkeletonRectangle width={120} height={80} radius />
-    </div>
+      <SkeletonRectangle radius width={120} height={80} />
+    </Box>
   ),
 };
 
 export const CircleSizes: Story = {
   render: () => (
-    <div style={{ display: "flex", alignItems: "center", gap: 24 }}>
+    <Box direction="horizontal" align="center" gap={24}>
       <SkeletonCircle size={24} />
       <SkeletonCircle size={32} />
       <SkeletonCircle size={40} />
       <SkeletonCircle size={48} />
       <SkeletonCircle size={64} />
-    </div>
+    </Box>
   ),
 };
 
@@ -81,7 +81,7 @@ export const White: Story = {
       style={{ display: "flex", alignItems: "center", gap: 24, padding: 16 }}
     >
       <SkeletonText color="white" width={240} />
-      <SkeletonRectangle color="white" width={120} height={80} radius />
+      <SkeletonRectangle color="white" radius width={120} height={80} />
       <SkeletonCircle color="white" size={40} />
     </div>
   ),
@@ -104,10 +104,10 @@ export const ListItem: Story = {
 export const Mobile: Story = {
   globals: { viewport: { value: "mobile" } },
   render: () => (
-    <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-      <SkeletonRectangle height={160} radius />
+    <Box gap={12}>
+      <SkeletonRectangle radius height={160} />
       <SkeletonText />
       <SkeletonText length="75%" />
-    </div>
+    </Box>
   ),
 };

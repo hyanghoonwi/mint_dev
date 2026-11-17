@@ -1,7 +1,7 @@
 import { useState } from "react";
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { expect, userEvent, waitFor, within } from "storybook/test";
-import { Alert, Button, OverlayProvider, Text, useOverlay } from "@futurewiz-rms/mint";
+import { Alert, Box, Button, OverlayProvider, Text, useOverlay } from "@futurewiz-rms/mint";
 
 const meta = {
   title: "Hooks/useOverlay",
@@ -42,8 +42,6 @@ export const Open: Story = {
         onClick={() =>
           overlay.open(({ isOpen, close }) => (
             <Alert
-              open={isOpen}
-              onClose={close}
               heading="관심 코인에서 뺄까요?"
               body="빼면 이 코인의 가격 알림도 함께 꺼져요."
               action={
@@ -56,6 +54,8 @@ export const Open: Story = {
                   </Button>
                 </>
               }
+              open={isOpen}
+              onClose={close}
             />
           ))
         }
@@ -90,13 +90,11 @@ export const OpenAsync: Story = {
     const overlay = useOverlay();
     const [result, setResult] = useState("아직 고르지 않았어요");
     return (
-      <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+      <Box direction="horizontal" align="center" gap={12}>
         <Button
           onClick={async () => {
             const confirmed = await overlay.openAsync<boolean>(({ isOpen, close }) => (
               <Alert
-                open={isOpen}
-                onClose={() => close(false)}
                 heading="게시글을 삭제할까요?"
                 body="삭제한 글은 되돌릴 수 없어요."
                 action={
@@ -109,6 +107,8 @@ export const OpenAsync: Story = {
                     </Button>
                   </>
                 }
+                open={isOpen}
+                onClose={() => close(false)}
               />
             ));
             setResult(confirmed ? "삭제했어요" : "취소했어요");
@@ -119,7 +119,7 @@ export const OpenAsync: Story = {
         <Text variant="body-2-regular" color="secondary" role="status">
           {result}
         </Text>
-      </div>
+      </Box>
     );
   },
   play: async ({ canvas, step }) => {
@@ -154,8 +154,6 @@ export const Stacked: Story = {
     const openSecond = () =>
       overlay.open(({ isOpen, close }) => (
         <Alert
-          open={isOpen}
-          onClose={close}
           heading="정말 탈퇴할까요?"
           body="탈퇴하면 관심 코인과 알림 설정이 모두 사라져요."
           action={
@@ -168,6 +166,8 @@ export const Stacked: Story = {
               </Button>
             </>
           }
+          open={isOpen}
+          onClose={close}
         />
       ));
     return (
@@ -175,8 +175,6 @@ export const Stacked: Story = {
         onClick={() =>
           overlay.open(({ isOpen, close }) => (
             <Alert
-              open={isOpen}
-              onClose={close}
               heading="탈퇴 안내"
               body="탈퇴 전에 보유 자산을 확인해 주세요."
               action={
@@ -187,6 +185,8 @@ export const Stacked: Story = {
                   <Button onClick={openSecond}>계속</Button>
                 </>
               }
+              open={isOpen}
+              onClose={close}
             />
           ))
         }
@@ -240,13 +240,11 @@ export const Sequential: Story = {
     const overlay = useOverlay();
     const [result, setResult] = useState("");
     return (
-      <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+      <Box direction="horizontal" align="center" gap={12}>
         <Button
           onClick={async () => {
             const agreed = await overlay.openAsync<boolean>(({ isOpen, close }) => (
               <Alert
-                open={isOpen}
-                onClose={() => close(false)}
                 heading="알림을 켤까요?"
                 body="설정에서 언제든 끌 수 있어요."
                 action={
@@ -257,15 +255,17 @@ export const Sequential: Story = {
                     <Button onClick={() => close(true)}>켜기</Button>
                   </>
                 }
+                open={isOpen}
+                onClose={() => close(false)}
               />
             ));
             if (!agreed) return setResult("결과: 끔");
             await overlay.openAsync<void>(({ isOpen, close }) => (
               <Alert
-                open={isOpen}
-                onClose={() => close()}
                 body="알림을 켰어요."
                 action={<Button onClick={() => close()}>확인</Button>}
+                open={isOpen}
+                onClose={() => close()}
               />
             ));
             setResult("결과: 켬");
@@ -276,7 +276,7 @@ export const Sequential: Story = {
         <Text variant="body-2-regular" color="secondary" role="status">
           {result}
         </Text>
-      </div>
+      </Box>
     );
   },
   play: async ({ canvas, step }) => {
@@ -306,17 +306,17 @@ export const SameOverlayId: Story = {
         .openAsync<boolean>(
           ({ isOpen, close }) => (
             <Alert
-              open={isOpen}
-              onClose={() => close(false)}
               body="알림을 켤까요?"
               action={<Button onClick={() => close(true)}>켜기</Button>}
+              open={isOpen}
+              onClose={() => close(false)}
             />
           ),
           { overlayId: "notification" },
         )
         .then((value) => setResults((previous) => [...previous, String(value)]));
     return (
-      <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+      <Box direction="horizontal" align="center" gap={12}>
         <Button
           onClick={() => {
             // 연타처럼 두 번 연다
@@ -329,7 +329,7 @@ export const SameOverlayId: Story = {
         <Text variant="body-2-regular" color="secondary">
           {results.length ? `결과: ${results.join(", ")}` : ""}
         </Text>
-      </div>
+      </Box>
     );
   },
   play: async ({ canvas, step }) => {
@@ -353,8 +353,6 @@ export const ClosedWithoutValue: Story = {
       overlay
         .openAsync<boolean>(({ isOpen, close, exit }) => (
           <Alert
-            open={isOpen}
-            onClose={() => close()}
             body="결과 없이 닫아 볼까요?"
             action={
               <>
@@ -364,16 +362,18 @@ export const ClosedWithoutValue: Story = {
                 <Button onClick={() => overlay.closeAll()}>모두 닫기</Button>
               </>
             }
+            open={isOpen}
+            onClose={() => close()}
           />
         ))
         .then((value) => setResult(`결과: ${String(value)}`));
     return (
-      <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+      <Box direction="horizontal" align="center" gap={12}>
         <Button onClick={ask}>열기</Button>
         <Text variant="body-2-regular" color="secondary">
           {result}
         </Text>
-      </div>
+      </Box>
     );
   },
   play: async ({ canvas, step }) => {

@@ -1,8 +1,8 @@
-import { Avatar, AvatarGroup, Text } from "@futurewiz-rms/mint";
+import { Avatar, AvatarGroup, Box, Text } from "@futurewiz-rms/mint";
 
 export default function Inline() {
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+    <Box gap={12}>
       {/* 작성자 이름 옆: 16px 아바타 */}
       <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
         <Avatar size={16} name="김민수" />
@@ -21,6 +21,6 @@ export default function Inline() {
           5명이 보고 있어요
         </Text>
       </div>
-    </div>
+    </Box>
   );
 }

@@ -6,7 +6,14 @@
 
 <Figure height={240} />
 
-Text Field, Textarea, Select, Form에서 조합해서 써요.\
+<Callout type="warning">
+  **[Text field](/components/text-field)와 [Select](/components/select)에는
+  Label이 내장되어 있어요.** `label` · `required` · `helpIcon`만 주면 되고, 입력
+  칸 위에 Label을 또 붙이지 않아요(라벨이 두 번 나와요). Label을 따로 쓰는 곳은
+  체크박스·라디오 같은 **선택지 묶음의 이름**과 Label이 내장되지 않은 입력
+  칸이에요.
+</Callout>
+
 Label은 무엇을 입력하는지 알려 주고, 입력 예시는 Placeholder가 맡아요.
 
 |      | Label                       | Placeholder                         |
@@ -25,15 +32,21 @@ Label은 무엇을 입력하는지 알려 주고, 입력 예시는 Placeholder�
 
 <ExampleTabs
   items={[
-    { title: "입력 칸과 연결", name: "label/WithInput" },
+    { title: "입력 칸에 내장", name: "label/BuiltIn" },
+    { title: "묶음 이름", name: "label/GroupName" },
     { title: "필수 표시", name: "label/Required" },
-    { title: "도움말 아이콘", name: "label/HelpIcon" },
+    {
+      title: "도움말 아이콘",
+      name: "label/HelpIcon",
+      style: { paddingTop: 40 },
+    },
     { title: "비활성", name: "label/Disabled" },
     { title: "반응형", name: "label/Responsive" },
   ]}
 />
 
-- **입력 칸과 연결**: `htmlFor`에 입력 칸의 `id`를 주면 라벨을 눌러도 입력 칸이 선택돼요.
+- **입력 칸에 내장**: Text field에는 Label이 들어 있어요. `label`을 주면 글자를 눌러도 입력 칸에 포커스가 가는 연결까지 알아서 해요.
+- **묶음 이름**: 선택지 묶음에는 Label이 내장되어 있지 않아서 따로 써요. 입력이 여러 개라 `htmlFor` 대신 묶음에 `aria-labelledby`를 주고 Label에 `id`를 줘요.
 - **필수 표시**: `required`면 글자 옆에 빨간 `*`가 붙어요. 스크린리더는 "(필수)"로 읽어요.
 - **도움말 아이콘**: `helpIcon`을 켜면 물음표 아이콘이 붙어요. 누르면 설명이 나오게 하려면 `Tooltip`으로 감싼 버튼을 넘겨요.
 - **비활성**: 입력 칸을 쓸 수 없을 때 `disabled`로 글자와 아이콘을 흐리게 해요.
@@ -48,10 +61,10 @@ Label은 무엇을 입력하는지 알려 주고, 입력 예시는 Placeholder�
 | ---------- | ------------------------------------------------------- | ------- | ------------------------------------------------------------------ |
 | `size`     | `"sm" \| "md" \| "lg"` 또는 `{ base, tablet, desktop }` | `"md"`  | 글자 12 · 14 · 16. 객체로 주면 구간마다 달라져요                   |
 | `children` | `ReactNode`                                             | -       | 라벨 글자. 명사로 짧게 써요                                        |
-| `required` | `boolean`                                               | `false` | 글자 옆에 빨간 `*`를 붙여요                                        |
-| `disabled` | `boolean`                                               | `false` | 글자와 아이콘을 흐리게 해요                                        |
 | `helpIcon` | `boolean \| ReactNode`                                  | `false` | `true`면 물음표 아이콘, 요소를 주면 그 요소를 글자 오른쪽에 놓아요 |
-| `htmlFor`  | `string`                                                | -       | 이어 줄 입력 칸의 `id`                                             |
+| `disabled` | `boolean`                                               | `false` | 글자와 아이콘을 흐리게 해요                                        |
+| `required` | `boolean`                                               | `false` | 글자 옆에 빨간 `*`를 붙여요                                        |
+| `htmlFor`  | `string`                                                | -       | 이어 줄 입력 칸의 `id`. Label을 따로 쓸 때만 필요해요              |
 
 ## Guidelines
 
@@ -61,5 +74,6 @@ Label은 무엇을 입력하는지 알려 주고, 입력 예시는 Placeholder�
 - 입력 칸마다 Label을 붙여요. Placeholder만 있으면 입력하는 순간 무엇인지 알 수 없어요.
 - 필수 입력일 때만 `required`를 켜요.
 - 크기는 기본 `md`를 쓰고, 입력 칸 크기에 맞춰 `sm`·`lg`를 골라요.
-- `htmlFor`로 입력 칸과 이어 둬요.
+- Text field·Select에는 Label이 내장되어 있어요. 그 위에 Label을 또 붙이지 않아요.
+- Label을 따로 쓸 때만 `htmlFor`로 입력 칸과 이어 둬요. 선택지 묶음에는 묶음에 `aria-labelledby`를 주고 Label에 `id`를 줘요(선택지 옆 글자는 Label이 아니에요).
 - 글자색을 임의로 바꾸지 않고 시맨틱 색만 써요.

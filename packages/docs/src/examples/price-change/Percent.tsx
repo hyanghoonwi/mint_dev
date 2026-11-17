@@ -1,17 +1,17 @@
-import { PriceChange } from "@futurewiz-rms/mint";
+import { Box, PriceChange } from "@futurewiz-rms/mint";
 
 export default function Percent() {
   return (
-    <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
-      <PriceChange direction="up" type="percent">
+    <Box direction="horizontal" align="center" gap={16}>
+      <PriceChange type="percent" direction="up">
         3.42%
       </PriceChange>
-      <PriceChange direction="down" type="percent">
+      <PriceChange type="percent" direction="down">
         12.05%
       </PriceChange>
-      <PriceChange direction="flat" type="percent">
+      <PriceChange type="percent" direction="flat">
         0.00%
       </PriceChange>
-    </div>
+    </Box>
   );
 }

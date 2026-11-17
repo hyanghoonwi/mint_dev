@@ -16,10 +16,10 @@ export default function CoinList() {
             {coin}
           </Text>
           <ToggleIcon
-            icon={<StarIcon />}
-            aria-label={`${coin} 관심 코인`}
             size="sm"
+            icon={<StarIcon />}
             active={favorites.includes(coin)}
+            aria-label={`${coin} 관심 코인`}
             onActiveChange={(on) =>
               setFavorites((previous) =>
                 on ? [...previous, coin] : previous.filter((favorite) => favorite !== coin),

@@ -1,16 +1,16 @@
-import { Radio, RadioGroup } from "@futurewiz-rms/mint";
+import { Box, Radio, RadioGroup } from "@futurewiz-rms/mint";
 
 export default function States() {
   return (
-    <div style={{ display: "flex", gap: 24 }}>
-      <RadioGroup aria-label="기본" defaultValue="on">
+    <Box direction="horizontal" gap={24}>
+      <RadioGroup defaultValue="on" aria-label="기본">
         <Radio value="off">안 고름</Radio>
         <Radio value="on">고름</Radio>
       </RadioGroup>
-      <RadioGroup aria-label="비활성" defaultValue="on" disabled>
+      <RadioGroup defaultValue="on" disabled aria-label="비활성">
         <Radio value="off">비활성</Radio>
         <Radio value="on">비활성 고름</Radio>
       </RadioGroup>
-    </div>
+    </Box>
   );
 }

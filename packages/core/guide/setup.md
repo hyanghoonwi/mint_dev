@@ -35,16 +35,16 @@ import "@futurewiz-rms/mint/style.css";
 
 ## 3. 토큰 클래스
 
-| 종류   | 클래스 예                                                                                     |
-| ------ | --------------------------------------------------------------------------------------------- |
-| 글자   | `text-title-1-bold` `text-body-2-regular` `text-label-2-semibold`                             |
-| 배경   | `bg-background-default` `bg-background-lower` `bg-background-floated`                         |
-| 면     | `bg-fill-brand` `bg-fill-brand-weak` `bg-fill-neutral-weak` `bg-fill-danger`                  |
-| 글자색 | `text-text-primary` `text-text-secondary` `text-text-brand` `text-text-on-fill`               |
-| 아이콘 | `text-icon-default` `text-icon-brand` `text-icon-danger`                                      |
-| 테두리 | `border-border-default` `border-border-strong`                                                |
-| 반경   | `rounded-4` `rounded-8` `rounded-12` `rounded-16` `rounded-20` `rounded-full`                 |
-| 그림자 | `shadow-floating`(토스트·메뉴·툴팁 같은 떠 있는 요소) `shadow-drawer`(오른쪽에서 나오는 패널) |
+| 종류   | 클래스 예                                                                                                                                          |
+| ------ | -------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 글자   | `text-title-1-bold` `text-body-2-regular` `text-label-2-semibold`                                                                                  |
+| 배경   | `bg-background-default` `bg-background-lower` `bg-background-floated`                                                                              |
+| 면     | `bg-fill-brand` `bg-fill-brand-weak` `bg-fill-neutral-weak` `bg-fill-danger`                                                                       |
+| 글자색 | `text-text-primary` `text-text-secondary` `text-text-brand` `text-text-on-fill`                                                                    |
+| 아이콘 | `text-icon-default` `text-icon-brand` `text-icon-danger`                                                                                           |
+| 테두리 | `border-border-default` `border-border-strong`                                                                                                     |
+| 반경   | `rounded-4` `rounded-8` `rounded-12` `rounded-16` `rounded-20` `rounded-full`                                                                      |
+| 그림자 | `shadow-raised`(화면에 붙은 카드·상자, Box `raised`) `shadow-floating`(토스트·메뉴·툴팁 같은 떠 있는 요소) `shadow-drawer`(오른쪽에서 나오는 패널) |
 
 ### 글자 스타일
 
@@ -113,6 +113,22 @@ import "@futurewiz-rms/mint/style.css";
 ## 5. 다크 모드
 
 시맨틱 컬러는 지금 Light 값만 있습니다. `<html data-theme="dark">`로 바꿔도 색이 달라지지 않습니다(Figma에 Dark가 생기면 추가). 테마를 바꾸는 Provider는 아직 없습니다.
+
+## Props 순서
+
+타입·문서 표·예시에서 같은 prop을 쉽게 찾도록 다음 순서로 작성합니다. 해당 없는 항목은 건너뜁니다.
+
+1. 모양: `variant` → `color` → `size` → 모서리·테두리 등
+2. 내용: `children` → `label` → `heading`·`description` → `placeholder` → `helper` → `helpIcon` → 아이콘·앞뒤 요소 → 목록
+3. 상태·동작: `value`·`defaultValue` → 선택·열림 → `status` → `loading` → `disabled` → `readOnly` → `required` → 개별 동작
+4. 배치: `fullWidth` → `labelPosition` 등 위치·정렬·간격·폭·높이
+5. HTML·접근성: `as`·`type`·`id`·`name`·`aria-*`
+6. 이벤트: `onChange`·`onClick` 등
+7. 확장: `className` → `style` → `ref`
+
+`key`는 JSX의 맨 앞에 씁니다. spread의 앞뒤는 덮어쓰기 결과에 영향을 주므로 유지합니다. 이벤트의 사용법은 제어 값 설명과 함께 읽어도 됩니다. 이 순서는 읽기 위한 규칙이며 API 이름·타입·기본값을 바꾸지 않습니다.
+
+`Select`와 `TextField`는 `size`·`label`·`placeholder`·`helper`·`helpIcon`·`status`·`disabled`·`readOnly`·`required`·`labelPosition`의 상대 순서가 같습니다. 앞 요소는 각 API에 맞춰 `Select`의 `leadingIcon`, `TextField`의 `leftAddon`을 씁니다.
 
 ## Provider
 

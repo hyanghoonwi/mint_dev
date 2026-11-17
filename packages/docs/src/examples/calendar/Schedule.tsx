@@ -30,12 +30,12 @@ export default function Schedule() {
       style={{ display: "flex", flexDirection: "column", gap: 12, width: "100%", maxWidth: 360 }}
     >
       <Calendar
-        today="2026-11-11"
         value={date}
-        onChange={setDate}
+        today="2026-11-11"
         month={month}
-        onMonthChange={setMonth}
         marks={marks}
+        onChange={setDate}
+        onMonthChange={setMonth}
       />
       <Text variant="body-3-regular" color="secondary">
         {date

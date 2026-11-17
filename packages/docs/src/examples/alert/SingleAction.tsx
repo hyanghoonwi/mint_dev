@@ -9,11 +9,11 @@ export default function SingleAction() {
     <>
       <Button onClick={() => setOpen(true)}>점검 안내</Button>
       <Alert
+        heading="점검 중이에요"
+        body="잠시 후 다시 시도해 주세요."
+        action={<Button onClick={() => setOpen(false)}>확인</Button>}
         open={open}
         onClose={() => setOpen(false)}
-        heading="점검 중이에요"
-        action={<Button onClick={() => setOpen(false)}>확인</Button>}
-        body="잠시 후 다시 시도해 주세요."
       />
     </>
   );

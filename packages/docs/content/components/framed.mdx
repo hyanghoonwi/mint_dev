@@ -52,15 +52,15 @@
 | 이름                       | 타입                   | 기본값  | 설명                                                  |
 | -------------------------- | ---------------------- | ------- | ----------------------------------------------------- |
 | `size`                     | `"sm" \| "md" \| "lg"` | `"md"`  | 여백·모서리 12·8 · 16·12 · 20·16                      |
-| `error`                    | `boolean`              | `false` | 오류 상태. 빨간 테두리로 보여 줘요                    |
-| `shadow`                   | `boolean`              | `false` | 그림자로 띄워 보여요                                  |
 | `label`                    | `ReactNode`            | -       | 레이블(필수). `Framed`는 `children`으로 내용을 넣어요 |
 | `description`              | `ReactNode`            | -       | 레이블 아래 설명                                      |
+| `value`                    | `string`               | -       | `FramedRadio`의 선택 값                               |
 | `checked`·`defaultChecked` | `boolean`              | -       | `FramedCheckbox`의 체크 여부                          |
 | `indeterminate`            | `boolean`              | `false` | `FramedCheckbox`의 일부 선택                          |
-| `value`                    | `string`               | -       | `FramedRadio`의 선택 값                               |
 | `selected`                 | `boolean`              | `false` | `Framed`의 선택 표시. 컨트롤이 든 틀은 자동이에요     |
+| `error`                    | `boolean`              | `false` | 오류 상태. 빨간 테두리로 보여 줘요                    |
 | `disabled`                 | `boolean`              | `false` | 누를 수 없는 상태(회색 바탕)                          |
+| `shadow`                   | `boolean`              | `false` | 그림자로 띄워 보여요                                  |
 | `onChange`                 | `(event) => void`      | -       | `FramedCheckbox`에서 체크가 바뀌면 불려요             |
 
 ## Guidelines

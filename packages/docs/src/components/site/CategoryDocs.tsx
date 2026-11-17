@@ -28,23 +28,23 @@ export function CategoryPlayground() {
       stageMinHeight={200}
       controls={[
         { prop: "variant", type: "select", options: ["solid", "outline"], default: "solid" },
-        { prop: "size", type: "select", options: ["lg", "md"], default: "lg" },
+        { prop: "size", type: "select", options: ["lg", "md"], default: "md" },
         { prop: "shape", type: "select", options: ["square", "pill"], default: "square" },
+        { prop: "badge", type: "boolean", default: false },
         { prop: "chip", type: "select", options: counts, default: 4 },
         { prop: "all", type: "boolean", default: true },
-        { prop: "badge", type: "boolean", default: false },
         { prop: "fade", type: "boolean", default: true },
       ]}
       render={(values) => (
         <span className={values.variant === "outline" ? "docs-gray-stage" : "docs-white-stage"}>
           <Category
-            aria-label="코인 분류"
-            items={itemsFor(values)}
             variant={values.variant as CategoryVariant}
             size={values.size as CategorySize}
             shape={values.shape as CategoryShape}
+            items={itemsFor(values)}
             all={values.all as boolean}
             fade={values.fade as boolean}
+            aria-label="코인 분류"
             style={{ width: 360, maxWidth: "100%" }}
           />
         </span>
@@ -57,13 +57,13 @@ export function CategoryPlayground() {
           )
           .join("\n");
         return jsx("Category", {
-          "aria-label": "코인 분류",
           variant: values.variant !== "solid" ? (values.variant as string) : undefined,
-          size: values.size !== "lg" ? (values.size as string) : undefined,
+          size: values.size !== "md" ? (values.size as string) : undefined,
           shape: values.shape !== "square" ? (values.shape as string) : undefined,
+          items: { expr: `[\n${items}\n  ]` },
           all: values.all ? undefined : { expr: "false" },
           fade: values.fade ? undefined : { expr: "false" },
-          items: { expr: `[\n${items}\n  ]` },
+          "aria-label": "코인 분류",
         });
       }}
     />
@@ -83,7 +83,7 @@ export function CategoryGuide() {
   return (
     <DoDont
       good={
-        <Category aria-label="좋은 예" items={sample} style={{ width: 240, maxWidth: "100%" }} />
+        <Category items={sample} aria-label="좋은 예" style={{ width: 240, maxWidth: "100%" }} />
       }
       goodText={<>한 줄로 두고, 넘치면 스크롤해요. 맨 앞에 "전체"를 둬요.</>}
       bad={

@@ -1,8 +1,8 @@
-import { Label, QuestionIcon, Tooltip } from "@futurewiz-rms/mint";
+import { Box, Label, QuestionIcon, Tooltip } from "@futurewiz-rms/mint";
 
 export default function HelpIcon() {
   return (
-    <div style={{ display: "flex", gap: 24, paddingTop: 40 }}>
+    <Box direction="horizontal" gap={24}>
       <Label helpIcon>추천인 코드</Label>
       <Label
         helpIcon={
@@ -15,6 +15,6 @@ export default function HelpIcon() {
       >
         이름
       </Label>
-    </div>
+    </Box>
   );
 }

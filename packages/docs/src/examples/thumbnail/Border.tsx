@@ -1,10 +1,10 @@
-import { Thumbnail } from "@futurewiz-rms/mint";
+import { Box, Thumbnail } from "@futurewiz-rms/mint";
 
 export default function Border() {
   return (
-    <div style={{ display: "flex", gap: 16 }}>
-      <Thumbnail aspectRatio="1:1" radius style={{ width: 96 }} />
-      <Thumbnail aspectRatio="1:1" radius border style={{ width: 96 }} />
-    </div>
+    <Box direction="horizontal" gap={16}>
+      <Thumbnail radius aspectRatio="1:1" style={{ width: 96 }} />
+      <Thumbnail radius border aspectRatio="1:1" style={{ width: 96 }} />
+    </Box>
   );
 }

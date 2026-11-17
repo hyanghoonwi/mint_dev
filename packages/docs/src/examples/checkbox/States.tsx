@@ -7,10 +7,10 @@ export default function States() {
       <Checkbox defaultChecked>체크됨</Checkbox>
       <Checkbox indeterminate>일부 선택</Checkbox>
       <Checkbox disabled>비활성</Checkbox>
-      <Checkbox disabled defaultChecked>
+      <Checkbox defaultChecked disabled>
         비활성 체크
       </Checkbox>
-      <Checkbox disabled indeterminate>
+      <Checkbox indeterminate disabled>
         비활성 일부
       </Checkbox>
     </div>

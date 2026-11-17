@@ -51,9 +51,9 @@
 
 | 이름         | 타입                                                                         | 기본값       | 설명                                                                            |
 | ------------ | ---------------------------------------------------------------------------- | ------------ | ------------------------------------------------------------------------------- |
-| `checked`    | `boolean`                                                                    | `false`      | 선택 여부. 선택되면 브랜드 색으로 바뀌어요                                      |
 | `size`       | `"xs" \| "sm" \| "md" \| "lg"` 또는 `{ base, tablet, desktop }`              | `"sm"`       | 체크 16 · 20 · 24 · 32. 레이블과 높이도 따라가요. 객체로 주면 구간마다 달라져요 |
 | `children`   | `ReactNode`                                                                  | -            | 레이블. 없으면 `aria-label`을 줘요                                              |
+| `checked`    | `boolean`                                                                    | `false`      | 선택 여부. 선택되면 브랜드 색으로 바뀌어요                                      |
 | `disabled`   | `boolean`                                                                    | `false`      | 누를 수 없는 상태                                                               |
 | `tight`      | `boolean`                                                                    | `false`      | 바깥 여백을 없앤 촘촘한 모양(높이 40 → 크기별 20·24·28·32)                      |
 | `role`       | `"checkbox" \| "radio" \| "option" \| "menuitemcheckbox" \| "menuitemradio"` | `"checkbox"` | 눌릴 때 스크린리더가 읽는 역할. `option`은 `aria-selected`로 알려요             |

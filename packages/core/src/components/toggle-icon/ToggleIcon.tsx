@@ -52,38 +52,38 @@ export interface ToggleIconProps extends Omit<
   "children" | "aria-pressed" | "onChange"
 > {
   /**
+   * `xs` 28 · `sm` 32 · `md` 40(기본) · `lg` 48. 카드 위는 `md`, 목록은 `sm`.
+   * 구간별로 바꾸려면 객체를 준다: `{ base: "sm", desktop: "md" }`. 빈 구간은 앞 구간 값을 이어받는다
+   */
+  size?: Responsive<ToggleIconSize>;
+  /**
    * 아이콘(`<StarIcon />`). 꺼지면 선 모양, 켜지면 같은 아이콘의 채움 모양(`variant="fill"`)으로 바뀐다.
    * 크기·색은 컴포넌트가 맞춘다
    */
   icon: ReactElement<IconProps>;
   /** 켜졌을 때 따로 보여 줄 아이콘. 생략하면 `icon`의 채움 모양을 쓴다 */
   activeIcon?: ReactNode;
-  /** 이름(필수). 상태와 관계없이 같은 이름을 준다. 예: "관심 코인" */
-  "aria-label": string;
   /** 켜짐 상태(제어). 생략하면 컴포넌트가 직접 상태를 가진다 */
   active?: boolean;
   /** 처음 켜짐 상태(비제어). 기본 false */
   defaultActive?: boolean;
+  /** 이름(필수). 상태와 관계없이 같은 이름을 준다. 예: "관심 코인" */
+  "aria-label": string;
   /** 눌러서 상태가 바뀔 때 새 값으로 호출된다 */
   onActiveChange?: (active: boolean) => void;
-  /**
-   * `xs` 28 · `sm` 32 · `md` 40(기본) · `lg` 48. 카드 위는 `md`, 목록은 `sm`.
-   * 구간별로 바꾸려면 객체를 준다: `{ base: "sm", desktop: "md" }`. 빈 구간은 앞 구간 값을 이어받는다
-   */
-  size?: Responsive<ToggleIconSize>;
 }
 
 /** 눌러서 켜고 끄는 아이콘. 관심 코인·좋아요·북마크처럼 상태를 유지한다 */
 export function ToggleIcon({
+  size = "md",
   icon,
   activeIcon,
   active,
   defaultActive = false,
-  onActiveChange,
-  size = "md",
-  className,
   type = "button",
+  onActiveChange,
   onClick,
+  className,
   ...props
 }: ToggleIconProps) {
   const [own, setOwn] = useState(defaultActive);

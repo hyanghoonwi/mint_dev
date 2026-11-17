@@ -9,16 +9,16 @@ export function SwitchPlayground() {
     <Playground
       stageMinHeight={160}
       controls={[
+        { prop: "label", type: "boolean", default: true },
         { prop: "checked", type: "boolean", default: false },
         { prop: "disabled", type: "boolean", default: false },
-        { prop: "label", type: "boolean", default: true },
       ]}
       render={(values) => (
         <Switch
           key={String(values.checked)}
-          aria-label={values.label ? undefined : "알림 받기"}
           defaultChecked={values.checked as boolean}
           disabled={values.disabled as boolean}
+          aria-label={values.label ? undefined : "알림 받기"}
         >
           {values.label ? "알림 받기" : undefined}
         </Switch>
@@ -27,9 +27,9 @@ export function SwitchPlayground() {
         jsx(
           "Switch",
           {
-            "aria-label": values.label ? undefined : "알림 받기",
             defaultChecked: values.checked ? true : undefined,
             disabled: values.disabled ? true : undefined,
+            "aria-label": values.label ? undefined : "알림 받기",
           },
           values.label ? "알림 받기" : undefined,
         )
@@ -47,7 +47,7 @@ export function SwitchGuide() {
       bad={
         <div aria-hidden="true" style={{ display: "flex", alignItems: "center", gap: 8 }}>
           <Switch tabIndex={-1} aria-label="꺼짐" />
-          <Text as="span" variant="body-2-regular" color="primary">
+          <Text variant="body-2-regular" color="primary" as="span">
             꺼짐
           </Text>
         </div>

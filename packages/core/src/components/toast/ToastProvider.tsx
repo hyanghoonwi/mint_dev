@@ -22,19 +22,19 @@ import type { ToastApi, ToastOptions, ToastShortcutOptions } from "./toast-conte
 export type ToastPosition = "top" | "bottom";
 
 export interface ToastProviderProps {
+  /** 기본 모양. 기본 `default` */
+  shape?: ToastShape;
   children: ReactNode;
-  /** 토스트가 뜨는 위치(가로 가운데). 기본 `bottom`. 새 토스트가 화면 가장자리 쪽에 붙는다 */
-  position?: ToastPosition;
-  /** 화면 가장자리에서 띄우는 거리(px). 하단 고정 버튼·탭 바를 가리지 않게 늘린다. 기본 20 */
-  offset?: number;
   /** 동시에 보이는 최대 개수. 넘치면 가장 오래된 것부터 사라진다. 기본 3 */
   limit?: number;
   /** 토스트가 사라지기까지의 기본 시간(ms). Figma 가이드 2~4초. 기본 3000 */
   duration?: number;
-  /** 기본 모양. 기본 `default` */
-  shape?: ToastShape;
   /** 스낵바(`useSnackbar`)가 사라지기까지의 기본 시간(ms). 버튼을 누를 시간이 필요해서 토스트보다 길다. 기본 5000 */
   snackbarDuration?: number;
+  /** 토스트가 뜨는 위치(가로 가운데). 기본 `bottom`. 새 토스트가 화면 가장자리 쪽에 붙는다 */
+  position?: ToastPosition;
+  /** 화면 가장자리에서 띄우는 거리(px). 하단 고정 버튼·탭 바를 가리지 않게 늘린다. 기본 20 */
+  offset?: number;
 }
 
 type Entry = {
@@ -208,13 +208,13 @@ function SnackbarItem({
  * 새 토스트가 화면 가장자리 쪽에 붙고, `limit`을 넘으면 가장 오래된 것부터 사라진다.
  */
 export function ToastProvider({
+  shape = "default",
   children,
-  position = "bottom",
-  offset = 20,
   limit = 3,
   duration = 3000,
-  shape = "default",
   snackbarDuration = 5000,
+  position = "bottom",
+  offset = 20,
 }: ToastProviderProps) {
   const [entries, setEntries] = useState<Entry[]>([]);
 

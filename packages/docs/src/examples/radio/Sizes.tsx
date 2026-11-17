@@ -11,7 +11,7 @@ export default function Sizes() {
   return (
     <>
       {sizes.map(([size, label]) => (
-        <RadioGroup key={size} aria-label={label} defaultValue="on" size={size}>
+        <RadioGroup key={size} size={size} defaultValue="on" aria-label={label}>
           <Radio value="on">{label}</Radio>
         </RadioGroup>
       ))}

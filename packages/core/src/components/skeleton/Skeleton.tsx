@@ -38,10 +38,10 @@ const textAligns: Record<SkeletonTextAlign, string> = {
 };
 
 export interface SkeletonTextProps extends SkeletonBaseProps {
-  /** 줄 길이(줄 칸 폭에 대한 비율). 기본 `"100%"`. 여러 줄은 길이를 달리해 쌓는다 */
-  length?: SkeletonTextLength;
   /** 짧은 줄을 칸 안의 어디에 둘지. 기본 `leading`(왼쪽) */
   align?: SkeletonTextAlign;
+  /** 줄 길이(줄 칸 폭에 대한 비율). 기본 `"100%"`. 여러 줄은 길이를 달리해 쌓는다 */
+  length?: SkeletonTextLength;
   /** 줄 칸의 폭. 기본 `"100%"`(부모 폭) */
   width?: Length;
   /** 줄 높이. 기본 16 */
@@ -50,10 +50,10 @@ export interface SkeletonTextProps extends SkeletonBaseProps {
 
 /** 텍스트 한 줄 자리. 여러 줄은 쌓아서 만든다 */
 export function SkeletonText({
-  length = "100%",
-  align = "leading",
   color = "normal",
   animate = true,
+  align = "leading",
+  length = "100%",
   width = "100%",
   height = 16,
   className,
@@ -86,8 +86,8 @@ export interface SkeletonRectangleProps extends SkeletonBaseProps {
 
 /** 이미지·썸네일·카드처럼 네모난 콘텐츠 자리 */
 export function SkeletonRectangle({
-  radius = false,
   color = "normal",
+  radius = false,
   animate = true,
   width = "100%",
   height = 80,
@@ -121,8 +121,8 @@ export interface SkeletonCircleProps extends SkeletonBaseProps {
 
 /** 아바타·아이콘처럼 동그란 콘텐츠 자리 */
 export function SkeletonCircle({
-  size = 40,
   color = "normal",
+  size = 40,
   animate = true,
   className,
   style,
