@@ -33,6 +33,15 @@ export function propRank(name, component = "") {
   if (name === "matchWidth") return ranks.get("fullWidth") + 0.1;
   if (name === "initialFocus") return ranks.get("autoFocus") + 0.1;
   if (name === "anchorRef") return ranks.get("autoFocus") + 0.2;
+  if (name === "title" && context.includes("file")) return ranks.get("label") + 0.1;
+  if (name === "buttonLabel") return ranks.get("helpIcon") + 0.1;
+  if (context.includes("fileitem") && name === "name") return ranks.get("children") + 0.1;
+  if (name === "fileSize") return ranks.get("children") + 0.2;
+  if (name === "message") return ranks.get("status") + 0.2;
+  if (name === "progress") return ranks.get("status") + 0.1;
+  if (name === "accept" || name === "multiple") return ranks.get("required") + 0.1;
+  if (name === "onFilesReject") return 6000.1;
+  if (name === "maxSize" || name === "maxFiles") return ranks.get("max") + 0.1;
   if (name === "key") return -1;
   if (name.startsWith("aria-")) return 5100;
   if (name.startsWith("data-")) return 5200;

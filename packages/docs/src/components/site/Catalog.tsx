@@ -22,6 +22,7 @@ import {
   Checkbox,
   Chip,
   DatePicker,
+  FileUploader,
   FramedRadio,
   Radio,
   RadioGroup,
@@ -324,6 +325,16 @@ const components: { name: string; group: string; to: string; preview: ReactNode 
     preview: (
       <span aria-hidden="true" style={{ display: "block", width: 200, pointerEvents: "none" }}>
         <DatePicker size="sm" defaultValue="2026-11-17" today="2026-11-17" tabIndex={-1} />
+      </span>
+    ),
+  },
+  {
+    name: "File uploader",
+    group: "Form",
+    to: "/components/file-uploader",
+    preview: (
+      <span aria-hidden="true" style={{ display: "block", width: 220, pointerEvents: "none" }}>
+        <FileUploader size="sm" description="PDF · 최대 10MB" tabIndex={-1} />
       </span>
     ),
   },

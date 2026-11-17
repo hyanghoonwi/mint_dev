@@ -146,7 +146,7 @@ MINT는 Next.js App Router에서 **서버 컴포넌트와 클라이언트 컴포
   - `.map((coin) => …)`, `onChange={(event) => …}`, `setItems((previous) => …)`, `for (let index = 0; …)`, `catch (error)`
   - 예외: 좌표값 `x`·`y`·`z`, 제네릭 타입 매개변수(`T`), 외부 API·HTML·props가 정한 이름(`ref`, `src`, Next.js `params`), 원래 낱말인 이름(`max`, `min`, `row`, `tab`), 쓰지 않는 값 `_`.
 - **컴포넌트별 `AGENTS.md`**: 새 컴포넌트는 `src/components/<name>/AGENTS.md`를 함께 만듭니다(`text-field/AGENTS.md`가 본보기). 순서는 출처(Figma node)와 한 줄 성격 → "언제 쓰나요" → 구성(선택지 표 + 칸·색·상태 수치) → 접근성 → 사용 규칙(권장·금지) → Props 요약입니다. **Figma에 없는 prop·상태를 코드에서 더했다면 이유와 날짜를 적습니다**(예: Textarea의 `labelPosition`·`readOnly`, 2026-11 결정). 순수 표시용 작은 컴포넌트(`Badge`, `Circular`, `Grid`, `Icon`, `overlay`)는 없어도 됩니다.
-- **입력 칸 계열(`TextField` · `Select` · `Textarea`)은 한 틀로 맞춥니다.** 라벨은 `Label`을 **내장**하므로 `label`·`required`·`helpIcon`만 받고, 문서마다 "Label을 또 붙이지 않는다" 경고를 둡니다(해당 컴포넌트 문서의 상단 `Callout`과 Guidelines, `Label` 문서·`label/AGENTS.md`의 목록에도 이름을 더함). 공통 prop(`size` 기본 `md`·`status`(`normal`·`negative`·`positive`)·`labelPosition`(`top`·`left`, 구간별 객체)·`helper`·`helpIcon`·`disabled`·`readOnly`·`required`)은 **같은 이름·같은 기본값·같은 순서**로 두고, 크기·라벨 위치 클래스 표는 `_internal/fieldLayout.ts`를, docs Playground 컨트롤은 `fieldControls.ts`를 함께 씁니다. 한 컴포넌트에만 없거나 다르면 이유를 해당 `AGENTS.md`와 docs에 적습니다. 새 입력 칸을 만들 때는 이 셋의 문서·스토리와 나란히 비교한 뒤 끝냅니다.
+- **입력 칸 계열(`TextField` · `Select` · `Textarea` · `DatePicker` · `FileUploader`)은 한 틀로 맞춥니다.** 라벨은 `Label`을 **내장**하므로 `label`·`required`·`helpIcon`만 받고, 문서마다 "Label을 또 붙이지 않는다" 경고를 둡니다(해당 컴포넌트 문서의 상단 `Callout`과 Guidelines, `Label` 문서·`label/AGENTS.md`의 목록에도 이름을 더함). 공통 prop(`size` 기본 `md`·`status`(`normal`·`negative`·`positive`)·`labelPosition`(`top`·`left`, 구간별 객체)·`helper`·`helpIcon`·`disabled`·`readOnly`·`required`)은 **같은 이름·같은 기본값·같은 순서**로 두고, 크기·라벨 위치 클래스 표는 `_internal/fieldLayout.ts`를, docs Playground 컨트롤은 `fieldControls.ts`를 함께 씁니다. 한 컴포넌트에만 없거나 다르면 이유를 해당 `AGENTS.md`와 docs에 적습니다. 새 입력 칸을 만들 때는 이 셋의 문서·스토리와 나란히 비교한 뒤 끝냅니다.
 - **Prettier 서식**은 루트 `.prettierrc`(printWidth 100, 큰따옴표)를 따릅니다.
 
 ### Props 순서
@@ -181,14 +181,14 @@ MINT는 Next.js App Router에서 **서버 컴포넌트와 클라이언트 컴포
 
 `packages/core/AGENTS.md`는 **색인**이고, 상세는 `packages/core/guide/*.md`에 있습니다. 사용하는 쪽 AI가 **필요한 파일만** 읽게 하려는 구조입니다.
 
-| 파일               | 담는 것                                                                                                             |
-| ------------------ | ------------------------------------------------------------------------------------------------------------------- |
-| `AGENTS.md`        | 핵심 규칙, "무엇을 쓸까", **파일별 컴포넌트 색인**                                                                  |
-| `guide/setup.md`   | 설치, 스타일, 토큰 클래스, 반응형 토큰, 다크 모드                                                                   |
-| `guide/actions.md` | 액션 컴포넌트 props·주의점 (카테고리가 늘면 파일 추가)                                                              |
-| `guide/hooks.md`   | 공개 훅(`useInView`·`useClipboard`·`useDebounceValue`) 사용법. `useOverlay`·`useToast`·`useSnackbar`는 `overlay.md` |
-| `guide/layout.md`  | `Container`·`Grid` 사용법, 구간별 `span`, 레이아웃 규칙                                                             |
-| `guide/icons.md`   | 아이콘 사용법과 183개 전체 이름(분류별 목록). `guide:check`가 `icons.json`의 모든 이름이 있는지 검사                |
+| 파일               | 담는 것                                                                                                                             |
+| ------------------ | ----------------------------------------------------------------------------------------------------------------------------------- |
+| `AGENTS.md`        | 핵심 규칙, "무엇을 쓸까", **파일별 컴포넌트 색인**                                                                                  |
+| `guide/setup.md`   | 설치, 스타일, 토큰 클래스, 반응형 토큰, 다크 모드                                                                                   |
+| `guide/actions.md` | 액션 컴포넌트 props·주의점 (카테고리가 늘면 파일 추가)                                                                              |
+| `guide/hooks.md`   | 공개 훅(`useInView`·`useClipboard`·`useDebounceValue`·`useFileUpload`) 사용법. `useOverlay`·`useToast`·`useSnackbar`는 `overlay.md` |
+| `guide/layout.md`  | `Container`·`Grid` 사용법, 구간별 `span`, 레이아웃 규칙                                                                             |
+| `guide/icons.md`   | 아이콘 사용법과 183개 전체 이름(분류별 목록). `guide:check`가 `icons.json`의 모든 이름이 있는지 검사                                |
 
 - **새 컴포넌트·훅**: 색인의 해당 묶음에 **한 줄**을 추가하고, `guide/` 파일에 props 상세를 씁니다.
 - **색인은 짧게 유지**합니다. props와 예시는 `guide/`로 보냅니다.

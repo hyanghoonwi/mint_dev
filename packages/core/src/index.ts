@@ -20,6 +20,8 @@ export * from "./components/checkbox/Checkbox";
 export * from "./components/date-picker/DatePicker";
 export * from "./components/chip/Chip";
 export * from "./components/divider/Divider";
+export * from "./components/file-uploader/FileItem";
+export * from "./components/file-uploader/FileUploader";
 export * from "./components/radio/Radio";
 export * from "./components/framed/Framed";
 export * from "./components/label/Label";
@@ -62,6 +64,7 @@ export type {
 export * from "./hooks/useInView";
 export * from "./hooks/useClipboard";
 export * from "./hooks/useDebounceValue";
+export * from "./hooks/useFileUpload";
 export type {
   OverlayApi,
   OverlayOptions,

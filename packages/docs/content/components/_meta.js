@@ -19,6 +19,7 @@ export default {
   checkbox: "Checkbox",
   chip: "Chip",
   "date-picker": "Date picker",
+  "file-uploader": "File uploader",
   framed: "Framed",
   label: "Label",
   radio: "Radio",

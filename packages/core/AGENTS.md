@@ -41,6 +41,7 @@ Props는 **모양 → 내용 → 상태·동작 → 배치 → HTML·접근성 �
 - 필터·조건 칩 하나(선택 상태 있음, 여러 개 고르기 등) → `Chip`(행동은 `Button`)
 - 날짜 고르기·일정 있는 날 점 표시(달력) → `Calendar`(임시, 날짜는 `YYYY-MM-DD` 문자열, `today` 필수)
 - 입력 칸을 누르면 달력이 뜨고 고른 날짜가 칸에 들어가기(폼의 날짜 입력) → `DatePicker`(TextField + Popover + Calendar, 라벨 내장, 직접 입력 가능, `today` 필수)
+- 파일 올리기(끌어다 놓기·버튼으로 고르기, 올린 파일 목록) → `FileUploader`(모양 `layout`: 넓은 화면 `dropzone` · 모바일 웹 `button`, 구간별 `{ base: "button", tablet: "dropzone" }`) + 목록 한 줄 `FileItem` + 상태는 `useFileUpload`(라벨·도움말·상태·크기는 TextField와 같은 이름, Label 내장)
 - 버튼·입력 칸 아래에 붙어 뜨는 상자(필터·정렬·짧은 설정, 화면을 막지 않음) → `Popover`(화면을 막는 대화 상자는 Modal. 날짜는 `DatePicker`, 목록 하나 고르기는 `Select`를 먼저)
 - 목록에서 선택된 항목에 체크 표시(Menu, Select Item) → `CheckMark`
 - 이름·이메일·검색처럼 짧은 한 줄 텍스트를 입력받기(라벨·도움말·오류 **내장**, `Label`을 또 붙이지 않음) → `TextField`(여러 줄은 Textarea, 목록에서 고르기는 `Select`)
@@ -62,6 +63,7 @@ Props는 **모양 → 내용 → 상태·동작 → 배치 → HTML·접근성 �
 - 요소가 화면에 들어왔는지(무한 스크롤·보일 때 불러오기) → `useInView`
 - 글자를 클립보드에 복사(주소·ID 복사, 복사 완료 표시) → `useClipboard`
 - 빠르게 바뀌는 값(검색어)으로 요청할 때 늦추기 → `useDebounceValue`
+- 파일 올리기 목록·이미지 미리보기·진행률·취소·다시 시도·용량·개수 검사 → `useFileUpload`(`uploaderProps`를 `FileUploader`에, `itemProps(item)`을 `FileItem`에 펼침. 목록 상태를 직접 만들지 않음)
 - 아이콘 → 이름에 맞는 아이콘 컴포넌트(`ArrowLeftIcon` 등). `<svg>`를 직접 그리지 않습니다
 
 ---
@@ -92,6 +94,8 @@ Props는 **모양 → 내용 → 상태·동작 → 배치 → HTML·접근성 �
 ### [선택](guide/selection.md)
 
 - `Calendar` — 날짜 선택 달력(일정 점, 공휴일, min·max, 키보드 이동, 임시)
+- `FileUploader` — 파일을 끌어다 놓거나 골라 올리는 입력(모양 `layout` dropzone·button 구간별, 3크기·구간별, normal·negative, 끌어 올리면 파란 점선, `accept` 거르기, 폼 제출)
+- `FileItem` — 올린 파일 한 줄(대기·올리는 중 진행 막대·완료·실패와 다시 시도, 썸네일, 취소·삭제, 3크기, 서버 컴포넌트 가능)
 - `DatePicker` — 날짜 입력 칸(누르면 달력 Popover, `YYYY-MM-DD`, 직접 입력·검증, min·max·disabledDates, TextField 속성 전부, Figma 없음)
 - `CheckMark` — 목록의 선택 표시(체크 아이콘 + 레이블, 4크기·구간별 객체, 항목 전체를 누름)
 - `Checkbox` — 체크박스(체크·일부 선택, 레이블을 눌러도 선택, 폼 제출, 4크기·구간별 객체)
@@ -138,6 +142,7 @@ Props는 **모양 → 내용 → 상태·동작 → 배치 → HTML·접근성 �
 - `useInView` — 요소가 화면(스크롤 상자)에 보이는지(무한 스크롤, 한 번만, 미리 불러오기 여백)
 - `useClipboard` — 클립보드 복사와 복사 완료 상태(`copy`·`copied`·`error`)
 - `useDebounceValue` — 값이 잠시 멈춘 뒤 확정(`debouncedValue`·`isDebouncing`·`flush`·`cancel`, 검색어 요청 줄이기)
+- `useFileUpload` — 파일 올리기 목록 관리(`items`·`uploaderProps`·`itemProps`·`uploading`·`add`·`remove`·`retry`·`clear`, 옵션 `maxSize`·`maxFiles`·`upload`·`messages`)
 
 ### [레이아웃](guide/layout.md)
 

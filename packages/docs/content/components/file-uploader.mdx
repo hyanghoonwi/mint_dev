@@ -1,0 +1,121 @@
+# File uploader
+
+파일을 끌어다 놓거나 버튼으로 골라 올리는 컴포넌트예요. 넓은 화면은 끌어다 놓는 칸, 모바일 웹은 버튼 모양(`layout`)을 쓰고 올린 파일은 `FileItem`으로 보여 줘요.
+
+<ComponentBadges />
+
+<Figure height={240} />
+
+<Callout type="info">
+  **FileUploader는 [useFileUpload](/utilities/use-file-upload) 훅과 함께 써요.**
+  훅이 고른 파일 목록·이미지 미리보기·용량·개수 검사·업로드 진행률·취소를 맡고,
+  컴포넌트는 모양과 파일 고르기만 맡아요. 훅의 `uploaderProps`를
+  `FileUploader`에, `itemProps(item)`을 `FileItem`에 펼쳐요.
+  라벨·도움말·상태·크기는 [Text field](/components/text-field)와 같은 이름이고
+  Label이 내장되어 있어요.
+</Callout>
+
+## Playground
+
+칸에 파일을 끌어다 놓거나 버튼을 눌러 보세요. 오른쪽에서 모양·크기·상태를 바꿀 수 있어요.
+
+<FileUploaderPlayground />
+
+## Examples
+
+<ExampleTabs
+  items={[
+    {
+      title: "기본",
+      name: "file-uploader/Basic",
+      style: { alignItems: "stretch" },
+    },
+    { title: "버튼 모양", name: "file-uploader/ButtonLayout" },
+    {
+      title: "파일 목록",
+      name: "file-uploader/FileList",
+      style: { alignItems: "stretch" },
+    },
+    {
+      title: "파일 상태",
+      name: "file-uploader/FileItems",
+      style: { alignItems: "stretch" },
+    },
+    {
+      title: "상태",
+      name: "file-uploader/States",
+      style: { alignItems: "stretch" },
+    },
+    {
+      title: "크기",
+      name: "file-uploader/Sizes",
+      style: { alignItems: "stretch" },
+    },
+    {
+      title: "반응형",
+      name: "file-uploader/Responsive",
+      style: { alignItems: "stretch" },
+    },
+  ]}
+/>
+
+- **기본**: `useFileUpload`의 `uploaderProps`를 펼치고 `items`를 `FileItem`으로 그려요. 칸에 끌어다 놓거나 버튼·칸의 빈 곳을 눌러 골라 보세요. 용량·개수를 넘으면 훅이 오류를 알려요.
+- **버튼 모양**: 모바일 웹이나 좁은 자리에서는 `layout="button"`으로 버튼 하나만 보여요. 칸 안의 문구가 없으니 허용 형식은 `helper`에 적어요.
+- **파일 목록**: 직접 파일을 골라 보세요. 목록·이미지 미리보기·진행률·취소·용량 검사는 [useFileUpload](/utilities/use-file-upload) 훅이 맡아요. `uploaderProps`를 `FileUploader`에, `itemProps(item)`을 `FileItem`에 펼쳐요.
+- **파일 상태**: `FileItem`은 대기·올리는 중(진행 막대와 %)·완료(체크)·실패(빨간 글자와 다시 시도)예요. 대기·올리는 중의 ×는 취소, 완료·실패의 휴지통은 삭제예요.
+- **상태**: 오류는 `status="negative"`와 `helper`로 이유를 알려요. 비활성이면 끌어다 놓기와 버튼이 모두 막혀요.
+- **크기**: 칸의 안쪽 여백이 `lg` 32px, `md` 24px(기본), `sm` 16px이에요. 버튼 모양이면 높이 48px · 40px · 32px이에요.
+- **반응형**: `layout`과 `size`는 각각 구간별 값을 받아요. `layout={{ base: "button", tablet: "dropzone" }}`이면 모바일은 버튼, 태블릿(768px)부터 끌어다 놓는 칸이에요. 고른 파일과 상태는 모양이 바뀌어도 그대로예요. 창 폭을 바꿔 보세요.
+
+## Props
+
+### FileUploader
+
+나머지 `<input type="file">` 속성(`name`·`accept`·`multiple` 등)도 그대로 받아요. `name`을 주면 끌어다 놓은 파일도 폼으로 제출돼요.\
+클라이언트 컴포넌트예요. 보통 `useFileUpload`의 `uploaderProps`를 펼쳐 `onFilesSelect`·`onFilesReject`를 연결해요(훅과 함께 `"use client"` 컴포넌트 안에서 써요).
+
+| 이름            | 타입                                                      | 기본값                                 | 설명                                                         |
+| --------------- | --------------------------------------------------------- | -------------------------------------- | ------------------------------------------------------------ |
+| `size`          | `"sm" \| "md" \| "lg"` 또는 `{ base, tablet, desktop }`   | `"md"`                                 | 칸 여백 16 · 24 · 32, 버튼 모양이면 높이 32 · 40 · 48        |
+| `label`         | `ReactNode`                                               | -                                      | 입력 이름(Label 내장). 없으면 `aria-label`을 줘요            |
+| `title`         | `ReactNode`                                               | `"파일을 끌어다 놓거나 선택해 주세요"` | 칸 안의 안내 문구                                            |
+| `description`   | `ReactNode`                                               | -                                      | 칸 안의 허용 형식·최대 용량. 버튼 모양이면 `helper`에 적어요 |
+| `helper`        | `ReactNode`                                               | -                                      | 아래 도움말. 오류에는 이유와 해결 방법을 적어요              |
+| `helpIcon`      | `boolean \| ReactNode`                                    | -                                      | 라벨 옆 도움말 아이콘                                        |
+| `buttonLabel`   | `ReactNode`                                               | `"파일 선택"`                          | 버튼 글자                                                    |
+| `status`        | `"normal" \| "negative"`                                  | `"normal"`                             | 형식·용량 오류는 `negative`(빨간 점선·도움말)                |
+| `disabled`      | `boolean`                                                 | `false`                                | 끌어다 놓기와 버튼을 막아요                                  |
+| `required`      | `boolean`                                                 | -                                      | 라벨 옆 빨간 `*`. 폼 제출 때 파일이 있는지 검사해요          |
+| `accept`        | `string`                                                  | -                                      | 받을 형식(`"image/*,.pdf"`). 끌어다 놓은 파일도 걸러요       |
+| `multiple`      | `boolean`                                                 | `false`                                | 여러 개 받기. 아니면 첫 파일만 넘겨요                        |
+| `layout`        | `"dropzone" \| "button"` 또는 `{ base, tablet, desktop }` | `"dropzone"`                           | 끌어다 놓는 칸 또는 버튼 하나. 모바일 웹은 버튼을 써요       |
+| `onFilesSelect` | `(files: File[]) => void`                                 | -                                      | 고르거나 끌어다 놓은 파일                                    |
+| `onFilesReject` | `(files: File[]) => void`                                 | -                                      | `accept`에 맞지 않게 끌어다 놓은 파일                        |
+
+### FileItem
+
+나머지 `<div>` 속성도 그대로 받아요. 서버 컴포넌트에서도 쓸 수 있고, `onRemove`·`onRetry`를 넘길 때만 클라이언트 컴포넌트 안에서 써요.
+
+| 이름       | 타입                                                    | 기본값                  | 설명                                               |
+| ---------- | ------------------------------------------------------- | ----------------------- | -------------------------------------------------- |
+| `size`     | `"sm" \| "md" \| "lg"` 또는 `{ base, tablet, desktop }` | `"md"`                  | 여백·앞 상자(32 · 40 · 48)·글자·버튼 크기          |
+| `fileSize` | `string`                                                | -                       | 용량(`"2.4MB"`)                                    |
+| `image`    | `string`                                                | -                       | 이미지 파일의 썸네일 주소. 파일 아이콘 대신 보여요 |
+| `status`   | `"waiting" \| "uploading" \| "complete" \| "negative"`  | `"complete"`            | 대기 · 올리는 중 · 완료 · 실패                     |
+| `progress` | `number`                                                | `0`                     | 올린 정도(0\~100). `uploading`일 때 진행 막대와 %  |
+| `message`  | `string`                                                | `"업로드에 실패했어요"` | 실패 이유. `negative`일 때 빨간 글자로 보여요      |
+| `disabled` | `boolean`                                               | `false`                 | 회색 바탕·흐린 글자·버튼 비활성                    |
+| `name`     | `string`                                                | -                       | 파일 이름(확장자 포함). 길면 한 줄에서 말줄임해요  |
+| `onRemove` | `() => void`                                            | -                       | ×(취소) 또는 휴지통(삭제)을 눌렀을 때              |
+| `onRetry`  | `() => void`                                            | -                       | 다시 시도를 눌렀을 때. `negative`일 때만 보여요    |
+
+## Guidelines
+
+<FileUploaderGuide />
+
+- 파일 목록·미리보기·진행률을 직접 만들지 않고 `useFileUpload`와 함께 써요. 평소 도움말(`helper`)·상태(`status`)는 `uploaderProps`보다 앞에 적어요. 오류가 있을 때만 훅의 오류로 바뀌어요.
+- 넓은 화면에서는 끌어다 놓는 칸, 모바일 웹이나 좁은 자리에서는 버튼 모양을 써요. 화면에 따라 바꾸려면 `layout`에 구간별 값을 줘요.
+- 허용 형식과 최대 용량을 `description`(버튼 모양이면 `helper`)에 미리 적어요.
+- 올리는 중에는 `FileItem`에 진행 막대와 %를 보여 줘요.
+- 실패한 파일을 말없이 지우지 않고 `negative`와 이유, 다시 시도를 보여 줘요.
+- 오류는 색과 함께 도움말로 이유와 해결 방법을 알려요.

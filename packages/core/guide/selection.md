@@ -74,7 +74,7 @@
   - 금지: 라벨 없이 쓰기, 여러 줄 입력(Textarea), 목록에서 고르기(Select). 상세 규칙은 `components/text-field/AGENTS.md`
 - **`Label`** — 입력 칸 위에 붙는 이름. 무엇을 입력하는지 알려 주고, 입력 예시는 Placeholder가 맡습니다. 서버 컴포넌트에서도 쓸 수 있습니다(`"use client"` 없음).
   - `size`: `sm`(12) · `md`(14, 기본) · `lg`(16). 입력 칸 크기에 맞춰 고름. 구간별 객체도 받음(`{ base: "md", desktop: "lg" }`)
-  - **주의: `TextField`·`Select`·`Textarea`에는 Label이 내장되어 있습니다.** `label` prop만 주고 `Label`을 또 붙이지 않습니다(라벨이 두 번 나옴)
+  - **주의: `TextField`·`Select`·`Textarea`·`DatePicker`·`FileUploader`에는 Label이 내장되어 있습니다.** `label` prop만 주고 `Label`을 또 붙이지 않습니다(라벨이 두 번 나옴)
   - `children`(필수): 라벨 글자. 이름, 휴대폰 번호처럼 명사로 짧게
   - 체크박스·라디오 묶음의 이름에도 씁니다: 묶음에 `role="group"` + `aria-labelledby`, Label에 `id`. 선택지 옆 글자는 Label이 아니라 각 컴포넌트가 그립니다
   - `helpIcon`: `true`면 물음표 아이콘(16). 누르면 설명이 나오게 하려면 `Tooltip`으로 감싼 버튼 같은 요소를 직접 넘김(`<label>` 밖에 놓임)
@@ -102,3 +102,12 @@
   - **TextField의 속성을 그대로 받음**: `label`(Label 내장, `Label`을 또 붙이지 않음)·`helper`·`helpIcon`·`status`·`size`·`labelPosition`(구간별 객체)·`disabled`·`readOnly`·`required`·`name`. 비활성·읽기 전용은 달력이 열리지 않음. `leftAddon`·`rightAddon`은 받지 않음(오른쪽에 달력 아이콘이 고정)
   - 마우스로 열면 포커스가 칸에 남아 계속 입력할 수 있고, ↓로 열면 달력의 날짜로 포커스가 가며 Esc로 닫으면 칸으로 돌아옴. Tab으로 칸을 떠나면 닫힘
   - 금지: TextField와 Popover·Calendar를 직접 조립해 날짜 입력 만들기, 형식 안내 지우기
+
+- **`FileUploader`** · **`FileItem`** — 파일 올리기(Figma `File Uploader`: Dropzone · File Upload Button · File Item). `FileUploader` 하나가 끌어다 놓는 칸과 버튼 두 모양을 갖고(`layout`), 올린 파일은 `FileItem` 목록으로 보여 줍니다. `FileUploader`는 클라이언트 컴포넌트(서버 컴포넌트에서 import 가능, `onFilesSelect`는 클라이언트에서), `FileItem`은 서버 컴포넌트에서도 씁니다(`onRemove`·`onRetry`는 클라이언트에서). 상세 규칙은 `components/file-uploader/AGENTS.md`
+  - **`layout`**: `dropzone`(기본, 끌어다 놓는 칸, 넓은 화면) · `button`(버튼 하나, 모바일 웹·좁은 자리). 구간별 객체를 받음: **모바일 웹은 버튼, 넓은 화면은 칸이면 `layout={{ base: "button", tablet: "dropzone" }}`**. 두 모양을 CSS로 구간마다 하나만 보이게 하고 파일 입력·라벨·도움말은 하나라서 화면 폭이 바뀌어도 상태가 유지됨. `FileUploadButton`처럼 따로 쓰는 컴포넌트는 없음
+  - **TextField와 같은 이름**: `size`(`sm`·`md` 기본·`lg`, 구간별 객체)·`label`(Label 내장, `Label`을 또 붙이지 않음)·`helper`·`helpIcon`·`status`·`disabled`·`required`·`name`. `size`는 칸이면 여백 16·24·32(글자·아이콘·버튼도), 버튼이면 높이 32·40·48. `layout`과 `size`는 따로 구간별로 줄 수 있음(`layout={{ base: "button", tablet: "dropzone" }} size={{ base: "lg", desktop: "md" }}`). `status`는 `normal`·`negative`만 있음(확인 완료 `positive` 없음). 라벨 위치(`labelPosition`)는 없음(라벨은 항상 위)
+  - `title`(칸 안내, 기본 "파일을 끌어다 놓거나 선택해 주세요")·`description`(허용 형식·최대 용량, 칸 모양에서 보임. 버튼 모양이면 `helper`에 적기)·`buttonLabel`(기본 "파일 선택")·`accept`·`multiple`·`onFilesSelect(files: File[])`·`onFilesReject(files)`(끌어다 놓은 파일 중 `accept`에 안 맞는 것). 칸의 빈 곳을 눌러도 고르기 창이 열리고, 끌어 올리거나 마우스를 올리면 파란 점선·옅은 파란 바탕
+  - **항상 `useFileUpload` 훅과 함께 씁니다**(`guide/hooks.md`). 목록·미리보기·진행률·취소·용량 검사는 훅이 맡고 컴포넌트는 모양과 파일 고르기만 맡습니다. `<FileUploader helper="평소 도움말" {...upload.uploaderProps} />` · `upload.items.map((item) => <FileItem key={item.id} {...upload.itemProps(item)} />)`. 훅 안에 컴포넌트를 넣지 않고 컴포넌트 안에 훅을 넣지 않는 이유: 목록을 다른 곳에 그리거나 `uploading`으로 제출 버튼을 막는 등 상태를 사용하는 쪽이 들고 있어야 해서
+  - 고른 파일은 숨긴 `<input type="file">`에도 들어가서(끌어다 놓은 파일 포함) `name`을 주면 폼으로 제출되고 `required` 검사도 됨
+  - `FileItem`: `name`(확장자는 정보 줄 앞에 대문자로 자동)·`fileSize`("2.4MB")·`status`(`waiting` 대기 · `uploading` 진행 막대와 % · `complete` 기본, 체크 · `negative` 빨간 `message`, 기본 "업로드에 실패했어요")·`progress`(0~100)·`image`(썸네일 주소)·`disabled`·`onRemove`(대기·올리는 중은 × 취소, 완료·실패는 휴지통 삭제)·`onRetry`(`negative`일 때 "다시 시도")·`size`(앞 상자 32·40·48)
+  - 금지: 허용 형식·최대 용량 숨기기, 실패한 파일을 말없이 지우기(`negative`와 이유·다시 시도를 보여 줌), `Label`을 따로 붙이기, 화면 폭을 JS로 읽어 칸·버튼을 바꾸기(`layout` 구간별 값을 씀)

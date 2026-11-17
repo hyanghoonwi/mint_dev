@@ -30,6 +30,7 @@ import { PriceChangeGuide, PriceChangePlayground } from "./src/components/site/P
 import { CategoryGuide, CategoryPlayground } from "./src/components/site/CategoryDocs";
 import { BoxGuide, BoxPlayground } from "./src/components/site/BoxDocs";
 import { DatePickerGuide, DatePickerPlayground } from "./src/components/site/DatePickerDocs";
+import { FileUploaderGuide, FileUploaderPlayground } from "./src/components/site/FileUploaderDocs";
 import { PopoverGuide, PopoverPlayground } from "./src/components/site/PopoverDocs";
 import { TextareaGuide, TextareaPlayground } from "./src/components/site/TextareaDocs";
 import { TextFieldGuide, TextFieldPlayground } from "./src/components/site/TextFieldDocs";
@@ -170,6 +171,8 @@ export function useMDXComponents(components?: MDXComponents) {
     BoxGuide,
     DatePickerPlayground,
     DatePickerGuide,
+    FileUploaderPlayground,
+    FileUploaderGuide,
     PopoverPlayground,
     PopoverGuide,
     TextareaPlayground,
