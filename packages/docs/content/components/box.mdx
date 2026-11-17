@@ -1,0 +1,74 @@
+# Box
+
+콘텐츠를 담고 배치하는 범용 레이아웃 상자예요. 카드 안, 페이지 영역, 콘텐츠 묶음 어디서나 구조를 잡는 데 써요.
+
+<ComponentBadges />
+
+<Figure height={240} />
+
+## Playground
+
+오른쪽에서 props를 바꾸면 Box와 아래 코드가 함께 바뀌어요. 배경을 켜면 tone과 짝이 되는 색 토큰을 `className`으로 넣어요.
+
+<BoxPlayground />
+
+## Examples
+
+<ExampleTabs
+  items={[
+    { title: "기본", name: "box/Basic" },
+    { title: "방향", name: "box/Direction" },
+    { title: "여백과 간격", name: "box/Spacing" },
+    { title: "Tone과 배경", name: "box/ToneBackground" },
+    {
+      title: "그림자",
+      name: "box/Elevation",
+      style: { background: "var(--mint-background-lower)" },
+    },
+    { title: "모서리", name: "box/Radius" },
+    { title: "Menu 같은 상자", name: "box/MenuLike" },
+    {
+      title: "반응형",
+      name: "box/Responsive",
+      style: { flexDirection: "column", alignItems: "stretch" },
+    },
+  ]}
+/>
+
+- **기본**: `tone`으로 테두리를, `padding`·`gap`으로 여백과 간격을 정해요.
+- **방향**: `direction`은 `vertical`(기본) 또는 `horizontal`이에요. `align`은 교차축, `justify`는 주축 정렬이에요.
+- **여백과 간격**: `padding`은 0 · 8 · 16 · 20 · 24, `gap`은 0 · 4 · 8 · 12 · 16 · 24 · 32예요.
+- **Tone과 배경**: `tone`은 테두리만 바꿔요. 배경이 필요하면 `className`에 같은 의미의 색 토큰(`bg-fill-brand-weak` 등)을 넣어요.
+- **그림자**: `elevation="raised"`는 흰 바탕에 `shadow-raised`를 입혀 화면에 붙은 카드처럼 살짝 띄워요.
+- **모서리**: `radius`는 0 · 4 · 8(기본) · 12 · 16 · 20 · `full`이에요.
+- **Menu 같은 상자**: Box를 겹쳐 목록 상자를 만들 수 있어요. `Menu`의 겉 상자, 항목 영역, 하단 액션 줄도 Box로 만들어져 있어요.
+- **반응형**: `direction`·`padding`·`gap`은 구간별 값도 받아요. `{ base: "vertical", desktop: "horizontal" }`면 모바일·태블릿은 세로, 데스크톱(1024px)부터 가로예요. 창 폭을 바꿔 보세요.
+
+## Props
+
+나머지 `<div>` 속성도 그대로 받아요(`as`로 태그를 바꿔도 같아요).\
+서버 컴포넌트에서 바로 쓸 수 있어요. 폭·높이와 배경은 `className`의 토큰 클래스로 정해요.
+
+| 이름        | 타입                                                                                                                                    | 기본값       | 설명                                        |
+| ----------- | --------------------------------------------------------------------------------------------------------------------------------------- | ------------ | ------------------------------------------- |
+| `tone`      | `"none" \| "outline" \| "neutral" \| "brand" \| "success" \| "warning" \| "danger"`                                                     | `"none"`     | 겉면 테두리. 배경은 넣지 않아요             |
+| `elevation` | `"none" \| "raised"`                                                                                                                    | `"none"`     | `raised`면 흰 바탕과 `shadow-raised` 그림자 |
+| `radius`    | `0 \| 4 \| 8 \| 12 \| 16 \| 20 \| "full"`                                                                                               | `8`          | 모서리(px)                                  |
+| `direction` | `"vertical" \| "horizontal"` 또는 `{ base, tablet, desktop }`                                                                           | `"vertical"` | 쌓는 방향                                   |
+| `align`     | `"start" \| "center" \| "end" \| "stretch"`                                                                                             | `"stretch"`  | 교차축 정렬                                 |
+| `justify`   | `"start" \| "center" \| "between" \| "end"`                                                                                             | `"start"`    | 주축 정렬                                   |
+| `padding`   | `0 \| 8 \| 16 \| 20 \| 24` 또는 `{ base, tablet, desktop }`                                                                             | `0`          | 안쪽 여백(px)                               |
+| `gap`       | `0 \| 4 \| 8 \| 12 \| 16 \| 24 \| 32` 또는 `{ base, tablet, desktop }`                                                                  | `0`          | 요소 사이 간격(px)                          |
+| `overflow`  | `"visible" \| "hidden" \| "scroll"`                                                                                                     | `"visible"`  | 넘친 내용을 그대로 · 잘라냄 · 스크롤        |
+| `as`        | `"div" \| "section" \| "article" \| "aside" \| "header" \| "footer" \| "nav" \| "main" \| "ul" \| "ol" \| "li" \| "form" \| "fieldset"` | `"div"`      | 태그                                        |
+| `className` | `string`                                                                                                                                | -            | 폭·높이·배경 등. 토큰 클래스만 써요         |
+
+## Guidelines
+
+<BoxGuide />
+
+- Box는 배치만 해요. 제목·썸네일이 있는 독립된 콘텐츠 한 덩어리는 카드로 만들어요.
+- 배경은 `tone`과 같은 의미의 `bg-fill-*-weak` 토큰을 `className`으로 줘요. hex 색을 쓰지 않아요.
+- 테두리만 필요하면 `tone="outline"`, 살짝 띄우려면 `elevation="raised"`를 써요.
+- 여백·간격은 정해진 단계만 써요. 단계에 없는 값(12px 여백 등)이 꼭 필요하면 간격 토큰 클래스(`p-3`)를 `className`으로 줘요.
+- 페이지 전체의 컬럼 배치는 Box가 아니라 [Container · Grid](/components/container-grid)로 해요.
