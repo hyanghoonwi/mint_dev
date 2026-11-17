@@ -156,8 +156,11 @@ const overflowClasses = {
 export interface BoxProps extends ComponentProps<"div"> {
   /** 겉면 테두리. 기본 `none`. 배경은 `className`의 색 토큰으로 준다(`bg-fill-brand-weak` 등) */
   tone?: BoxTone;
-  /** 그림자. `raised`는 화면에 붙은 카드처럼 살짝 띄운다(흰 바탕 + `shadow-raised`). 기본 `none` */
-  elevation?: "none" | "raised";
+  /**
+   * 그림자. `raised`는 화면에 붙은 카드처럼 살짝 띄운다(흰 바탕 + `shadow-raised`).
+   * `floating`은 위에 떠 있는 상자(떠 있는 바탕 + `shadow-floating`)로, Popover·떠 있는 목록이 쓴다. 기본 `none`
+   */
+  elevation?: "none" | "raised" | "floating";
   /** 모서리. 기본 `8` */
   radius?: BoxRadius;
   /** 쌓는 방향. 기본 `vertical`. 구간별로 바꾸려면 `{ base: "vertical", desktop: "horizontal" }` */
@@ -204,6 +207,7 @@ export function Box({
         justifyClasses[justify],
         toneClasses[tone],
         elevation === "raised" && "bg-background-default shadow-raised",
+        elevation === "floating" && "bg-background-floated shadow-floating",
         radiusClasses[radius],
         overflowClasses[overflow],
         className,

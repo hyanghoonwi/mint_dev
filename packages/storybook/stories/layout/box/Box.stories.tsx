@@ -26,7 +26,7 @@ const meta = {
       control: "select",
       options: ["none", "outline", "neutral", "brand", "success", "warning", "danger"],
     },
-    elevation: { control: "inline-radio", options: ["none", "raised"] },
+    elevation: { control: "inline-radio", options: ["none", "raised", "floating"] },
     radius: { control: "inline-radio", options: [0, 4, 8, 12, 16, 20, "full"] },
     direction: { control: "inline-radio", options: ["vertical", "horizontal"] },
     align: { control: "inline-radio", options: ["start", "center", "end", "stretch"] },
@@ -84,7 +84,7 @@ export const ToneWithBackground: Story = {
   ),
 };
 
-// Figma Elevation: raised는 흰 바탕 + shadow-raised(Figma shadow/normal/small)
+// Figma Elevation: raised는 흰 바탕 + shadow-raised(Figma shadow/normal/small), floating은 떠 있는 바탕 + shadow-floating(Popover·떠 있는 목록)
 export const Elevation: Story = {
   render: () => (
     <div
@@ -95,6 +95,9 @@ export const Elevation: Story = {
       </Box>
       <Box elevation="raised" padding={16} className="w-[140px]">
         <Text variant="body-4-regular">raised</Text>
+      </Box>
+      <Box elevation="floating" radius={12} padding={16} className="w-[140px]">
+        <Text variant="body-4-regular">floating</Text>
       </Box>
     </div>
   ),

@@ -30,7 +30,7 @@ const controls: Control[] = [
     default: "outline",
   },
   { prop: "background", type: "boolean", default: false },
-  { prop: "elevation", type: "select", options: ["none", "raised"], default: "none" },
+  { prop: "elevation", type: "select", options: ["none", "raised", "floating"], default: "none" },
   { prop: "radius", type: "select", options: [0, 4, 8, 12, 16, 20, "full"], default: 8 },
   { prop: "direction", type: "select", options: ["vertical", "horizontal"], default: "vertical" },
   {
@@ -60,7 +60,7 @@ export function BoxPlayground() {
         return (
           <Box
             tone={values.tone as BoxTone}
-            elevation={values.elevation as "none" | "raised"}
+            elevation={values.elevation as "none" | "raised" | "floating"}
             radius={(values.radius === "full" ? "full" : Number(values.radius)) as BoxRadius}
             direction={values.direction as "vertical" | "horizontal"}
             align={values.align as "start" | "center" | "end" | "stretch"}

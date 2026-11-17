@@ -35,16 +35,16 @@ import "@futurewiz-rms/mint/style.css";
 
 ## 3. 토큰 클래스
 
-| 종류   | 클래스 예                                                                                                                                          |
-| ------ | -------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 글자   | `text-title-1-bold` `text-body-2-regular` `text-label-2-semibold`                                                                                  |
-| 배경   | `bg-background-default` `bg-background-lower` `bg-background-floated`                                                                              |
-| 면     | `bg-fill-brand` `bg-fill-brand-weak` `bg-fill-neutral-weak` `bg-fill-danger`                                                                       |
-| 글자색 | `text-text-primary` `text-text-secondary` `text-text-brand` `text-text-on-fill`                                                                    |
-| 아이콘 | `text-icon-default` `text-icon-brand` `text-icon-danger`                                                                                           |
-| 테두리 | `border-border-default` `border-border-strong`                                                                                                     |
-| 반경   | `rounded-4` `rounded-8` `rounded-12` `rounded-16` `rounded-20` `rounded-full`                                                                      |
-| 그림자 | `shadow-raised`(화면에 붙은 카드·상자, Box `raised`) `shadow-floating`(토스트·메뉴·툴팁 같은 떠 있는 요소) `shadow-drawer`(오른쪽에서 나오는 패널) |
+| 종류   | 클래스 예                                                                                                                                                                  |
+| ------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 글자   | `text-title-1-bold` `text-body-2-regular` `text-label-2-semibold`                                                                                                          |
+| 배경   | `bg-background-default` `bg-background-lower` `bg-background-floated`                                                                                                      |
+| 면     | `bg-fill-brand` `bg-fill-brand-weak` `bg-fill-neutral-weak` `bg-fill-danger`                                                                                               |
+| 글자색 | `text-text-primary` `text-text-secondary` `text-text-brand` `text-text-on-fill`                                                                                            |
+| 아이콘 | `text-icon-default` `text-icon-brand` `text-icon-danger`                                                                                                                   |
+| 테두리 | `border-border-default` `border-border-strong`                                                                                                                             |
+| 반경   | `rounded-4` `rounded-8` `rounded-12` `rounded-16` `rounded-20` `rounded-full`                                                                                              |
+| 그림자 | `shadow-raised`(화면에 붙은 카드·상자, Box `raised`) `shadow-floating`(토스트·메뉴·툴팁 같은 떠 있는 요소, Box `floating`·Popover) `shadow-drawer`(오른쪽에서 나오는 패널) |
 
 ### 글자 스타일
 

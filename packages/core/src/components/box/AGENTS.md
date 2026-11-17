@@ -16,16 +16,16 @@
 
 ## 구성
 
-| 구성                    | 선택지                                                          | 설명                                                            |
-| ----------------------- | --------------------------------------------------------------- | --------------------------------------------------------------- |
-| 방향(`direction`)       | `vertical`(기본) · `horizontal`                                 | 구간별 값도 받아요                                              |
-| 여백(`padding`)         | 0(기본) · 8 · 16 · 20 · 24                                      | spacing 변수(`p-0`·`p-2`·`p-4`·`p-5`·`p-6`). 구간별 값도 받아요 |
-| 간격(`gap`)             | 0(기본) · 4 · 8 · 12 · 16 · 24 · 32                             | spacing 변수. 구간별 값도 받아요                                |
-| 정렬(`align`·`justify`) | Start · Center · End · Stretch / Start · Center · Between · End | 교차축 기본 `stretch`, 주축 기본 `start`                        |
-| 겉면 테두리(`tone`)     | None · Outline · Neutral · Brand · Success · Warning · Danger   | 테두리만 바꿔요                                                 |
-| 그림자(`elevation`)     | None · Raised                                                   | Raised는 흰 바탕 + `shadow-raised`                              |
-| 모서리(`radius`)        | 0 · 4 · 8(기본) · 12 · 16 · 20 · full                           | Figma Box Radius 변수 모드                                      |
-| 넘침(`overflow`)        | Visible · Hidden · Scroll                                       | Scroll은 MINT 기본 스크롤바                                     |
+| 구성                    | 선택지                                                          | 설명                                                                                                                                         |
+| ----------------------- | --------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------- |
+| 방향(`direction`)       | `vertical`(기본) · `horizontal`                                 | 구간별 값도 받아요                                                                                                                           |
+| 여백(`padding`)         | 0(기본) · 8 · 16 · 20 · 24                                      | spacing 변수(`p-0`·`p-2`·`p-4`·`p-5`·`p-6`). 구간별 값도 받아요                                                                              |
+| 간격(`gap`)             | 0(기본) · 4 · 8 · 12 · 16 · 24 · 32                             | spacing 변수. 구간별 값도 받아요                                                                                                             |
+| 정렬(`align`·`justify`) | Start · Center · End · Stretch / Start · Center · Between · End | 교차축 기본 `stretch`, 주축 기본 `start`                                                                                                     |
+| 겉면 테두리(`tone`)     | None · Outline · Neutral · Brand · Success · Warning · Danger   | 테두리만 바꿔요                                                                                                                              |
+| 그림자(`elevation`)     | None · Raised · Floating                                        | Raised는 흰 바탕 + `shadow-raised`(붙은 카드). Floating은 `background-floated` + `shadow-floating`(떠 있는 상자, Popover가 씀. 2026-11 추가) |
+| 모서리(`radius`)        | 0 · 4 · 8(기본) · 12 · 16 · 20 · full                           | Figma Box Radius 변수 모드                                                                                                                   |
+| 넘침(`overflow`)        | Visible · Hidden · Scroll                                       | Scroll은 MINT 기본 스크롤바                                                                                                                  |
 
 - **Tone 색**: Outline `border-default` · Neutral `border-focus` · Brand `border-brand` · Success `fill-success` · Warning `fill-warning` · Danger `fill-danger`(모두 1px 테두리). Figma Surface도 테두리만 바꾸므로 tone에 배경을 넣지 않았습니다(2026-11 결정).
 - **배경은 `className`의 색 토큰으로** 줍니다. Figma 가이드의 "배경(fill/*-weak)과 짝이 되는 테두리"는 이렇게 맞춥니다: `tone="brand" className="bg-fill-brand-weak"`, `success` → `bg-fill-success-weak`, `warning` → `bg-fill-warning-weak`, `danger` → `bg-fill-danger-weak`, `neutral` → `bg-fill-neutral-weak`. hex 색은 쓰지 않습니다.
