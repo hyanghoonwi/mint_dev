@@ -12,7 +12,7 @@ const controls: Control[] = [
   { prop: "leadingImage", type: "boolean", default: false },
   { prop: "actionArea", type: "boolean", default: false },
   { prop: "cellPadding", type: "select", options: [8, 12], default: 8 },
-  { prop: "scroll", type: "boolean", default: false },
+  { prop: "maxHeight", type: "select", options: ["none", 176, 240, 320], default: "none" },
 ];
 
 const coins = [
@@ -55,7 +55,7 @@ export function MenuPlayground() {
             }
             defaultValue={(variant === "checkbox" ? ["btc"] : "btc") as never}
             cellPadding={values.cellPadding as 8 | 12}
-            maxHeight={values.scroll ? 176 : undefined}
+            maxHeight={values.maxHeight === "none" ? undefined : (values.maxHeight as number)}
             aria-label="코인"
           >
             {coins.map((coin) => (
@@ -87,7 +87,7 @@ export function MenuPlayground() {
             defaultValue: { expr: variant === "checkbox" ? '["btc"]' : '"btc"' },
             cellPadding:
               values.cellPadding !== 8 ? { expr: String(values.cellPadding) } : undefined,
-            maxHeight: values.scroll ? { expr: "176" } : undefined,
+            maxHeight: values.maxHeight === "none" ? undefined : (values.maxHeight as number),
             "aria-label": "코인",
           },
           items,
