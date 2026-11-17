@@ -1,0 +1,105 @@
+# Text field
+
+사용자로부터 한 줄 텍스트를 입력받는 컴포넌트예요. 여러 줄은 Textarea를, 목록에서 고르는 경우는 [Select](/components/select)를 써요.
+
+<ComponentBadges />
+
+<Figure height={240} />
+
+## Playground
+
+오른쪽에서 props를 바꾸면 입력 칸과 아래 코드가 함께 바뀌어요. 칸에 값을 입력하면 지우기 버튼이 나타나요.
+
+크기·라벨·안내 글자·도움말·상태·라벨 위치는 Select와 같은 순서로 조절해요. `helpIcon`을 켜면 라벨 옆 도움말 아이콘도 확인할 수 있어요.
+
+<TextFieldPlayground />
+
+## Examples
+
+<ExampleTabs
+  items={[
+    { title: "기본", name: "text-field/Basic" },
+    {
+      title: "크기",
+      name: "text-field/Sizes",
+      style: { flexDirection: "column", alignItems: "stretch" },
+    },
+    {
+      title: "상태",
+      name: "text-field/Statuses",
+      style: { flexDirection: "column", alignItems: "stretch" },
+    },
+    {
+      title: "필수·비활성",
+      name: "text-field/States",
+      style: { flexDirection: "column", alignItems: "stretch" },
+    },
+    {
+      title: "라벨 위치",
+      name: "text-field/LabelPosition",
+      style: { flexDirection: "column", alignItems: "stretch" },
+    },
+    {
+      title: "앞뒤 구성",
+      name: "text-field/Adornments",
+      style: { flexDirection: "column", alignItems: "stretch" },
+    },
+    {
+      title: "지우기",
+      name: "text-field/Clear",
+      style: { flexDirection: "column", alignItems: "stretch" },
+    },
+    { title: "폼", name: "text-field/Form", style: { alignItems: "stretch" } },
+    {
+      title: "반응형",
+      name: "text-field/Responsive",
+      style: { flexDirection: "column", alignItems: "stretch" },
+    },
+  ]}
+/>
+
+- **기본**: `label`로 이름을, `placeholder`로 입력 예시를, `helper`로 도움말을 붙여요. 입력 칸에는 항상 이름을 붙여요.
+- **크기**: `size`는 `lg`(칸 48) · `md`(40, 기본) · `sm`(32)예요. 글자는 Body 2 · 3 · 4예요.
+- **상태**: `status`는 `normal` · `negative`(오류, 빨간 테두리와 도움말) · `positive`(확인 완료, 초록)예요. 입력 중(포커스)에는 테두리가 진해져요.
+- **필수·비활성·읽기 전용**: `required`는 라벨 옆에 빨간 `*`를 붙이고 `disabled`는 입력할 수 없게 하며 흐리게 해요. `readOnly`는 값을 진하게 그대로 보여 주고 선택·복사할 수 있지만 바꿀 수 없어요(회색 칸, 지우기 버튼 없음). `disabled`와 달리 포커스되고 폼으로 제출돼요.
+- **라벨 위치**: `labelPosition`은 칸 위(`top`, 기본) 또는 왼쪽(`left`)이에요. 왼쪽은 폭이 넓은 폼에 써요. 라벨은 `Label` 컴포넌트로 그려져서 `helpIcon`도 그대로 써요.
+- **앞뒤 구성**: `leftAddon`(입력 왼쪽)과 `rightAddon`(입력 오른쪽)은 `ReactNode`예요. 아이콘은 20px로 맞춰지고, 글자(타이머)나 버튼은 하나 또는 여러 개(`<>…</>`)를 넘겨요. 버튼은 `Button size="sm" color="secondary"`를 써요. `Button`의 `leftAddon`·`rightAddon`과 같은 이름이에요.
+- **지우기**: 값이 있는 칸에 입력 중이면 지우기 버튼(×)이 나타나요. `clearButton={false}`로 꺼요.
+- **폼**: `name` · `type` · `autoComplete` · `maxLength` 같은 `<input>` 속성이 그대로 전달돼요.
+- **반응형**: `size`와 `labelPosition`은 구간별 값도 받아요. `{ base: "lg", desktop: "md" }`면 모바일·태블릿은 칸 48, 데스크톱(1024px)부터 40이에요. 창 폭을 바꿔 보세요.
+
+## Props
+
+나머지 `<input>` 속성도 그대로 받아요(`className`·`style`은 바깥 요소에, `ref`는 `<input>`에 붙어요).\
+클라이언트 컴포넌트라서 `onChange`는 클라이언트 컴포넌트 안에서 넘겨요.
+
+| 이름            | 타입                                                    | 기본값     | 설명                                                                    |
+| --------------- | ------------------------------------------------------- | ---------- | ----------------------------------------------------------------------- |
+| `size`          | `"sm" \| "md" \| "lg"` 또는 `{ base, tablet, desktop }` | `"md"`     | 칸 높이 32 · 40 · 48px                                                  |
+| `label`         | `ReactNode`                                             | -          | 입력 이름. 없으면 `aria-label`을 꼭 줘요                                |
+| `placeholder`   | `string`                                                | -          | 입력 예시                                                               |
+| `helper`        | `ReactNode`                                             | -          | 칸 아래 도움말. 오류에는 이유와 해결 방법을 적어요                      |
+| `helpIcon`      | `boolean \| ReactNode`                                  | -          | 라벨 오른쪽 도움말 아이콘                                               |
+| `leftAddon`     | `ReactNode`                                             | -          | 입력 왼쪽 요소(아이콘 등). 아이콘은 20px로 맞춰져요                     |
+| `rightAddon`    | `ReactNode`                                             | -          | 입력 오른쪽 요소. 글자(타이머)·아이콘·버튼을 하나 또는 여러 개 넘겨요   |
+| `value`         | `string`                                                | -          | 값을 직접 정할 때(제어)                                                 |
+| `defaultValue`  | `string`                                                | -          | 처음 값(비제어)                                                         |
+| `status`        | `"normal" \| "negative" \| "positive"`                  | `"normal"` | 오류는 `negative`, 확인 완료는 `positive`                               |
+| `disabled`      | `boolean`                                               | `false`    | 입력할 수 없고 흐리게 보여요                                            |
+| `readOnly`      | `boolean`                                               | `false`    | 읽기 전용. 값은 보이고 복사할 수 있지만 바꿀 수 없어요. 폼으로 제출돼요 |
+| `required`      | `boolean`                                               | `false`    | 라벨 옆 빨간 `*`. `<input>`의 `required`도 켜져요                       |
+| `clearButton`   | `boolean`                                               | `true`     | 값이 있고 입력 중일 때 지우기 버튼                                      |
+| `labelPosition` | `"top" \| "left"` 또는 `{ base, tablet, desktop }`      | `"top"`    | 라벨 위치                                                               |
+| `type`          | `string`                                                | `"text"`   | `text` · `email` · `password` · `search` 등                             |
+| `onChange`      | `ChangeEventHandler<HTMLInputElement>`                  | -          | 값이 바뀔 때. 지우기 버튼을 눌러도 빈 값으로 호출돼요                   |
+
+## Guidelines
+
+<TextFieldGuide />
+
+- 한 줄로 짧게 입력받을 때 써요(이름, 이메일, 검색). 긴 글은 Textarea를, 목록에서 고르면 Select를 써요.
+- 입력 칸에는 항상 이름(`label`)을 붙여요. Label이 내장되어 있어서 `Label`을 따로 붙이지 않아요. 예시는 `placeholder`가 맡아요.
+- 오류는 `status="negative"`와 함께 `helper`에 이유와 해결 방법을 적어요. "잘못된 입력이에요"만 쓰지 않아요.
+- 색만으로 상태를 알리지 않아요. 도움말 글로도 알려요.
+- 스크린리더는 라벨과 도움말을 함께 읽고, 오류 상태(`aria-invalid`)도 알려요.
+- 터치 화면에서 쓰는 칸은 `md`(40px) 이상을 권해요.
