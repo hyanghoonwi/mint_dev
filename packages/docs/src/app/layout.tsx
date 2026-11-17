@@ -3,6 +3,7 @@ import Script from "next/script";
 import { Head } from "nextra/components";
 import "nextra-theme-docs/style.css";
 import "@futurewiz-rms/mint/style.no-reset.css";
+import "viewake/styles.css";
 import "./docs.css";
 
 export const metadata = {

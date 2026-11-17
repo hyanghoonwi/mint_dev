@@ -23,6 +23,7 @@
     "prism-react-renderer": "^2.4.1",
     "react": "^19.2.8",
     "react-dom": "^19.2.8",
+    "viewake": "0.1.0",
     "zod": "4.1.12"
   },
   "devDependencies": {

@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { DocsFooter } from "./Landing";
+import { HomeMotion } from "./HomeMotion";
 
 // 첫 화면(/). Montage 첫 화면과 같은 틀: 히어로 → 흐르는 띠 → 시작 카드 → 원칙 → FAQ → 푸터.
 // 흐르는 띠에는 화면 캡처 대신 실제 MINT 컴포넌트를 그린다(문서에 없는 API를 쓰지 않는다).
@@ -71,18 +72,23 @@ const faqs = [
 
 export function Home() {
   return (
-    <div className="docs-home">
+    <HomeMotion>
       <section className="docs-home__hero">
-        <h1 className="docs-home__title">
+        <h1 className="docs-home__title" data-viewake="fade-up">
           CryptoLab
           <br />
           Design System
         </h1>
-        <p className="docs-home__lead">
+        <p className="docs-home__lead" data-viewake="fade-up" data-viewake-delay="200">
           크립토랩의 모든 화면을 같은 언어로 만들기 위한 디자인 시스템이에요. 같은 컴포넌트와 같은
           토큰으로 화면을 만들어요.
         </p>
-        <Link className="docs-home__cta" href="/getting-started">
+        <Link
+          className="docs-home__cta"
+          href="/getting-started"
+          data-viewake="fade-up"
+          data-viewake-delay="400"
+        >
           Getting Started
         </Link>
       </section>
@@ -103,10 +109,18 @@ export function Home() {
       </div>
 
       <section className="docs-home__section">
-        <h2 className="docs-home__heading">Get started</h2>
+        <h2 className="docs-home__heading" data-viewake="fade-up">
+          Get started
+        </h2>
         <div className="docs-home__cards">
-          {starts.map((item) => (
-            <Link key={item.to} href={item.to} className="docs-home__card">
+          {starts.map((item, index) => (
+            <Link
+              key={item.to}
+              href={item.to}
+              className="docs-home__card"
+              data-viewake="fade-up"
+              data-viewake-delay={index * 150}
+            >
               <span className="docs-home__card-meta">{item.meta}</span>
               <strong className="docs-home__card-title">{item.title}</strong>
               <span className="docs-home__card-desc">{item.description}</span>
@@ -116,10 +130,17 @@ export function Home() {
       </section>
 
       <section className="docs-home__section">
-        <h2 className="docs-home__heading">Behind the System</h2>
+        <h2 className="docs-home__heading" data-viewake="fade-up">
+          Behind the System
+        </h2>
         <div className="docs-home__cards">
-          {principles.map((item) => (
-            <div key={item.title} className="docs-home__card docs-home__card--static">
+          {principles.map((item, index) => (
+            <div
+              key={item.title}
+              className="docs-home__card docs-home__card--static"
+              data-viewake="fade-up"
+              data-viewake-delay={index * 150}
+            >
               <strong className="docs-home__card-title">{item.title}</strong>
               <span className="docs-home__card-desc">{item.description}</span>
             </div>
@@ -128,10 +149,12 @@ export function Home() {
       </section>
 
       <section className="docs-home__section">
-        <h2 className="docs-home__heading">FAQ</h2>
+        <h2 className="docs-home__heading" data-viewake="fade-up">
+          FAQ
+        </h2>
         <div className="docs-home__faq">
           {faqs.map((item) => (
-            <details key={item.q} className="docs-home__faq-item">
+            <details key={item.q} className="docs-home__faq-item" data-viewake="fade-up">
               <summary>{item.q}</summary>
               <p>{item.a}</p>
             </details>
@@ -140,6 +163,6 @@ export function Home() {
       </section>
 
       <DocsFooter />
-    </div>
+    </HomeMotion>
   );
 }
