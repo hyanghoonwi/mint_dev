@@ -25,7 +25,7 @@ export function CalendarPlayground() {
           today="2026-11-11"
           marks={values.marks ? sampleMarks : undefined}
           weekStartsOn={values.weekStartsOn as 0 | 1}
-          style={{ width: 340, maxWidth: "100%" }}
+          style={{ maxWidth: 360 }}
         />
       )}
       code={(values) =>
@@ -49,7 +49,7 @@ export function CalendarGuide() {
         <Calendar
           today="2026-11-11"
           marks={{ "2026-11-12": [{ color: "brand" }], "2026-11-20": [{ color: "danger" }] }}
-          style={{ width: 260 }}
+          style={{ maxWidth: 360 }}
         />
       }
       goodText={<>점은 일정이 있다는 표시만 해요. 내용은 날짜를 누른 뒤 아래에 보여 줘요.</>}
@@ -65,7 +65,7 @@ export function CalendarGuide() {
             ],
             "2026-11-13": [{ color: "danger" }, { color: "success" }, { color: "neutral" }],
           }}
-          style={{ width: 260 }}
+          style={{ maxWidth: 360 }}
         />
       }
       badText={<>색을 너무 많이 쓰거나 점으로 내용을 전하려 하지 않아요(점은 3개까지만 보여요).</>}

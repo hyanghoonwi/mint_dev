@@ -44,8 +44,8 @@ export interface CalendarProps extends Omit<
   "onChange" | "defaultValue" | "children"
 > {
   /**
-   * `md` 칸 높이 48(기본) · `lg` 56(모바일 주요 화면). 폭은 부모를 꽉 채워 7칸으로 나눈다.
-   * 구간별로 바꾸려면 객체를 준다: `{ base: "lg", desktop: "md" }`
+   * `md` 칸 높이 48(기본) · `lg` 56(넓은 일정 화면). 폭은 부모를 꽉 채워 7칸으로 나눈다.
+   * 구간별로 바꾸려면 객체를 준다: `{ base: "md", desktop: "lg" }`
    */
   size?: Responsive<CalendarSize>;
   /** 선택한 날(제어). 생략하면 컴포넌트가 직접 상태를 가진다 */
@@ -94,16 +94,16 @@ const cellClasses: ResponsiveClassTable<CalendarSize> = {
 // 날짜 숫자 원(임시): md 32 · lg 40
 const numberClasses: ResponsiveClassTable<CalendarSize> = {
   base: {
-    md: "size-8 text-body-4-medium",
-    lg: "size-10 text-body-2-medium",
+    md: "w-8 text-body-4-medium",
+    lg: "w-10 text-body-2-medium",
   },
   tablet: {
-    md: "tablet:size-8 tablet:text-body-4-medium",
-    lg: "tablet:size-10 tablet:text-body-2-medium",
+    md: "tablet:w-8 tablet:text-body-4-medium",
+    lg: "tablet:w-10 tablet:text-body-2-medium",
   },
   desktop: {
-    md: "desktop:size-8 desktop:text-body-4-medium",
-    lg: "desktop:size-10 desktop:text-body-2-medium",
+    md: "desktop:w-8 desktop:text-body-4-medium",
+    lg: "desktop:w-10 desktop:text-body-2-medium",
   },
 };
 
@@ -207,21 +207,24 @@ export function Calendar({
   const nextDisabled = max !== undefined && `${nextMonth}-01` > max;
 
   return (
-    <div className={cn("flex w-full flex-col gap-2", className)} {...props}>
-      <div className="flex items-center justify-between">
+    <div className={cn("flex w-full min-w-0 flex-col gap-2", className)} {...props}>
+      <div className="flex min-w-0 items-center justify-between gap-2">
         <IconButton
-          size="sm"
+          size="md"
           icon={<CaretLeftIcon />}
           aria-label="이전 달"
           disabled={previousDisabled}
           onClick={() => changeMonth(previousMonth)}
         />
         {/* 달이 바뀌면 스크린리더가 새 달을 읽는다 */}
-        <span className="text-heading-3-bold text-text-strong" aria-live="polite">
+        <span
+          className="min-w-0 text-center text-heading-3-bold text-text-strong"
+          aria-live="polite"
+        >
           {title}
         </span>
         <IconButton
-          size="sm"
+          size="md"
           icon={<CaretRightIcon />}
           aria-label="다음 달"
           disabled={nextDisabled}
@@ -275,7 +278,7 @@ export function Calendar({
                   role="gridcell"
                   aria-selected={isSelected || undefined}
                   className={cn(
-                    "flex justify-center",
+                    "flex min-w-0 justify-center",
                     responsiveClasses<CalendarSize>(size, "md", cellClasses),
                   )}
                 >
@@ -284,7 +287,7 @@ export function Calendar({
                     <span
                       aria-hidden="true"
                       className={cn(
-                        "flex items-center justify-center rounded-full text-text-disabled",
+                        "flex aspect-square h-auto max-w-full shrink-0 items-center justify-center self-start rounded-full text-text-disabled",
                         responsiveClasses<CalendarSize>(size, "md", numberClasses),
                       )}
                     >
@@ -301,11 +304,11 @@ export function Calendar({
                         .filter(Boolean)
                         .join(", ")}
                       onClick={() => select(date)}
-                      className="group/day relative flex cursor-pointer flex-col items-center gap-1 rounded-8 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-border-focus disabled:cursor-not-allowed"
+                      className="group/day relative flex h-full w-full min-w-0 cursor-pointer flex-col items-center gap-1 rounded-8 focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-border-focus disabled:cursor-not-allowed"
                     >
                       <span
                         className={cn(
-                          "flex items-center justify-center rounded-full transition-colors",
+                          "flex aspect-square h-auto max-w-full shrink-0 items-center justify-center rounded-full transition-colors",
                           responsiveClasses<CalendarSize>(size, "md", numberClasses),
                           isSelected
                             ? "bg-fill-brand text-text-on-fill"
@@ -326,7 +329,7 @@ export function Calendar({
                       >
                         {Number(date.slice(8))}
                       </span>
-                      <span aria-hidden="true" className="flex h-1 gap-[3px]">
+                      <span aria-hidden="true" className="flex h-1 shrink-0 gap-1">
                         {dayMarks.slice(0, MAX_MARKS).map((mark, markIndex) => (
                           <span
                             key={markIndex}

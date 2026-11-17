@@ -1,7 +1,7 @@
 import { useState } from "react";
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import { expect, fn, userEvent } from "storybook/test";
-import { Calendar, Text } from "@futurewiz-rms/mint";
+import { expect, fn, userEvent, within } from "storybook/test";
+import { Box, Calendar, Text } from "@futurewiz-rms/mint";
 
 const TODAY = "2026-11-11";
 const marks = {
@@ -79,10 +79,10 @@ export const WeekStartsMonday: Story = {
 
 export const Sizes: Story = {
   render: (args) => (
-    <div style={{ display: "grid", gap: 24 }}>
+    <Box gap={24}>
       <Calendar {...args} size="md" marks={marks} />
       <Calendar {...args} size="lg" marks={marks} />
-    </div>
+    </Box>
   ),
 };
 
@@ -92,7 +92,7 @@ export const Interaction: Story = {
     const [value, setValue] = useState<string | null>(null);
     const [month, setMonth] = useState("2026-11");
     return (
-      <div style={{ display: "grid", gap: 8 }}>
+      <Box gap={8}>
         <Calendar
           {...args}
           value={value}
@@ -103,7 +103,7 @@ export const Interaction: Story = {
         <Text variant="body-3-regular" color="secondary">
           선택: {value ?? "없음"} · 달: {month}
         </Text>
-      </div>
+      </Box>
     );
   },
   play: async ({ canvas, step }) => {
@@ -145,15 +145,60 @@ export const Interaction: Story = {
   },
 };
 
-// 모바일은 lg(칸 56), 데스크톱(1024px~)부터 md(48)
+// 기본 md(행 48), 넓게 배치하는 데스크톱(1024px~)에서 lg(행 56)
 export const Responsive: Story = {
-  args: { size: { base: "lg", desktop: "md" }, marks },
+  args: { size: { base: "md", desktop: "lg" }, marks },
   play: async ({ canvas }) => {
-    await expect(canvas.getAllByRole("gridcell")[0]).toHaveClass("h-14", "desktop:h-12");
+    await expect(canvas.getAllByRole("gridcell")[0]).toHaveClass("h-12", "desktop:h-14");
   },
 };
 
 export const Mobile: Story = {
-  args: { size: "lg", marks },
+  args: { size: "md", marks },
   globals: { viewport: { value: "mobile" } },
+};
+
+// 화면 폭이 아닌 실제 부모 너비를 검증한다(문서의 중첩 여백·DatePicker 팝오버 포함).
+export const NarrowContainers: Story = {
+  render: (args) => (
+    <Box gap={24}>
+      {([216, 248, 280] as const).map((width) => (
+        <div key={width} style={{ width, maxWidth: "100%" }}>
+          <Text variant="body-3-regular">부모 폭 {width}px · md / lg</Text>
+          <Box gap={16}>
+            <Calendar {...args} size="md" marks={marks} />
+            <Calendar {...args} size="lg" marks={marks} />
+          </Box>
+        </div>
+      ))}
+    </Box>
+  ),
+  play: async ({ canvas, args }) => {
+    for (const grid of canvas.getAllByRole("grid")) {
+      const bounds = grid.getBoundingClientRect();
+      await expect(grid.scrollWidth).toBeLessThanOrEqual(grid.clientWidth);
+      const dates = within(grid).getAllByRole("button");
+      for (const date of dates) {
+        const buttonBounds = date.getBoundingClientRect();
+        const cellBounds = date.parentElement!.getBoundingClientRect();
+        const circleBounds = date.firstElementChild!.getBoundingClientRect();
+        await expect(buttonBounds.width).toBeCloseTo(cellBounds.width, 0);
+        await expect(buttonBounds.height).toBe(cellBounds.height);
+        await expect(buttonBounds.left).toBeGreaterThanOrEqual(bounds.left - 1);
+        await expect(buttonBounds.right).toBeLessThanOrEqual(bounds.right + 1);
+        await expect(circleBounds.width).toBeLessThanOrEqual(buttonBounds.width + 1);
+        await expect(circleBounds.height).toBeCloseTo(circleBounds.width, 0);
+      }
+    }
+    const date = canvas.getAllByRole("button", { name: /11월 20일/ })[0];
+    const bounds = date.getBoundingClientRect();
+    // 숫자 원 바깥의 셀 아래 모서리도 날짜를 선택한다.
+    await userEvent.pointer({
+      target: date,
+      keys: "[MouseLeft]",
+      coords: { clientX: bounds.left + 2, clientY: bounds.bottom - 2 },
+    });
+    await expect(args.onChange).toHaveBeenCalledWith("2026-11-20");
+  },
+  parameters: { docs: { source: { code: '<Calendar today="2026-11-11" />' } } },
 };

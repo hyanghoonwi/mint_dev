@@ -4,7 +4,8 @@
 
 - **`Calendar`** — 날짜를 고르고, 일정이 있는 날을 점으로 보여 주는 달력. **임시 컴포넌트**입니다(Figma 시안 전, 모양은 바뀔 수 있고 API는 유지). 클라이언트 컴포넌트입니다(`"use client"`가 달려 있어 서버 컴포넌트에서 import해도 됩니다. 단 `onChange`·`onMonthChange`는 클라이언트 컴포넌트에서 넘깁니다).
   - 날짜는 모두 문자열(`YYYY-MM-DD`, 달은 `YYYY-MM`). `Date`를 넘기지 않습니다. 날짜 라이브러리는 필요 없고, 쓰는 중이면 이 형식으로 바꿔 넘깁니다
-  - `size`: `md`(칸 48, 기본)·`lg`(56). 폭은 부모를 꽉 채움. 구간별 객체도 받음(`{ base: "lg", desktop: "md" }`)
+  - `size`: `md`(행 48·원 32, 기본)·`lg`(행 56·원 40). 전체 폭과 독립적인 밀도입니다. 폭은 부모를 채워 7등분하고 날짜 셀 전체를 누릅니다. 숫자 원은 셀 너비를 넘지 않는 정원이며 글자 크기는 유지합니다. 구간별 객체도 받습니다(`{ base: "md", desktop: "lg" }`). 좁은 사이드바·DatePicker는 기본 md를 권장합니다.
+  - 320px 화면에서 Container 좌우 20px이면 달력 폭 280px, 셀 폭 40px입니다. 카드·미리보기의 중첩 패딩을 줄이고 달력에 고정 최소 폭이나 가로 스크롤을 주지 않습니다. 점 크기·간격은 4px입니다.
   - `value`·`onChange`(제어) 또는 `defaultValue`. 보이는 달은 `month`·`onMonthChange`(제어) 또는 `defaultMonth`(기본: 선택한 날 → 오늘의 달)
   - `today`(필수): 오늘. 렌더 중 `new Date()`로 만들지 말고 서버에서 한 번 만들어 넘깁니다(`new Intl.DateTimeFormat("sv-SE", { timeZone: "Asia/Seoul" }).format(new Date())`)
   - `marks`: 날짜별 점 `{ "2026-11-12": [{ color: "brand", label: "결제일" }] }`. 최대 3개 보임. `color`: `brand`(기본)·`danger`·`success`·`neutral`. `label`은 스크린리더용(없으면 "일정 N개"). 달이 바뀌면 `onMonthChange`에서 그 달의 일정을 불러와 바꿉니다

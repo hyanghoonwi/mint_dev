@@ -2237,3 +2237,23 @@ main > .docs-page-link + p {
     align-self: start;
   }
 }
+
+/* Calendar는 7열과 6주를 함께 보여 주므로 미리보기의 중첩 여백·고정 높이를 줄인다. */
+.docs-calendar .docs-sandbox__stage,
+.docs-calendar .docs-example__preview {
+  min-width: 0;
+  padding: 24px 16px;
+}
+
+.docs-calendar .docs-dodont {
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr));
+}
+
+.docs-calendar .docs-dodont figure {
+  min-width: 0;
+}
+
+.docs-calendar .docs-dodont__stage {
+  height: auto;
+  padding: 16px;
+}
