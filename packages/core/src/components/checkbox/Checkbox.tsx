@@ -20,7 +20,7 @@ import {
 } from "../../utils/responsive";
 import { CheckboxMark } from "../_internal/controlMarks";
 
-/** Figma Size: XSmall(상자 16) · Small(20, 기본) · Medium(24). Figma 기본(Small)을 따라서 MINT의 `md` 기본 규칙에서 예외다(2026-11 결정) · Large(32) */
+/** Figma Size: XSmall(상자 16) · Small(20, 기본) · Medium(24) · Large(32). 기본이 Figma의 Small이라 MINT의 `md` 기본 규칙에서 예외다(2026-11 결정) */
 export type CheckboxSize = "xs" | "sm" | "md" | "lg";
 
 // 상자 · 체크 · 일부 선택 막대(Figma 2261:28970 Checkbox Box): 16·12·8×1.5 / 20·16·10×2 / 24·20·12×2.5 / 32·26·16×3. 모서리는 모두 4

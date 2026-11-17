@@ -23,7 +23,7 @@ import {
 import { RadioMark } from "../_internal/controlMarks";
 import { RadioGroupContext, type RadioGroupSize } from "../_internal/radioGroupContext";
 
-/** Figma Size: XSmall(원 16) · Small(20, 기본) · Medium(24). Figma 기본(Small)을 따라서 MINT의 `md` 기본 규칙에서 예외다(2026-11 결정) · Large(32) */
+/** Figma Size: XSmall(원 16) · Small(20, 기본) · Medium(24) · Large(32). 기본이 Figma의 Small이라 MINT의 `md` 기본 규칙에서 예외다(2026-11 결정) */
 export type RadioSize = RadioGroupSize;
 
 // 원 · 가운데 흰 점(Figma Radio Circle 2280:32059): 16·6 / 20·8 / 24·10 / 32·12. 점 크기 = 원 − 브랜드 테두리(--mint-radio-ring) × 2
