@@ -42,6 +42,7 @@ Props는 **모양 → 내용 → 상태·동작 → 배치 → HTML·접근성 �
 - 날짜 고르기·일정 있는 날 점 표시(달력) → `Calendar`(임시, 날짜는 `YYYY-MM-DD` 문자열, `today` 필수)
 - 목록에서 선택된 항목에 체크 표시(Menu, Select Item) → `CheckMark`
 - 이름·이메일·검색처럼 짧은 한 줄 텍스트를 입력받기(라벨·도움말·오류 **내장**, `Label`을 또 붙이지 않음) → `TextField`(여러 줄은 Textarea, 목록에서 고르기는 `Select`)
+- 문의·후기처럼 여러 줄 입력받기 → `Textarea`(라벨·도움말·오류 **내장**, `Label`을 또 붙이지 않음. 글자 수, 자동 높이, `addon`)
 - 여러 개 고르기·한 항목 켜고 끄기(폼, 제출할 때 적용) → `Checkbox`(전체 선택은 `indeterminate`)
 - 2~4개 중 하나만 고르기(폼) → `RadioGroup` + `Radio`
 - 선택지가 많거나 설명이 있는 항목에서 하나 또는 여러 개 고르기(펼쳐지는 목록, 라벨 포함) → `Select`
@@ -97,6 +98,7 @@ Props는 **모양 → 내용 → 상태·동작 → 배치 → HTML·접근성 �
 - `FramedCheckbox` · `FramedRadio` — 체크박스·라디오를 담은 틀(틀 전체를 눌러 선택, 선택되면 브랜드 테두리)
 - `Framed` — 다른 내용을 담는 틀(`selected`·`size`·`error`·`shadow`)
 - `Switch` — 누르면 바로 켜지고 꺼지는 스위치(즉시 적용 설정, 레이블을 눌러도 켜짐, 폼 제출, 서버 컴포넌트 가능)
+- `Textarea` — 여러 줄 입력(라벨 + 도움말, 3크기, normal·negative·positive, 라벨 위·왼쪽, 구간별 객체, 글자 수, 자동 높이·스크롤, `addon`)
 - `TextField` — 한 줄 텍스트 입력(라벨 + 도움말, 3크기, normal·negative·positive, `leftAddon`·지우기·`rightAddon`(글자·아이콘·버튼), 라벨 위·왼쪽, 구간별 객체)
 - `Label` — 입력 칸 위에 붙는 이름(3크기·구간별 객체, 필수 `*`, 도움말 아이콘, `htmlFor`로 입력 칸과 연결)
 - `Chip` — 선택 상태가 있는 칩(solid·outline, 3크기, square·pill, 아이콘·이미지·카운트)

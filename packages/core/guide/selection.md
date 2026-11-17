@@ -64,7 +64,7 @@
   - 크기는 하나뿐(트랙 44×24). 나머지 `<input>` 속성(`name`·`value`·`required`)은 그대로 전달
   - 스크린리더는 "스위치, 켜짐/꺼짐"으로 읽고 Space로 켜고 끕니다. 터치 화면에서는 눌림 영역이 44px로 넓어집니다
   - 금지: 제출이 필요한 선택(Checkbox를 씀), 여러 개 중 하나 고르기(Radio). 상세 규칙은 `components/switch/AGENTS.md`
-- **`TextField`** — 한 줄 텍스트 입력(Figma `Text Input`의 Text Field). 라벨 + 입력 칸 + 도움말 한 묶음이고 라벨은 `Label`을 그대로 씁니다. 이름·이메일·검색처럼 짧은 글에 쓰고, 긴 글은 Textarea(아직 없음), 목록에서 고르기는 `Select`입니다. 클라이언트 컴포넌트입니다(`"use client"`가 달려 있어 서버 컴포넌트에서 import해도 됩니다. 단 `onChange`는 클라이언트 컴포넌트에서 넘깁니다). 진짜 `<input>`이라 `name`·`type`·`autoComplete`·`maxLength` 등 나머지 속성은 입력에, `className`·`style`은 바깥 요소에 붙고 `ref`는 `<input>`에 붙습니다.
+- **`TextField`** — 한 줄 텍스트 입력(Figma `Text Input`의 Text Field). 라벨 + 입력 칸 + 도움말 한 묶음이고 라벨은 `Label`을 그대로 씁니다. 이름·이메일·검색처럼 짧은 글에 쓰고, 긴 글은 `Textarea`, 목록에서 고르기는 `Select`입니다. 클라이언트 컴포넌트입니다(`"use client"`가 달려 있어 서버 컴포넌트에서 import해도 됩니다. 단 `onChange`는 클라이언트 컴포넌트에서 넘깁니다). 진짜 `<input>`이라 `name`·`type`·`autoComplete`·`maxLength` 등 나머지 속성은 입력에, `className`·`style`은 바깥 요소에 붙고 `ref`는 `<input>`에 붙습니다.
   - `size`: `lg`(칸 48) · `md`(40, 기본) · `sm`(32). 구간별 객체도 받음(`{ base: "lg", desktop: "md" }`)
   - `label`(없으면 `aria-label` 필수), `labelPosition`: `top`(기본) · `left`, 구간별 객체도 받음(`{ base: "top", desktop: "left" }`). `required`(라벨 `*` + `<input>` required), `helpIcon`, `helper`(칸 아래 도움말), `placeholder`
   - `value`·`onChange`(제어) 또는 `defaultValue`(비제어). `type`(기본 `text`)
@@ -74,7 +74,7 @@
   - 금지: 라벨 없이 쓰기, 여러 줄 입력(Textarea), 목록에서 고르기(Select). 상세 규칙은 `components/text-field/AGENTS.md`
 - **`Label`** — 입력 칸 위에 붙는 이름. 무엇을 입력하는지 알려 주고, 입력 예시는 Placeholder가 맡습니다. 서버 컴포넌트에서도 쓸 수 있습니다(`"use client"` 없음).
   - `size`: `sm`(12) · `md`(14, 기본) · `lg`(16). 입력 칸 크기에 맞춰 고름. 구간별 객체도 받음(`{ base: "md", desktop: "lg" }`)
-  - **주의: `TextField`·`Select`에는 Label이 내장되어 있습니다.** `label` prop만 주고 `Label`을 또 붙이지 않습니다(라벨이 두 번 나옴)
+  - **주의: `TextField`·`Select`·`Textarea`에는 Label이 내장되어 있습니다.** `label` prop만 주고 `Label`을 또 붙이지 않습니다(라벨이 두 번 나옴)
   - `children`(필수): 라벨 글자. 이름, 휴대폰 번호처럼 명사로 짧게
   - 체크박스·라디오 묶음의 이름에도 씁니다: 묶음에 `role="group"` + `aria-labelledby`, Label에 `id`. 선택지 옆 글자는 Label이 아니라 각 컴포넌트가 그립니다
   - `helpIcon`: `true`면 물음표 아이콘(16). 누르면 설명이 나오게 하려면 `Tooltip`으로 감싼 버튼 같은 요소를 직접 넘김(`<label>` 밖에 놓임)
@@ -82,3 +82,14 @@
   - `required`: 글자 옆에 빨간 `*`(스크린리더는 "(필수)"). 필수 입력일 때만 켬
   - `htmlFor`: 이어 줄 입력 칸의 `id`. Label을 따로 쓸 때만 필요하고, 주면 라벨을 눌러도 입력 칸이 선택됩니다(글자는 `<label>`)
   - 금지: 글자색을 임의로 바꾸기(시맨틱 색만), Placeholder만 두고 Label 생략. 상세 규칙은 `components/label/AGENTS.md`
+
+- **`Textarea`** — 여러 줄 텍스트 입력(Figma 2410:110943, 가이드 2410:112415). `"use client"` 컴포넌트이며 서버 컴포넌트에서 import할 수 있습니다. `onChange`·addon의 이벤트는 사용하는 쪽 클라이언트 컴포넌트에서 넘깁니다.
+  - `size?: Responsive<"sm" | "md" | "lg">`(기본 `md`): TextField의 좌우 패딩(12/12 · 16/12 · 16/12), Body 4·3·2, Label sm·md·md를 따릅니다. 세로 패딩은 8·12·12px입니다. 높이는 size와 독립적이며 기본 120px입니다. 반응형은 CSS로만 크기를 고릅니다.
+  - `label?: ReactNode`, `placeholder?: string`, `helper?: ReactNode`, `helpIcon?: boolean | ReactNode`: 라벨·예시·도움말. Label이 내장되어 있으므로 `label` prop만 주고 `Label`을 또 붙이지 않습니다(라벨이 두 번 나옴). 라벨이 없으면 `aria-label` 또는 `aria-labelledby`가 필요합니다.
+  - `labelPosition?: Responsive<"top" | "left">`(기본 `top`): TextField·Select와 같습니다. `left`는 라벨을 칸 왼쪽에 놓고, 라벨은 한 줄 칸 높이(48·40·32)에 맞춰 칸 위쪽에 붙습니다. 구간별 객체(`{ base: "top", desktop: "left" }`)도 받습니다. Figma Textarea에는 없는 변형이라 TextField에 맞춘 것입니다(2026-11 결정).
+  - `addon?: ReactNode`: 입력창 오른쪽 아래 슬롯입니다. 텍스트·아이콘·버튼·Fragment를 받습니다. trailingContent·trailingIcon prop은 없습니다. 버튼의 이벤트·disabled는 사용하는 쪽에서 정합니다. 아이콘은 필요한 size를 직접 넘깁니다.
+  - `value`·`defaultValue`는 문자열만 받습니다. `value`+`onChange`로 제어하거나 `defaultValue`로 비제어 입력을 만듭니다. `status?: "normal" | "negative" | "positive"`(기본 normal), `disabled`·`readOnly`·`required`를 지원합니다. 오류는 `aria-invalid`, helper와 counter는 `aria-describedby`로 연결합니다.
+  - `counter?: boolean`(기본 false)는 `maxLength`가 있을 때만 표시합니다. 브라우저 maxLength와 같은 UTF-16 코드 단위로 셉니다. 비제어 입력의 form reset도 반영합니다.
+  - `height?: number`(기본 120)는 테두리 영역의 높이(px)입니다. 라벨·도움말은 제외하고 패딩·카운터·addon은 포함합니다. `maxHeight?: number`(기본 240)는 auto·resizable에서 최대 높이입니다. height보다 작으면 height를 우선합니다. 양수가 아닌 값·비유한 값은 기본값으로 보정합니다.
+  - `heightMode?: "fixed" | "auto" | "resizable"`(기본 fixed): fixed는 height를 유지하며 내부 스크롤, auto는 height부터 maxHeight까지 콘텐츠에 맞춰 확장 후 내부 스크롤, resizable은 같은 범위에서 사용자가 수직 조절합니다. disabled·readOnly에서는 수동 조절을 끕니다. counter·addon은 스크롤 영역 밖에 남습니다. resize prop은 없습니다.
+  - 나머지 textarea 속성을 받습니다. `rows`는 고정된 디자인 높이를 바꾸지 않습니다. `className`·`style`은 바깥 요소, `ref`는 HTMLTextAreaElement입니다. name·form·required 등 네이티브 폼 동작을 유지합니다. 렌더 중 브라우저 API를 읽지 않습니다.

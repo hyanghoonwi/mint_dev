@@ -31,6 +31,7 @@ export * from "./components/switch/Switch";
 export * from "./components/text/Text";
 export * from "./components/text-button/TextButton";
 export * from "./components/text-field/TextField";
+export * from "./components/textarea/Textarea";
 export * from "./components/thumbnail/Thumbnail";
 export * from "./components/tooltip/Tooltip";
 

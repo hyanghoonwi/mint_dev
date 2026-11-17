@@ -24,6 +24,7 @@ export default {
   select: "Select",
   switch: "Switch",
   "text-field": "Text field",
+  textarea: "Textarea",
   "---contents": { type: "separator", title: "Contents" },
   avatar: "Avatar",
   "avatar-group": "Avatar group",

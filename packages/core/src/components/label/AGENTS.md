@@ -2,8 +2,8 @@
 
 `Label`을 쓰거나 고칠 때 **이 문서대로 쓰는 것을 권장**합니다. 출처는 Figma `Label`(node `2332:41220`)과 `Label Guidelines`(node `2332:41302`)입니다. Figma와 이 문서가 다르면 Figma가 맞습니다.
 
-- **주의: `TextField`·`Select`에는 Label이 내장되어 있습니다.** `label`·`required`·`helpIcon`만 주고, 입력 칸 위에 `Label`을 또 붙이지 않습니다(라벨이 두 번 나오고 `htmlFor` 연결이 중복됩니다).
-- **입력 칸 위에 붙는 이름**입니다. `Label`을 따로 쓰는 경우는 Label이 내장되지 않은 입력 칸(Textarea 등)에 붙일 때와, 체크박스·라디오 같은 **선택지 묶음의 이름**입니다. 선택지 옆 글자(Checkbox·Radio의 레이블)는 Label이 아니라 각 컴포넌트가 직접 그립니다(`<label>` 안에 `<label>`을 넣을 수 없습니다).
+- **주의: `TextField`·`Select`·`Textarea`에는 Label이 내장되어 있습니다.** `label`·`required`·`helpIcon`만 주고, 입력 칸 위에 `Label`을 또 붙이지 않습니다(라벨이 두 번 나오고 `htmlFor` 연결이 중복됩니다).
+- **입력 칸 위에 붙는 이름**입니다. `Label`을 따로 쓰는 경우는 Label이 내장되지 않은 입력 칸(`<input>`을 직접 쓰는 경우 등)에 붙일 때와, 체크박스·라디오 같은 **선택지 묶음의 이름**입니다. 선택지 옆 글자(Checkbox·Radio의 레이블)는 Label이 아니라 각 컴포넌트가 직접 그립니다(`<label>` 안에 `<label>`을 넣을 수 없습니다).
 - 서버 컴포넌트에서 그대로 쓸 수 있습니다(`"use client"` 없음).
 
 ## 언제 쓰나요

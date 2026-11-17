@@ -1,0 +1,79 @@
+# Textarea
+
+문의 내용이나 후기처럼 여러 줄의 긴 글을 입력받는 컴포넌트예요. 한 줄 입력은 [Text field](/components/text-field)를 써요.
+
+<ComponentBadges />
+
+<Figure height={240} />
+
+<Callout type="warning">
+  **Textarea에는 Label이 내장되어 있어요.** `label` · `required` · `helpIcon`만
+  주면 되고, 입력 칸 위에 [Label](/components/label)을 또 붙이지 않아요(라벨이
+  두 번 나와요).
+</Callout>
+
+## Playground
+
+오른쪽에서 크기·상태·라벨 위치·높이를 바꿔 보세요. `addon`을 켜면 입력창 오른쪽 아래에 텍스트 버튼이 나타나고, `maxLength`를 고르고 `counter`를 켜면 글자 수가 나타나요.
+
+<TextareaPlayground />
+
+## Examples
+
+<ExampleTabs
+  items={[
+    { title: "기본", name: "textarea/Basic" },
+    { title: "크기", name: "textarea/Sizes" },
+    { title: "상태", name: "textarea/States" },
+    { title: "라벨 위치", name: "textarea/LabelPosition" },
+    { title: "추가 요소", name: "textarea/Addon" },
+    { title: "높이", name: "textarea/Height" },
+    { title: "반응형", name: "textarea/Responsive" },
+  ]}
+/>
+
+- **기본**: `label`로 이름을, `placeholder`로 입력 예시를 알려요. `counter`와 `maxLength`를 함께 주면 현재 글자 수와 제한을 보여 줘요.
+- **크기**: `sm / md / lg`는 TextField와 같은 패딩·본문·라벨 크기를 써요. 입력창 높이는 크기와 무관하게 기본 120px예요. 기본 크기는 `md`예요.
+- **상태**: 오류는 `negative`, 확인 완료는 `positive`예요. `disabled`는 입력을 막고 폼 제출에서 제외해요. `readOnly`는 선택·복사와 폼 제출이 가능해요.
+- **라벨 위치**: `labelPosition="left"`면 라벨이 칸 왼쪽에 놓여요. 라벨은 칸의 첫 줄 높이(48·40·32px)에 맞춰 위쪽에 붙고, 기본값은 `top`이에요. 폭이 넓은 폼에서 쓰세요.
+- **추가 요소**: `addon`은 `ReactNode`예요. 텍스트·아이콘·버튼을 하나 또는 여러 개 넣어요. 버튼의 동작과 비활성 여부는 사용하는 쪽에서 정해요.
+- **높이**: `height={160}`이면 입력창 테두리 영역이 160px예요. 라벨·도움말은 제외하고 패딩·카운터·addon은 포함해요. `heightMode="auto"`는 `height`부터 `maxHeight`까지 늘어난 뒤 내부 스크롤해요. `heightMode="resizable"`은 같은 범위에서 높이를 직접 조절해요. 기본값은 `height={120}`, `maxHeight={240}`, `heightMode="fixed"`예요.
+- **반응형**: `size`와 `labelPosition`은 구간별 값도 받아요. `size={{ base: "lg", desktop: "sm" }}`이면 모바일·태블릿은 `lg`, 데스크톱은 `sm`이고, `labelPosition={{ base: "top", desktop: "left" }}`이면 데스크톱부터 라벨이 왼쪽으로 가요. 창 폭을 바꿔 보세요.
+
+## Props
+
+나머지 `<textarea>` 속성도 그대로 받아요(`className`·`style`은 바깥 요소에, `ref`는 입력 요소에 붙어요). 입력창 높이는 `rows`가 아니라 `height`로 정해요.\
+클라이언트 컴포넌트예요. 서버 컴포넌트에서 import할 수 있고, `onChange`는 클라이언트 컴포넌트 안에서 넘겨요.
+
+| 이름            | 타입                                                    | 기본값     | 설명                                                                |
+| --------------- | ------------------------------------------------------- | ---------- | ------------------------------------------------------------------- |
+| `size`          | `"sm" \| "md" \| "lg"` 또는 `{ base, tablet, desktop }` | `"md"`     | 패딩·본문·라벨 크기                                                 |
+| `label`         | `ReactNode`                                             | -          | 입력 이름. 없으면 `aria-label` 또는 `aria-labelledby`를 줘요        |
+| `placeholder`   | `string`                                                | -          | 입력 예시                                                           |
+| `helper`        | `ReactNode`                                             | -          | 입력창 아래 도움말                                                  |
+| `helpIcon`      | `boolean \| ReactNode`                                  | -          | 라벨 오른쪽 도움말 아이콘                                           |
+| `addon`         | `ReactNode`                                             | -          | 입력창 오른쪽 아래 요소. 동작·비활성은 사용하는 쪽에서 정해요       |
+| `value`         | `string`                                                | -          | 제어할 때의 값                                                      |
+| `defaultValue`  | `string`                                                | -          | 비제어 입력의 처음 값                                               |
+| `status`        | `"normal" \| "negative" \| "positive"`                  | `"normal"` | 테두리·도움말 상태                                                  |
+| `disabled`      | `boolean`                                               | `false`    | 입력 불가, 폼 제출에서 제외                                         |
+| `readOnly`      | `boolean`                                               | `false`    | 수정 불가, 선택·복사·폼 제출 가능                                   |
+| `required`      | `boolean`                                               | `false`    | 필수 입력과 라벨의 별표                                             |
+| `counter`       | `boolean`                                               | `false`    | `maxLength`가 있을 때 글자 수 표시                                  |
+| `labelPosition` | `"top" \| "left"` 또는 `{ base, tablet, desktop }`      | `"top"`    | 라벨 위치. `left`는 칸의 첫 줄 높이에 맞춰 위쪽에 놓여요            |
+| `height`        | `number`                                                | `120`      | 입력창 높이(px). auto·resizable에서는 시작·최소 높이                |
+| `maxHeight`     | `number`                                                | `240`      | auto·resizable의 최대 높이(px). height보다 작으면 height를 우선해요 |
+| `heightMode`    | `"fixed" \| "auto" \| "resizable"`                      | `"fixed"`  | 고정·자동 확장·직접 조절. 비활성·읽기 전용은 직접 조절할 수 없어요  |
+| `maxLength`     | `number`                                                | -          | 최대 입력 길이. 브라우저와 같은 UTF-16 단위로 세요                  |
+| `onChange`      | `ChangeEventHandler<HTMLTextAreaElement>`               | -          | 입력값이 바뀔 때 호출                                               |
+
+## Guidelines
+
+<TextareaGuide />
+
+- 여러 줄 입력에는 Textarea를, 이름·이메일처럼 짧은 입력에는 TextField를 써요.
+- 입력 칸에는 항상 이름(`label`)을 붙여요. Label이 내장되어 있어서 `Label`을 따로 붙이지 않아요. Placeholder에는 어떤 내용을 쓰면 되는지 예시를 적어요.
+- 글자 수 제한이 있으면 `maxLength`와 `counter`를 함께 써요. 제한이 없으면 글자 수를 표시하지 않아요.
+- 입력한 글이 잘리지 않도록 충분한 높이를 확보해요. 긴 글에는 자동 높이 또는 크기 조절을 제공해요.
+- 오류는 색과 함께 도움말로 이유와 해결 방법을 알려요.
+- 터치 화면에는 `md` 이상을 권해요. 크기는 화면 폭에 따라 자동으로 바뀌지 않아요.

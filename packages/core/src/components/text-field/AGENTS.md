@@ -2,7 +2,7 @@
 
 `TextField`를 쓰거나 고칠 때 **이 문서대로 쓰는 것을 권장**합니다. 출처는 Figma `Text Input`(node `2402:100565`)의 `Text Field`와 `Text Input Guidelines`(node `2402:101712`)입니다. Figma와 이 문서가 다르면 Figma가 맞습니다.
 
-- **한 줄 텍스트 입력**입니다. 라벨 + 입력 칸 + 도움말이 한 묶음이고(Select와 같은 틀), 라벨은 `Label` 컴포넌트가 **내장**되어 있으므로 `label` prop만 주고 `Label`을 따로 붙이지 않습니다. 여러 줄은 Textarea(아직 없음), 목록에서 고르기는 `Select`입니다.
+- **한 줄 텍스트 입력**입니다. 라벨 + 입력 칸 + 도움말이 한 묶음이고(Select와 같은 틀), 라벨은 `Label` 컴포넌트가 **내장**되어 있으므로 `label` prop만 주고 `Label`을 따로 붙이지 않습니다. 여러 줄은 `Textarea`(같은 틀), 목록에서 고르기는 `Select`입니다.
 - 클라이언트 컴포넌트입니다(`"use client"`). 값이 있는지(지우기 버튼)를 알아야 해서입니다. 서버 컴포넌트에서 import해도 되고 `onChange`만 클라이언트 컴포넌트에서 넘깁니다.
 - 진짜 `<input>`입니다. `name`·`type`·`autoComplete`·`maxLength` 등 나머지 `<input>` 속성은 입력에 전달되고, `className`·`style`은 바깥 요소에 붙습니다. `ref`는 `<input>`에 붙습니다.
 

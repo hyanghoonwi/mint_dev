@@ -25,6 +25,9 @@ export function propRank(name, component = "") {
   if (name === "background") return ranks.get("tone") + 0.1;
   if (name === "chip") return ranks.get("count") + 0.1;
   if (name === "scroll") return ranks.get("maxHeight") + 0.1;
+  if (context.includes("textarea") && name === "addon") return ranks.get("rightAddon") + 0.1;
+  if (name === "counter") return ranks.get("clearButton") + 0.1;
+  if (name === "heightMode") return ranks.get("maxHeight") + 0.1;
   if (name === "key") return -1;
   if (name.startsWith("aria-")) return 5100;
   if (name.startsWith("data-")) return 5200;

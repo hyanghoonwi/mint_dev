@@ -57,6 +57,7 @@ const preview: Preview = {
               "Select",
               "Switch",
               "TextField",
+              "Textarea",
             ],
             "Navigation",
             ["Category", "Menu", "PageIndicator", "Pagination", "SegmentedControl", "Tab"],

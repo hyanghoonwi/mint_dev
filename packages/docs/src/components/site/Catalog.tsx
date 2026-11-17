@@ -13,6 +13,7 @@ import {
   MenuItem,
   Select,
   TextField,
+  Textarea,
   PageCounter,
   PageDots,
   PriceChange,
@@ -353,6 +354,16 @@ const components: { name: string; group: string; to: string; preview: ReactNode 
           ]}
           defaultValue="krw"
         />
+      </span>
+    ),
+  },
+  {
+    name: "Textarea",
+    group: "Form",
+    to: "/components/textarea",
+    preview: (
+      <span aria-hidden="true" style={{ display: "block", width: 220, pointerEvents: "none" }}>
+        <Textarea label="문의 내용" placeholder="내용을 입력해 주세요" tabIndex={-1} />
       </span>
     ),
   },
