@@ -1,0 +1,105 @@
+# Menu
+
+옵션이나 액션을 쌓아 보여 주는 목록 상자예요. 항목이 넘치면 최대 높이에서 스크롤돼요.
+
+<ComponentBadges />
+
+<Figure height={240} />
+
+## Playground
+
+오른쪽에서 props를 바꾸면 메뉴와 아래 코드가 함께 바뀌어요.
+
+<MenuPlayground />
+
+## Examples
+
+<ExampleTabs
+  items={[
+    { title: "기본", name: "menu/Normal" },
+    { title: "Radio", name: "menu/Radio" },
+    { title: "Checkbox", name: "menu/Checkbox" },
+    { title: "크기", name: "menu/Sizes", style: { alignItems: "flex-start" } },
+    {
+      title: "셀 여백",
+      name: "menu/CellPadding",
+      style: { alignItems: "flex-start" },
+    },
+    { title: "그룹", name: "menu/Groups" },
+    { title: "이미지", name: "menu/Image" },
+    { title: "하단 액션", name: "menu/ActionArea" },
+    { title: "스크롤", name: "menu/ScrollBar" },
+    { title: "액션 항목", name: "menu/Actions" },
+  ]}
+/>
+
+- **기본**: 고른 항목에 체크 표시가 붙고 글자가 굵어져요. `value`와 `defaultValue`가 같은 항목이 선택돼요.
+- **Radio**: `variant="radio"`는 항목 앞에 원이 붙고 하나만 골라요.
+- **Checkbox**: `variant="checkbox"`는 항목 앞에 상자가 붙고 여러 개를 골라요. 값은 배열이에요.
+- **크기**: `size`는 `sm`(항목 36 · 폭 200) · `md`(44 · 240, 기본) · `lg`(52 · 280)예요. 폭은 `className="w-full"`처럼 늘릴 수 있어요.
+- **셀 여백**: `cellPadding`은 항목 상자의 안쪽 여백이에요. 촘촘한 목록은 `8`, 일반 목록은 `12`예요.
+- **그룹**: `MenuGroup`은 항목을 이름 붙은 묶음으로 나누고, `MenuDivider`는 묶음 사이에 선을 그어요.
+- **이미지**: `leadingImage`를 주면 항목 앞에 24px 동그란 이미지가 붙어요. 모든 종류에서 쓸 수 있어요.
+- **하단 액션**: `actionArea`는 아래에 선이 있는 줄이에요. 선택을 적용하거나 초기화하는 버튼을 `Button size="sm"`으로 넣어요.
+- **스크롤**: `maxHeight`를 주면 항목 영역이 그 높이에서 스크롤돼요.
+- **액션 항목**: `value`가 없는 항목은 고르지 않고 `onClick`만 해요. 복사·삭제 같은 액션에 써요. 항목에 마우스를 올리거나 방향키로 옮겨 보세요.
+
+## Props
+
+나머지 `<div>` 속성도 그대로 받아요(`className`·`style`은 바깥 상자에 붙어요).\
+클라이언트 컴포넌트라서 `onChange`는 클라이언트 컴포넌트 안에서 넘겨요.
+
+| 이름              | 타입                                                       | 기본값     | 설명                                                      |
+| ----------------- | ---------------------------------------------------------- | ---------- | --------------------------------------------------------- |
+| `variant`         | `"normal" \| "radio" \| "checkbox"`                        | `"normal"` | 체크 표시 · 하나만 고르기 · 여러 개 고르기                |
+| `size`            | `"sm" \| "md" \| "lg"`                                     | `"md"`     | 항목 높이 36 · 44 · 52px, 폭 200 · 240 · 280px            |
+| `children`        | `ReactNode`                                                | -          | `MenuItem` · `MenuGroup` · `MenuDivider`                  |
+| `actionArea`      | `ReactNode`                                                | -          | 아래 액션 줄. 안의 요소가 양쪽 끝으로 벌어져요            |
+| `value`           | `string` 또는 `string[]`                                   | -          | 선택된 값을 직접 정할 때. `checkbox`는 배열이에요         |
+| `defaultValue`    | `string` 또는 `string[]`                                   | -          | 처음 선택된 값. 생략하면 스스로 상태를 가져요             |
+| `cellPadding`     | `8 \| 12`                                                  | `8`        | 항목 상자의 안쪽 여백(px)                                 |
+| `maxHeight`       | `number \| string`                                         | -          | 항목 영역의 최대 높이. 넘치면 스크롤돼요(숫자는 px)       |
+| `aria-label`      | `string`                                                   | -          | 메뉴 이름. 스크린리더가 읽어요                            |
+| `aria-labelledby` | `string`                                                   | -          | 이름이 되는 요소의 `id`                                   |
+| `onChange`        | `(value: string) => void` 또는 `(value: string[]) => void` | -          | 선택이 바뀔 때. `checkbox`는 고른 값 전체를 배열로 받아요 |
+
+### MenuItem
+
+나머지 `<button>` 속성도 그대로 받아요.\
+`Menu` 안에서 써요. 항목 전체가 눌려요.
+
+| 이름           | 타입                                   | 기본값  | 설명                                                         |
+| -------------- | -------------------------------------- | ------- | ------------------------------------------------------------ |
+| `children`     | `ReactNode`                            | -       | 항목 글자. 동사로 짧게 써요                                  |
+| `leadingImage` | `string`                               | -       | 앞에 붙는 24px 동그란 이미지 주소                            |
+| `value`        | `string`                               | -       | 고를 수 있는 항목의 값. 생략하면 `onClick`만 하는 액션이에요 |
+| `disabled`     | `boolean`                              | `false` | 누를 수 없어요                                               |
+| `onClick`      | `MouseEventHandler<HTMLButtonElement>` | -       | 항목을 눌렀을 때                                             |
+
+### MenuGroup
+
+나머지 `<div>` 속성도 그대로 받아요.\
+항목을 이름 붙은 묶음으로 나눠요.
+
+| 이름       | 타입        | 기본값 | 설명                  |
+| ---------- | ----------- | ------ | --------------------- |
+| `children` | `ReactNode` | -      | `MenuItem`            |
+| `label`    | `string`    | -      | 묶음 위에 보이는 이름 |
+
+### MenuDivider
+
+나머지 `<div>` 속성도 그대로 받아요.\
+묶음 사이에 가로선을 그어요. 따로 정할 props는 없어요.
+
+## Guidelines
+
+<MenuGuide />
+
+- 옵션이나 액션이 여럿일 때 써요. 값을 골라 입력하는 폼은 Select, 짧은 보조 정보는 Tooltip이에요.
+- 자주 쓰는 항목을 위쪽에 두고 위험한 동작은 아래쪽에 두어요.
+- 항목 이름은 동사로 짧게 써요(복사, 삭제).
+- Menu 안에 Menu를 겹쳐 펼치지 않아요.
+- Radio는 하나만, Checkbox는 여러 개를 골라요. 하나만 고르는 선택지가 5개 이상이면 Select를 써요.
+- 스크린리더는 `menu`로 읽고, 고른 항목은 선택됨으로 알려요. 방향키로 항목을 옮기고 <kbd>Home</kbd>·<kbd>End</kbd>로 처음과 끝으로 가요.
+- 터치 화면에서 누르는 항목은 `md`(44px) 이상을 권해요. `sm`(36px)은 마우스로 쓰는 촘촘한 목록에 써요.
+- 열고 닫는 것과 위치는 직접 정해요. 떠 있는 메뉴로 쓰려면 `className="shadow-floating"`을 더해요.
