@@ -1,0 +1,61 @@
+# Live Status
+
+데이터가 실시간으로 반영되고 있는지 점과 글자로 알려 줘요. 제목 옆에 작게 붙여 써요.
+
+<ComponentBadges />
+
+<Figure height={240} />
+
+## Playground
+
+오른쪽에서 props를 바꾸면 Live Status와 아래 코드가 함께 바뀌어요. 문구를 비우면 기본 문구가 나와요.
+
+<LiveStatusPlayground />
+
+## Examples
+
+<ExampleTabs
+  items={[
+    {
+      title: "켜짐과 꺼짐",
+      name: "live-status/Basic",
+      style: { flexDirection: "column", alignItems: "flex-start" },
+    },
+    {
+      title: "문구",
+      name: "live-status/Label",
+      style: { flexDirection: "column", alignItems: "flex-start" },
+    },
+    { title: "제목 옆", name: "live-status/NextToTitle" },
+    {
+      title: "여러 개",
+      name: "live-status/Multiple",
+      style: { flexDirection: "column", alignItems: "flex-start" },
+    },
+  ]}
+/>
+
+- **켜짐과 꺼짐**: `active`가 `true`면 빨간 점에서 링이 퍼져 나가고, `false`면 링 없는 회색 점이에요. 기본 문구는 각각 "실시간 반영 중"과 "일시정지"예요.
+- **문구**: `label`로 상황에 맞는 문구로 바꿔요.
+- **제목 옆**: 섹션 제목이나 카드 상단 옆에 작게 붙여 써요.
+- **여러 개**: 같은 화면에 여러 개 있으면 링이 0.26초씩 어긋나게 퍼져요.
+
+## Props
+
+나머지 `<span>` 속성도 그대로 받아요.\
+클라이언트 컴포넌트지만 서버 컴포넌트에서 바로 import해서 써요. 링 모션은 화면이 뜬 뒤에 시작해요.
+
+| 이름     | 타입      | 기본값                                  | 설명                                              |
+| -------- | --------- | --------------------------------------- | ------------------------------------------------- |
+| `label`  | `string`  | `"실시간 반영 중"`, 꺼짐은 `"일시정지"` | 점 옆 글자. 상황에 맞는 문구로 바꿔요             |
+| `active` | `boolean` | `true`                                  | 실시간 반영 중이면 빨간 점과 링, 멈췄으면 회색 점 |
+
+## Guidelines
+
+<LiveStatusGuide />
+
+- 실시간 상태일 때만 켜짐(On)을 써요.
+- 일시정지나 연결이 끊긴 상태일 때는 꺼짐(Off)과 함께 문구도 바꿔요.
+- 색만으로 구분하지 않아요. 켜짐과 꺼짐은 문구로도 읽혀요.
+- 링 모션은 1.8초 반복이에요. 1배에서 3.2배로 커지며 투명도가 0.55에서 0으로 사라지고, easing은 `cubic-bezier(.2,.6,.3,1)`이에요.
+- 움직임 줄이기 설정을 켠 사용자에게는 링이 움직이지 않고 멈춘 모양으로 보여요.
