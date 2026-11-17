@@ -57,6 +57,30 @@ for (const name of iconNames) {
   }
 }
 
+// "Textarea(아직 없음)"처럼 이미 공개된 컴포넌트를 없다고 적은 옛 문장을 찾는다
+const componentGuides = readdirSync(join(root, "src/components"), { withFileTypes: true })
+  .filter(
+    (entry) =>
+      entry.isDirectory() && existsSync(join(root, "src/components", entry.name, "AGENTS.md")),
+  )
+  .map((entry) => [
+    `src/components/${entry.name}/AGENTS.md`,
+    read(join(root, "src/components", entry.name, "AGENTS.md")),
+  ]);
+for (const [file, text] of [
+  ["AGENTS.md", index],
+  ...guideFiles.map((name) => [`guide/${name}`, read(join(guideDir, name))]),
+  ...componentGuides,
+]) {
+  for (const match of text.matchAll(/([A-Z][A-Za-z]+)(?:`)?\s*\(아직 없음\)/g)) {
+    if (publicNames.has(match[1])) {
+      problems.push(
+        `${file}: \`${match[1]}\`은(는) 이미 공개되어 있는데 "아직 없음"이라고 적혀 있습니다.`,
+      );
+    }
+  }
+}
+
 const docs = [
   ["AGENTS.md", index],
   ...guideFiles.map((name) => [`guide/${name}`, read(join(guideDir, name))]),
