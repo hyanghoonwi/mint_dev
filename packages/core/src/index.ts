@@ -24,6 +24,7 @@ export * from "./components/framed/Framed";
 export * from "./components/label/Label";
 export * from "./components/live-status/LiveStatus";
 export * from "./components/menu/Menu";
+export * from "./components/popover/Popover";
 export * from "./components/select/Select";
 export * from "./components/circular/Circular";
 export * from "./components/skeleton/Skeleton";

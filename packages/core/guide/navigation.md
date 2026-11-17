@@ -12,7 +12,7 @@
   - `fade`: 넘칠 때 스크롤할 쪽 가장자리 그라데이션(기본 `true`, 자동으로 나타남)
   - `aria-label`을 꼭 줍니다(`radiogroup`의 이름). 키보드는 ←·→·Home·End로 선택
   - 금지: 두 줄 줄바꿈, 복수 선택(Checkbox를 씀), 화면 섹션 전환(Tab을 씀). 상세 규칙은 `components/category/AGENTS.md`
-- **`Menu`** · **`MenuItem`** · **`MenuGroup`** · **`MenuDivider`** — 옵션이나 액션을 쌓아 보여 주는 목록 상자(Figma `Menu`). 열고 닫는 것·위치는 정하지 않습니다(떠 있게 하려면 `className="shadow-floating"`). 클라이언트 컴포넌트입니다(`"use client"`가 달려 있어 서버 컴포넌트에서 import해도 됩니다. 단 `onChange`·`onClick`은 클라이언트 컴포넌트에서 넘깁니다). `Menu.Item`처럼 점으로 접근하지 말고 각각 import합니다.
+- **`Menu`** · **`MenuItem`** · **`MenuGroup`** · **`MenuDivider`** — 옵션이나 액션을 쌓아 보여 주는 목록 상자(Figma `Menu`). 열고 닫는 것·위치는 정하지 않습니다(떠 있게 하려면 `Popover`에 넣음: Popover는 `padding={0}`, Menu는 `className="w-full shadow-none"`). 클라이언트 컴포넌트입니다(`"use client"`가 달려 있어 서버 컴포넌트에서 import해도 됩니다. 단 `onChange`·`onClick`은 클라이언트 컴포넌트에서 넘깁니다). `Menu.Item`처럼 점으로 접근하지 말고 각각 import합니다.
   - `Menu`: 상자. `variant`: `normal`(고른 항목에 체크 표시, 기본) · `radio`(하나만, 앞에 원) · `checkbox`(여러 개, 앞에 상자). `aria-label`을 줍니다(`role="menu"`의 이름)
   - 값: `normal`·`radio`는 `value`·`onChange(value: string)`(제어) 또는 `defaultValue`(비제어). `checkbox`는 `string[]`이고 `onChange`가 고른 값 전체를 배열로 받습니다
   - `size`: `sm`(항목 36, 폭 200) · `md`(44, 240, 기본) · `lg`(52, 280). 폭은 `className="w-full"`로 늘립니다(최소 160). 구간별 객체는 받지 않습니다. 터치 화면에서 누르는 메뉴는 `md` 이상

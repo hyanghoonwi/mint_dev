@@ -40,6 +40,7 @@ Props는 **모양 → 내용 → 상태·동작 → 배치 → HTML·접근성 �
 - 배너·캐러셀·갤러리의 현재 위치 표시 → 점 `PageDots`(2~7개) · 숫자 `PageCounter`(8개 이상)
 - 필터·조건 칩 하나(선택 상태 있음, 여러 개 고르기 등) → `Chip`(행동은 `Button`)
 - 날짜 고르기·일정 있는 날 점 표시(달력) → `Calendar`(임시, 날짜는 `YYYY-MM-DD` 문자열, `today` 필수)
+- 버튼·입력 칸 아래에 붙어 뜨는 상자(필터·정렬·짧은 설정, 화면을 막지 않음) → `Popover`(화면을 막는 대화 상자는 Modal. 날짜는 `DatePicker`, 목록 하나 고르기는 `Select`를 먼저)
 - 목록에서 선택된 항목에 체크 표시(Menu, Select Item) → `CheckMark`
 - 이름·이메일·검색처럼 짧은 한 줄 텍스트를 입력받기(라벨·도움말·오류 **내장**, `Label`을 또 붙이지 않음) → `TextField`(여러 줄은 Textarea, 목록에서 고르기는 `Select`)
 - 문의·후기처럼 여러 줄 입력받기 → `Textarea`(라벨·도움말·오류 **내장**, `Label`을 또 붙이지 않음. 글자 수, 자동 높이, `addon`)
@@ -127,6 +128,7 @@ Props는 **모양 → 내용 → 상태·동작 → 배치 → HTML·접근성 �
 - `useOverlay` — 오버레이(Alert 등)를 함수 호출로 여는 훅. 앱 최상단에 `OverlayProvider` 필요
 - `Toast` · `ToastProvider` · `useToast` — 행동 결과를 짧게 알리는 토스트(4종류, default·pill). `useToast`로 띄우고 앱 최상단에 `ToastProvider` 필요(위치 top·bottom, offset)
 - `useSnackbar` — 버튼 1개가 있는 스낵바를 띄움(같은 `ToastProvider`, 토스트와 한 자리에 쌓임)
+- `Popover` — 기준 요소 아래에 붙어 뜨는 상자(`trigger` 함수, 바깥 누르기·Esc 닫기, 아래 공간이 모자라면 위로, top layer라 overflow에 안 잘림, Figma 없음)
 - `Tooltip` — hover·포커스로 짧은 보조 정보(이름·단축키)를 보여 주는 말풍선(위치 4 · 화살표 정렬 3 · 3크기)
 
 ### [훅](guide/hooks.md)

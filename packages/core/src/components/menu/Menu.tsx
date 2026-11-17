@@ -2,7 +2,7 @@
 
 // 선택 값을 Context로 내려 주고 키보드 이동(방향키)을 처리해서 클라이언트 컴포넌트다.
 // Figma `Menu`(node 2370:70094) · `Menu Guidelines`(node 2370:71511).
-// 옵션이나 액션을 쌓아 보여 주는 목록 상자다. 열고 닫는 것·위치는 사용하는 쪽이 정한다(떠 있게 하려면 `shadow-floating`을 `className`으로).
+// 옵션이나 액션을 쌓아 보여 주는 목록 상자다. 열고 닫는 것·위치는 사용하는 쪽이 정한다(떠 있게 하려면 Popover 안에 넣는다).
 import {
   createContext,
   useContext,

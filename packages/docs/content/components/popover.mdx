@@ -1,0 +1,68 @@
+# Popover
+
+버튼이나 입력 칸 같은 기준 요소 바로 아래에 붙어 뜨는 상자예요. 필터·정렬처럼 화면을 막지 않고 짧게 고르거나 설정할 때 써요.
+
+<ComponentBadges />
+
+<Figure height={240} />
+
+<Callout type="info">
+  **Figma에 없는 컴포넌트예요.** 프론트에서 필요해서 만들었고, 모양은 Select
+  목록과 같은 떠 있는 상자를 써요. 날짜 입력은 이 Popover로 만들어 둔 [Date
+  picker](/components/date-picker)가 있으니 Popover로 다시 만들지 않고 그대로
+  써요.
+</Callout>
+
+## Playground
+
+버튼을 눌러 상자를 열어 보세요. 오른쪽에서 위치와 폭 맞춤을 바꿀 수 있어요.
+
+<PopoverPlayground />
+
+## Examples
+
+<ExampleTabs
+  items={[
+    { title: "기본", name: "popover/Basic" },
+    { title: "목록", name: "popover/WithMenu" },
+    {
+      title: "오른쪽 맞춤",
+      name: "popover/PlacementEnd",
+      style: { justifyContent: "flex-end" },
+    },
+  ]}
+/>
+
+- **기본**: `trigger` 함수가 받은 속성(`onClick`·`aria-expanded` 등)을 버튼에 그대로 넘겨요. 바깥을 누르거나 Esc를 누르면 닫히고, Esc로 닫으면 포커스가 버튼으로 돌아가요.
+- **목록**: `open`·`onOpenChange`로 열림을 직접 들고 있으면 고른 뒤 닫을 수 있어요. `matchWidth`면 상자 폭이 버튼과 같고, 목록을 넣을 때는 `padding={0}`으로 여백을 빼요.
+- **오른쪽 맞춤**: 화면 오른쪽에 있는 버튼은 `placement="bottom-end"`로 상자의 오른쪽 끝을 맞춰요. 아래 공간이 모자라면 위로 뒤집혀요.
+
+## Props
+
+나머지 `<div>` 속성도 상자에 그대로 받아요. 상자는 [Box](/components/box)(`elevation="floating"`)로 만들어져 있고, 안의 요소는 원래 폭대로 위아래로 쌓여요.\
+클라이언트 컴포넌트예요. `trigger`가 함수라서 `"use client"` 컴포넌트 안에서 써요.
+
+| 이름           | 타입                             | 기본값           | 설명                                                            |
+| -------------- | -------------------------------- | ---------------- | --------------------------------------------------------------- |
+| `children`     | `ReactNode`                      | -                | 상자 안 내용                                                    |
+| `trigger`      | `(props) => ReactNode`           | -                | 트리거를 그리는 함수. 받은 속성을 버튼·입력에 넘겨요            |
+| `open`         | `boolean`                        | -                | 열림(제어)                                                      |
+| `defaultOpen`  | `boolean`                        | `false`          | 처음 열림                                                       |
+| `matchWidth`   | `boolean`                        | `false`          | 상자 폭을 기준 요소와 같게 해요                                 |
+| `placement`    | `"bottom-start" \| "bottom-end"` | `"bottom-start"` | 왼쪽 끝 또는 오른쪽 끝 맞춤. 아래 공간이 모자라면 위로 뒤집혀요 |
+| `padding`      | `0 \| 8 \| 16 \| 20 \| 24`       | `16`             | 상자 안쪽 여백(px). Menu 같은 목록을 넣을 때는 `0`              |
+| `autoFocus`    | `boolean`                        | `true`           | 열릴 때 상자 안으로 포커스를 옮겨요                             |
+| `initialFocus` | `string`                         | -                | 열릴 때 포커스를 줄 요소의 선택자. 없으면 첫 포커스 요소예요    |
+| `anchorRef`    | `RefObject<HTMLElement>`         | -                | 위치를 맞출 요소. 없으면 트리거를 감싼 요소예요                 |
+| `aria-label`   | `string`                         | -                | 상자의 이름(스크린리더)                                         |
+| `onOpenChange` | `(open: boolean) => void`        | -                | 열림이 바뀔 때(트리거·바깥 누르기·Esc·포커스가 밖으로 나감)     |
+
+## Guidelines
+
+<PopoverGuide />
+
+- 트리거 바로 아래에 짧은 선택·설정·안내를 띄울 때 써요. 화면을 막고 꼭 확인해야 하는 내용은 Modal로 띄워요.
+- 날짜는 [DatePicker](/components/date-picker), 목록에서 하나 고르기는 [Select](/components/select)처럼 완성 컴포넌트가 있으면 그것을 먼저 써요.
+- 상자에는 `aria-label`로 이름을 붙여요.
+- 모바일에서도 같은 Popover를 써요. 상자는 화면 안으로 맞춰져요.
+- 마우스를 올리기만 해서 여는 동작은 만들지 않아요. 짧은 설명만 보여 줄 때는 Tooltip을 써요.

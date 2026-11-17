@@ -77,7 +77,7 @@ const preview: Preview = {
             "Loading",
             ["Circular", "Skeleton"],
             "Overlay",
-            ["Alert", "Toast", "Tooltip"],
+            ["Alert", "Popover", "Toast", "Tooltip"],
           ],
           "Hooks",
           [

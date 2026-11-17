@@ -36,6 +36,16 @@
   - `options`: `addOn`(`ReactNode`, 다음 행동 `Button`을 직접 넣음. 누른 뒤 닫으려면 `snackbar.dismiss(id)`, 그래서 `id`를 함께 줌) · `description` · `icon` · `closable`(닫기 버튼) · `variant` · `duration`(`null`이면 닫을 때까지) · `id` · `onClose`
   - 폭 420(좁은 화면은 좌우 20을 뺀 폭), 떠 있어서 `shadow-floating`. 본문에 늘 두는 안내는 `Snackbar` 컴포넌트를 그대로 렌더링합니다
 
+- **`Popover`** — 버튼·입력 칸 같은 기준 요소 바로 아래에 붙어 뜨는 상자(**Figma에 없음**, 프론트 필요로 추가. 상자는 Box `elevation="floating"`·모서리 12로 Select 목록과 같은 모양, 자식은 원래 폭대로 위아래로 쌓임). 화면을 막지 않는 필터·정렬·짧은 설정에 씁니다. 화면을 막고 꼭 확인할 내용은 Modal(`useOverlay`)입니다. 클라이언트 컴포넌트이고 `trigger`가 함수라서 `"use client"` 컴포넌트 안에서 씁니다. 상세 규칙은 `components/popover/AGENTS.md`
+  - `trigger`(필수): `(props) => ReactNode`. 받은 `onClick`·`aria-expanded`·`aria-controls`·`aria-haspopup`을 버튼·입력에 **그대로** 넘깁니다(`<Button {...props}>필터</Button>`). children을 덮어쓰는 방식이 아니라서 서버 컴포넌트 children의 hydration 문제가 없습니다
+  - `children`: 상자 안 내용. `aria-label`로 상자 이름(`role="dialog"`)
+  - `open`(제어)·`defaultOpen`·`onOpenChange(open)`: 트리거 누르기·바깥 누르기·Esc·포커스가 밖으로 나가면 닫힘. Esc로 닫으면 포커스가 트리거로 돌아감. 고른 뒤 닫으려면 제어로 쓰고 `setOpen(false)`
+  - `padding`: 안쪽 여백 0·8·16(기본)·20·24(Box 단계). Menu 같은 목록을 넣을 때는 `0`. 가로로 나란히 둘 내용은 안에 `<Box direction="horizontal">`
+  - `placement`: `bottom-start`(기본) · `bottom-end`. 아래 공간이 모자라면 자동으로 위로, 좌우는 화면 안(여백 8)으로 맞춤. `matchWidth`: 상자 폭 = 기준 요소 폭
+  - `autoFocus`(기본 `true`, 열릴 때 상자 안 첫 포커스 요소로)·`initialFocus`(선택자)·`anchorRef`(위치를 맞출 요소, 기본은 트리거를 감싼 요소)
+  - 브라우저 Popover API(top layer)로 띄워서 부모의 `overflow`(Table·Modal 본문)에 잘리지 않고, DOM 위치는 그대로라 테마(`data-theme`) 토큰을 받습니다. **모바일도 같은 Popover**(바텀시트·Modal로 바꾸지 않음)
+  - 금지: 마우스를 올리기만 해서 열기(짧은 설명은 Tooltip), 긴 글·필수 확인 내용 넣기(Modal), 날짜·목록 고르기를 직접 조립하기(`DatePicker`·`Select`)
+
 - **`Tooltip`** — 버튼에 마우스를 올리거나 포커스했을 때 짧은 보조 정보(이름·단축키)를 보여 주는 말풍선(Figma `Tooltip`). 클라이언트 컴포넌트지만 서버 컴포넌트에서 import해도 됩니다(열림 상태를 안에서 관리). 상세 규칙은 `components/tooltip/AGENTS.md`
   - `label`(필수): 말풍선 글자. 한 줄로 짧게. 단축키는 이름 대신 `"⌘C"`처럼 단축키 글자만 넣습니다
   - `children`(필수): 대상 요소 하나(포커스를 받을 수 있는 `Button`·`IconButton`·링크). `aria-describedby`가 자동으로 붙습니다. 아이콘 버튼은 `aria-label`도 따로 붙입니다

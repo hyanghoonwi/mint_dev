@@ -187,6 +187,25 @@ const components: { name: string; group: string; to: string; preview: ReactNode 
     ),
   },
   {
+    name: "Popover",
+    group: "Feedback",
+    to: "/components/popover",
+    preview: (
+      // 카드 안에서는 상자를 실제로 띄울 수 없어서, 같은 토큰으로 모양만 보여 준다
+      <span
+        aria-hidden="true"
+        style={{ display: "flex", flexDirection: "column", alignItems: "flex-start", gap: 4 }}
+      >
+        <span className="rounded-8 border border-border-strong bg-fill-white px-3 py-1 text-label-2-semibold text-text-primary">
+          필터
+        </span>
+        <span className="rounded-12 bg-background-floated p-3 text-body-5-regular text-text-secondary shadow-floating">
+          원화 · BTC · USDT
+        </span>
+      </span>
+    ),
+  },
+  {
     name: "Alert",
     group: "Feedback",
     to: "/components/alert",

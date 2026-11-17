@@ -2,7 +2,7 @@
 
 `Menu`를 쓰거나 고칠 때 **이 문서대로 쓰는 것을 권장**합니다. 출처는 Figma `Menu`(node `2370:70094`)와 `Menu Guidelines`(node `2370:71511`)입니다. Figma와 이 문서가 다르면 Figma가 맞습니다.
 
-- **옵션이나 액션을 쌓아 보여 주는 목록 상자**입니다. 열고 닫는 것과 위치(드롭다운·팝업)는 만들지 않고 사용하는 쪽이 정합니다. 떠 있게 하려면 `className="shadow-floating"`을 더합니다.
+- **옵션이나 액션을 쌓아 보여 주는 목록 상자**입니다. 열고 닫는 것과 위치(드롭다운·팝업)는 만들지 않고 사용하는 쪽이 정합니다. 떠 있게 하려면 `Popover` 안에 넣습니다(상자·그림자·위치·닫기는 Popover가 맡고, Popover는 `padding={0}`, Menu는 `className="w-full shadow-none"`).
 - 클라이언트 컴포넌트입니다(`"use client"`). 선택 값을 Context로 내려 주고 방향키 이동을 처리합니다. 서버 컴포넌트에서 import해도 되고, `onChange`·`onClick`만 클라이언트 컴포넌트에서 넘깁니다.
 - `Menu` · `MenuItem` · `MenuGroup` · `MenuDivider`를 각각 import합니다. 클라이언트 컴포넌트는 서버 컴포넌트에서 `Menu.Item`처럼 점으로 접근할 수 없어서 이름을 나눴습니다.
 

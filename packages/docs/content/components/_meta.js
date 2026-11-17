@@ -35,6 +35,7 @@ export default {
   thumbnail: "Thumbnail",
   "---feedback": { type: "separator", title: "Feedback" },
   alert: "Alert",
+  popover: "Popover",
   snackbar: "Snackbar",
   toast: "Toast",
   tooltip: "Tooltip",

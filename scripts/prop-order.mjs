@@ -28,6 +28,11 @@ export function propRank(name, component = "") {
   if (context.includes("textarea") && name === "addon") return ranks.get("rightAddon") + 0.1;
   if (name === "counter") return ranks.get("clearButton") + 0.1;
   if (name === "heightMode") return ranks.get("maxHeight") + 0.1;
+  if (name === "trigger") return ranks.get("children") + 0.1;
+  if (name === "placement") return ranks.get("position") + 0.1;
+  if (name === "matchWidth") return ranks.get("fullWidth") + 0.1;
+  if (name === "initialFocus") return ranks.get("autoFocus") + 0.1;
+  if (name === "anchorRef") return ranks.get("autoFocus") + 0.2;
   if (name === "key") return -1;
   if (name.startsWith("aria-")) return 5100;
   if (name.startsWith("data-")) return 5200;
