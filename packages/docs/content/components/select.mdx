@@ -1,0 +1,123 @@
+# Select
+
+영역을 누르면 목록이 펼쳐지고 하나 또는 여러 개를 고를 수 있어요.
+
+<ComponentBadges />
+
+<Figure height={240} />
+
+## Playground
+
+오른쪽에서 props를 바꾸면 Select와 아래 코드가 함께 바뀌어요.
+
+크기·라벨·안내 글자·도움말·상태·라벨 위치는 Text field와 같은 순서로 조절해요. `helpIcon`을 켜면 라벨 옆 도움말 아이콘도 확인할 수 있어요.
+
+<SelectPlayground />
+
+## Examples
+
+<ExampleTabs
+  items={[
+    { title: "기본", name: "select/Basic", style: { minHeight: 140 } },
+    {
+      title: "여러 개 고르기",
+      name: "select/Multiple",
+      style: { minHeight: 380 },
+    },
+    {
+      title: "칩",
+      name: "select/Chips",
+      style: { flexDirection: "column", alignItems: "stretch" },
+    },
+    {
+      title: "크기",
+      name: "select/Sizes",
+      style: { flexDirection: "column", alignItems: "stretch" },
+    },
+    {
+      title: "라벨 위치",
+      name: "select/LabelPosition",
+      style: { flexDirection: "column", alignItems: "stretch" },
+    },
+    {
+      title: "상태",
+      name: "select/States",
+      style: { flexDirection: "column", alignItems: "stretch" },
+    },
+    {
+      title: "설명과 그룹",
+      name: "select/DescriptionAndGroups",
+      style: { minHeight: 440 },
+    },
+    { title: "폼", name: "select/Form" },
+    {
+      title: "반응형",
+      name: "select/Responsive",
+      style: { flexDirection: "column", alignItems: "stretch" },
+    },
+  ]}
+/>
+
+- **기본**: 칸을 누르면 목록이 열리고, 하나를 고르면 닫혀요. `options`에 `{ value, label }`을 줘요.
+- **여러 개 고르기**: `multiple`이면 값이 배열이고, 고른 뒤에도 목록이 열려 있어요. 고른 항목을 다시 누르면 해제돼요.
+- **칩**: `multiple`에서 `render="chip"`이면 칸에는 고른 값이 글자로 보이고, 칸 아래에 지울 수 있는 칩이 나와요. 칩 크기는 `size`를 따라가요(`lg` 40 · `md` 32 · `sm` 28). 칩이 많으면 줄바꿈돼요.
+- **크기**: `size`는 `lg`(칸 48) · `md`(40, 기본) · `sm`(32)예요. 목록 항목도 같은 크기를 따라요.
+- **라벨 위치**: `labelPosition`은 칸 위(`top`, 기본) 또는 왼쪽(`left`)이에요. 라벨은 `Label` 컴포넌트로 그려져서 `required`·`helpIcon`도 그대로 써요.
+- **상태**: `status`는 `normal` · `negative`(오류, 빨간 테두리와 도움말, 경고 아이콘) · `positive`(확인 완료, 초록)예요. Text field와 같은 이름이에요. `required` · `disabled` · `readOnly`도 있어요.
+- **설명과 그룹**: 항목에 `description`·`leadingIcon`·`trailingContent`를 붙이고, `{ group, options }`로 묶으면 그룹 이름과 구분선이 생겨요. 칸 안 왼쪽 요소는 `leadingIcon`이에요.
+- **폼**: `name`을 주면 폼을 제출할 때 고른 값이 그대로 넘어가요. 여러 개면 같은 이름으로 값마다 넘어가요.
+- **반응형**: `size`와 `labelPosition`은 구간별 값도 받아요. `{ base: "lg", desktop: "md" }`면 모바일·태블릿은 칸 48, 데스크톱(1024px)부터 40이에요. `labelPosition={{ base: "top", desktop: "left" }}`면 모바일·태블릿은 라벨이 위, 데스크톱부터 왼쪽이에요. 창 폭을 바꿔 보세요.
+
+## Props
+
+나머지 `<div>` 속성도 그대로 받아요(`className`·`style`은 바깥 요소에 붙어요).\
+클라이언트 컴포넌트라서 `onChange`·`onOpenChange`는 클라이언트 컴포넌트 안에서 넘겨요.
+
+| 이름            | 타입                                                       | 기본값            | 설명                                                                                                  |
+| --------------- | ---------------------------------------------------------- | ----------------- | ----------------------------------------------------------------------------------------------------- |
+| `size`          | `"sm" \| "md" \| "lg"` 또는 `{ base, tablet, desktop }`    | `"md"`            | 칸 높이 32 · 40 · 48px. 목록 항목도 따라요                                                            |
+| `label`         | `ReactNode`                                                | -                 | 라벨. 없으면 `aria-label`을 꼭 줘요                                                                   |
+| `placeholder`   | `string`                                                   | `"선택해 주세요"` | 고른 값이 없을 때 글자                                                                                |
+| `helper`        | `ReactNode`                                                | -                 | 칸 아래 도움말. 오류면 빨갛게 보여요                                                                  |
+| `helpIcon`      | `boolean \| ReactNode`                                     | -                 | 라벨 오른쪽 도움말 아이콘                                                                             |
+| `leadingIcon`   | `ReactNode`                                                | -                 | 칸 안 왼쪽 20px 요소                                                                                  |
+| `options`       | `(SelectOption \| SelectOptionGroup)[]`                    | -                 | 고를 수 있는 항목. 묶으려면 `{ group, options }`                                                      |
+| `value`         | `string` 또는 `string[]`                                   | -                 | 고른 값을 직접 정할 때. `multiple`이면 배열이에요                                                     |
+| `defaultValue`  | `string` 또는 `string[]`                                   | -                 | 처음 고른 값                                                                                          |
+| `open`          | `boolean`                                                  | -                 | 목록이 열려 있는지 직접 정할 때. 생략하면 눌러서 열고 닫아요                                          |
+| `status`        | `"normal" \| "negative" \| "positive"`                     | `"normal"`        | 오류는 `negative`, 확인 완료는 `positive`. Text field와 같은 이름이에요                               |
+| `disabled`      | `boolean`                                                  | `false`           | 누를 수 없고 흐리게 보여요                                                                            |
+| `readOnly`      | `boolean`                                                  | `false`           | 값은 보이지만 바꿀 수 없어요                                                                          |
+| `required`      | `boolean`                                                  | `false`           | 라벨 옆 빨간 `*`                                                                                      |
+| `multiple`      | `boolean`                                                  | `false`           | 여러 개 고르기. 값이 배열이 돼요                                                                      |
+| `render`        | `"text" \| "chip"`                                         | `"text"`          | 고른 값을 글자로만, 또는 칸 아래에 칩도 함께. `multiple`에서만 칩이 나와요. 칩 크기는 `size`를 따라요 |
+| `labelPosition` | `"top" \| "left"` 또는 `{ base, tablet, desktop }`         | `"top"`           | 라벨 위치                                                                                             |
+| `menuMaxHeight` | `number`                                                   | `320`             | 목록 최대 높이(px). 넘치면 스크롤돼요                                                                 |
+| `name`          | `string`                                                   | -                 | 폼으로 제출할 이름                                                                                    |
+| `onChange`      | `(value: string) => void` 또는 `(value: string[]) => void` | -                 | 고른 값이 바뀔 때                                                                                     |
+| `onOpenChange`  | `(open: boolean) => void`                                  | -                 | 열림이 바뀔 때                                                                                        |
+
+### SelectOption
+
+`options`에 넣는 항목 하나예요.
+
+| 이름              | 타입        | 기본값  | 설명                                    |
+| ----------------- | ----------- | ------- | --------------------------------------- |
+| `label`           | `string`    | -       | 항목 글자. 한 줄로 짧게 써요            |
+| `description`     | `string`    | -       | 글자 아래 보조 설명                     |
+| `leadingIcon`     | `ReactNode` | -       | 글자 앞 20px 요소                       |
+| `trailingContent` | `ReactNode` | -       | 글자 뒤 20px 요소                       |
+| `value`           | `string`    | -       | 고르는 값. 목록 안에서 겹치지 않게 해요 |
+| `disabled`        | `boolean`   | `false` | 고를 수 없어요                          |
+
+## Guidelines
+
+<SelectGuide />
+
+- 선택지가 5개 이상이거나 설명이 필요한 항목이면 Select를 써요. 2\~4개 중 하나는 Radio, 옵션이나 액션을 펼치는 목록은 Menu예요.
+- 라벨은 명사로 짧게 한 줄로 써요. Label이 내장되어 있어서 `Label`을 따로 붙이지 않아요. 설명은 도움말(`helper`)에 둬요.
+- 처음부터 값을 골라 둘 필요가 없으면 `placeholder`로 안내해요.
+- 오류일 때는 `status="negative"`와 함께 도움말에 이유와 해결 방법을 알려요.
+- 목록 안에 목록을 겹쳐 펼치지 않아요.
+- 스크린리더는 `combobox`와 `listbox`로 읽어요. 칸에서 <kbd>↑</kbd>·<kbd>↓</kbd>로 항목을 옮기고 <kbd>Enter</kbd>로 고르며 <kbd>Esc</kbd>로 닫아요.
+- 목록은 칸 바로 아래에 겹쳐서 그려요. `overflow: hidden` 영역 안에서는 잘릴 수 있어요.
