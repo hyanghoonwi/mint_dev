@@ -1,0 +1,12 @@
+# 로컬에서 이미지를 만들어 볼 때 쓰는 참고용이다. 실제 서버(156)는 ~/nginx/docker-compose.yml의 `mint` 서비스를 쓴다.
+services:
+  mint:
+    container_name: mint
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    restart: always
+    ports:
+      - "3015:80"
+    environment:
+      TZ: "Asia/Seoul"
