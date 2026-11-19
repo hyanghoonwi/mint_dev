@@ -7,7 +7,7 @@ import {
   type FileUploadHelpers,
 } from "@futurewiz-rms/mint";
 
-// 서버 업로드를 흉내 내요. 실제로는 axios.post(url, form, { onUploadProgress, signal })처럼 진행률과 signal을 연결해요
+// 서버 업로드를 흉내 내요. 실제로는 fetch로 파일을 보내고 signal을 넘겨요
 function fakeUpload(_: File, { onProgress, signal }: FileUploadHelpers) {
   return new Promise<void>((resolve, reject) => {
     let percent = 0;

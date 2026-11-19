@@ -31,7 +31,7 @@ export interface FileUploadItem {
 export interface FileUploadHelpers {
   /** 진행률(0~100)을 알린다. 진행률을 알 수 없는 업로드(fetch)는 부르지 않아도 된다 */
   onProgress: (percent: number) => void;
-  /** 사용하는 쪽이 ×(취소)를 누르거나 화면을 떠나면 중단 신호가 온다. fetch·axios에 그대로 넘긴다 */
+  /** 사용하는 쪽이 ×(취소)를 누르거나 화면을 떠나면 중단 신호가 온다. `fetch` 등 요청에 그대로 넘긴다 */
   signal: AbortSignal;
 }
 
