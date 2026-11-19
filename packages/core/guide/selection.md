@@ -95,7 +95,7 @@
   - `heightMode?: "fixed" | "auto" | "resizable"`(기본 fixed): fixed는 height를 유지하며 내부 스크롤, auto는 height부터 maxHeight까지 콘텐츠에 맞춰 확장 후 내부 스크롤, resizable은 같은 범위에서 사용자가 수직 조절합니다. disabled·readOnly에서는 수동 조절을 끕니다. counter·addon은 스크롤 영역 밖에 남습니다. resize prop은 없습니다.
   - 나머지 textarea 속성을 받습니다. `rows`는 고정된 디자인 높이를 바꾸지 않습니다. `className`·`style`은 바깥 요소, `ref`는 HTMLTextAreaElement입니다. name·form·required 등 네이티브 폼 동작을 유지합니다. 렌더 중 브라우저 API를 읽지 않습니다.
 
-- **`DatePicker`** — 날짜를 입력받는 칸(**Figma에 없음**, `TextField` + `Popover` + `Calendar`를 묶음. 모양은 세 컴포넌트를 따름). 칸을 누르거나 ↓·Enter를 누르면 달력이 칸 바로 아래에 뜨고, 고른 날짜가 `YYYY-MM-DD`로 들어가며 닫힙니다. 클라이언트 컴포넌트이고 서버 컴포넌트에서 import할 수 있습니다(`onChange`는 클라이언트 컴포넌트에서). 상세 규칙은 `components/date-picker/AGENTS.md`
+- **`DatePicker`** — 날짜를 입력받는 칸(**디자인 시안 확정 전**, `TextField` + `Popover` + `Calendar`를 묶음. 모양은 세 컴포넌트를 따름). 칸을 누르거나 ↓·Enter를 누르면 달력이 칸 바로 아래에 뜨고, 고른 날짜가 `YYYY-MM-DD`로 들어가며 닫힙니다. 클라이언트 컴포넌트이고 서버 컴포넌트에서 import할 수 있습니다(`onChange`는 클라이언트 컴포넌트에서). 상세 규칙은 `components/date-picker/AGENTS.md`
   - `today`(필수, `YYYY-MM-DD`): 서버에서 정해서 넘김(렌더 중 현재 시각을 읽지 않음)
   - `value`(제어)·`defaultValue`·`onChange(date)`: 문자열. 달력에서 고르거나 올바른 날짜를 다 입력했을 때 불리고, 지우면 `""`
   - 직접 입력 가능(숫자 키패드). 틀리거나 고를 수 없는 날짜는 칸을 벗어날 때 원래 값으로 돌아감. `placeholder` 기본 `"YYYY-MM-DD"`
@@ -103,6 +103,16 @@
   - **TextField의 속성을 그대로 받음**: `label`(Label 내장, `Label`을 또 붙이지 않음)·`helper`·`helpIcon`·`status`·`size`·`labelPosition`(구간별 객체)·`disabled`·`readOnly`·`required`·`name`. 비활성·읽기 전용은 달력이 열리지 않음. `leftAddon`·`rightAddon`은 받지 않음(오른쪽에 달력 아이콘이 고정)
   - 마우스로 열면 포커스가 칸에 남아 계속 입력할 수 있고, ↓로 열면 달력의 날짜로 포커스가 가며 Esc로 닫으면 칸으로 돌아옴. Tab으로 칸을 떠나면 닫힘
   - 금지: TextField와 Popover·Calendar를 직접 조립해 날짜 입력 만들기, 형식 안내 지우기
+
+- **`Diary`** — 날짜별 일정을 가로로 넘겨 보는 날짜 칸 줄(Figma `Calendar Day Cell`·`Calendar Day Strip`). 칸 하나가 요일·날짜·일정 뱃지를 세로로 쌓고, 칸을 누르면 그날을 고릅니다. 클라이언트 컴포넌트이고 서버 컴포넌트에서 import할 수 있습니다(`onChange`는 클라이언트 컴포넌트에서). 상세 규칙은 `components/diary/AGENTS.md`
+  - `start`(필수, `YYYY-MM-DD`): 첫 칸의 날짜. `count`(기본 7)일을 이어서 보여 주고, 화면보다 길면 가로로 넘김(마우스는 끌어서, 넘친 쪽 가장자리가 흐려짐)
+  - `today`(필수): 오늘. 렌더 중 `new Date()`로 만들지 말고 서버에서 넘김. 오늘 칸은 요일 글자가 "오늘"로 바뀌고 파랑 글자·파랑 윗줄(2px)
+  - `value`(제어)·`defaultValue`·`onChange(date)`: 문자열. 선택한 칸은 회색 배경·검은 윗줄(오늘이면 파랑 윗줄이 먼저)
+  - `events`: 날짜별 일정 `{ "2026-11-20": [{ label: "언락" }, { label: "메인넷", color: "teal" }] }`. 뱃지는 `Badge`(weak·sm)이고 `color`는 Badge 색(기본 `brand`). `maxEvents`(기본 2)를 넘으면 `+N`. 뱃지 문구는 1~4자
+  - `holidays`: 공휴일(날짜 → 이름). 일요일처럼 빨간 글자. 계산할 수 없어서 서비스 데이터로 넘김
+  - `min`: 이 날보다 앞선 날은 50% 흐려지고 누를 수 없음(지난 날 막기는 `min={today}`). `disabledDates`: 누를 수 없는 날들
+  - 눌렀을 때 마우스를 올린 칸은 연한 파랑 배경. 나머지 `<div>` 속성을 받음
+  - 금지: 칸 안에 긴 일정 제목 쓰기(제목은 날짜를 눌러 연 곳에서), 뱃지를 `maxEvents`보다 많이 쌓기, `div`로 날짜 칸을 직접 조립하기
 
 - **`FileUploader`** · **`FileItem`** — 파일 올리기(Figma `File Uploader`: Dropzone · File Upload Button · File Item). `FileUploader` 하나가 끌어다 놓는 칸과 버튼 두 모양을 갖고(`layout`), 올린 파일은 `FileItem` 목록으로 보여 줍니다. `FileUploader`는 클라이언트 컴포넌트(서버 컴포넌트에서 import 가능, `onFilesSelect`는 클라이언트에서), `FileItem`은 서버 컴포넌트에서도 씁니다(`onRemove`·`onRetry`는 클라이언트에서). 상세 규칙은 `components/file-uploader/AGENTS.md`
   - **`layout`**: `dropzone`(기본, 끌어다 놓는 칸, 넓은 화면) · `button`(버튼 하나, 모바일 웹·좁은 자리). 구간별 객체를 받음: **모바일 웹은 버튼, 넓은 화면은 칸이면 `layout={{ base: "button", tablet: "dropzone" }}`**. 두 모양을 CSS로 구간마다 하나만 보이게 하고 파일 입력·라벨·도움말은 하나라서 화면 폭이 바뀌어도 상태가 유지됨. `FileUploadButton`처럼 따로 쓰는 컴포넌트는 없음

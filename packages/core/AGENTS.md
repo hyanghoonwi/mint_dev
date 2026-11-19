@@ -33,6 +33,8 @@ Props는 **모양 → 내용 → 상태·동작 → 배치 → HTML·접근성 �
 - 아이콘만 있는 버튼(닫기·더보기·공유) → `IconButton`(`aria-label` 필수)
 - 눌러서 켜고 끄는 아이콘(관심 코인·좋아요·북마크) → `ToggleIcon`(`aria-label` 필수)
 - 같은 목록을 거르거나 분류 고르기(칩, 하나만 선택) → `Category`
+- 서비스 맨 위에 고정되는 글로벌 내비게이션(로고·메뉴·로그인/프로필) → `Header`(`logo`·`items` 필수, 링크는 `linkComponent`)
+- 행동 결과를 짧게 알리고 저절로 사라지는 메시지(저장했어요, 삭제했어요 + 되돌리기) → `Toast`(`useToaster`로 띄움, 버튼은 `action`)
 - 옵션이나 액션 여러 개를 목록으로 보여 주기(정렬·더보기 메뉴, 항목 고르기) → `Menu` + `MenuItem`(그룹은 `MenuGroup`·`MenuDivider`)
 - 같은 영역의 보기 방식 바꾸기(목록/격자, 일/주/월, 2~6개) → `SegmentedControl`(화면 섹션 전환은 `Tab`)
 - 같은 화면의 내용(섹션) 바꾸기(밑줄형, 2~6개) → `Tab`
@@ -40,6 +42,7 @@ Props는 **모양 → 내용 → 상태·동작 → 배치 → HTML·접근성 �
 - 배너·캐러셀·갤러리의 현재 위치 표시 → 점 `PageDots`(2~7개) · 숫자 `PageCounter`(8개 이상)
 - 필터·조건 칩 하나(선택 상태 있음, 여러 개 고르기 등) → `Chip`(행동은 `Button`)
 - 날짜 고르기·일정 있는 날 점 표시(달력) → `Calendar`(임시, 날짜는 `YYYY-MM-DD` 문자열, `today` 필수)
+- 날짜별 일정을 가로로 넘겨 보고 하루를 고르기(시장·언락 일정) → `Diary`(`start`·`today` 필수, 일정은 `events`)
 - 입력 칸을 누르면 달력이 뜨고 고른 날짜가 칸에 들어가기(폼의 날짜 입력) → `DatePicker`(TextField + Popover + Calendar, 라벨 내장, 직접 입력 가능, `today` 필수)
 - 파일 올리기(끌어다 놓기·버튼으로 고르기, 올린 파일 목록) → `FileUploader`(모양 `layout`: 넓은 화면 `dropzone` · 모바일 웹 `button`, 구간별 `{ base: "button", tablet: "dropzone" }`) + 목록 한 줄 `FileItem` + 상태는 `useFileUpload`(라벨·도움말·상태·크기는 TextField와 같은 이름, Label 내장)
 - 버튼·입력 칸 아래에 붙어 뜨는 상자(필터·정렬·짧은 설정, 화면을 막지 않음) → `Popover`(화면을 막는 대화 상자는 Modal. 날짜는 `DatePicker`, 목록 하나 고르기는 `Select`를 먼저)
@@ -51,12 +54,14 @@ Props는 **모양 → 내용 → 상태·동작 → 배치 → HTML·접근성 �
 - 선택지가 많거나 설명이 있는 항목에서 하나 또는 여러 개 고르기(펼쳐지는 목록, 라벨 포함) → `Select`
 - 설명이 긴 선택지를 카드처럼 묶어 고르기 → `FramedRadio`(`RadioGroup` 안) · `FramedCheckbox` · 다른 내용은 `Framed`
 - 흐름을 멈추고 확인을 받는 대화상자 → `Alert`(열 때는 `useOverlay`)
+- 끝이 있는 작업의 진행 정도(파일 업로드·단계 진행) → `ProgressBar`(끝을 알 수 없으면 `Circular`)
 - 짧은 로딩 표시 → `Circular`(버튼 로딩은 `Button`의 `loading`)
 - 콘텐츠가 들어올 자리 미리 보여 주기 → `SkeletonText` · `SkeletonRectangle` · `SkeletonCircle`
 - 사용자·대상의 프로필 칸 → `Avatar`(여러 명은 `AvatarGroup`)
 - 상태·종류를 짧게 알리는 라벨(눌리지 않음) → `Badge`
 - 값이 실시간으로 갱신 중인지(켜짐·일시정지) 점과 글자로 알리기 → `LiveStatus`
 - 가격·시세가 오른 정도(▲ 1,200, +3.42%) → `PriceChange`(Badge나 색 글자로 만들지 않음)
+- 전체를 100%로 보고 구간별 비율(도미넌스·점유율)을 한 줄 막대로 보여 주기 → `RatioBar`(막대 하나를 `div` 폭 계산으로 직접 만들지 않음)
 - 토큰 텍스트 스타일로 글자 그리기(태그·색·말줄임) → `Text`(클래스 `text-body-2-regular`를 직접 써도 됨)
 - 요소를 묶어 방향·여백·간격·정렬을 잡는 상자(테두리·그림자, 배경은 색 토큰 className) → `Box`
 - 페이지 틀·반응형 컬럼 배치 → `Container` + `Grid`(`Grid.Item`). `div`에 그리드 클래스를 직접 쓰지 않습니다
@@ -87,6 +92,7 @@ Props는 **모양 → 내용 → 상태·동작 → 배치 → HTML·접근성 �
 - `PageCounter` — 현재 위치를 숫자로(1 / 10, 표시 전용)
 - `PageDots` — 현재 위치를 점으로(2~7개, 표시 전용)
 - `Category` — 목록을 거르는 칩 목록(하나만 선택, 넘치면 가로 스크롤, "전체" 칩)
+- `Header` — 서비스 맨 위 글로벌 내비게이션 알약(로고·메뉴 6개·로그인 또는 프로필, 768px 미만은 햄버거, 스크롤 숨김, `linkComponent`로 Next.js 라우팅)
 - `Menu` · `MenuItem` · `MenuGroup` · `MenuDivider` — 옵션·액션 목록 상자(체크·Radio·Checkbox 3종, 3크기, 셀 여백 8·12, 앞 이미지, 하단 액션, 최대 높이 스크롤, 방향키 이동)
 - `SegmentedControl` — 보기 방식을 바꾸는 토글형 선택(트랙 위 흰 칩, 2~6개, 3크기, 아이콘)
 - `Tab` — 화면 섹션을 바꾸는 밑줄형 탭(2~6개, 3크기, fill·hug 배치, 구간별 객체, 뱃지)
@@ -94,9 +100,10 @@ Props는 **모양 → 내용 → 상태·동작 → 배치 → HTML·접근성 �
 ### [선택](guide/selection.md)
 
 - `Calendar` — 날짜 선택 달력(일정 점, 공휴일, min·max, 키보드 이동, 임시)
+- `Diary` — 날짜별 일정을 가로로 넘겨 보는 날짜 칸 줄(요일·날짜·일정 뱃지, 오늘·공휴일·선택·지난 날, `+N`, 끌어서 넘김)
 - `FileUploader` — 파일을 끌어다 놓거나 골라 올리는 입력(모양 `layout` dropzone·button 구간별, 3크기·구간별, normal·negative, 끌어 올리면 파란 점선, `accept` 거르기, 폼 제출)
 - `FileItem` — 올린 파일 한 줄(대기·올리는 중 진행 막대·완료·실패와 다시 시도, 썸네일, 취소·삭제, 3크기, 서버 컴포넌트 가능)
-- `DatePicker` — 날짜 입력 칸(누르면 달력 Popover, `YYYY-MM-DD`, 직접 입력·검증, min·max·disabledDates, TextField 속성 전부, Figma 없음)
+- `DatePicker` — 날짜 입력 칸(누르면 달력 Popover, `YYYY-MM-DD`, 직접 입력·검증, min·max·disabledDates, TextField 속성 전부, 디자인 시안 확정 전)
 - `CheckMark` — 목록의 선택 표시(체크 아이콘 + 레이블, 4크기·구간별 객체, 항목 전체를 누름)
 - `Checkbox` — 체크박스(체크·일부 선택, 레이블을 눌러도 선택, 폼 제출, 4크기·구간별 객체)
 - `RadioGroup` — 라디오 묶음(세로 나열, 하나만 선택, 값·onChange)
@@ -118,12 +125,13 @@ Props는 **모양 → 내용 → 상태·동작 → 배치 → HTML·접근성 �
 - `Text` — 토큰 텍스트 스타일 글자(59개 스타일, 태그·색·말줄임)
 - `Badge` — 상태·종류를 알리는 표시 전용 라벨(fill·weak, 8색, 3크기)
 - `Thumbnail` — 콘텐츠 이미지를 정해진 비율로 보여 주는 틀(17가지 비율, 모서리·테두리·오버레이)
-- `Snackbar` — 다음 행동 버튼 1개가 있는 메시지(제목·설명, 닫기 선택). 본문에 두거나 `useSnackbar`로 띄움
+- `RatioBar` — 전체를 100%로 보고 구간별 비율을 한 줄 막대로 보여 주는 표시 전용 부품(3~5구간, 범례, 3크기·구간별 객체)
 - `PriceChange` — 시세가 오르내린 정도(금액은 화살표, 퍼센트는 부호, text·weak, 3크기)
 
 ### [로딩](guide/loading.md)
 
 - `Circular` — 원형 로딩(색 3종, 크기 지정)
+- `ProgressBar` — 끝이 있는 작업의 진행 정도 가로 막대(default·diverging, normal·negative·positive, 값은 숫자, 서버 컴포넌트)
 - `SkeletonText` — 텍스트 한 줄 자리(길이 4단계, 정렬)
 - `SkeletonRectangle` — 네모난 콘텐츠 자리(모서리 둥글게)
 - `SkeletonCircle` — 동그란 콘텐츠 자리(Avatar 크기)
@@ -132,9 +140,8 @@ Props는 **모양 → 내용 → 상태·동작 → 배치 → HTML·접근성 �
 
 - `Alert` — 꼭 확인해야 하는 일을 알리는 대화상자(제목·본문·버튼 1~2개). `useOverlay`로 열기를 권장
 - `useOverlay` — 오버레이(Alert 등)를 함수 호출로 여는 훅. 앱 최상단에 `OverlayProvider` 필요
-- `Toast` · `ToastProvider` · `useToast` — 행동 결과를 짧게 알리는 토스트(4종류, default·pill). `useToast`로 띄우고 앱 최상단에 `ToastProvider` 필요(위치 top·bottom, offset)
-- `useSnackbar` — 버튼 1개가 있는 스낵바를 띄움(같은 `ToastProvider`, 토스트와 한 자리에 쌓임)
-- `Popover` — 기준 요소 아래에 붙어 뜨는 상자(`trigger` 함수, 바깥 누르기·Esc 닫기, 아래 공간이 모자라면 위로, top layer라 overflow에 안 잘림, Figma 없음)
+- `Toast` · `ToasterProvider` · `useToaster` — 행동 결과를 짧게 알리는 토스트(4종류, default·pill, 선택 버튼 `action` ghost·button, 앞 아이콘 켜고 끄기·교체). `useToaster`로 띄우고 앱 최상단에 `ToasterProvider` 필요(위치 top·bottom, offset)
+- `Popover` — 기준 요소 아래에 붙어 뜨는 상자(`trigger` 함수, 바깥 누르기·Esc 닫기, 아래 공간이 모자라면 위로, top layer라 overflow에 안 잘림, 디자인 시안 확정 전)
 - `Tooltip` — hover·포커스로 짧은 보조 정보(이름·단축키)를 보여 주는 말풍선(위치 4 · 화살표 정렬 3 · 3크기)
 
 ### [훅](guide/hooks.md)

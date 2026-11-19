@@ -1,0 +1,77 @@
+# Header
+
+서비스 맨 위에 고정되는 글로벌 내비게이션이에요. 넓은 화면은 메뉴를 펼쳐 보여 주고, 모바일 웹은 햄버거로 접어요.
+
+<ComponentBadges />
+
+<Figure height={240} />
+
+<Callout type="warning">
+  **링크는 `linkComponent`로 그려요.** Next.js에서는 `Link`를 넘기고, 다른
+  라우터는 그 라우터의 Link를 넘겨요. Desktop과 Mobile을 따로 쓰지 않고 하나만
+  쓰면 화면 폭에 맞게 바뀌어요.
+</Callout>
+
+## Playground
+
+오른쪽에서 로그인 전과 후를 바꿔 보세요. 창 폭을 768px 아래로 줄이면 메뉴가 햄버거로 접혀요.
+
+<div className="docs-header">
+  <HeaderPlayground />
+</div>
+
+## Examples
+
+<div className="docs-header">
+  <ExampleTabs
+    items={[
+      { title: "로그인 전", name: "header/Basic" },
+      { title: "로그인 후", name: "header/Member" },
+      { title: "Next.js", name: "header/NextJs" },
+      { title: "React", name: "header/React" },
+      { title: "반응형", name: "header/Responsive" },
+    ]}
+  />
+</div>
+
+- **로그인 전**: `user`를 생략하면 로그인 버튼이 보여요. `loginHref`로 이동하거나 `onLoginClick`으로 모달을 열어요.
+- **로그인 후**: `user="member"`면 프로필이 보여요. `profile.badge`를 켜면 새 알림 점이 달려요.
+- **Next.js**: `linkComponent={Link}`를 넘겨요. 현재 위치는 `usePathname()`으로 계산해서 `active`로 넘겨요.
+- **React**: 라우터의 Link를 `linkComponent`로 넘겨요. 현재 주소는 라우터의 훅으로 구해서 `active`에 넘겨요.
+- **반응형**: 768px부터 메뉴를 펼치고, 그보다 좁으면 로고·로그인·햄버거만 보여요. 햄버거는 `menuHref`로 메뉴 화면에 이동하거나 `onMenuClick`을 불러요. 창 폭을 바꿔 보세요.
+
+## Props
+
+나머지 `<header>` 속성도 그대로 받아요.\
+클라이언트 컴포넌트라서 `onLoginClick`·`onMenuClick`·`profile.onClick`은 클라이언트 컴포넌트 안에서 넘겨요.
+
+| 이름            | 타입                                       | 기본값     | 설명                                                    |
+| --------------- | ------------------------------------------ | ---------- | ------------------------------------------------------- |
+| `items`         | `{ label, href, active? }[]`               | -          | 메뉴(필수). 6개까지. 좁은 화면에서는 햄버거 뒤로 접혀요 |
+| `hideOnScroll`  | `boolean`                                  | `true`     | 스크롤을 내리면 가려지고 올리면 다시 보여요             |
+| `loginHref`     | `string`                                   | -          | 로그인 버튼을 누르면 이동할 주소                        |
+| `loginLabel`    | `string`                                   | `"로그인"` | 로그인 버튼 문구                                        |
+| `logo`          | `ReactNode`                                | -          | 로고(필수). 높이 32px 안에서 보여요                     |
+| `logoHref`      | `string`                                   | `"/"`      | 로고를 누르면 이동할 주소                               |
+| `logoLabel`     | `string`                                   | `"홈"`     | 로고 링크의 스크린리더 이름                             |
+| `menuHref`      | `string`                                   | -          | 햄버거를 누르면 이동할 주소(메뉴 화면)                  |
+| `menuLabel`     | `string`                                   | `"메뉴"`   | 햄버거 버튼의 스크린리더 이름                           |
+| `profile`       | `{ src?, name?, badge?, href?, onClick? }` | -          | `member`일 때 프로필. `badge`는 새 알림 점              |
+| `user`          | `"guest" \| "member"`                      | `"guest"`  | 로그인 전은 로그인 버튼, 후는 프로필                    |
+| `linkComponent` | `ElementType`                              | `"a"`      | 링크 컴포넌트. Next.js는 `Link`를 넘겨요                |
+| `onLoginClick`  | `() => void`                               | -          | 로그인 버튼을 눌렀을 때                                 |
+| `onMenuClick`   | `() => void`                               | -          | 햄버거를 눌렀을 때                                      |
+
+## Guidelines
+
+<div className="docs-header">
+  <HeaderGuide />
+</div>
+
+- 현재 위치의 메뉴만 `active`로 두어서 흰 글자로 알려요. 나머지는 옅은 흰 글자예요.
+- 스크롤을 내리면 가려지고 올리면 다시 보여요. 키보드 포커스가 안으로 들어오면 가려져 있어도 보여요.
+- Desktop과 Mobile을 한 화면에서 같이 쓰지 않아요. `Header` 하나가 폭에 맞춰 바뀌어요.
+- 폭은 부모를 채워요(최소 240px). 모바일은 알약이 폭의 약 89%(375px 화면에서 335px)를 가운데에 써요.
+- 메뉴는 6개까지만 둬요. 바깥 좌우 여백은 태블릿 20px, 데스크톱 64px이에요.
+- 모든 링크는 `linkComponent`로 그려요. `next/link`를 쓰는 앱에서 새로고침 없이 이동하려면 꼭 넘겨요.
+- `Header`는 레이아웃에 한 번만 두고 페이지마다 따로 만들지 않아요.

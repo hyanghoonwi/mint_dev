@@ -20,12 +20,13 @@ import {
 } from "./src/components/site/AvatarDocs";
 import { AlertGuide, AlertPlayground } from "./src/components/site/AlertDocs";
 import { BadgeGuide, BadgePlayground } from "./src/components/site/BadgeDocs";
-import { ToastGuide, ToastPlayground } from "./src/components/site/ToastDocs";
-import { SnackbarGuide, SnackbarPlayground } from "./src/components/site/SnackbarDocs";
 import { TextButtonGuide, TextButtonPlayground } from "./src/components/site/TextButtonDocs";
 import { ThumbnailGuide, ThumbnailPlayground } from "./src/components/site/ThumbnailDocs";
 import { TooltipGuide, TooltipPlayground } from "./src/components/site/TooltipDocs";
 import { DividerGuide, DividerPlayground } from "./src/components/site/DividerDocs";
+import { ToastGuide, ToastPlayground } from "./src/components/site/ToastDocs";
+import { ProgressBarGuide, ProgressBarPlayground } from "./src/components/site/ProgressBarDocs";
+import { RatioBarGuide, RatioBarPlayground } from "./src/components/site/RatioBarDocs";
 import { PriceChangeGuide, PriceChangePlayground } from "./src/components/site/PriceChangeDocs";
 import { CategoryGuide, CategoryPlayground } from "./src/components/site/CategoryDocs";
 import { BoxGuide, BoxPlayground } from "./src/components/site/BoxDocs";
@@ -37,6 +38,8 @@ import { TextFieldGuide, TextFieldPlayground } from "./src/components/site/TextF
 import { LiveStatusGuide, LiveStatusPlayground } from "./src/components/site/LiveStatusDocs";
 import { MenuGuide, MenuPlayground } from "./src/components/site/MenuDocs";
 import { SelectGuide, SelectPlayground } from "./src/components/site/SelectDocs";
+import { HeaderGuide, HeaderPlayground } from "./src/components/site/HeaderDocs";
+import { DiaryGuide, DiaryPlayground } from "./src/components/site/DiaryDocs";
 import { CalendarGuide, CalendarPlayground } from "./src/components/site/CalendarDocs";
 import {
   SegmentedControlGuide,
@@ -143,10 +146,6 @@ export function useMDXComponents(components?: MDXComponents) {
     AvatarGroupGuide,
     BadgePlayground,
     BadgeGuide,
-    ToastPlayground,
-    ToastGuide,
-    SnackbarPlayground,
-    SnackbarGuide,
     TextButtonPlayground,
     TextButtonGuide,
     ThumbnailPlayground,
@@ -155,6 +154,12 @@ export function useMDXComponents(components?: MDXComponents) {
     TooltipGuide,
     DividerPlayground,
     DividerGuide,
+    ToastPlayground,
+    ToastGuide,
+    ProgressBarPlayground,
+    ProgressBarGuide,
+    RatioBarPlayground,
+    RatioBarGuide,
     PriceChangePlayground,
     PriceChangeGuide,
     PaginationPlayground,
@@ -181,6 +186,10 @@ export function useMDXComponents(components?: MDXComponents) {
     TextFieldGuide,
     SelectPlayground,
     SelectGuide,
+    HeaderPlayground,
+    HeaderGuide,
+    DiaryPlayground,
+    DiaryGuide,
     CalendarPlayground,
     CalendarGuide,
     SegmentedControlPlayground,

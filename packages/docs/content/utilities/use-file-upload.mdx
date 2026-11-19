@@ -12,12 +12,16 @@
 const upload = useFileUpload({
   maxSize: 10 * 1024 * 1024,
   maxFiles: 5,
-  upload: (file, { onProgress, signal }) =>
-    axios.post("/api/files", toForm(file), {
-      onUploadProgress: (event) =>
-        onProgress((event.loaded / (event.total ?? 1)) * 100),
+  upload: async (file, { signal }) => {
+    const form = new FormData();
+    form.append("file", file);
+    const response = await fetch("/api/files", {
+      method: "POST",
+      body: form,
       signal,
-    }),
+    });
+    if (!response.ok) throw new Error("업로드에 실패했어요");
+  },
 });
 
 <FileUploader
@@ -89,6 +93,6 @@ const upload = useFileUpload({
 ## Guidelines
 
 - 목록·미리보기·진행률·취소를 화면마다 직접 만들지 않고 이 훅을 써요.
-- `upload`에는 진행률(`onProgress`)과 중단 신호(`signal`)를 꼭 연결해요. 진행률을 알 수 없는 업로드는 끝날 때까지 "올리는 중"으로 보여요.
+- `upload`에는 중단 신호(`signal`)를 꼭 넘겨요. 진행률(`onProgress`)은 알 수 있을 때만 알려요. `fetch`처럼 진행률을 알 수 없는 업로드는 끝날 때까지 "올리는 중"으로 보여요.
 - 용량 초과는 다시 올려도 같아서 "다시 시도"를 보이지 않아요. 이유만 알려요.
 - 이미지 미리보기 주소는 훅이 만들고 돌려줘요. `item.preview`를 직접 돌려주지 않아요.

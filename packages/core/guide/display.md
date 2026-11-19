@@ -29,6 +29,14 @@
   - `variant`: `text`(기본, 글자만) · `weak`(연한 배경)
   - `size`: `sm`(12px, 표·목록) · `md`(14px, 기본) · `lg`(16px, 요약 카드). 구간별 객체도 받음(`{ base: "sm", desktop: "md" }`). 같은 목록에서는 하나로 맞춥니다
   - 스크린리더에는 "상승·하락·보합"이 함께 읽힙니다. 상태·분류 라벨은 `Badge`를 씁니다
+- **`RatioBar`** — 전체를 100%로 보고 구간별 비율을 한 줄 막대로 보여 주는 표시 전용 부품(Figma `Ratio Bar`). 도미넌스처럼 구간이 나뉘어 합이 100%가 될 때 씁니다. 서버 컴포넌트에서도 쓸 수 있습니다. 상세 규칙은 `components/ratio-bar/AGENTS.md`
+  - `items`(필수): `{ label, value }[]`. `value`는 퍼센트 숫자(`56.2`)이고 화면에는 `56.2%`로 보입니다. **3~5개**. 앞에서부터 진한 색(브랜드 → 연한 파랑 → 회색)이 칠해지고 구간 폭은 `value`의 비율입니다(합이 100이 아니어도 꽉 채움)
+  - `size`: `sm`(막대 16, 값 없음) · `md`(24, 기본) · `lg`(32). 구간별 객체도 받음(`{ base: "md", desktop: "lg" }`). 같은 화면에서는 하나로 맞춥니다
+  - `legend`: 막대 위 범례(색 점 + 이름 + 값). 기본 `true`. 구간별 객체도 받음(`{ base: false, desktop: true }`)
+  - `fractionDigits`: 값의 소수점 자릿수를 맞춤(`1`이면 `9` → `9.0%`, 생략하면 넘긴 숫자 그대로 `9%`). 구간 값이 `56.2`·`9`처럼 섞이면 켭니다
+  - `showValues`: 막대 안에 값을 보일지(기본 `true`, `sm`은 항상 숨음). 구간별 객체도 받음(`{ base: false, desktop: true }`: 좁은 화면은 범례로만 읽고 넓은 화면에서 막대 안 값도 보임). 구간이 좁아 글자가 넘치면 `…`로 줄어듭니다
+  - 폭은 부모를 채웁니다(`w-full`). 막대를 `div` 폭 계산으로 직접 만들지 않습니다. 눌러도 동작이 없고, 그림 전체가 `role="img"`로 "비트코인 56.2%, …"처럼 읽힙니다(`aria-label`로 바꿀 수 있음)
+  - 금지: 2개 이하·6개 이상 구간, 서로 다른 크기를 한 화면에 섞기, 색만으로 구간을 구분하기(범례를 함께 둠)
 - **`Thumbnail`** — 콘텐츠 이미지(뉴스·카드·상품)를 정해진 비율로 보여 주는 틀(Figma `Thumbnail`). 서버 컴포넌트에서도 쓸 수 있습니다. 사람·대상(프로필·거래소)은 `Avatar`를 씁니다. 상세 규칙은 `components/thumbnail/AGENTS.md`
   - `aspectRatio`: 가로형 `1:1`(기본) `5:4` `4:3` `3:2` `16:10` `1.618:1` `16:9` `2:1` `21:9`, 세로형 `4:5` `3:4` `2:3` `10:16` `1:1.618` `9:16` `1:2` `9:21`. 가로는 `16:9`, 정사각형은 `1:1`을 기본으로. 구간별 객체도 받음(`{ base: "1:1", tablet: "16:9" }`)
   - 폭은 부모(또는 `style`·`className`의 폭)를 따르고 높이가 비율로 정해집니다
@@ -37,11 +45,7 @@
   - `radius`(모서리 8, 카드 위에서 켬) · `border`(1px `border-default`, 흰 배경에 흰 이미지일 때) · `overlay`(이미지 위 막, 글자를 올릴 때) · `overlayColor`(막 색, 기본은 옅은 `fill-pressed`)
   - `children`: 이미지 위에 올릴 내용(제목 등). 이미지가 없으면 회색 바탕에 이미지 아이콘이 보입니다
   - 한 목록에서는 비율·모서리를 맞추고, 불러오기 전에는 같은 비율의 `SkeletonRectangle`(`height="auto"` + `style={{ aspectRatio: "16 / 9" }}`)을 보여 줍니다
-- **`Snackbar`** — 작업 뒤 다음 행동(버튼 1개)을 제안하는 메시지(Figma `Snackbar`). 이 컴포넌트는 **본문 안에 그대로 렌더링**해 두는 용도이고, 행동 뒤에 잠시 띄우려면 `useSnackbar`([오버레이](overlay.md))를 씁니다. 서버 컴포넌트에서도 쓸 수 있습니다(`onClose`나 `addOn`의 버튼에 `onClick`을 넘길 때만 클라이언트 컴포넌트 안에서). 상세 규칙은 `components/snackbar/AGENTS.md`
-  - `heading`(필수, 한 줄·말줄임) · `description`(필요할 때만) · `variant`(`normal` 기본 · `positive` · `cautionary` · `negative`) · `icon`(종류별 아이콘, 기본 끔)
-  - `addOn`: 오른쪽에 붙일 `ReactNode`. 다음 행동 버튼 하나를 직접 넣습니다(`<Button variant="outline" color="neutral" size="md">되돌리기</Button>`, 레이블 2~4자). `onClose`: 넘기면 닫기 버튼(X). 숨기는 것은 사용하는 쪽이 상태로 합니다
-  - 폭은 놓인 자리를 채우고 최대 420. 본문에 붙어 있어 그림자가 없습니다(`useSnackbar`로 띄우면 `shadow-floating`)
-  - 버튼은 하나만. 되돌릴 수 없는 일의 확인은 Alert, 결과만 알리고 사라질 때는 `useToast`
+
 - **`Text`** — 토큰 텍스트 스타일로 글자를 그리는 컴포넌트(Figma Typography 59개 스타일만). 서버 컴포넌트에서도 쓸 수 있습니다.
   - `variant`(필수): `title-1-bold`, `body-2-regular`처럼 역할-번호-웨이트. 구간별 객체도 받음(`{ base: "title-3-bold", desktop: "title-1-bold" }`, 같은 크기 표 안에서 고름. 큰 제목에만)
   - `as`: 태그(`span` 기본, `p`·`h1`~`h6`·`label` 등). 모양과 따로 고릅니다

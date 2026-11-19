@@ -35,16 +35,16 @@ import "@futurewiz-rms/mint/style.css";
 
 ## 3. 토큰 클래스
 
-| 종류   | 클래스 예                                                                                                                                                                  |
-| ------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 글자   | `text-title-1-bold` `text-body-2-regular` `text-label-2-semibold`                                                                                                          |
-| 배경   | `bg-background-default` `bg-background-lower` `bg-background-floated`                                                                                                      |
-| 면     | `bg-fill-brand` `bg-fill-brand-weak` `bg-fill-neutral-weak` `bg-fill-danger`                                                                                               |
-| 글자색 | `text-text-primary` `text-text-secondary` `text-text-brand` `text-text-on-fill`                                                                                            |
-| 아이콘 | `text-icon-default` `text-icon-brand` `text-icon-danger`                                                                                                                   |
-| 테두리 | `border-border-default` `border-border-strong`                                                                                                                             |
-| 반경   | `rounded-4` `rounded-8` `rounded-12` `rounded-16` `rounded-20` `rounded-full`                                                                                              |
-| 그림자 | `shadow-raised`(화면에 붙은 카드·상자, Box `raised`) `shadow-floating`(토스트·메뉴·툴팁 같은 떠 있는 요소, Box `floating`·Popover) `shadow-drawer`(오른쪽에서 나오는 패널) |
+| 종류   | 클래스 예                                                                                                                                                           |
+| ------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 글자   | `text-title-1-bold` `text-body-2-regular` `text-label-2-semibold`                                                                                                   |
+| 배경   | `bg-background-default` `bg-background-lower` `bg-background-floated`                                                                                               |
+| 면     | `bg-fill-brand` `bg-fill-brand-weak` `bg-fill-neutral-weak` `bg-fill-danger`                                                                                        |
+| 글자색 | `text-text-primary` `text-text-secondary` `text-text-brand` `text-text-on-fill`                                                                                     |
+| 아이콘 | `text-icon-default` `text-icon-brand` `text-icon-danger`                                                                                                            |
+| 테두리 | `border-border-default` `border-border-strong`                                                                                                                      |
+| 반경   | `rounded-4` `rounded-8` `rounded-12` `rounded-16` `rounded-20` `rounded-full`                                                                                       |
+| 그림자 | `shadow-raised`(화면에 붙은 카드·상자, Box `raised`) `shadow-floating`(메뉴·툴팁 같은 떠 있는 요소, Box `floating`·Popover) `shadow-drawer`(오른쪽에서 나오는 패널) |
 
 ### 글자 스타일
 
@@ -63,7 +63,7 @@ import "@futurewiz-rms/mint/style.css";
 
 - **background**(5): `default` 기본 화면 · `lower` 한 단계 낮은 영역(섹션 구분) · `upper` 카드 위 약한 배경 · `floated` 모달·시트 · `dim` 모달 뒤 막
 - **border**(7): `default` 기본 구분선 · `strong` 입력창·Outline 버튼 · `thick` 두꺼운 구분 · `focus` 포커스 링 · `disabled` · `brand` · `selected`
-- **text**(16): `strong` 제목 · `primary` 본문 · `secondary` 보조 · `tertiary` 부가 정보 · `subtle` 플레이스홀더 · `disabled` · `brand` · `brand-pressed` · `danger` · `success` · `warning` · `on-fill`(채움 위 글자) · `on-fill-warning` · 시세 `up` 상승 · `down` 하락 · `flat` 보합
+- **text**(17): `strong` 제목 · `primary` 본문 · `secondary` 보조 · `tertiary` 부가 정보 · `subtle` 플레이스홀더 · `disabled` · `brand` · `brand-pressed` · `danger` · `success` · `warning` · `on-fill`(채움 위 글자) · `on-fill-warning` · `on-fill-secondary`(어두운 바탕 위 보조 글자) · 시세 `up` 상승 · `down` 하락 · `flat` 보합
 - **fill**(35): `brand` `neutral` `danger` `success` `warning`(채움)과 변형 `brand-pressed` `brand-weak` `brand-weak-pressed` `neutral-pressed` `neutral-weak` `neutral-weak-pressed` `neutral-medium` `neutral-medium-pressed` `danger-pressed` `danger-weak` `success-weak` `warning-weak` · `up` `down`(시세 채움) · `up-weak` `down-weak`(시세 옅은 배경) · `alpha-50`~`alpha-900`(투명 회색 막 10단계, 이미지·영역 위 오버레이) · `pressed` 누름 오버레이 · `disabled` · `inverse` · `white`
 - **icon**(13): `default` `strong` `secondary` `tertiary` `disabled` `brand` `brand-pressed` `danger` `success` `warning` `on-fill` · 시세 화살표 `up` `down`
 - **chart**(14): `1`~`7`(blue · teal · green · orange · violet · pink · gray)과 옅은 배경 `1-weak`~`7-weak`. 의미 없는 분류용(차트 계열 색, Badge의 `teal`·`violet`·`pink`). 클래스는 `bg-chart-1` `text-chart-1`
@@ -133,11 +133,11 @@ import "@futurewiz-rms/mint/style.css";
 ## Provider
 
 - **`OverlayProvider`**: `useOverlay`(Alert 열기)를 쓰려면 `app/layout.tsx`에서 앱을 한 번 감쌉니다.
-- **`ToastProvider`**: `useToast`(토스트 띄우기)·`useSnackbar`(스낵바 띄우기)를 쓰려면 같은 자리에서 한 번 감쌉니다. 위치(`position`)·간격(`offset`)을 여기서 정합니다. 두 Provider는 순서와 상관없이 겹쳐 감싸면 됩니다.
+- **`ToasterProvider`**: `useToaster`(토스트 띄우기)를 쓰려면 같은 자리에서 한 번 감쌉니다. 위치(`position`)·간격(`offset`)을 여기서 정합니다. 두 Provider는 순서와 상관없이 겹쳐 감싸면 됩니다.
 - 다른 컴포넌트는 Provider가 필요 없습니다.
 
 ```tsx filename="app/layout.tsx"
-import { OverlayProvider, ToastProvider } from "@futurewiz-rms/mint";
+import { OverlayProvider, ToasterProvider } from "@futurewiz-rms/mint";
 
 export default function RootLayout({
   children,
@@ -148,7 +148,7 @@ export default function RootLayout({
     <html lang="ko">
       <body>
         <OverlayProvider>
-          <ToastProvider>{children}</ToastProvider>
+          <ToasterProvider>{children}</ToasterProvider>
         </OverlayProvider>
       </body>
     </html>

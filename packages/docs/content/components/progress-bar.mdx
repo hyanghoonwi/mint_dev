@@ -1,0 +1,67 @@
+# Progress bar
+
+진행 정도를 가로 막대로 보여 주는 컴포넌트예요. 파일 업로드처럼 끝이 있는 작업에 쓰고, 끝을 알 수 없을 때는 [Circular](/components/circular)를 써요.
+
+<ComponentBadges />
+
+<Figure height={240} />
+
+## Playground
+
+오른쪽에서 props를 바꾸면 막대와 아래 코드가 함께 바뀌어요. 눌러도 아무 동작이 없는 표시 전용이에요.
+
+<ProgressBarPlayground />
+
+## Examples
+
+<ExampleTabs
+  items={[
+    {
+      title: "기본",
+      name: "progress-bar/Basic",
+      style: { width: "100%", maxWidth: 360 },
+    },
+    {
+      title: "상태",
+      name: "progress-bar/Status",
+      style: { width: "100%", maxWidth: 360 },
+    },
+    {
+      title: "양쪽으로(diverging)",
+      name: "progress-bar/Diverging",
+      style: { width: "100%", maxWidth: 360 },
+    },
+    {
+      title: "파일 업로드",
+      name: "progress-bar/Upload",
+      style: { width: "100%", maxWidth: 360 },
+    },
+  ]}
+/>
+
+- **기본**: `value`는 0\~100(%)이에요. 폭은 부모를 채우고 채움도 같이 늘어나요. 높이는 6px로 고정이에요.
+- **상태**: `status`로 진행 중(brand), 실패(danger), 완료(success)를 나타내요.
+- **양쪽으로(diverging)**: 0을 기준으로 증감이 벌어지는 값에 써요. `value`는 −100\~100이고, 양수는 오른쪽 빨강, 음수는 왼쪽 파랑이에요. 0이면 가운데 점만 보여요.
+- **파일 업로드**: 진행률을 상태로 들고 `value`에 넘겨요. 숫자는 옆에 `Text`로 따로 보여 줘요.
+
+## Props
+
+나머지 `<div>` 속성도 그대로 받아요.\
+서버 컴포넌트에서 바로 쓸 수 있어요.
+
+| 이름     | 타입                                   | 기본값      | 설명                                                                         |
+| -------- | -------------------------------------- | ----------- | ---------------------------------------------------------------------------- |
+| `value`  | `number`                               | -           | 진행 값(필수). `default` 0\~100, `diverging` −100\~100(범위를 넘으면 잘라요) |
+| `status` | `"normal" \| "negative" \| "positive"` | `"normal"`  | 진행 중 · 실패 · 완료 색. `default`에서만 써요                               |
+| `type`   | `"default" \| "diverging"`             | `"default"` | 왼쪽에서 채워요. `diverging`은 가운데 기준선에서 양쪽으로 뻗어요             |
+
+## Guidelines
+
+<ProgressBarGuide />
+
+- 끝까지 얼마나 남았는지 알 때만 써요. 끝을 알 수 없는 로딩은 `Circular`를 써요.
+- 이름은 `aria-label`로 꼭 알려요(예: "업로드 진행"). 스크린리더에는 "50%"처럼 읽혀요.
+- 색만으로 상태를 알리지 않아요. 실패와 완료는 가까이에 글자나 아이콘으로도 알려요.
+- `value`는 숫자(퍼센트)로 넘겨요. 숫자를 보여 주려면 옆에 `Text`를 둬요(막대는 숫자를 그리지 않아요).
+- `diverging`은 0을 기준으로 증감이 벌어지는 값에만 써요. 색은 시세 색 규칙(빨강 상승, 파랑 하락)을 따라요.
+- 막대는 `div` 폭을 계산해 직접 만들지 않고 `ProgressBar`를 써요.

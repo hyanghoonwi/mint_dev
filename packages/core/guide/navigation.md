@@ -2,6 +2,18 @@
 
 > 색인: [`../AGENTS.md`](../AGENTS.md)
 
+- **`Header`** — 서비스 맨 위에 고정되는 글로벌 내비게이션(Figma `Header Desktop`·`Header Mobile`). 어두운 알약 하나에 로고 · 메뉴 · 오른쪽 영역(로그인 버튼 또는 프로필)이 있고, **768px부터 메뉴를 펼치고 그보다 좁으면 햄버거로 접습니다**(CSS만 쓰므로 화면 폭을 읽는 코드가 필요 없습니다. Desktop과 Mobile을 따로 import하거나 같이 쓰지 않습니다). 클라이언트 컴포넌트입니다(`"use client"`가 달려 있어 서버 컴포넌트에서 import해도 됩니다. 단 함수 props(`onLoginClick`·`onMenuClick`·`profile.onClick`)는 클라이언트 컴포넌트에서 넘깁니다). 상세 규칙은 `components/header/AGENTS.md`
+  - **라우팅**: 로고·메뉴·로그인·프로필·햄버거의 링크는 모두 `linkComponent`로 그립니다. Next.js는 `linkComponent={Link}`(`next/link`), 생략하면 `<a>`입니다. 다른 라우터의 Link도 `href`·`className`·`onClick`·`children`을 받으면 됩니다. core는 `next/*`를 import하지 않습니다
+  - **현재 위치**: `items[].active`를 사용하는 쪽이 라우터에서 계산해 넘깁니다(Next.js는 `usePathname()`이라 `Header`를 쓰는 파일이 클라이언트 컴포넌트가 됩니다). `active`는 흰 글자 + `aria-current="page"`입니다. 나머지는 옅은 흰 글자
+  - `logo`(필수, 높이 32 안): `<img>`·`<svg>`. 누르면 `logoHref`(기본 `/`)로 이동. 스크린리더 이름 `logoLabel`(기본 "홈")
+  - `items`(필수): `{ label, href, active? }[]`. **6개까지**(한 줄에 맞게 디자인됨). 화면이 좁으면 숨겨지고 햄버거 뒤 메뉴 화면에서 보여 줍니다
+  - `user`: `guest`(기본, 로그인 버튼) · `member`(프로필 Avatar 40). 로그인 버튼은 `loginLabel`(기본 "로그인")·`loginHref`(이동)·`onLoginClick`. 프로필은 `profile={{ src, name, badge, href, onClick }}`이고 `badge`가 알림 점입니다
+  - 햄버거(768px 미만): `menuHref`(메뉴 화면으로 이동) 또는 `onMenuClick`. 이름 `menuLabel`(기본 "메뉴"). 메뉴 화면 자체는 Header 범위 밖입니다
+  - `hideOnScroll`(기본 `true`): 스크롤을 내리면 가려지고 올리면 다시 보입니다(sticky, 위쪽 80px 안에서는 항상 보임, 키보드 포커스가 들어오면 보임). 항상 보이려면 `false`
+  - 폭: 부모 폭을 채우고 최소 240px. 모바일은 알약이 Figma 375px 화면의 335px을 비율로 옮긴 폭의 89.3333%를 가운데에 쓰며(375px이면 335px, 로고 칸이 남는 폭을 차지), 768px부터는 내용 폭으로 가운데에 놓입니다
+  - 바깥 여백은 태블릿 20·데스크톱 64이고 알약은 가운데입니다. 나머지 `<header>` 속성을 받습니다
+  - 금지: 메뉴를 7개 이상 넣기, 현재 위치 메뉴를 여럿 `active`로 두기, `Header`를 페이지마다 따로 만들어 세우기(레이아웃에 한 번), 로고·메뉴를 `div`로 직접 조립하기
+
 - **`Category`** — 같은 목록을 거르거나 분류를 고르는 칩 목록. 한 번에 하나만 선택하고, 넘치면 가로로 스크롤합니다(터치·트랙패드는 밀어서, 마우스는 끌어서. 끈 뒤에는 칩이 선택되지 않고, 놓으면 관성으로 조금 더 미끄러짐). 클라이언트 컴포넌트입니다(`"use client"`가 달려 있어 서버 컴포넌트에서 import해도 됩니다. 단 `onChange`는 클라이언트 컴포넌트에서 넘깁니다).
   - `items`(필수): `{ value, label, icon?, badge?, disabled? }[]`. 3~7개 권장. `icon`은 글자 앞 16px 아이콘, `badge`는 글자 오른쪽 위 빨간 점(새 소식)
   - `value`·`onChange`(제어) 또는 `defaultValue`(비제어). 항상 하나가 선택되어 있습니다

@@ -3,7 +3,7 @@
 const groups = [
   "variant color size shape tone elevation radius border overlay overlayColor fit aspectRatio bold underline",
   "children label heading body description placeholder helper helpIcon icon activeIcon leftAddon rightAddon leadingIcon leadingImage trailingContent image src alt badge badgeSize count items options all allLabel action actionArea addOn",
-  "value defaultValue checked defaultChecked indeterminate selected active defaultActive open defaultOpen status error loading disabled readOnly required multiple render clearButton animate fade today month defaultMonth page current total marks holidays disabledDates min max limit duration snackbarDuration weekStartsOn",
+  "value defaultValue checked defaultChecked indeterminate selected active defaultActive open defaultOpen status error loading disabled readOnly required multiple render clearButton animate fade today month defaultMonth page current total marks holidays disabledDates min max limit duration weekStartsOn",
   "fullWidth inline tight layout labelPosition orientation direction position arrowAlign align justify columns span padding cellPadding gap inset offset length lines width height maxHeight menuMaxHeight overflow",
   "as type id name htmlFor href linkComponent target rel autoComplete autoFocus maxLength minLength pattern tabIndex role",
 ];

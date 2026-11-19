@@ -17,11 +17,16 @@ import {
   PageCounter,
   PageDots,
   PriceChange,
+  ProgressBar,
+  Toast,
+  RatioBar,
   Pagination,
   CheckMark,
   Checkbox,
   Chip,
   DatePicker,
+  Diary,
+  Header,
   FileUploader,
   FramedRadio,
   Radio,
@@ -38,14 +43,12 @@ import {
   PlusIcon,
   SkeletonCircle,
   SkeletonText,
-  Snackbar,
   Switch,
   StarIcon,
   Text,
   TextButton,
   ToggleIcon,
   Thumbnail,
-  Toast,
   Tooltip,
 } from "@futurewiz-rms/mint";
 
@@ -55,6 +58,16 @@ const components: { name: string; group: string; to: string; preview: ReactNode 
     group: "Loading",
     to: "/components/circular",
     preview: <Circular color="brand" />,
+  },
+  {
+    name: "Progress bar",
+    group: "Loading",
+    to: "/components/progress-bar",
+    preview: (
+      <span aria-hidden="true" style={{ display: "block", width: 200 }}>
+        <ProgressBar value={60} aria-label="미리보기" />
+      </span>
+    ),
   },
   {
     name: "Skeleton",
@@ -121,6 +134,24 @@ const components: { name: string; group: string; to: string; preview: ReactNode 
     ),
   },
   {
+    name: "Ratio bar",
+    group: "Contents",
+    to: "/components/ratio-bar",
+    preview: (
+      <span aria-hidden="true" style={{ display: "block", width: 220, pointerEvents: "none" }}>
+        <RatioBar
+          size="sm"
+          items={[
+            { label: "비트코인", value: 56.2 },
+            { label: "이더리움", value: 11.8 },
+            { label: "스테이블코인", value: 10.9 },
+          ]}
+          legend={false}
+        />
+      </span>
+    ),
+  },
+  {
     name: "Thumbnail",
     group: "Contents",
     to: "/components/thumbnail",
@@ -155,15 +186,15 @@ const components: { name: string; group: string; to: string; preview: ReactNode 
     ),
   },
   {
-    name: "Snackbar",
+    name: "Tooltip",
     group: "Feedback",
-    to: "/components/snackbar",
+    to: "/components/tooltip",
     preview: (
-      <Snackbar
-        heading="삭제했어요."
-        description="되돌릴 수 있어요."
-        style={{ minWidth: 0, width: 200 }}
-      />
+      <span style={{ paddingTop: 40 }}>
+        <Tooltip label="추가" open>
+          <IconButton variant="background" icon={<PlusIcon />} tabIndex={-1} aria-label="추가" />
+        </Tooltip>
+      </span>
     ),
   },
   {
@@ -174,18 +205,6 @@ const components: { name: string; group: string; to: string; preview: ReactNode 
       <Toast variant="positive" style={{ width: 180 }}>
         저장했어요.
       </Toast>
-    ),
-  },
-  {
-    name: "Tooltip",
-    group: "Feedback",
-    to: "/components/tooltip",
-    preview: (
-      <span style={{ paddingTop: 40 }}>
-        <Tooltip label="추가" open>
-          <IconButton variant="background" icon={<PlusIcon />} tabIndex={-1} aria-label="추가" />
-        </Tooltip>
-      </span>
     ),
   },
   {
@@ -329,6 +348,21 @@ const components: { name: string; group: string; to: string; preview: ReactNode 
     ),
   },
   {
+    name: "Diary",
+    group: "Form",
+    to: "/components/diary",
+    preview: (
+      <span aria-hidden="true" style={{ display: "block", width: 240, pointerEvents: "none" }}>
+        <Diary
+          count={3}
+          today="2026-11-18"
+          events={{ "2026-11-18": [{ label: "언락" }, { label: "메인넷", color: "teal" }] }}
+          start="2026-11-17"
+        />
+      </span>
+    ),
+  },
+  {
     name: "File uploader",
     group: "Form",
     to: "/components/file-uploader",
@@ -440,6 +474,26 @@ const components: { name: string; group: string; to: string; preview: ReactNode 
       <span style={{ display: "flex", flexDirection: "column" }}>
         <CheckMark checked>최신순</CheckMark>
         <CheckMark>인기순</CheckMark>
+      </span>
+    ),
+  },
+  {
+    name: "Header",
+    group: "Navigation",
+    to: "/components/header",
+    preview: (
+      <span aria-hidden="true" style={{ display: "block", width: 260, pointerEvents: "none" }}>
+        <Header
+          items={[]}
+          hideOnScroll={false}
+          logo={
+            <svg width="32" height="32" viewBox="0 0 32 32" className="text-text-on-fill">
+              <rect width="32" height="32" rx="8" fill="currentColor" opacity="0.24" />
+            </svg>
+          } // 카드 전체가 링크(<a>)라서 안의 로고를 또 <a>로 그리면 <a> 안에 <a>가 들어가 hydration 오류가 난다. 미리보기는 span으로 그린다
+          linkComponent="span"
+          style={{ position: "static", padding: 0 }}
+        />
       </span>
     ),
   },

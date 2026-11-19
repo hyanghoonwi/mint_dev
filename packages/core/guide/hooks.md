@@ -2,7 +2,7 @@
 
 > 색인: [`../AGENTS.md`](../AGENTS.md)
 
-모두 클라이언트 컴포넌트에서 씁니다(`"use client"`가 달려 있어 import는 어디서나 됩니다). Provider가 필요 없습니다. 브라우저 API는 effect·이벤트 안에서만 써서 서버 렌더에서 오류가 나지 않습니다. 오버레이를 여는 `useOverlay`와 토스트·스낵바를 띄우는 `useToast`·`useSnackbar`는 [오버레이](overlay.md)에 있습니다(둘 다 Provider 필요).
+모두 클라이언트 컴포넌트에서 씁니다(`"use client"`가 달려 있어 import는 어디서나 됩니다). Provider가 필요 없습니다. 브라우저 API는 effect·이벤트 안에서만 써서 서버 렌더에서 오류가 나지 않습니다. 오버레이를 여는 `useOverlay`와 토스트를 띄우는 `useToaster`는 [오버레이](overlay.md)에 있습니다(둘 다 Provider 필요).
 
 - **`useInView`** — 요소가 화면(또는 스크롤 상자)에 들어왔는지 알려 줍니다. 무한 스크롤, 보일 때 불러오기·나타나기에 씁니다. FDS `useInView`와 같은 API입니다(react-intersection-observer 방식).
   - `const { ref, inView, entry } = useInView(options)` 또는 `const [ref, inView, entry] = useInView()`. `ref`를 관찰할 요소에 붙입니다
@@ -25,7 +25,7 @@
 - **`useFileUpload`** — 파일 올리기 목록을 관리합니다(고른 파일 · 이미지 미리보기 주소 · 용량·개수·형식 검사 · 업로드 진행률·취소·다시 시도). `FileUploader`·`FileItem`은 모양만 맡으니 목록 상태를 직접 만들지 말고 이 훅을 씁니다. 클라이언트 컴포넌트에서 씁니다
   - `const upload = useFileUpload({ maxSize, maxFiles, upload, messages })` → `<FileUploader helper="평소 도움말" {...upload.uploaderProps} />` · `upload.items.map((item) => <FileItem key={item.id} {...upload.itemProps(item)} />)`
   - `uploaderProps`: `onFilesSelect`·`onFilesReject`, 개수 초과·형식 오류가 있을 때만 `status="negative"`·`helper`(오류 문구). **평소 `helper`·`status`는 `uploaderProps`보다 앞에** 적어야 오류 때만 바뀝니다
-  - `upload(file, { onProgress, signal })`(선택): 주면 고르자마자 올림. `onProgress(0~100)`로 진행률, ×(취소)·`remove`·화면 이탈 때 `signal`로 중단(fetch·axios에 그대로 전달). 실패하면 `negative`와 `messages.failed`, "다시 시도"(`retry`). 주지 않으면 고른 파일은 바로 완료(첨부됨)로 보이고 보낼 때 `items`의 `file`을 `FormData`에 담음
+  - `upload(file, { onProgress, signal })`(선택): 주면 고르자마자 올림. `onProgress(0~100)`로 진행률, ×(취소)·`remove`·화면 이탈 때 `signal`로 중단(`fetch` 등 요청에 그대로 전달). 실패하면 `negative`와 `messages.failed`, "다시 시도"(`retry`). 주지 않으면 고른 파일은 바로 완료(첨부됨)로 보이고 보낼 때 `items`의 `file`을 `FormData`에 담음
   - `maxSize`(byte): 넘는 파일은 목록에 실패로 남기고 이유("10MB보다 큰 파일이에요"), 다시 시도는 없음. `maxFiles`: 넘는 파일은 받지 않고 오류(`error`). `messages`로 문구(`tooLarge`·`tooMany`·`rejected`·`failed`)를 바꿈
   - `items`: `{ id, file, name, sizeLabel, preview, status, progress, error }`. `uploading`(올리는 중 있음, 제출 버튼 막기), `add(files)`·`remove(id)`·`retry(id)`·`clear()`
   - 이미지 미리보기 주소(`URL.createObjectURL`)는 훅이 만들고 지울 때·화면을 떠날 때 돌려줍니다. 용량 글자는 `formatFileSize(bytes)`로도 만들 수 있습니다

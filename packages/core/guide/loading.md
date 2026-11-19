@@ -6,6 +6,12 @@
   - `size`: 지름(px), 기본 28. 버튼 안에서는 `Button`의 `loading`이 알아서 크기를 맞춥니다(`xs` 12 · `sm`·`md` 16 · `lg` 20)
   - `color`: `default`(회색, 기본) · `brand` · `on-fill`(진한 배경 위의 흰색)
   - `label`: 스크린리더가 읽을 이름(기본 `로딩 중`). 장식용이면 `aria-hidden`을 줍니다
+- **`ProgressBar`** — 진행 정도를 가로 막대로 보여 주는 표시 전용 부품(Figma `Progress Bar`). 끝이 있는 작업(파일 업로드·단계 진행)에 쓰고, 끝을 알 수 없을 때는 `Circular`를 씁니다. 서버 컴포넌트에서도 쓸 수 있습니다. 상세 규칙은 `components/progress-bar/AGENTS.md`
+  - `value`(필수): 숫자. `default`는 0~100(%), `diverging`은 −100~100. 범위를 넘으면 잘라 씁니다. 문자열 `"50%"`는 받지 않습니다
+  - `type`: `default`(기본, 왼쪽에서 채움) · `diverging`(가운데 기준선에서 양쪽으로: 양수 오른쪽 빨강 `fill-up`, 음수 왼쪽 파랑 `fill-down`, 0은 가운데 점). 증감처럼 0을 기준으로 벌어지는 값에만 씁니다
+  - `status`: `normal`(진행 중 brand, 기본) · `negative`(실패 danger) · `positive`(완료 success). `default`에서만
+  - 폭은 부모를 채우고 높이는 6 고정(구간별 prop 없음). 트랙 `fill-neutral-weak`, 채움 모서리 `radius-full`. 값이 바뀌면 300ms로 움직입니다
+  - **`aria-label`로 이름을 꼭 줍니다**(예: "업로드 진행"). `role="progressbar"`와 `aria-valuenow` 등은 컴포넌트가 달아 줍니다. 숫자는 그리지 않으니 옆에 `Text`를 둡니다. 실패·완료는 색만으로 알리지 않고 글자·아이콘도 함께 둡니다
 - **`SkeletonText`** — 텍스트 한 줄 자리. 서버 컴포넌트에서도 쓸 수 있습니다(`"use client"` 없음). 여러 줄은 쌓아서 만들고 마지막 줄은 짧게 둡니다.
   - `length`: `"100%"`(기본) · `"75%"` · `"50%"` · `"25%"` — 줄 칸 폭에 대한 비율
   - `align`: `leading`(기본) · `center` · `trailing` — 짧은 줄을 칸 안 어디에 둘지
