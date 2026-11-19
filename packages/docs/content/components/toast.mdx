@@ -8,7 +8,7 @@
 
 ## Playground
 
-오른쪽에서 props를 바꾸면 토스트 모양과 아래 코드가 함께 바뀌어요. 화면에 띄울 때는 [`useToast`](/utilities/use-toast)를 써요.
+오른쪽에서 props를 바꾸면 토스트 모양과 아래 코드가 함께 바뀌어요. 화면에 띄울 때는 [`useToaster`](/utilities/use-toaster)를 써요.
 
 <ToastPlayground />
 
@@ -18,32 +18,40 @@
   items={[
     { title: "종류", name: "toast/Variants" },
     { title: "모양", name: "toast/Shapes" },
+    { title: "버튼", name: "toast/Action" },
+    { title: "아이콘", name: "toast/Icon" },
     { title: "띄우기", name: "toast/Show" },
   ]}
 />
 
 - **종류**: 완료는 `positive`, 주의는 `cautionary`, 오류는 `negative`예요. 종류에 맞는 아이콘이 앞에 붙어요.
 - **모양**: `default`는 모서리 12, `pill`은 알약 모양이에요. 한 서비스에서는 하나로 맞춰요.
-- **띄우기**: 앱 최상단을 `ToastProvider`로 감싸고 `useToast`로 띄워요. 버튼을 눌러 보세요. 위치·간격·시간은 [`useToast`](/utilities/use-toast)에서 정해요.
+- **버튼**: `action`으로 오른쪽에 버튼 하나를 더해요. `ghost`는 글자만, `button`은 배경이 있어요. 글자는 `actionLabel`로 줘요.
+- **아이콘**: 기본은 종류에 맞는 아이콘이에요. `icon={false}`면 없애고, 아이콘을 넘기면 그 아이콘이 보여요.
+- **띄우기**: 앱 최상단을 `ToasterProvider`로 감싸고 `useToaster`로 띄워요. 버튼을 눌러 보세요. 위치·간격·시간은 [`useToaster`](/utilities/use-toaster)에서 정해요.
 
 ## Props
 
 나머지 `<div>` 속성도 그대로 받아요.\
-토스트 모양만 그리는 컴포넌트예요. 화면에 띄우고 사라지게 하려면 `useToast`를 써요.
+토스트 모양만 그리는 컴포넌트예요. 서버 컴포넌트에서 쓸 수 있고, `onAction`을 넘길 때만 클라이언트 컴포넌트 안에서 써요. 화면에 띄우고 사라지게 하려면 `useToaster`를 써요.
 
-| 이름       | 타입                                                   | 기본값      | 설명                       |
-| ---------- | ------------------------------------------------------ | ----------- | -------------------------- |
-| `variant`  | `"normal" \| "positive" \| "cautionary" \| "negative"` | `"normal"`  | 종류. 앞 아이콘이 달라져요 |
-| `shape`    | `"default" \| "pill"`                                  | `"default"` | 모서리 12 또는 알약 모양   |
-| `children` | `ReactNode`                                            | -           | 메시지. 한 문장으로 짧게   |
+| 이름          | 타입                                                   | 기본값      | 설명                                               |
+| ------------- | ------------------------------------------------------ | ----------- | -------------------------------------------------- |
+| `variant`     | `"normal" \| "positive" \| "cautionary" \| "negative"` | `"normal"`  | 종류. 앞 아이콘이 달라져요                         |
+| `shape`       | `"default" \| "pill"`                                  | `"default"` | 모서리 12 또는 알약 모양                           |
+| `children`    | `ReactNode`                                            | -           | 메시지. 한 문장으로 짧게                           |
+| `icon`        | `boolean \| ReactNode`                                 | `true`      | 앞 아이콘. `false`는 없음, 노드를 넘기면 그 아이콘 |
+| `action`      | `"none" \| "ghost" \| "button"`                        | `"none"`    | 오른쪽 버튼 모양. 글자만 또는 배경 있음            |
+| `actionLabel` | `ReactNode`                                            | -           | 버튼 글자(2\~4자)                                  |
+| `onAction`    | `() => void`                                           | -           | 버튼을 눌렀을 때                                   |
 
 ## Guidelines
 
 <ToastGuide />
 
 - 행동의 결과를 알려요. "저장했어요"처럼 결과만 한 문장으로 써요.
-- 2\~4초 뒤 자동으로 사라져요. 글이 길면 조금 더 길게 둬요.
+- 2\~4초 뒤 자동으로 사라져요. 글이 길면 조금 더 길게 둬요. 버튼이 있으면 누를 시간이 필요해서 기본 5초예요.
+- 버튼은 하나만 둬요. "되돌리기"처럼 다음 행동을 제안할 때 쓰고, 되돌릴 수 없는 일의 확인은 Alert를 써요.
 - 하단 고정 요소(버튼, 탭 바)를 가리지 않게 `offset`으로 위치를 잡아요.
-- 버튼이 필요한 안내는 Toast에 넣지 않아요. [Snackbar](/components/snackbar)를 써요.
 - 꼭 읽어야 하는 안내를 Toast로 알리지 않아요. Alert를 써요.
 - 오류(`negative`)는 스크린리더가 바로 읽고(`alert`), 나머지는 하던 일을 끊지 않고 읽어요(`status`).

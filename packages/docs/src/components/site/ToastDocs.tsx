@@ -1,6 +1,6 @@
 "use client";
 
-import { Toast, type ToastShape, type ToastVariant } from "@futurewiz-rms/mint";
+import { Toast, type ToastAction, type ToastShape, type ToastVariant } from "@futurewiz-rms/mint";
 import { DoDont } from "./DoDont";
 import { Playground, type Control } from "./Playground";
 
@@ -13,9 +13,11 @@ const controls: Control[] = [
   },
   { prop: "shape", type: "select", options: ["default", "pill"], default: "default" },
   { prop: "children", type: "text", default: "저장했어요." },
+  { prop: "icon", type: "boolean", default: true },
+  { prop: "action", type: "select", options: ["none", "ghost", "button"], default: "none" },
 ];
 
-/** 샌드박스: 토스트 모양을 보여 주고, 아래에는 useToast로 띄우는 코드를 보여 줘요 */
+/** 샌드박스: 토스트 모양을 보여 주고, 아래에는 useToaster로 띄우는 코드를 보여 줘요 */
 export function ToastPlayground() {
   return (
     <Playground
@@ -24,15 +26,25 @@ export function ToastPlayground() {
         <Toast
           variant={values.variant as ToastVariant}
           shape={values.shape as ToastShape}
+          icon={values.icon as boolean}
+          action={values.action as ToastAction}
+          actionLabel="버튼"
           style={{ width: 300, maxWidth: "100%" }}
         >
           {values.children as string}
         </Toast>
       )}
       code={(values) => {
-        const method = values.variant === "normal" ? "toast" : `toast.${values.variant as string}`;
-        const shape = values.shape !== "default" ? `, { shape: "${values.shape as string}" }` : "";
-        return `import { useToast } from "@futurewiz-rms/mint";\n\nconst toast = useToast();\n${method}("${values.children as string}"${shape});`;
+        const method =
+          values.variant === "normal" ? "toaster" : `toaster.${values.variant as string}`;
+        const options: string[] = [];
+        if (values.shape !== "default") options.push(`shape: "${values.shape as string}"`);
+        if (values.icon === false) options.push("icon: false");
+        if (values.action !== "none") {
+          options.push(`action: "${values.action as string}"`, 'actionLabel: "버튼"');
+        }
+        const rest = options.length > 0 ? `, { ${options.join(", ")} }` : "";
+        return `import { useToaster } from "@futurewiz-rms/mint";\n\nconst toaster = useToaster();\n${method}("${values.children as string}"${rest});`;
       }}
     />
   );

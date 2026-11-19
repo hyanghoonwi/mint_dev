@@ -1,4 +1,4 @@
-// Toast·Snackbar가 함께 쓰는 종류별 앞 아이콘(Phosphor Fill 20). 공개하지 않는 내부 구현이다.
+// Toast가 쓰는 종류별 앞 아이콘(Phosphor Fill 20). 공개하지 않는 내부 구현이다.
 // positive·cautionary·negative는 아이콘 안쪽 기호가 흰색으로 보이도록 뒤에 흰 원을 깐다(Figma Glyph Backing).
 import type { ReactNode } from "react";
 import { cn } from "../../utils/cn";
