@@ -19,7 +19,7 @@
 
 | 구성              | 선택지                                | 설명                                                                            |
 | ----------------- | ------------------------------------- | ------------------------------------------------------------------------------- |
-| 색(`color`)       | `primary` · `neutral`                 | Primary는 브랜드 색, Neutral은 회색 글자예요                                    |
+| 색(`color`)       | `primary` · `neutral` · `inverse`     | Primary는 브랜드 색, Neutral은 회색 글자, Inverse는 어두운 바탕 위 흰 글자예요  |
 | 크기(`size`)      | `xs` · `sm` · `md` · `lg`             | 본문 글자 크기에 맞춰 골라요. `xs`는 표와 목록 안에서 써요. 구간별 값도 받음    |
 | 밑줄(`underline`) | `false` · `true`                      | 문장 속 링크는 밑줄로 눈에 띄게 해요                                            |
 | 인라인(`inline`)  | `false` · `true`                      | 패딩과 눌림 박스가 없고 밑줄이 항상 켜져요. 문장 속 이동 링크                   |
@@ -35,7 +35,7 @@
   | `md`(기본) | 28 · 20               | Label 2 Medium(14/20) | 16     | 8×4 · 8       |
   | `lg`       | 28 · 20               | Label 1 Medium(16/20) | 20     | 8×4 · 8       |
 
-- **색**: primary 글자 `text-brand`, 누름 `text-brand-pressed` + 박스 `fill-brand-weak-pressed`(blue-100). neutral 글자 `text-secondary`(gray-700), 누름 `text-strong` + 박스 `fill-neutral-weak-pressed`(gray-200). 비활성 `text-disabled`. `inline`은 박스 없이 글자 색만 바뀝니다.
+- **색**: primary 글자 `text-brand`, 누름 `text-brand-pressed` + 박스 `fill-brand-weak-pressed`(blue-100). neutral 글자 `text-secondary`(gray-700), 누름 `text-strong` + 박스 `fill-neutral-weak-pressed`(gray-200). inverse 글자 `text-on-fill-secondary`(흰색 62%), 누름·올림 `text-on-fill`(Figma `Text Button (Inverse)`, `Header` 메뉴 항목에서 쓰며 2026-11 추가). 비활성 `text-disabled`. `inline`은 박스 없이 글자 색만 바뀝니다.
 - **밑줄**: 글자 장식(text-decoration)이 아니라 줄(앞뒤 아이콘 포함) 아래에 따로 그린 1px 선입니다. 줄 바로 아래(1px 띄움)에 있어 글자·아이콘과 겹치지 않고 아이콘 끝까지 이어지며, 버튼 높이에는 영향이 없습니다.
 - **로딩**: 글자를 숨기고(폭 유지) 진행 원을 가운데 보여 줍니다. 누를 수 없습니다.
 - 터치 화면에서 박스형은 보이는 크기는 그대로 두고 눌림 영역만 44px로 넓힙니다.

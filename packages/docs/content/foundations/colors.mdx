@@ -35,7 +35,7 @@ import { Text } from "@futurewiz-rms/mint";
   <Text as="p" variant="caption-1-regular" color="tertiary">
     2026-10-28 업데이트
   </Text>
-</div>;
+</div>
 ```
 
 시맨틱 컬러로 나타낼 수 없는 곳에만 아토믹 컬러를 CSS 변수로 써요.
@@ -57,7 +57,7 @@ import { Text } from "@futurewiz-rms/mint";
 
 - 화면에는 시맨틱 컬러를 써요. hex 값을 직접 쓰지 않아요.
 - 글자는 `strong` → `primary` → `secondary` → `tertiary` → `subtle` 순으로 약해져요. 본문에는 `tertiary`까지만 쓰고, `subtle` 이하는 플레이스홀더·힌트에만 써요.
-- 채움 배경(`fill-*`) 위의 글자와 아이콘은 `on-fill`을 써요. 경고 채움(`fill-warning`) 위에서는 `text-text-on-fill-warning`을 써요.
+- 채움 배경(`fill-*`) 위의 글자와 아이콘은 `on-fill`을 써요. 어두운 바탕 위 보조 글자는 `text-text-on-fill-secondary`예요. 경고 채움(`fill-warning`) 위에서는 `text-text-on-fill-warning`을 써요.
 - 같은 의미의 면은 기본 → `-weak`(옅은 배경) → `-pressed`(눌림)로 나뉘어요. 배경이 없는 요소가 눌릴 때는 `bg-fill-pressed`를 위에 덮어요.
 - 색만으로 의미를 전하지 않아요. 오류·성공은 글자나 아이콘을 함께 보여 줘요.
 - 시세에는 시세 색(`up`·`down`·`flat`)만 써요. 오류(`danger`)나 브랜드(`brand`) 색을 상승·하락에 빌려 쓰지 않아요.

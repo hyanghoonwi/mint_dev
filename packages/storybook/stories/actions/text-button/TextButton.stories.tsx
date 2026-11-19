@@ -12,7 +12,7 @@ const meta = {
     layout: "centered",
   },
   argTypes: {
-    color: { control: "inline-radio", options: ["primary", "neutral"] },
+    color: { control: "inline-radio", options: ["primary", "neutral", "inverse"] },
     size: { control: "inline-radio", options: sizes },
     underline: { control: "boolean" },
     loading: { control: "boolean" },
@@ -31,6 +31,18 @@ export const Primary: Story = {};
 
 export const Neutral: Story = {
   args: { color: "neutral" },
+};
+
+// 어두운 바탕 위(Header 메뉴). 평소 옅은 흰 글자, 마우스를 올리면 흰 글자
+export const Inverse: Story = {
+  args: { color: "inverse" },
+  decorators: [
+    (Story) => (
+      <div style={{ background: "#0a1226", padding: 16, borderRadius: 16 }}>
+        <Story />
+      </div>
+    ),
+  ],
 };
 
 // 높이 xs 20 · sm 24 · md 28 · lg 28

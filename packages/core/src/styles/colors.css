@@ -40,6 +40,8 @@
   --mint-text-warning: var(--color-atomic-orange-800);
   --mint-text-on-fill: var(--color-atomic-white);
   --mint-text-on-fill-warning: var(--color-atomic-gray-900);
+  /* 어두운 바탕(fill/alpha-900) 위 보조 글자. Figma `text/on-fill-secondary`는 흰색 62%라 아토믹 값이 없어 직접 적는다 */
+  --mint-text-on-fill-secondary: rgb(255 255 255 / 0.62);
   --mint-text-up: var(--color-atomic-red-600);
   --mint-text-down: var(--color-atomic-blue-600);
   --mint-text-flat: var(--color-atomic-gray-600);
@@ -142,6 +144,7 @@
   --color-text-warning: var(--mint-text-warning);
   --color-text-on-fill: var(--mint-text-on-fill);
   --color-text-on-fill-warning: var(--mint-text-on-fill-warning);
+  --color-text-on-fill-secondary: var(--mint-text-on-fill-secondary);
   --color-text-up: var(--mint-text-up);
   --color-text-down: var(--mint-text-down);
   --color-text-flat: var(--mint-text-flat);

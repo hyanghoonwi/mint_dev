@@ -233,7 +233,7 @@ export function RadiusScale() {
 // 그림자 토큰(core shape.css의 --shadow-*)
 const shadows: [cls: string, value: string, usage: string][] = [
   ["shadow-raised", "0 2px 8px · 8%", "화면에 붙은 카드·상자(Box raised)"],
-  ["shadow-floating", "0 8px 24px · 24%", "토스트, 메뉴, 툴팁처럼 떠 있는 요소"],
+  ["shadow-floating", "0 8px 24px · 24%", "메뉴, 툴팁처럼 떠 있는 요소"],
   ["shadow-drawer", "0 2px 30px · 10% + −16px 0 60px · 10%", "오른쪽에서 나오는 패널"],
 ];
 

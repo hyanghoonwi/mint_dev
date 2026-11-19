@@ -5,7 +5,7 @@ import { DoDont } from "./DoDont";
 import { jsx, Playground, type Control } from "./Playground";
 
 const controls: Control[] = [
-  { prop: "color", type: "select", options: ["primary", "neutral"], default: "primary" },
+  { prop: "color", type: "select", options: ["primary", "neutral", "inverse"], default: "primary" },
   { prop: "size", type: "select", options: ["xs", "sm", "md", "lg"], default: "md" },
   { prop: "underline", type: "boolean", default: false },
   { prop: "children", type: "text", default: "전체 보기" },
@@ -22,7 +22,7 @@ export function TextButtonPlayground() {
       controls={controls}
       render={(values) => (
         <TextButton
-          color={values.color as "primary" | "neutral"}
+          color={values.color as "primary" | "neutral" | "inverse"}
           size={values.size as "xs" | "sm" | "md" | "lg"}
           underline={values.underline as boolean}
           leftAddon={values.leftAddon ? <PlusIcon /> : undefined}

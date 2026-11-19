@@ -13,7 +13,7 @@ import {
 import { Circular } from "../circular/Circular";
 
 export type TextButtonSize = "xs" | "sm" | "md" | "lg";
-export type TextButtonColor = "primary" | "neutral";
+export type TextButtonColor = "primary" | "neutral" | "inverse";
 
 // 높이 xs 20 · sm 24 · md 28 · lg 28. 글자 Label 3 · Label 3 · Label 2 · Label 1 Medium, 아이콘 16 · 16 · 16 · 20.
 // xs의 패딩 6×2·모서리 6은 Figma 수치를 그대로 옮긴 임의 값이다. 값 하나 또는 구간별 객체를 받는다(utils/responsive.ts)
@@ -66,6 +66,12 @@ const tones: Record<TextButtonColor, { normal: string; box: string; inline: stri
     box: "hover:bg-fill-brand-weak-pressed hover:text-text-brand-pressed active:bg-fill-brand-weak-pressed active:text-text-brand-pressed",
     inline: "hover:text-text-brand-pressed active:text-text-brand-pressed",
   },
+  // 어두운 바탕(Header의 알약) 위. 평소 옅은 흰 글자, 누르거나 마우스를 올리면 흰 글자(Figma `Text Button (Inverse)`, 2026-11)
+  inverse: {
+    normal: "text-text-on-fill-secondary",
+    box: "hover:text-text-on-fill active:text-text-on-fill",
+    inline: "hover:text-text-on-fill active:text-text-on-fill",
+  },
   neutral: {
     normal: "text-text-secondary",
     box: "hover:bg-fill-neutral-weak-pressed hover:text-text-strong active:bg-fill-neutral-weak-pressed active:text-text-strong",
@@ -75,7 +81,7 @@ const tones: Record<TextButtonColor, { normal: string; box: string; inline: stri
 
 export type TextButtonProps = Omit<ComponentProps<"button">, "color"> &
   Pick<ComponentProps<"a">, "href" | "target" | "rel"> & {
-    /** `primary`는 브랜드 색, `neutral`은 회색 글자. 기본 `primary` */
+    /** `primary`는 브랜드 색, `neutral`은 회색 글자, `inverse`는 어두운 바탕 위 흰 글자. 기본 `primary` */
     color?: TextButtonColor;
     /** 높이 xs 20 · sm 24 · md 28 · lg 28(글자 12 · 12 · 14 · 16). 본문 글자 크기에 맞춰 고른다. 기본 `md`. 구간별로 `{ base: "sm", desktop: "md" }` */
     size?: Responsive<TextButtonSize>;

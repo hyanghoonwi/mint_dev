@@ -132,6 +132,7 @@ const semanticGroups: {
       ["warning", "orange-800", "경고"],
       ["on-fill", "white", "채움 배경 위 텍스트"],
       ["on-fill-warning", "gray-900", "경고 채움 배경 위 텍스트"],
+      ["on-fill-secondary", "white 62%", "어두운 바탕 위 보조 텍스트"],
     ],
   },
   {
