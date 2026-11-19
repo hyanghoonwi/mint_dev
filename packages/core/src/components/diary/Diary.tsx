@@ -1,23 +1,22 @@
 "use client";
 
 // 선택한 날(상태)과 가로 스크롤 위치(가장자리 흐림)를 가져서 클라이언트 컴포넌트다.
-// 출처: Figma `Calendar Day Cell`(2467:123204 변형 14개)·`Calendar Day Strip`(2467:123316). 이름은 `Diary`로 정했다(2026-11 결정).
+// 출처: Figma `Calendar Day Cell`(2493:124392 변형 14개)·`Calendar Day Strip`(2493:124561). 이름은 `Diary`로 정했다(2026-11 결정).
 // 날짜는 모두 문자열(`YYYY-MM-DD`)이고, 오늘(`today`)은 사용하는 쪽이 넘긴다(렌더 중 현재 시각을 읽지 않는다).
 // 날짜 계산은 _internal/date.ts의 UTC 순수 함수라서 서버·브라우저 결과가 같다.
 // 접근성: 날짜 칸마다 버튼(`aria-pressed`로 선택, `aria-current="date"`로 오늘). 마우스는 끌어서 넘길 수 있다.
 import { useEffect, useRef, useState, type ComponentProps } from "react";
 import { cn } from "../../utils/cn";
-import { Badge, type BadgeColor } from "../badge/Badge";
 import { addDays, formatDayName, weekday, weekdayLabels } from "../_internal/date";
 import { useControllableState } from "../_internal/useControllableState";
 import { useDragScroll } from "../_internal/useDragScroll";
 
-/** 날짜 칸에 쌓이는 일정 뱃지 하나 */
+/** 날짜 칸에 쌓이는 일정 칩 하나 */
 export interface DiaryEvent {
-  /** 뱃지 문구. 1~4자로 짧게 쓴다(긴 제목은 날짜를 눌러 연 곳에서 보여 준다) */
+  /** 칩 문구. 짧게 쓴다(칩은 최대 80px이고 넘치면 말줄임, 긴 제목은 날짜를 눌러 연 곳에서 보여 준다) */
   label: string;
-  /** 일정 종류를 구분하는 색. 기본 `brand`. 종류와 색의 연결은 사용하는 쪽이 정하고 범례를 같이 보여 준다 */
-  color?: BadgeColor;
+  /** 문구 앞에 둘 16px 동그란 이미지 주소(코인 로고 등). 없으면 이미지 자리를 두지 않는다 */
+  image?: string;
 }
 
 export interface DiaryProps extends Omit<
@@ -40,7 +39,7 @@ export interface DiaryProps extends Omit<
   min?: string;
   /** 날짜별 일정. `{ "2026-11-20": [{ label: "언락" }] }` */
   events?: Record<string, DiaryEvent[]>;
-  /** 한 칸에 보여 줄 일정 뱃지 수. 넘치는 개수는 `+N`으로 알린다. 기본 `2` */
+  /** 한 칸에 보여 줄 일정 칩 수. 넘치는 개수는 `+N`으로 알린다. 기본 `2` */
   maxEvents?: number;
   /** 첫 번째 칸의 날짜(`YYYY-MM-DD`, 필수). 여기서부터 `count`일을 이어서 보여 준다 */
   start: string;
@@ -140,9 +139,10 @@ export function Diary({
               className={cn(
                 "relative flex min-h-[142px] w-24 shrink-0 cursor-pointer flex-col items-start gap-1 border-r border-solid border-border-default px-2 py-3 text-left transition-colors focus-visible:z-10 focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-border-focus",
                 isSelected ? "bg-fill-neutral-weak" : "bg-background-default",
+                // Pressed: 선택한 날도 연한 파랑으로 바뀐다(Figma Selected × Pressed)
                 disabled
                   ? "cursor-not-allowed opacity-50"
-                  : !isSelected && "hover:bg-fill-brand-weak active:bg-fill-brand-weak",
+                  : "hover:bg-fill-brand-weak active:bg-fill-brand-weak",
               )}
             >
               <span
@@ -172,14 +172,28 @@ export function Diary({
               {dayEvents.length > 0 && (
                 <span aria-hidden="true" className="flex flex-col items-start gap-1">
                   {shown.map((event, index) => (
-                    <Badge key={index} variant="weak" size="sm" color={event.color ?? "brand"}>
-                      {event.label}
-                    </Badge>
+                    // Figma Event: 높이 22 · 최대 폭 80 · 모서리 8 · 이미지 16(동그라미) · 글자 Caption 2 Medium
+                    <span
+                      key={index}
+                      className="flex h-[22px] max-w-[80px] items-center gap-1 overflow-hidden rounded-8 bg-fill-neutral-weak pr-[6px] pl-1"
+                    >
+                      {event.image && (
+                        <img
+                          src={event.image}
+                          alt=""
+                          className="size-4 shrink-0 rounded-full bg-fill-neutral-medium object-cover"
+                        />
+                      )}
+                      <span className="min-w-0 flex-1 truncate text-caption-2-medium text-text-primary">
+                        {event.label}
+                      </span>
+                    </span>
                   ))}
                   {hidden > 0 && (
-                    <Badge variant="fill" color="neutral" size="md">
+                    // Figma More: fill-neutral-pressed · 여백 가로 6 세로 2 · 글자 Caption 2 SemiBold
+                    <span className="inline-flex items-center justify-center rounded-8 bg-fill-neutral-pressed px-[6px] py-[2px] text-caption-2-semibold whitespace-nowrap text-text-on-fill">
                       +{hidden}
-                    </Badge>
+                    </span>
                   )}
                 </span>
               )}

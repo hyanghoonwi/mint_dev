@@ -10,7 +10,7 @@ export default function MoreEvents() {
         "2026-11-17": [{ label: "언락" }],
         "2026-11-18": [
           { label: "언락" },
-          { label: "메인넷", color: "teal" },
+          { label: "메인넷" },
           { label: "상장" },
           { label: "점검" },
         ],

@@ -356,7 +356,7 @@ const components: { name: string; group: string; to: string; preview: ReactNode 
         <Diary
           count={3}
           today="2026-11-18"
-          events={{ "2026-11-18": [{ label: "언락" }, { label: "메인넷", color: "teal" }] }}
+          events={{ "2026-11-18": [{ label: "언락" }, { label: "메인넷" }] }}
           start="2026-11-17"
         />
       </span>

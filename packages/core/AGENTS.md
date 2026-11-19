@@ -1,6 +1,6 @@
 # @futurewiz-rms/mint 사용 가이드 (AI 에이전트용 색인)
 
-MINT는 크립토랩(Next.js 반응형 사이트)을 위한 React 컴포넌트 라이브러리입니다. 이 파일은 색인이며 `node_modules/@futurewiz-rms/mint/AGENTS.md`에서 읽을 수 있습니다.
+Mint는 CryptoLabs(Next.js 반응형 사이트)을 위한 React 컴포넌트 라이브러리입니다. 이 파일은 색인이며 `node_modules/@futurewiz-rms/mint/AGENTS.md`에서 읽을 수 있습니다.
 
 **읽는 법**: 아래 핵심 규칙과 "무엇을 쓸까"를 읽고, 쓸 컴포넌트의 상세(props·예시)만 `guide/`에서 찾습니다. **`guide/` 파일은 통째로 읽지 말고 컴포넌트 이름으로 찾습니다.**
 
@@ -17,7 +17,7 @@ grep -n -A12 '\*\*`Button`\*\*' node_modules/@futurewiz-rms/mint/guide/actions.m
 1. **먼저 있는 컴포넌트를 씁니다.** `<button>`을 직접 만들지 않습니다.
 2. **스타일은 `app/layout.tsx`에서 `@futurewiz-rms/mint/style.css`를 한 번만 import합니다**([설치](guide/setup.md)).
 3. **서버 컴포넌트에서 바로 import해도 됩니다.** 상태가 필요한 컴포넌트는 라이브러리가 `"use client"`를 달아 두었습니다. 사용하는 쪽이 감쌀 필요가 없습니다. 단, `onClick` 같은 함수 prop은 서버 컴포넌트에서 넘길 수 없으니 그 부분만 클라이언트 컴포넌트로 뺍니다.
-4. **크기는 `size="sm" | "md" | "lg" | "xl"`, 기본 `md`.** 터치 화면에서 누르는 요소는 `md`(40px) 이상을 씁니다. 예외는 아이콘(`size`가 `16 | 20 | 24`, 기본 24)과 `Checkbox`·`Radio`·`CheckMark`(Figma 기본을 따라 기본 `sm` 20)입니다.
+4. **크기는 `size="sm" | "md" | "lg"`, 기본 `md`.** 컴포넌트마다 더 있으면 해당 항목을 따릅니다(`Button`은 `xs`도, `Avatar`는 숫자 크기). 터치 화면에서 누르는 요소는 `md`(40px) 이상을 씁니다. 예외는 아이콘(`size`가 `16 | 20 | 24`, 기본 24)과 `Checkbox`·`Radio`·`CheckMark`(Figma 기본을 따라 기본 `sm` 20)입니다.
 5. **반응형 레이아웃은 `Container`·`Grid`로 합니다.** `div`에 그리드 클래스를 직접 쓰지 않습니다([레이아웃](guide/layout.md)). 구간은 모바일·`tablet:`(768px~)·`desktop:`(1024px~) 3단계뿐입니다(`sm:` `md:` `lg:`는 없음). 글자 크기는 구간과 상관없이 고정이고 컬럼 수·거터·여백만 바뀝니다. `window.innerWidth`나 미디어 쿼리 훅으로 렌더를 나누지 않습니다(서버·클라이언트 결과가 달라짐).
 6. **색은 시맨틱 토큰 클래스**(`bg-fill-brand`, `text-text-primary`, `border-border-default`, `text-icon-brand` 등)로 씁니다. hex 값과 `dark:` 클래스를 쓰지 않습니다. 지금은 Light 값만 있고 브랜드색은 임시 파랑입니다([색 상세](guide/setup.md)).
 
@@ -41,7 +41,7 @@ Props는 **모양 → 내용 → 상태·동작 → 배치 → HTML·접근성 �
 - 많은 목록을 페이지로 나눠 이동 → `Pagination`(링크는 `getHref`+`linkComponent`, 버튼은 `onChange`)
 - 배너·캐러셀·갤러리의 현재 위치 표시 → 점 `PageDots`(2~7개) · 숫자 `PageCounter`(8개 이상)
 - 필터·조건 칩 하나(선택 상태 있음, 여러 개 고르기 등) → `Chip`(행동은 `Button`)
-- 날짜 고르기·일정 있는 날 점 표시(달력) → `Calendar`(임시, 날짜는 `YYYY-MM-DD` 문자열, `today` 필수)
+- 날짜 고르기·일정 있는 날 점 표시(달력) → `Calendar`(디자인 시안 확정 전, 날짜는 `YYYY-MM-DD` 문자열, `today` 필수)
 - 날짜별 일정을 가로로 넘겨 보고 하루를 고르기(시장·언락 일정) → `Diary`(`start`·`today` 필수, 일정은 `events`)
 - 입력 칸을 누르면 달력이 뜨고 고른 날짜가 칸에 들어가기(폼의 날짜 입력) → `DatePicker`(TextField + Popover + Calendar, 라벨 내장, 직접 입력 가능, `today` 필수)
 - 파일 올리기(끌어다 놓기·버튼으로 고르기, 올린 파일 목록) → `FileUploader`(모양 `layout`: 넓은 화면 `dropzone` · 모바일 웹 `button`, 구간별 `{ base: "button", tablet: "dropzone" }`) + 목록 한 줄 `FileItem` + 상태는 `useFileUpload`(라벨·도움말·상태·크기는 TextField와 같은 이름, Label 내장)
@@ -100,7 +100,7 @@ Props는 **모양 → 내용 → 상태·동작 → 배치 → HTML·접근성 �
 ### [선택](guide/selection.md)
 
 - `Calendar` — 날짜 선택 달력(일정 점, 공휴일, min·max, 키보드 이동, 임시)
-- `Diary` — 날짜별 일정을 가로로 넘겨 보는 날짜 칸 줄(요일·날짜·일정 뱃지, 오늘·공휴일·선택·지난 날, `+N`, 끌어서 넘김)
+- `Diary` — 날짜별 일정을 가로로 넘겨 보는 날짜 칸 줄(요일·날짜·일정 칩, 오늘·공휴일·선택·지난 날, `+N`, 끌어서 넘김)
 - `FileUploader` — 파일을 끌어다 놓거나 골라 올리는 입력(모양 `layout` dropzone·button 구간별, 3크기·구간별, normal·negative, 끌어 올리면 파란 점선, `accept` 거르기, 폼 제출)
 - `FileItem` — 올린 파일 한 줄(대기·올리는 중 진행 막대·완료·실패와 다시 시도, 썸네일, 취소·삭제, 3크기, 서버 컴포넌트 가능)
 - `DatePicker` — 날짜 입력 칸(누르면 달력 Popover, `YYYY-MM-DD`, 직접 입력·검증, min·max·disabledDates, TextField 속성 전부, 디자인 시안 확정 전)
@@ -141,7 +141,7 @@ Props는 **모양 → 내용 → 상태·동작 → 배치 → HTML·접근성 �
 - `Alert` — 꼭 확인해야 하는 일을 알리는 대화상자(제목·본문·버튼 1~2개). `useOverlay`로 열기를 권장
 - `useOverlay` — 오버레이(Alert 등)를 함수 호출로 여는 훅. 앱 최상단에 `OverlayProvider` 필요
 - `Toast` · `ToasterProvider` · `useToaster` — 행동 결과를 짧게 알리는 토스트(4종류, default·pill, 선택 버튼 `action` ghost·button, 앞 아이콘 켜고 끄기·교체). `useToaster`로 띄우고 앱 최상단에 `ToasterProvider` 필요(위치 top·bottom, offset)
-- `Popover` — 기준 요소 아래에 붙어 뜨는 상자(`trigger` 함수, 바깥 누르기·Esc 닫기, 아래 공간이 모자라면 위로, top layer라 overflow에 안 잘림, 디자인 시안 확정 전)
+- `Popover` — 기준 요소 아래에 붙어 뜨는 상자(`trigger` 함수, 바깥 누르기·Esc 닫기, 아래 공간이 모자라면 위로, top layer라 overflow에 안 잘림, 디자인 문서에는 없고 개발 편의로 제작)
 - `Tooltip` — hover·포커스로 짧은 보조 정보(이름·단축키)를 보여 주는 말풍선(위치 4 · 화살표 정렬 3 · 3크기)
 
 ### [훅](guide/hooks.md)

@@ -2,18 +2,21 @@ import type { Meta, StoryObj } from "@storybook/react-vite";
 import { expect, fn, userEvent } from "storybook/test";
 import { Diary } from "@futurewiz-rms/mint";
 
+// 코인 로고 대신 쓰는 동그란 이미지(SVG 데이터 주소)
+const coinImage =
+  "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16'%3E%3Crect width='16' height='16' fill='%23627eea'/%3E%3C/svg%3E";
 const TODAY = "2026-11-18";
 const events = {
-  "2026-11-15": [{ label: "언락" }, { label: "메인넷", color: "teal" as const }],
+  "2026-11-15": [{ label: "언락" }, { label: "메인넷" }],
   "2026-11-18": [
     { label: "언락" },
-    { label: "메인넷", color: "teal" as const },
+    { label: "메인넷" },
     { label: "상장" },
     { label: "에어드랍" },
     { label: "점검" },
   ],
   "2026-11-19": [{ label: "언락" }],
-  "2026-11-20": [{ label: "언락" }, { label: "메인넷", color: "teal" as const }, { label: "상장" }],
+  "2026-11-20": [{ label: "언락" }, { label: "메인넷" }, { label: "상장" }],
 };
 
 const meta = {
@@ -86,6 +89,16 @@ export const DisablePast: Story = {
 export const MoreEvents: Story = {
   play: async ({ canvas }) => {
     await expect(canvas.getByRole("button", { name: /11월 18일.*일정 5개/ })).toBeInTheDocument();
+  },
+};
+
+// 일정에 image를 주면 문구 앞에 16px 동그란 이미지가 붙는다
+export const WithImage: Story = {
+  args: {
+    events: {
+      "2026-11-17": [{ label: "ARB 언락", image: coinImage }],
+      "2026-11-18": [{ label: "ARB 언락", image: coinImage }, { label: "점검" }],
+    },
   },
 };
 

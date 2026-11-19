@@ -5,8 +5,8 @@ import { DoDont } from "./DoDont";
 import { jsx, Playground } from "./Playground";
 
 const sampleEvents = {
-  "2026-11-15": [{ label: "언락" }, { label: "메인넷", color: "teal" as const }],
-  "2026-11-18": [{ label: "언락" }, { label: "메인넷", color: "teal" as const }, { label: "상장" }],
+  "2026-11-15": [{ label: "언락" }, { label: "메인넷" }],
+  "2026-11-18": [{ label: "언락" }, { label: "메인넷" }, { label: "상장" }],
   "2026-11-20": [{ label: "언락" }],
 };
 
@@ -55,17 +55,13 @@ export function DiaryGuide() {
           count={3}
           today="2026-11-18"
           events={{
-            "2026-11-18": [
-              { label: "언락" },
-              { label: "메인넷", color: "teal" },
-              { label: "상장" },
-            ],
+            "2026-11-18": [{ label: "언락" }, { label: "메인넷" }, { label: "상장" }],
           }}
           start="2026-11-18"
           style={{ maxWidth: 288 }}
         />
       }
-      goodText={<>뱃지는 2개까지만 보이고 나머지는 +N으로 알려요.</>}
+      goodText={<>칩은 2개까지만 보이고 나머지는 +N으로 알려요.</>}
       bad={
         <Diary
           count={3}

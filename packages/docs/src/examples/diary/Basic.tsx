@@ -11,7 +11,7 @@ export default function Basic() {
         value={date}
         today="2026-11-18"
         events={{
-          "2026-11-18": [{ label: "언락" }, { label: "메인넷", color: "teal" }],
+          "2026-11-18": [{ label: "언락" }, { label: "메인넷" }],
           "2026-11-20": [{ label: "언락" }],
         }}
         start="2026-11-15"
