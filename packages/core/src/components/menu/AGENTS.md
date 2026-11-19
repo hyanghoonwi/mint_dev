@@ -31,7 +31,7 @@
 - **Box로 만듦**: 겉 상자(`tone="outline"` · `radius={12}` · `overflow="hidden"` + `bg-fill-white`), 항목 영역(`padding={8}`, 셀 여백 12는 Box 단계에 없어서 `className="p-3"` · `overflow="scroll"`), 하단 액션 줄(`direction="horizontal"` · `align="center"` · `justify="between"`), 그룹이 모두 `Box`입니다. 모양을 바꿀 때는 Box의 prop·토큰 클래스로 바꿉니다.
 - **그룹 이름**: 위 8 · 아래 4 · 좌우 12, body-5 Medium, `text-tertiary`. 구분선은 좌우 8 · 위아래 4 여백의 1px입니다.
 - **하단 액션**: 높이 52, 위 테두리, 좌우 12 · 위아래 8, 양끝 정렬입니다. 왼쪽은 글자만 있는 `ghost` 버튼, 오른쪽은 브랜드 버튼(`Button size="sm"`, 높이 32 · label-3)을 씁니다.
-- **스크롤**: MINT 기본 스크롤바를 그대로 씁니다(스크롤바를 따로 꾸미지 않습니다). 항목 영역에만 `maxHeight`가 걸려서 하단 액션은 스크롤되지 않습니다.
+- **스크롤**: Mint 기본 스크롤바를 그대로 씁니다(스크롤바를 따로 꾸미지 않습니다). 항목 영역에만 `maxHeight`가 걸려서 하단 액션은 스크롤되지 않습니다.
 - **반응형**: `size`·`cellPadding`은 구간별 값을 받지 않습니다(화면 폭에 따라 자동으로 바뀌지 않는 컨트롤 밀도). 모바일에서는 `size="lg"`와 `className="w-full"`로 폭을 채웁니다.
 
 ## 접근성

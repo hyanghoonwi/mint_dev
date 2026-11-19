@@ -1,7 +1,7 @@
 "use client";
 
 // 입력한 글자·열림 상태를 가져서 클라이언트 컴포넌트다.
-// Figma에 없는 컴포넌트다(시안 확정 전에 제품 요구로 추가, 2026-11). TextField + Popover + Calendar를 묶어서
+// 디자인 시안이 확정되지 않은 컴포넌트다(시안 확정 전에 제품 요구로 추가, 2026-11). TextField + Popover + Calendar를 묶어서
 // "입력 칸을 누르면 달력이 뜨고, 고른 날짜가 칸에 들어가는" 동작을 한 번에 준다. 모양은 세 컴포넌트를 그대로 따른다.
 // 날짜는 문자열(`YYYY-MM-DD`)이고 오늘(`today`)은 사용하는 쪽이 넘긴다(렌더 중 현재 시각을 읽지 않는다).
 import { useEffect, useRef, useState, type KeyboardEvent } from "react";

@@ -33,7 +33,7 @@
 - **비활성(`disabled`)**: 아이콘이 `icon-disabled`로 바뀌고, `solid`는 회색 바탕(`fill-disabled`), `outline`은 연한 테두리(`border-disabled`)입니다.
 - **크기(`size`)**: `Button`과 같은 이름·높이입니다. `xs` 28 · `sm` 32 · `md` 40(기본) · `lg` 48, 아이콘은 14 · 16 · 20 · 24. 모두 원형입니다. **구간별 값**도 받습니다: `size={{ base: "sm", tablet: "md" }}`(빈 구간은 앞 구간 값을 이어받음). `variant`는 구간별 값을 받지 않습니다.
 - **뱃지(`badge`)**: 오른쪽 위 8px 빨간 점(`fill-danger`). 이름에 "(새 소식)"이 붙어 스크린리더에도 알립니다.
-- **아이콘(`icon`)**: MINT 아이콘 컴포넌트를 넘기면 크기가 버튼에 맞춰지고 색은 버튼이 정합니다.
+- **아이콘(`icon`)**: Mint 아이콘 컴포넌트를 넘기면 크기가 버튼에 맞춰지고 색은 버튼이 정합니다.
 
 ```tsx
 <IconButton icon={<XIcon />} aria-label="닫기" />

@@ -23,7 +23,7 @@
 
 - **크기(`size`)**: `xs` 28 · `sm` 32 · `md` 40(기본) · `lg` 48, 아이콘 14 · 16 · 20 · 24. 모두 원형이고 `IconButton`과 같습니다. 구간별 값도 받습니다(`{ base: "sm", desktop: "md" }`).
 - **색**: 꺼짐 `icon-default`(gray-700), 켜짐 `icon-brand`(blue-600), hover·누름 원형 바탕 `fill-neutral-weak`(gray-100), 비활성 `icon-disabled`(gray-400, 켜짐·꺼짐 모두).
-- **아이콘(`icon`)**: MINT 아이콘 요소(`<StarIcon />`)를 넘기면 켜질 때 같은 아이콘에 `variant="fill"`을 줘서 채움으로 그립니다. MINT 아이콘이 아니면 `activeIcon`을 함께 넘깁니다.
+- **아이콘(`icon`)**: Mint 아이콘 요소(`<StarIcon />`)를 넘기면 켜질 때 같은 아이콘에 `variant="fill"`을 줘서 채움으로 그립니다. Mint 아이콘이 아니면 `activeIcon`을 함께 넘깁니다.
 
 ```tsx
 // 비제어: 컴포넌트가 상태를 가진다

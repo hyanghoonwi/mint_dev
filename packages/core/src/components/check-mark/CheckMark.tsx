@@ -12,7 +12,7 @@ import {
 } from "../../utils/responsive";
 
 /** 눌리는 CheckMark가 스크린리더에 읽히는 역할. `option`은 `aria-selected`, 나머지는 `aria-checked`로 상태를 알린다 */
-/** Figma Size: XSmall(아이콘 16) · Small(20, 기본) · Medium(24) · Large(32). 기본이 Figma의 Small이라 MINT의 `md` 기본 규칙에서 예외다(2026-11 결정) */
+/** Figma Size: XSmall(아이콘 16) · Small(20, 기본) · Medium(24) · Large(32). 기본이 Figma의 Small이라 Mint의 `md` 기본 규칙에서 예외다(2026-11 결정) */
 export type CheckMarkSize = "xs" | "sm" | "md" | "lg";
 
 export type CheckMarkRole = "checkbox" | "radio" | "option" | "menuitemcheckbox" | "menuitemradio";

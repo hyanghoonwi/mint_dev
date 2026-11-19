@@ -58,6 +58,6 @@
 - **`Pagination`** — 많은 데이터를 페이지로 나눠 보여 줄 때의 페이지 이동(3~4화면 이내 분량이면 쓰지 않음). 서버 컴포넌트에서 쓸 수 있습니다(`"use client"` 없음).
   - `page`(현재, 1부터)·`total`(전체 페이지 수) 필수. `total <= 1`이면 그리지 않음
   - 링크: `getHref={(page) => "?page=" + page}` + Next.js는 `linkComponent={Link}`(서버 컴포넌트 그대로). 버튼: `onChange={setPage}`(클라이언트 컴포넌트)
-  - `variant`: `extended`(9칸) · `compact`(7칸). 값 하나 또는 구간별 객체(`{ base: "compact", desktop: "extended" }`). 기본 `{ base: "compact", tablet: "extended" }`(768px 미만 compact). Figma는 480px 기준이지만 MINT 구간은 `tablet:`(768)·`desktop:`(1024)뿐
+  - `variant`: `extended`(9칸) · `compact`(7칸). 값 하나 또는 구간별 객체(`{ base: "compact", desktop: "extended" }`). 기본 `{ base: "compact", tablet: "extended" }`(768px 미만 compact). Figma는 480px 기준이지만 Mint 구간은 `tablet:`(768)·`desktop:`(1024)뿐
   - 번호 배치는 자동(처음·끝 + 현재 주변, 칸 수 고정). 현재 페이지 `aria-current="page"`, 첫·마지막의 이전·다음은 자동 비활성
   - 금지: 모바일에서 extended 고정. 상세 규칙은 `components/pagination/AGENTS.md`

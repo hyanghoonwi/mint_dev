@@ -11,7 +11,7 @@
   - `action`(필수): 하단 버튼 영역에 들어갈 `ReactNode`. `Button`을 1~2개 직접 넣어 조합합니다(오른쪽 끝 정렬, 간격 8). 취소 같은 보조 행동은 `color="secondary"`로 앞에, 주된 행동은 뒤에 둡니다. 위험한 일은 주된 버튼을 `color="destructive"`로 합니다. 버튼 이름은 "삭제"·"취소"처럼 행동을 그대로 씁니다. 닫는 것은 각 버튼의 `onClick`에서 `open`을 바꿔서 합니다
   - 정보만 알리는 일에는 쓰지 않습니다. 같은 일을 하는 버튼을 두 개 두지 않습니다
 - **`OverlayProvider`** — `useOverlay`로 연 오버레이를 그리는 자리. 앱 최상단(`app/layout.tsx`)을 한 번 감쌉니다(`<OverlayProvider>{children}</OverlayProvider>`). `"use client"`가 달려 있어 서버 레이아웃에서 바로 import해도 됩니다. Provider가 사라지면 기다리던 `openAsync`는 `undefined`로 끝납니다.
-- **`useOverlay`** — Alert 같은 오버레이를 함수 안에서 엽니다(FDS `useOverlay`와 같은 API). 클라이언트 컴포넌트에서 씁니다. `OverlayProvider` 밖에서 쓰면 오류를 던집니다. 앱 전체가 같은 API를 쓰므로 어느 컴포넌트에서 연 것이든 id로 닫을 수 있습니다.
+- **`useOverlay`** — Alert 같은 오버레이를 함수 안에서 엽니다(함수 호출로 열고 id로 닫는 방식). 클라이언트 컴포넌트에서 씁니다. `OverlayProvider` 밖에서 쓰면 오류를 던집니다. 앱 전체가 같은 API를 쓰므로 어느 컴포넌트에서 연 것이든 id로 닫을 수 있습니다.
   - `overlay.open(render, options?)`(id 반환), `overlay.openAsync<T>(render, options?)`(닫을 때 `close(value)`의 값을 `Promise`로 반환, 값 없이 닫히거나 `exit`·`closeAll`로 닫히면 `undefined`), `overlay.close(id)`, `overlay.exit(id)`(즉시 제거), `overlay.closeAll()`
   - `render`는 `({ isOpen, close, overlayId, exit }) => 노드`. Alert의 `open`에 `isOpen`, `onClose`에 `close`를 연결합니다. 버튼에는 `onClick={() => close()}`처럼 감싸서 넘깁니다(이벤트가 값으로 넘어가지 않게)
   - `options`: `overlayId`(같은 id가 이미 열려 있으면 새로 열지 않음 → 중복 열림 방지. `openAsync`는 진행 중인 Promise를 그대로 돌려줌), `exitDelay`(닫은 뒤 제거까지 ms, 기본 0)
@@ -29,12 +29,12 @@
   - `position`: `bottom`(기본, 아래 가운데) · `top`(위 가운데). 새 토스트가 화면 가장자리 쪽에 붙습니다
   - `offset`: 가장자리에서 띄우는 거리(px, 기본 20). 하단 고정 버튼·탭 바·헤더를 가리지 않게 늘립니다(안전 영역은 자동으로 더함)
   - `limit`(기본 3, 넘치면 오래된 것부터 사라짐) · `duration`(기본 시간, 기본 3000ms, 가이드 2~4초) · `actionDuration`(버튼이 있는 토스트의 기본 시간, 기본 5000ms) · `shape`(기본 모양)
-- **`useToaster`** — 토스트를 함수 호출로 띄웁니다(FDS `useToast`와 같은 구조). 클라이언트 컴포넌트에서 씁니다. `ToasterProvider` 밖에서 쓰면 오류를 던집니다
+- **`useToaster`** — 토스트를 함수 호출로 띄웁니다(함수 호출로 띄우고 id로 닫는 방식). 클라이언트 컴포넌트에서 씁니다. `ToasterProvider` 밖에서 쓰면 오류를 던집니다
   - `toaster(message, options?)`(id 반환) · `toaster.normal` · `toaster.positive` · `toaster.cautionary` · `toaster.negative` · `toaster.dismiss(id?)`(생략하면 모두)
   - `options`: `id`(같은 id가 떠 있으면 새로 쌓지 않고 내용·시간을 새로 고침) · `variant` · `shape` · `icon` · `action`(`ghost`·`button`) · `actionLabel` · `onAction`(부른 뒤 자동으로 닫힘) · `duration`(`null`이면 닫을 때까지) · `onClose`
   - 마우스를 올리거나 포커스가 있는 동안 멈춥니다. negative는 `role="alert"`, 나머지는 `role="status"`
   - 꼭 읽어야 하는 안내(Alert)에는 쓰지 않습니다. 같은 토스트를 여러 번 띄울 수 있는 곳에는 `id`를 줍니다
-- **`Popover`** — 버튼·입력 칸 같은 기준 요소 바로 아래에 붙어 뜨는 상자(**Figma 시안 확정 전**, 2026-11 추가. 상자는 Box `elevation="floating"`·모서리 12로 Select 목록과 같은 모양, 자식은 원래 폭대로 위아래로 쌓임). 화면을 막지 않는 필터·정렬·짧은 설정에 씁니다. 화면을 막고 꼭 확인할 내용은 Modal(`useOverlay`)입니다. 클라이언트 컴포넌트이고 `trigger`가 함수라서 `"use client"` 컴포넌트 안에서 씁니다. 상세 규칙은 `components/popover/AGENTS.md`
+- **`Popover`** — 버튼·입력 칸 같은 기준 요소 바로 아래에 붙어 뜨는 상자(**디자인 문서에는 없고 개발상 편의를 위해 제작**, 2026-11 추가. 상자는 Box `elevation="floating"`·모서리 12로 Select 목록과 같은 모양, 자식은 원래 폭대로 위아래로 쌓임). 화면을 막지 않는 필터·정렬·짧은 설정에 씁니다. 화면을 막고 꼭 확인할 내용은 Modal(`useOverlay`)입니다. 클라이언트 컴포넌트이고 `trigger`가 함수라서 `"use client"` 컴포넌트 안에서 씁니다. 상세 규칙은 `components/popover/AGENTS.md`
   - `trigger`(필수): `(props) => ReactNode`. 받은 `onClick`·`aria-expanded`·`aria-controls`·`aria-haspopup`을 버튼·입력에 **그대로** 넘깁니다(`<Button {...props}>필터</Button>`). children을 덮어쓰는 방식이 아니라서 서버 컴포넌트 children의 hydration 문제가 없습니다
   - `children`: 상자 안 내용. `aria-label`로 상자 이름(`role="dialog"`)
   - `open`(제어)·`defaultOpen`·`onOpenChange(open)`: 트리거 누르기·바깥 누르기·Esc·포커스가 밖으로 나가면 닫힘. Esc로 닫으면 포커스가 트리거로 돌아감. 고른 뒤 닫으려면 제어로 쓰고 `setOpen(false)`

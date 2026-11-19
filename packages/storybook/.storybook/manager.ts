@@ -3,7 +3,7 @@ import { create } from "storybook/theming";
 
 const theme = create({
   base: "light",
-  brandTitle: "MINT",
+  brandTitle: "Mint",
   brandTarget: "_self",
 
   colorPrimary: "#00856F",

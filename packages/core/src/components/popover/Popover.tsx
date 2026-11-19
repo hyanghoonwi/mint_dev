@@ -1,7 +1,7 @@
 "use client";
 
 // 열림 상태·위치 계산·바깥 누르기·Esc를 다뤄서 클라이언트 컴포넌트다.
-// Figma에 없는 컴포넌트다(시안 확정 전에 제품 요구로 추가, 2026-11). 상자는 Box(`elevation="floating"` · 모서리 12 · 여백 16)로 만든다. Select 목록과 같은 떠 있는 모양이다.
+// 디자인 문서(Figma)에는 없고 개발상 편의를 위해 제작한 컴포넌트다(2026-11). 상자는 Box(`elevation="floating"` · 모서리 12 · 여백 16)로 만든다. Select 목록과 같은 떠 있는 모양이다.
 // 기준 요소(트리거) 아래에 붙는 화면을 막지 않는 상자다. 화면을 막는 대화 상자는 Modal(`useOverlay`)이다.
 // 브라우저 Popover API(`popover="manual"`, top layer)로 띄운다. DOM 위치는 그대로라 테마 토큰(data-theme)을 그대로 받고,
 // 부모의 overflow(Table·Modal 본문·스크롤 영역)에 잘리지 않는다. 위치는 기준 요소를 재서 fixed 좌표로 둔다(아래 공간이 모자라면 위로).

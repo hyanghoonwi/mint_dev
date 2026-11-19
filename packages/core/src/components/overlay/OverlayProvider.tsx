@@ -15,7 +15,7 @@ export interface OverlayProviderProps {
   children: ReactNode;
 }
 
-// FDS의 OverlayProvider와 같은 구현이다(API·동작을 맞춘다).
+// 앱 최상단에서 한 번 감싸면 어느 컴포넌트에서든 `useOverlay`로 열고 닫을 수 있다.
 // overlay를 DOM 안(Provider 위치)에 그린다. createPortal(document.body)을 쓰지 않는 이유:
 // 다크 모드 data-theme 스코프가 DOM 위치에 걸려 있을 수 있어 body로 빼면 테마 토큰이 내려오지 않는다.
 // Alert는 모달 <dialog>(showModal)라서 Provider 위치와 상관없이 화면 맨 위 레이어에 그려진다.

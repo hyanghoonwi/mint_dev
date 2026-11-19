@@ -47,7 +47,7 @@ function frameClasses({
   return cn(
     "relative flex w-full items-center gap-3 border text-left transition-[background-color,border-color]",
     sizes[size],
-    // Figma 그림자: 0 2 4 rgba(0,0,0,.08). MINT에는 그림자 토큰이 없다
+    // Figma 그림자: 0 2 4 rgba(0,0,0,.08). Mint에는 그림자 토큰이 없다
     shadow && "shadow-[0_2px_4px_rgba(0,0,0,0.08)]",
     disabled
       ? "cursor-not-allowed border-border-disabled bg-fill-disabled"

@@ -2,7 +2,7 @@
 
 `Radio`·`RadioGroup`을 쓰거나 고칠 때 **이 문서대로 쓰는 것을 권장**합니다. 출처는 Figma `Radio`(node `2204:17914`)와 `Radio Guidelines`(node `2204:18059`)입니다. Figma와 이 문서가 다르면 Figma가 맞습니다.
 
-- **여러 선택지 중에서 하나만 고르는 컨트롤**입니다. 선택지가 많으면 Select를, 켜고 끄는 설정이면 `Switch`를 씁니다(Select는 MINT에 아직 없음). 여러 개를 고르면 `Checkbox`입니다.
+- **여러 선택지 중에서 하나만 고르는 컨트롤**입니다. 선택지가 많으면 Select를, 켜고 끄는 설정이면 `Switch`를 씁니다(Select는 Mint에 아직 없음). 여러 개를 고르면 `Checkbox`입니다.
 - 클라이언트 컴포넌트(`"use client"`)입니다. 서버 컴포넌트에서 import해도 되지만 `onChange`는 클라이언트 컴포넌트에서 넘깁니다. `name`·`defaultValue`만 쓰는 폼(서버 액션 등)은 `onChange` 없이도 됩니다.
 - 진짜 `<input type="radio">`를 `<label>`로 감쌌습니다. 레이블을 눌러도 선택되고, 방향키·Space·폼 제출이 브라우저 기본 동작 그대로입니다.
 - **`RadioGroup`으로 묶어서 씁니다.** 그룹이 이름(`name`)과 선택 값(`value`·`defaultValue`·`onChange`)을 가지고, 선택지를 세로로 나열합니다(`role="radiogroup"`).
@@ -39,7 +39,7 @@
   | `sm`(기본) | 20 · 8            | Body 2 Regular(16/24)   | 40 · 24              |
   | `md`       | 24 · 10           | Body 1 Regular(17/28)   | 40 · 28              |
   | `lg`       | 32 · 12           | Heading 2 Medium(20/30) | 48 · 32              |
-  - 기본 크기는 Figma 기본인 `sm`(Small 20)입니다. MINT의 `md` 기본 규칙에서 예외입니다(2026-11 결정).
+  - 기본 크기는 Figma 기본인 `sm`(Small 20)입니다. Mint의 `md` 기본 규칙에서 예외입니다(2026-11 결정).
   - `RadioGroup`에 `size`를 주면 그룹 안 라디오가 모두 그 크기예요. 라디오마다 `size`를 주면 그 값이 우선입니다. 같은 그룹은 크기를 하나로 맞춥니다.
   - 구간별 값도 받습니다(`size={{ base: "md", desktop: "sm" }}`). `FramedRadio`의 원은 지금처럼 Small(20) 하나입니다.
 

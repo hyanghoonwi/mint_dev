@@ -112,7 +112,7 @@ export function Typeface() {
   );
 }
 
-/** 글자 스타일 견본. 보기 문장마다 실제 클래스를 그대로 써서 그린다(모든 글자 클래스가 MINT 스타일에 들어 있다) */
+/** 글자 스타일 견본. 보기 문장마다 실제 클래스를 그대로 써서 그린다(모든 글자 클래스가 Mint 스타일에 들어 있다) */
 export function TypeScale() {
   return (
     <div className="docs-type">

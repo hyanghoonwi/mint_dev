@@ -1,6 +1,6 @@
 "use client";
 
-// 요소가 화면(또는 스크롤 상자)에 들어왔는지 알려 준다. FDS `useInView`와 같은 API(react-intersection-observer 방식).
+// 요소가 화면(또는 스크롤 상자)에 들어왔는지 알려 준다. API는 react-intersection-observer 방식이다.
 // IntersectionObserver는 effect 안에서만 만든다(렌더 중 브라우저 API 금지). 서버 렌더에서는 `initialInView` 값이다.
 import { useCallback, useEffect, useRef, useState } from "react";
 

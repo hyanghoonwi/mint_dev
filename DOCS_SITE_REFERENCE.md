@@ -1,9 +1,9 @@
 # 문서 사이트 참고 자료: Toss TDS Mobile은 무엇으로 만들었나
 
 > 조사일: 2026-10-28
-> 목적: MINT의 docs를 Docusaurus 밖으로 옮길지 판단할 때 쓰는 참고 자료입니다. **docs 이전은 현재 보류 중**입니다.
+> 목적: Mint docs를 만들 때 문서 사이트 구성을 비교한 참고 자료입니다. **Mint docs는 이후 Nextra 4(Next.js App Router)로 옮겨 운영 중**입니다.
 
-MINT docs는 지금 Docusaurus입니다(`packages/docs`). SEED(당근)나 TDS(토스)처럼 직접 만든 문서 사이트를 쓰려면 "SSG + MDX 위에 무엇을 얹는가"를 정해야 해서, 두 사례를 실제 소스로 확인했습니다.
+조사 당시 Mint docs는 Docusaurus였고(`packages/docs`), 지금은 Nextra 4로 옮겼습니다. SEED(당근)나 TDS(토스)처럼 직접 만든 문서 사이트를 쓰려면 "SSG + MDX 위에 무엇을 얹는가"를 정해야 해서, 두 사례를 실제 소스로 확인했습니다.
 
 ## 한눈에 보기
 
@@ -11,7 +11,7 @@ MINT docs는 지금 Docusaurus입니다(`packages/docs`). SEED(당근)나 TDS(�
 | --------------- | --------------------------------- | --------------------------------- | ------------------------------------------ |
 | Toss TDS Mobile | **Nextra 2** + 직접 만든 컴포넌트 | Next.js Pages Router, 정적 사이트 | 배포된 페이지의 HTML과 JS 번들을 직접 분석 |
 | 당근 SEED       | **Fumadocs**                      | Next.js 16 (App Router)           | 공개 저장소 `docs/package.json`의 의존성   |
-| MINT (현재)     | Docusaurus 3                      | React (Next.js 아님)              | 이 저장소                                  |
+| Mint (현재)     | **Nextra 4** + 직접 만든 컴포넌트 | Next.js App Router                | 이 저장소(`packages/docs`)                 |
 
 ## Toss TDS Mobile
 
@@ -89,19 +89,19 @@ SEED 이름의 의미는 [디자인컴퍼스 기사](https://designcompass.org/2
 ## 두 사례의 공통점
 
 - **문서 엔진 위에 얹고 화면은 직접 만든다.** MDX를 처음부터 처리하는 곳은 없습니다(Nextra, Fumadocs).
-- **props 표를 TypeScript 타입에서 자동으로 만든다.** 표가 소스와 어긋나는 문제가 없습니다. MINT는 지금 표를 손으로 씁니다.
-- **예시 코드를 파일 하나에서 가져온다.** MINT가 이미 `<Example name="…" />`로 하는 방식과 같습니다.
+- **props 표를 TypeScript 타입에서 자동으로 만든다.** 표가 소스와 어긋나는 문제가 없습니다. Mint는 지금 표를 손으로 씁니다.
+- **예시 코드를 파일 하나에서 가져온다.** Mint가 이미 `<Example name="…" />`로 하는 방식과 같습니다.
 - 문서 사이트가 컴포넌트 라이브러리의 **실제 사용처**가 됩니다. 라이브러리를 Next.js에서 쓸 때 서버 컴포넌트 문제가 문서 빌드에서 바로 드러납니다.
 
-## MINT에 주는 시사점
+## Mint에 주는 시사점
 
 | 선택지                         | 장점                                                                   | 단점                                                                              |
 | ------------------------------ | ---------------------------------------------------------------------- | --------------------------------------------------------------------------------- |
-| Docusaurus 유지 (현재)         | 사이드바, 검색, 다크 모드, 깨진 링크 검사가 들어 있음. 이전 비용 없음  | 디자인을 바꾸기 어렵고 Infima CSS가 컴포넌트에 새어 들어옴                        |
-| Next.js + Fumadocs (SEED 방식) | 디자인 자유, props 표 자동화, App Router, MINT를 Next.js에서 실제 검증 | 처음 옮기는 작업이 있음                                                           |
-| Next.js + Nextra               | 토스가 쓰는 검증된 구성                                                | 토스 사이트는 Nextra 2(Pages Router)라 새로 시작하면 최신 버전을 따로 확인해야 함 |
+| Docusaurus 유지 (조사 당시)    | 사이드바, 검색, 다크 모드, 깨진 링크 검사가 들어 있음. 이전 비용 없음  | 디자인을 바꾸기 어렵고 Infima CSS가 컴포넌트에 새어 들어옴                        |
+| Next.js + Fumadocs (SEED 방식) | 디자인 자유, props 표 자동화, App Router, Mint를 Next.js에서 실제 검증 | 처음 옮기는 작업이 있음                                                           |
+| Next.js + Nextra (**채택**)    | 토스가 쓰는 검증된 구성                                                | 토스 사이트는 Nextra 2(Pages Router)라 새로 시작하면 최신 버전을 따로 확인해야 함 |
 
-옮기게 되면 먼저 챙길 것은 두 가지입니다.
+옮길 때 챙길 것으로 정리했던 두 가지입니다(Nextra로 옮긴 뒤의 현황은 루트 `AGENTS.md`의 "문서 규칙"을 따릅니다).
 
 1. `<Example>`을 만드는 remark 플러그인(`packages/docs/plugins/remark-example.ts`)은 remark 기반이라 그대로 옮길 수 있다.
 2. props 표는 TypeScript 타입에서 만드는 방식(`fumadocs-typescript` 등)으로 바꾸면 손으로 쓰는 `## Props` 표를 없앨 수 있다.

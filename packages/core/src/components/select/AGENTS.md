@@ -26,7 +26,7 @@
 
 - **칸(Figma Select Trigger)**: Large 높이 48 · 모서리 12 · 좌우 16 · Body 2 / Medium 40 · 10 · 16 · Body 3 / Small 32 · 8 · 12 · Body 4. 테두리 `border-strong`, 열림은 `border-focus`+위쪽 화살표, 오류(`negative`)는 `fill-danger` 테두리+경고 아이콘(20, 채움)+`text-danger` 도움말, 확인 완료(`positive`)는 `fill-success` 테두리+`text-success` 도움말(Figma Select에는 Negative까지만 있어서 Positive는 TextField에 맞춘 추가이고 아이콘은 없습니다). 열려 있어도 상태 색을 유지합니다(TextField와 같음). 읽기 전용은 `fill-disabled`·`border-disabled`에 값은 `text-strong`·화살표 없음, 비활성은 글자·아이콘·라벨·도움말이 모두 `disabled` 색입니다. 값은 `text-strong`, 안내 글자는 `text-tertiary`, 도움말은 Body 5 `text-secondary`입니다.
 - **칩**: 칸 안에 쌓는 경우는 만들지 않고(2026-11 결정) 칸 아래에만 나옵니다. 디자인 시스템 `Chip`(solid, `fill-neutral-medium` · `text-secondary`)을 그대로 쓰고 크기는 `size`와 이름을 맞춥니다(Select `lg` → Chip `lg` 40 · `md` → 32 · `sm` → 28). 칩을 누르면 지워지고(`aria-label="○○ 삭제"`, 토글이 아니라서 `aria-pressed` 없음) 많으면 줄바꿈됩니다. 비활성·읽기 전용에서는 칩이 눌리지 않습니다. Figma의 Chip Position=Inside·Overflow(Ellipsis·Wrap)는 만들지 않았습니다.
-- **목록(Select Menu)**: 바탕 `background-floated`, 모서리 12, 안쪽 8, 그림자 `shadow-floating`, 칸 폭과 같고 칸 아래 4px에서 시작합니다. 최대 높이 기본 320에서 스크롤(MINT 기본 스크롤바).
+- **목록(Select Menu)**: 바탕 `background-floated`, 모서리 12, 안쪽 8, 그림자 `shadow-floating`, 칸 폭과 같고 칸 아래 4px에서 시작합니다. 최대 높이 기본 320에서 스크롤(Mint 기본 스크롤바).
 - **항목(Select Item)**: 모서리 8, 좌우 16, 앞뒤 간격 12. 높이 Large 최소 48(위아래 12) · Medium 40(8) · Small 32(4), 글자 Body 2 · 3 · 4. 안 고른 항목은 Regular `text-strong`, 고른 항목은 `fill-brand-weak` 바탕 + Medium `text-brand` + 오른쪽 체크(`SelectedCheckIcon`, 20, 선 2, `icon-brand`)입니다. 설명은 Body 5 `text-secondary`이고, 설명이 있으면 앞·뒤 요소가 위쪽에 맞춰집니다(Figma Align Top). 안 고른 항목의 hover·누름 색은 Figma에 없어서 `fill-neutral-weak`입니다. 그룹 이름은 좌우 16 · 위 8 · 아래 4 Body 5 Medium `text-tertiary`, 그룹 사이 가로선은 좌우 16 · 위아래 4입니다.
 
 ## 접근성

@@ -3,7 +3,7 @@
 // Colors 페이지의 색 목록. Semantic / Atomic 탭으로 나눈다.
 //  - Atomic: Figma `Color - Atomic`(6:2) 견본 모양(색 칸 · 이름 · 값 · 흰 배경 대비 · 용도) + `Token`(18:2) 표
 //  - Semantic: `Token` 표 모양에 실제로 쓰는 클래스 이름(bg-fill-brand 등)을 적는다
-// 색 값은 MINT 스타일의 CSS 변수에서 읽는다(문서에 숫자를 따로 적지 않아서 실제 값과 어긋나지 않는다).
+// 색 값은 Mint 스타일의 CSS 변수에서 읽는다(문서에 숫자를 따로 적지 않아서 실제 값과 어긋나지 않는다).
 // 브라우저에서만 읽을 수 있어서 서버 렌더에서는 빈 값이고, 화면이 뜬 뒤 채워진다.
 import { useMemo, useSyncExternalStore } from "react";
 import { atomicSections } from "./atomicColors";

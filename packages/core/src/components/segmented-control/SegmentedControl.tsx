@@ -165,7 +165,7 @@ export function SegmentedControl({
     ? selected
     : items.find((item) => !item.disabled)?.value;
 
-  // 흰 칩은 항목 위가 아니라 트랙에 하나만 두고, 선택이 바뀌면 옆으로 미끄러진다(FDS와 같은 움직임).
+  // 흰 칩은 항목 위가 아니라 트랙에 하나만 두고, 선택이 바뀌면 옆으로 미끄러진다.
   // 항목이 모두 같은 폭이라 위치를 재지 않고 "순번 × 칩 폭"으로 옮긴다: 서버 렌더 첫 화면부터 제자리이고, 폭이 바뀌어도 어긋나지 않는다
   const selectedIndex = items.findIndex((item) => item.value === selected);
 

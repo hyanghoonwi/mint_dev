@@ -76,7 +76,7 @@ type ChipVariantProps = VariantProps<typeof chipVariants>;
 export type ChipSize = "lg" | "md" | "sm";
 
 // 크기: Large 40 · Medium 32 · Small 28, 아이콘·이미지 16(Small 14). 좌우 여백·모서리는 모양(shape)마다 다르다.
-// Large Square의 모서리 10은 Figma 값(MINT 반경 토큰에는 10이 없다). 32·28은 터치 화면에서 눌림 영역만 44px로 넓힌다.
+// Large Square의 모서리 10은 Figma 값(Mint 반경 토큰에는 10이 없다). 32·28은 터치 화면에서 눌림 영역만 44px로 넓힌다.
 // 값 하나 또는 구간별 객체를 받는다(utils/responsive.ts). 구간마다 클래스를 통째로 적은 표를 쓴다
 
 const squareSizeClasses: ResponsiveClassTable<ChipSize> = {

@@ -1,6 +1,6 @@
 "use client";
 
-// FDS ToastProvider와 같은 구조다(useToaster로 띄우고, 정해진 시간 뒤 사라지고, hover·포커스 동안 멈춘다).
+// useToaster로 띄우고, 정해진 시간 뒤 사라지고, hover·포커스 동안 멈춘다.
 // 예전 Toast·Snackbar를 합친 Toast 하나만 그린다(2026-11). 버튼이 있는 토스트(`action`)도 같은 자리에 같은 방식으로 쌓인다.
 // 목록은 브라우저에서 띄울 때만 생기므로 서버 렌더 결과에는 영향이 없다.
 import { useEffect, useMemo, useRef, useState } from "react";

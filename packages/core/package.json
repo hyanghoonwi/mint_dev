@@ -1,7 +1,7 @@
 {
   "name": "@futurewiz-rms/mint",
   "version": "0.1.0",
-  "description": "MINT Design System — 크립토랩(Next.js 반응형 사이트)용 React 컴포넌트와 디자인 토큰",
+  "description": "Mint Design System — CryptoLabs(Next.js 반응형 사이트)용 React 컴포넌트와 디자인 토큰",
   "license": "UNLICENSED",
   "repository": {
     "type": "git",

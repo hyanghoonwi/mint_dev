@@ -3,7 +3,7 @@
 `Toast`·`ToasterProvider`·`useToaster`를 쓰거나 고칠 때 **이 문서대로 쓰는 것을 권장**합니다. 출처는 Figma `Toast`(node `2504:126500`: Variant 4 × Shape 2 × Action 3, Leading icon, Customize message·icon)와 `Toast Guidelines`(node `2314:38233`)입니다. Figma와 이 문서가 다르면 Figma가 맞습니다.
 
 - **사용자 행동의 결과를 짧게 알리는 메시지**입니다. 화면 가장자리에 나타났다가 일정 시간 뒤 사라집니다. 예전의 Toast와 Snackbar를 **하나로 합쳤습니다**(2026-11): 버튼이 필요하면 `action`으로 더합니다.
-- 띄우는 방법은 `useToaster` 하나입니다. 앱 최상단(`app/layout.tsx`)을 `ToasterProvider`로 한 번 감쌉니다(FDS `ToastProvider`·`useToast`와 같은 구조).
+- 띄우는 방법은 `useToaster` 하나입니다. 앱 최상단(`app/layout.tsx`)을 `ToasterProvider`로 한 번 감쌉니다(함수 호출로 띄우고 id로 닫습니다).
 - `Toast`는 모양만 그리는 표시 컴포넌트(`"use client"` 없음)이고, `ToasterProvider`·`useToaster`는 클라이언트 전용입니다.
 
 ## Alert와 차이

@@ -25,7 +25,7 @@
 - **`ToggleIcon`** — 눌러서 켜고 끄는 아이콘(관심 코인, 좋아요, 북마크). 켜짐 상태를 가질 수 있어서 `"use client"`가 붙은 클라이언트 컴포넌트지만, 서버 컴포넌트에서 `defaultActive`만 넘겨 바로 써도 됩니다(`onActiveChange`를 넘길 때만 클라이언트 컴포넌트 안에서 씁니다).
   - `size`: `xs` 28 · `sm` 32 · `md` 40(기본) · `lg` 48(IconButton과 같음). 값 하나 또는 구간별 객체(`{ base: "sm", desktop: "md" }`). 카드 위 `md`, 목록 `sm`. `xs`·`sm`은 터치 눌림 영역 44px
   - `icon`(필수): 선 모양 아이콘 요소(`<StarIcon />`). 켜지면 같은 아이콘을 `variant="fill"`로 바꿔 그립니다. 크기·색은 컴포넌트가 맞춥니다
-  - `activeIcon`: 켜졌을 때 따로 보여 줄 아이콘(MINT 아이콘이 아닐 때만)
+  - `activeIcon`: 켜졌을 때 따로 보여 줄 아이콘(Mint 아이콘이 아닐 때만)
   - `active`·`onActiveChange`: 제어 방식. 생략하면 `defaultActive`(기본 false)로 컴포넌트가 상태를 가집니다
   - `aria-label`(필수): 상태와 관계없이 같은 이름("관심 코인"). 켜짐은 `aria-pressed`로 읽힙니다
   - 색: 꺼짐 `icon-default`, 켜짐 `icon-brand`, hover·누름 원형 `fill-neutral-weak` 바탕, 비활성 `icon-disabled`

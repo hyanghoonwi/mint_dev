@@ -25,7 +25,7 @@
 | 내용 | Checkbox, Radio, Select Item을 담아요 | 아이콘, 라벨, 값을 담아요 |
 | 선택 | 선택된 틀이 테두리로 강조돼요         | 선택은 체크로 표시해요    |
 
-List Cell은 MINT에 아직 없습니다.
+List Cell은 Mint에 아직 없습니다.
 
 ## 구성
 

@@ -146,7 +146,7 @@ const radiusClasses: Record<`${BoxRadius}`, string> = {
   full: "rounded-full",
 };
 
-// Scroll은 넘치는 방향으로 스크롤된다(MINT 기본 스크롤바)
+// Scroll은 넘치는 방향으로 스크롤된다(Mint 기본 스크롤바)
 const overflowClasses = {
   visible: "",
   hidden: "overflow-hidden",
