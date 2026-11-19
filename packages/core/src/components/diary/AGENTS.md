@@ -3,7 +3,7 @@
 `Diary`를 쓰거나 고칠 때 이 문서를 따릅니다.
 
 - **출처(Figma)**: `Calendar Day Cell` 2493:124392 외 변형 14개(Tone × Selected × State), `Calendar Day Strip` 2493:124561, 가이드라인 `Diary Guidelines` 2467:122780. Figma 이름은 `Calendar Day Cell`이지만 코드 이름은 `Diary`입니다(2026-11 결정).
-- **한 줄 성격**: 날짜별 일정을 가로로 넘겨 볼 때 쓰는 날짜 칸 줄. 요일·날짜·일정 칩이 한 칸에 쌓이고, 누르면 그날 일정을 엽니다.
+- **한 줄 성격**: 날짜별 일정을 가로로 넘겨 볼 때 쓰는 날짜 칸 줄. 보여 주는 기간은 **오늘 3일 전부터 오늘 2개월 뒤까지**로 고정입니다(2026-11 결정). 요일·날짜·일정 칩이 한 칸에 쌓이고, 누르면 그날 일정을 엽니다.
 
 ## 언제 쓰나요
 
@@ -24,6 +24,8 @@
 | 더보기   | `+N` = `fill-neutral-pressed` 칩(여백 가로 6 세로 2 · Caption 2 SemiBold · `text-on-fill`). 보이는 칩은 최대 2개(`maxEvents`)                                         |
 | 가장자리 | 넘친 쪽만 흐림(왼쪽 24 · 오른쪽 28, `background-default`에서 투명으로)                                                                                                |
 
+기간: 첫 칸은 `today`−3일, 마지막 칸은 `today`+2개월(양 끝 포함, 그 달에 같은 날이 없으면 마지막 날. 예: 12-31 → 다음 해 2-28)입니다. 시작일·칸 수는 받지 않습니다. 날짜가 `today`에서 정해지므로 서버·브라우저 결과가 같습니다.
+
 Tone은 prop이 아니라 날짜에서 정해집니다: `today`와 같으면 Today, 일요일·`holidays`에 있으면 Holiday, 나머지 Default. 오늘이 일요일이어도 Today가 먼저입니다. Disabled는 `min`보다 앞선 날과 `disabledDates`입니다.
 
 ## 접근성
@@ -42,9 +44,9 @@ Tone은 prop이 아니라 날짜에서 정해집니다: `today`와 같으면 Tod
 
 ## Props 요약
 
-`start`(필수) · `count`(7) · `today`(필수) · `value`·`defaultValue`·`onChange` · `events`(`{ label, image? }`) · `maxEvents`(2) · `holidays` · `min` · `disabledDates` · `className`.
+`today`(필수) · `value`·`defaultValue`·`onChange` · `events`(`{ label, image? }`) · `maxEvents`(2) · `holidays` · `min` · `disabledDates` · `className`.
 
 ## 개발 메모
 
 - 반응형 prop은 없습니다. 칸 크기(96×142)는 Figma 고정값이고 화면 폭은 가로 스크롤이 흡수합니다.
-- Figma에 없는 것을 코드에서 더했습니다(2026-11): `events`의 `image`(칩 앞 이미지는 Figma 변형 속성이라 주소로 받음), `holidays`·`disabledDates`·`min` 데이터 입력, 접근성 이름. 시안에서 칸 키보드 이동(←→)은 아직 정하지 않아 Tab 이동만 있습니다.
+- Figma에 없는 것을 코드에서 더했습니다(2026-11): `events`의 `image`(칩 앞 이미지는 Figma 변형 속성이라 주소로 받음), `holidays`·`disabledDates`·`min` 데이터 입력, 접근성 이름. `start`·`count`를 없애고 기간을 고정했습니다(2026-11, 정식 배포 전이라 호환 처리 없음). 시안에서 칸 키보드 이동(←→)은 아직 정하지 않아 Tab 이동만 있습니다.

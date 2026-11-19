@@ -354,10 +354,11 @@ const components: { name: string; group: string; to: string; preview: ReactNode 
     preview: (
       <span aria-hidden="true" style={{ display: "block", width: 240, pointerEvents: "none" }}>
         <Diary
-          count={3}
           today="2026-11-18"
-          events={{ "2026-11-18": [{ label: "언락" }, { label: "메인넷" }] }}
-          start="2026-11-17"
+          events={{
+            "2026-11-15": [{ label: "언락" }, { label: "메인넷" }],
+            "2026-11-16": [{ label: "상장" }],
+          }}
         />
       </span>
     ),

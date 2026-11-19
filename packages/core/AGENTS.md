@@ -42,7 +42,7 @@ Props는 **모양 → 내용 → 상태·동작 → 배치 → HTML·접근성 �
 - 배너·캐러셀·갤러리의 현재 위치 표시 → 점 `PageDots`(2~7개) · 숫자 `PageCounter`(8개 이상)
 - 필터·조건 칩 하나(선택 상태 있음, 여러 개 고르기 등) → `Chip`(행동은 `Button`)
 - 날짜 고르기·일정 있는 날 점 표시(달력) → `Calendar`(디자인 시안 확정 전, 날짜는 `YYYY-MM-DD` 문자열, `today` 필수)
-- 날짜별 일정을 가로로 넘겨 보고 하루를 고르기(시장·언락 일정) → `Diary`(`start`·`today` 필수, 일정은 `events`)
+- 날짜별 일정을 가로로 넘겨 보고 하루를 고르기(시장·언락 일정) → `Diary`(`today` 필수, 오늘 3일 전~2개월 뒤 고정, 일정은 `events`)
 - 입력 칸을 누르면 달력이 뜨고 고른 날짜가 칸에 들어가기(폼의 날짜 입력) → `DatePicker`(TextField + Popover + Calendar, 라벨 내장, 직접 입력 가능, `today` 필수)
 - 파일 올리기(끌어다 놓기·버튼으로 고르기, 올린 파일 목록) → `FileUploader`(모양 `layout`: 넓은 화면 `dropzone` · 모바일 웹 `button`, 구간별 `{ base: "button", tablet: "dropzone" }`) + 목록 한 줄 `FileItem` + 상태는 `useFileUpload`(라벨·도움말·상태·크기는 TextField와 같은 이름, Label 내장)
 - 버튼·입력 칸 아래에 붙어 뜨는 상자(필터·정렬·짧은 설정, 화면을 막지 않음) → `Popover`(화면을 막는 대화 상자는 Modal. 날짜는 `DatePicker`, 목록 하나 고르기는 `Select`를 먼저)

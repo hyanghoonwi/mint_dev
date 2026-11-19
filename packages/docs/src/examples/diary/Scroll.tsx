@@ -6,10 +6,8 @@ export default function Scroll() {
   return (
     <Box className="w-[280px]">
       <Diary
-        count={14}
         today="2026-11-18"
         events={{ "2026-11-20": [{ label: "언락" }], "2026-11-24": [{ label: "상장" }] }}
-        start="2026-11-15"
       />
     </Box>
   );

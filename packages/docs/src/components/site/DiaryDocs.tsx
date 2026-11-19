@@ -15,30 +15,25 @@ export function DiaryPlayground() {
     <Playground
       stageMinHeight={220}
       controls={[
-        { prop: "count", type: "select", options: [3, 7, 14], default: 7 },
         { prop: "disablePast", type: "boolean", default: false },
         { prop: "maxEvents", type: "select", options: [1, 2, 3], default: 2 },
       ]}
       render={(values) => (
         <Diary
-          count={values.count as number}
           today="2026-11-18"
           holidays={{ "2026-11-17": "임시 공휴일" }}
           min={values.disablePast ? "2026-11-18" : undefined}
           events={sampleEvents}
           maxEvents={values.maxEvents as number}
-          start="2026-11-15"
           style={{ maxWidth: 672 }}
         />
       )}
       code={(values) =>
         jsx("Diary", {
-          count: values.count !== 7 ? (values.count as number) : undefined,
           today: "2026-11-18",
           min: values.disablePast ? "2026-11-18" : undefined,
           events: { expr: '{ "2026-11-18": [{ label: "언락" }] }' },
           maxEvents: values.maxEvents !== 2 ? (values.maxEvents as number) : undefined,
-          start: "2026-11-15",
           onChange: { expr: "setDate" },
         })
       }
@@ -52,24 +47,20 @@ export function DiaryGuide() {
     <DoDont
       good={
         <Diary
-          count={3}
           today="2026-11-18"
           events={{
             "2026-11-18": [{ label: "언락" }, { label: "메인넷" }, { label: "상장" }],
           }}
-          start="2026-11-18"
           style={{ maxWidth: 288 }}
         />
       }
       goodText={<>칩은 2개까지만 보이고 나머지는 +N으로 알려요.</>}
       bad={
         <Diary
-          count={3}
           today="2026-11-18"
           events={{
             "2026-11-18": [{ label: "A 프로젝트 메인넷 언락" }, { label: "B 거래소 상장 예정" }],
           }}
-          start="2026-11-18"
           style={{ maxWidth: 288 }}
         />
       }

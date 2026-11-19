@@ -3,11 +3,19 @@
 // 선택한 날(상태)과 가로 스크롤 위치(가장자리 흐림)를 가져서 클라이언트 컴포넌트다.
 // 출처: Figma `Calendar Day Cell`(2493:124392 변형 14개)·`Calendar Day Strip`(2493:124561). 이름은 `Diary`로 정했다(2026-11 결정).
 // 날짜는 모두 문자열(`YYYY-MM-DD`)이고, 오늘(`today`)은 사용하는 쪽이 넘긴다(렌더 중 현재 시각을 읽지 않는다).
+// 보여 주는 기간은 오늘 3일 전 ~ 오늘 2개월 뒤로 고정이다(2026-11 결정, 시작일·칸 수 prop 없음).
 // 날짜 계산은 _internal/date.ts의 UTC 순수 함수라서 서버·브라우저 결과가 같다.
 // 접근성: 날짜 칸마다 버튼(`aria-pressed`로 선택, `aria-current="date"`로 오늘). 마우스는 끌어서 넘길 수 있다.
 import { useEffect, useRef, useState, type ComponentProps } from "react";
 import { cn } from "../../utils/cn";
-import { addDays, formatDayName, weekday, weekdayLabels } from "../_internal/date";
+import {
+  addDays,
+  addMonthsToDate,
+  daysBetween,
+  formatDayName,
+  weekday,
+  weekdayLabels,
+} from "../_internal/date";
 import { useControllableState } from "../_internal/useControllableState";
 import { useDragScroll } from "../_internal/useDragScroll";
 
@@ -23,8 +31,6 @@ export interface DiaryProps extends Omit<
   ComponentProps<"div">,
   "onChange" | "defaultValue" | "children"
 > {
-  /** 보여 줄 날짜 수. 기본 `7`. 화면보다 길면 가로로 넘겨 본다 */
-  count?: number;
   /** 선택한 날(제어). 생략하면 컴포넌트가 직접 상태를 가진다 */
   value?: string | null;
   /** 처음 선택한 날(비제어) */
@@ -41,12 +47,13 @@ export interface DiaryProps extends Omit<
   events?: Record<string, DiaryEvent[]>;
   /** 한 칸에 보여 줄 일정 칩 수. 넘치는 개수는 `+N`으로 알린다. 기본 `2` */
   maxEvents?: number;
-  /** 첫 번째 칸의 날짜(`YYYY-MM-DD`, 필수). 여기서부터 `count`일을 이어서 보여 준다 */
-  start: string;
   /** 날짜를 누르면 그 날짜로 불린다 */
   onChange?: (date: string) => void;
 }
 
+// 보여 주는 기간은 오늘 기준으로 정해져 있다: 오늘 3일 전부터 오늘 2개월 뒤까지(양 끝 포함)
+const PAST_DAYS = 3;
+const FUTURE_MONTHS = 2;
 const labels = weekdayLabels(0);
 // 가장자리 흐림(Figma Overlay Left 24px · Right 28px)
 const fadeLeft = "bg-[linear-gradient(to_right,var(--mint-background-default),transparent)]";
@@ -54,7 +61,6 @@ const fadeRight = "bg-[linear-gradient(to_left,var(--mint-background-default),tr
 
 /** 날짜별 일정을 가로로 넘겨 보는 날짜 칸 줄. 칸을 누르면 그날을 고른다 */
 export function Diary({
-  count = 7,
   value,
   defaultValue,
   today,
@@ -63,7 +69,6 @@ export function Diary({
   min,
   events,
   maxEvents = 2,
-  start,
   onChange,
   className,
   ...props
@@ -92,9 +97,11 @@ export function Diary({
     measure();
     window.addEventListener("resize", measure);
     return () => window.removeEventListener("resize", measure);
-  }, [start, count]);
+  }, [today]);
 
-  const days = Array.from({ length: Math.max(count, 0) }, (_, index) => addDays(start, index));
+  const first = addDays(today, -PAST_DAYS);
+  const count = daysBetween(first, addMonthsToDate(today, FUTURE_MONTHS)) + 1;
+  const days = Array.from({ length: count }, (_, index) => addDays(first, index));
 
   return (
     <div className={cn("relative w-full min-w-0 overflow-hidden", className)} {...props}>

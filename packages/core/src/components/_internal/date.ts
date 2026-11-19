@@ -38,6 +38,24 @@ export function addDays(date: string, count: number) {
   return formatDate(next.getUTCFullYear(), next.getUTCMonth() + 1, next.getUTCDate());
 }
 
+/** 날짜에 count달을 더한다. 도착한 달에 그 날이 없으면 그 달의 마지막 날로 맞춘다("2026-12-31" + 2 → "2027-02-28") */
+export function addMonthsToDate(date: string, count: number) {
+  const [year, month, day] = parseDate(date);
+  const target = addMonths(formatMonth(year, month), count);
+  const [targetYear, targetMonth] = parseDate(target);
+  return formatDate(targetYear, targetMonth, Math.min(day, daysInMonth(targetYear, targetMonth)));
+}
+
+/** 두 날짜 사이의 일수(`to`가 뒤면 양수) */
+export function daysBetween(from: string, to: string) {
+  const [fromYear, fromMonth, fromDay] = parseDate(from);
+  const [toYear, toMonth, toDay] = parseDate(to);
+  return Math.round(
+    (Date.UTC(toYear, toMonth - 1, toDay) - Date.UTC(fromYear, fromMonth - 1, fromDay)) /
+      86_400_000,
+  );
+}
+
 /** 날짜가 속한 달 "YYYY-MM" */
 export const monthOf = (date: string) => date.slice(0, 7);
 

@@ -4,7 +4,6 @@ import { Diary } from "@futurewiz-rms/mint";
 export default function WithImage() {
   return (
     <Diary
-      count={3}
       today="2026-11-18"
       events={{
         "2026-11-17": [{ label: "ARB 언락", image: "/img/avatar-sample.jpg" }],
@@ -14,7 +13,6 @@ export default function WithImage() {
           { label: "점검" },
         ],
       }}
-      start="2026-11-17"
     />
   );
 }

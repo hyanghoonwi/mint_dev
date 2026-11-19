@@ -24,9 +24,8 @@ const meta = {
   component: Diary,
   tags: ["autodocs"],
   parameters: { layout: "padded" },
-  args: { today: TODAY, events, start: "2026-11-15", onChange: fn() },
+  args: { today: TODAY, events, onChange: fn() },
   argTypes: {
-    count: { control: { type: "number", min: 1, max: 14 } },
     maxEvents: { control: { type: "number", min: 0, max: 5 } },
   },
   decorators: [
@@ -102,9 +101,19 @@ export const WithImage: Story = {
   },
 };
 
+// 보여 주는 기간은 오늘 3일 전(11-15)부터 오늘 2개월 뒤(2027-01-18)까지 고정이다
+export const Range: Story = {
+  play: async ({ canvasElement }) => {
+    const cell = (date: string) => canvasElement.querySelector(`[data-date="${date}"]`);
+    await expect(cell("2026-11-14")).toBeNull();
+    await expect(cell("2026-11-15")).not.toBeNull();
+    await expect(cell("2027-01-18")).not.toBeNull();
+    await expect(cell("2027-01-19")).toBeNull();
+  },
+};
+
 // 칸 일곱 개(672px)보다 좁으면 가로로 넘기고, 넘친 쪽 가장자리가 흐려진다
 export const Narrow: Story = {
-  args: { count: 14 },
   decorators: [
     (Story) => (
       <div style={{ maxWidth: 360 }}>

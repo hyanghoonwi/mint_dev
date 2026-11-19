@@ -4,7 +4,6 @@ import { Diary } from "@futurewiz-rms/mint";
 export default function MoreEvents() {
   return (
     <Diary
-      count={3}
       today="2026-11-18"
       events={{
         "2026-11-17": [{ label: "언락" }],
@@ -15,7 +14,6 @@ export default function MoreEvents() {
           { label: "점검" },
         ],
       }}
-      start="2026-11-17"
     />
   );
 }

@@ -2,7 +2,7 @@
 import { useState } from "react";
 import { Box, Diary, Text } from "@futurewiz-rms/mint";
 
-// 칸을 누르면 그날을 골라요. 시작일(start)과 오늘(today)은 꼭 넘겨요
+// 칸을 누르면 그날을 골라요. 오늘(today)은 꼭 넘겨요. 오늘 3일 전부터 2개월 뒤까지 보여 줘요
 export default function Basic() {
   const [date, setDate] = useState<string | null>("2026-11-20");
   return (
@@ -14,7 +14,6 @@ export default function Basic() {
           "2026-11-18": [{ label: "언락" }, { label: "메인넷" }],
           "2026-11-20": [{ label: "언락" }],
         }}
-        start="2026-11-15"
         onChange={setDate}
       />
       <Text variant="body-3-regular" color="secondary">
