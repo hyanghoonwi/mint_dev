@@ -63,7 +63,7 @@ packages/core/
 │   │   ├── grid/                # Container·Grid 레이아웃 구현
 │   │   ├── icon/                # 아이콘 기반 구현과 자동 생성 아이콘
 │   │   ├── overlay/             # 오버레이 Provider·Context·훅
-│   │   ├── toast/               # Toast와 관련 Provider·훅
+│   │   ├── toast/               # Toast와 ToasterProvider·useToaster
 │   │   └── …                    # text, checkbox, calendar 등 컴포넌트별 폴더
 │   ├── hooks/                   # useClipboard·useDebounceValue·useInView
 │   ├── styles/                  # 색·글자·간격·반응형·모서리·스크롤바 토큰과 CSS
@@ -77,7 +77,7 @@ packages/core/
 │   ├── display.md               # 표시 컴포넌트 사용법
 │   ├── selection.md             # 선택·입력 관련 컴포넌트 사용법
 │   ├── navigation.md            # 탭·페이지 이동 관련 사용법
-│   ├── overlay.md               # 오버레이·토스트·스낵바와 관련 훅 사용법
+│   ├── overlay.md               # 오버레이·토스트와 관련 훅 사용법
 │   ├── layout.md                # Container·Grid 레이아웃 사용법
 │   ├── loading.md               # 로딩 표시 컴포넌트 사용법
 │   ├── hooks.md                 # 공용 훅 사용법

@@ -132,7 +132,7 @@ MINT는 Next.js App Router에서 **서버 컴포넌트와 클라이언트 컴포
 - **변형은 `cva`**, 클래스 병합은 `cn()`(`src/utils/cn.ts`)으로 합니다. `className`을 받고 마지막에 병합합니다.
 - **색·모서리·타이포는 토큰만**: `bg-fill-brand`, `text-text-primary`, `rounded-8`, `text-label-2-semibold` 등. hex 색을 직접 쓰지 않습니다. 다크 모드가 생기면 `--mint-*` 변수 값이 `[data-theme="dark"]`에서 바뀌므로 컴포넌트에 `dark:` 클래스를 쓰지 않습니다.
 - **색은 두 단계**: 아토믹(`src/styles/atomic.css`, `--color-atomic-*`, Figma `Atomic` 변수와 이름·값이 같은 고정값) → 시맨틱(`src/styles/colors.css`, `--mint-*`, Figma `Color - Semantic` 90개, `var(--color-atomic-*)` 참조). **컴포넌트는 시맨틱만 씁니다.** 아토믹 값은 Figma에서만 바꾸고 코드는 그대로 옮깁니다. 시맨틱 이름은 Figma 변수의 `/`를 `-`로 바꿉니다(`fill/brand-weak` → `bg-fill-brand-weak`). 지금은 Light만 있고 브랜드는 임시 blue-600입니다.
-- **그림자는 세 가지뿐**입니다(`src/styles/shape.css`, Figma Effect). 화면에 붙은 카드·상자는 `shadow-raised`(Figma `shadow/normal/small`, 2026-11 추가), 토스트·메뉴·툴팁 같은 떠 있는 요소는 `shadow-floating`, 오른쪽에서 나오는 패널은 `shadow-drawer`를 씁니다. 그림자 토큰을 늘리면 `src/utils/cn.ts`의 `SHADOW_TOKENS`에도 더합니다. `shadow-[…]`처럼 임의 그림자를 만들지 않습니다.
+- **그림자는 세 가지뿐**입니다(`src/styles/shape.css`, Figma Effect). 화면에 붙은 카드·상자는 `shadow-raised`(Figma `shadow/normal/small`, 2026-11 추가), 메뉴·툴팁 같은 떠 있는 요소는 `shadow-floating`, 오른쪽에서 나오는 패널은 `shadow-drawer`를 씁니다. 그림자 토큰을 늘리면 `src/utils/cn.ts`의 `SHADOW_TOKENS`에도 더합니다. `shadow-[…]`처럼 임의 그림자를 만들지 않습니다.
 - **시세 색**: Figma 시맨틱의 `text-up`·`text-down`·`text-flat`, `fill-up-weak`·`fill-down-weak`, `icon-up`·`icon-down`(2026-11-12 추가)을 씁니다. 상승은 빨강, 하락은 파랑, 보합은 회색입니다. 시세 등락 표시는 `PriceChange`로 하고, `danger`·`brand` 색을 시세에 빌려 쓰지 않습니다.
 - **크기**: `size`는 `"sm" | "md" | "lg"`가 기본 틀이고 기본값은 `md`(2026-11 통일). 예외: `Checkbox`·`Radio`·`CheckMark`는 Figma 기본인 `sm`(20)이 기본값입니다. 컴포넌트가 Figma에서 더 필요하면 `Button`(`xs` 28 · `sm` 32 · `md` 40 · `lg` 48)처럼 Figma 스펙을 따른다.
 - **레이아웃·변형은 prop으로 캡슐화**합니다. 사용하는 쪽이 조각을 직접 조립해야 하는 API를 피합니다.
@@ -181,14 +181,14 @@ MINT는 Next.js App Router에서 **서버 컴포넌트와 클라이언트 컴포
 
 `packages/core/AGENTS.md`는 **색인**이고, 상세는 `packages/core/guide/*.md`에 있습니다. 사용하는 쪽 AI가 **필요한 파일만** 읽게 하려는 구조입니다.
 
-| 파일               | 담는 것                                                                                                                             |
-| ------------------ | ----------------------------------------------------------------------------------------------------------------------------------- |
-| `AGENTS.md`        | 핵심 규칙, "무엇을 쓸까", **파일별 컴포넌트 색인**                                                                                  |
-| `guide/setup.md`   | 설치, 스타일, 토큰 클래스, 반응형 토큰, 다크 모드                                                                                   |
-| `guide/actions.md` | 액션 컴포넌트 props·주의점 (카테고리가 늘면 파일 추가)                                                                              |
-| `guide/hooks.md`   | 공개 훅(`useInView`·`useClipboard`·`useDebounceValue`·`useFileUpload`) 사용법. `useOverlay`·`useToast`·`useSnackbar`는 `overlay.md` |
-| `guide/layout.md`  | `Container`·`Grid` 사용법, 구간별 `span`, 레이아웃 규칙                                                                             |
-| `guide/icons.md`   | 아이콘 사용법과 183개 전체 이름(분류별 목록). `guide:check`가 `icons.json`의 모든 이름이 있는지 검사                                |
+| 파일               | 담는 것                                                                                                                 |
+| ------------------ | ----------------------------------------------------------------------------------------------------------------------- |
+| `AGENTS.md`        | 핵심 규칙, "무엇을 쓸까", **파일별 컴포넌트 색인**                                                                      |
+| `guide/setup.md`   | 설치, 스타일, 토큰 클래스, 반응형 토큰, 다크 모드                                                                       |
+| `guide/actions.md` | 액션 컴포넌트 props·주의점 (카테고리가 늘면 파일 추가)                                                                  |
+| `guide/hooks.md`   | 공개 훅(`useInView`·`useClipboard`·`useDebounceValue`·`useFileUpload`) 사용법. `useOverlay`·`useToaster`는 `overlay.md` |
+| `guide/layout.md`  | `Container`·`Grid` 사용법, 구간별 `span`, 레이아웃 규칙                                                                 |
+| `guide/icons.md`   | 아이콘 사용법과 183개 전체 이름(분류별 목록). `guide:check`가 `icons.json`의 모든 이름이 있는지 검사                    |
 
 - **새 컴포넌트·훅**: 색인의 해당 묶음에 **한 줄**을 추가하고, `guide/` 파일에 props 상세를 씁니다.
 - **색인은 짧게 유지**합니다. props와 예시는 `guide/`로 보냅니다.
@@ -206,7 +206,7 @@ MINT는 Next.js App Router에서 **서버 컴포넌트와 클라이언트 컴포
 - 위치: `packages/docs/content/` — `index.mdx`(첫 화면 `/`), `getting-started/`(Introduction·Installation·Changelog), `foundations/`(Overview + Base material: Colors·Typography·Spacing · Grid·Radius · Shadow·Icons), `components/`(Overview + 분류별 그룹: Actions·Contents·Feedback·Loading·Layout), `utilities/`(Overview + Hooks: 공개 훅마다 한 페이지).
 - **상단 탭은 `content/_meta.js`의 `type: "page"` 항목**이고, 사이드바는 지금 열린 탭의 폴더만 보여 줍니다. 탭 안의 그룹 제목은 폴더별 `_meta.js`의 `"---이름": { type: "separator" }`입니다. 새 컴포넌트는 `components/_meta.js`의 알맞은 그룹 아래에 **알파벳 순서에 맞는 자리**에 키를 추가하고, Overview 카드(`src/components/site/Catalog.tsx`)에 같은 `group`으로 넣습니다(카드는 그룹 안에서 이름의 알파벳 순으로 자동 정렬).
   - **분류 안 항목은 항상 알파벳 순**입니다(사이드바와 Overview 카드 모두. 분류의 순서는 그대로). 사이드바 순서는 `scripts/check-sidebar-order.mjs`가 docs의 `predev`·`prebuild`에서 검사해서, 어긋나면 맞는 순서를 알려 주고 실행을 멈춥니다. Storybook의 `storySort`도 분류 안에서 같은 알파벳 순으로 이름을 넣습니다.
-- **첫 화면 `/`**는 `content/index.mdx`(`<Home />`, `src/components/site/Home.tsx`)입니다. 문서 레이아웃 안에서 사이드바·목차 없이 화면 전체를 씁니다. 순서는 히어로(제목·설명) → 흐르는 띠 → Get started → Behind the System(원칙) → FAQ → 푸터입니다.
+- **첫 화면 `/`**는 `content/index.mdx`(`<Home />`, `src/components/site/Home.tsx`)입니다. 문서 레이아웃 안에서 사이드바·목차 없이 화면 전체를 씁니다. 순서는 히어로(오른쪽 아래에 붙은 영상 `public/video/hero.mp4`, 왼쪽에 제목·설명·버튼) → Get started → Behind the System(원칙) → FAQ → 푸터입니다. 푸터 위 경계선은 마스코트 이미지(`public/img/footer-mascot.webp`, 투명 배경)가 잡고 있습니다(폭 100px, 움직임 없음).
 - **사이트는 Nextra 4(Next.js App Router)입니다.** 페이지는 `content/**/*.mdx`이고 `src/app/(docs)/[[...mdxPath]]/page.tsx`(선택 캐치올이라 `/`도 포함)가 모두 렌더합니다(`(docs)/layout.tsx`가 Nextra 레이아웃·헤더·라이트 고정 설정).
 - **페이지 파일 이름(슬러그)은 폴더가 달라도 겹치지 않게 짓습니다.** 사이드바가 평평하게 펼쳐져서 `foundations/grid`와 `components/grid`처럼 같은 키가 있으면 React key 중복 오류가 납니다(그래서 `components/container-grid`).
 - **컴포넌트 페이지 구조(`components/button.mdx` 기준)는 항상 이 순서입니다.**
@@ -271,6 +271,9 @@ MINT는 Next.js App Router에서 **서버 컴포넌트와 클라이언트 컴포
 - **한 문장에 정보 하나**, 문단은 세 문장 이내로 씁니다. 길어지면 목록으로 나눕니다.
 - 같은 대상은 같은 말로 부릅니다: "누르다"(클릭 X), "사용하는 쪽"(유저 X). prop·값·컴포넌트 이름은 백틱(`` `fullWidth` ``), 숫자와 단위는 붙여 씁니다(`40px`).
 - 내부 구현, 추측, 과장("매우", "완벽하게"), 이모지는 쓰지 않습니다.
+- **docs는 외부에 공개되는 문서입니다.** 팀 사정이나 구어("프론트에서 필요해서 만들었어요", "Figma에 없어요")를 쓰지 않고 "디자인 시안 확정 전의 컴포넌트예요", "…를 조합한 컴포넌트예요"처럼 씁니다. 사용하는 쪽에 함께 배포되는 `packages/core/guide/`·`AGENTS.md`도 같습니다.
+- **예시·설명에 외부 라이브러리(`axios`, React Query, SWR 등)를 쓰지 않습니다.** MINT가 의존하지 않는 라이브러리를 쓰는 것처럼 보이기 때문입니다. 서버 요청은 표준 `fetch`·`FormData`·`AbortSignal`로 보여 줍니다. core 주석·`guide/`·스토리도 같습니다.
+- **본문 위 안내 상자(`<Callout>`)는 `type="warning"`(노란색) 하나만 씁니다**(2026-11 통일). 주의·함께 쓰는 법·임시 상태 안내 모두 같은 색입니다. `info`·`error` 등 다른 종류는 쓰지 않습니다.
 - 범위를 나타내는 물결표는 `\~`로 씁니다(예: `1\~4자`). 한 문단에 `~`가 두 번 나오면 마크다운이 그 사이를 취소선으로 바꿔요(코드 서식 안은 괜찮아요).
 
 ---

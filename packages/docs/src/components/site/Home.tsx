@@ -1,15 +1,9 @@
 import Link from "next/link";
 import { DocsFooter } from "./Landing";
+import { HeroVideo } from "./HeroVideo";
 import { HomeMotion } from "./HomeMotion";
 
-// 첫 화면(/). Montage 첫 화면과 같은 틀: 히어로 → 흐르는 띠 → 시작 카드 → 원칙 → FAQ → 푸터.
-// 흐르는 띠에는 화면 캡처 대신 실제 MINT 컴포넌트를 그린다(문서에 없는 API를 쓰지 않는다).
-
-// 흐르는 띠의 칸 폭. 그림이 정해질 때까지 빈 칸으로 둔다(Figma: 144px 정사각형, 두 번째 줄 일부는 224px)
-const rows = [
-  [144, 144, 144, 144, 144, 144, 144, 144, 144, 144, 144],
-  [144, 144, 144, 144, 144, 224, 144, 144, 144, 224],
-];
+// 첫 화면(/). 히어로(전체 폭 배경 영상 위에 글자) → 시작 카드 → 원칙 → FAQ → 푸터.
 
 const starts = [
   {
@@ -74,6 +68,10 @@ export function Home() {
   return (
     <HomeMotion>
       <section className="docs-home__hero">
+        {/* 배경 영상: 히어로 전체 폭에 깔리고 글자가 그 위에 얹힌다. 장식이라 검색·스크린리더에서 뺀다 */}
+        <div className="docs-home__video" aria-hidden="true" data-pagefind-ignore>
+          <HeroVideo />
+        </div>
         <h1 className="docs-home__title" data-viewake="fade-up">
           CryptoLab
           <br />
@@ -92,21 +90,6 @@ export function Home() {
           Getting Started
         </Link>
       </section>
-
-      {/* 흐르는 띠: 같은 줄을 두 벌 이어 붙여 끊김 없이 돈다. 두 번째 줄은 반대 방향. 장식이라 읽지 않는다 */}
-      <div className="docs-home__marquee" aria-hidden="true" data-pagefind-ignore>
-        {rows.map((widths, row) => (
-          <div key={row} className="docs-home__track" data-reverse={row === 1 || undefined}>
-            {[0, 1].map((copy) => (
-              <div key={copy} className="docs-home__set">
-                {widths.map((width, index) => (
-                  <span key={index} className="docs-home__tile" style={{ width }} />
-                ))}
-              </div>
-            ))}
-          </div>
-        ))}
-      </div>
 
       <section className="docs-home__section">
         <h2 className="docs-home__heading" data-viewake="fade-up">

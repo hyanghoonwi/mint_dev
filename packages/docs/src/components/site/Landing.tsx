@@ -151,6 +151,18 @@ export function PageLink({
 export function DocsFooter() {
   return (
     <footer className="docs-footer">
+      {/* 푸터 위 경계선을 잡고 올려다보는 마스코트(장식). 몸통 아랫선이 경계선에 맞고 집게발이 선 아래로 살짝 내려온다.
+          위치(transform)는 바깥 요소가 맡는다 */}
+      <div className="docs-footer__mascot" aria-hidden="true" data-pagefind-ignore>
+        <img
+          src="/img/footer-mascot.webp"
+          alt=""
+          width={960}
+          height={495}
+          loading="lazy"
+          decoding="async"
+        />
+      </div>
       <span>© 2026 CryptoLab Design System</span>
       <details>
         <summary>More information</summary>

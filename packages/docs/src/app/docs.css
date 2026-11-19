@@ -19,6 +19,13 @@
   --docs-text3: #85858c;
   --docs-accent: #18181b;
   --docs-up: #f04452;
+  /* 첫 화면 영상의 색: 하늘색·청록·연한 파랑·노랑. 첫 화면의 빛·버튼·띠 칸에 은은하게 쓴다 */
+  --docs-sky: #4fb1ce;
+  --docs-sky-deep: #17657f;
+  --docs-sky-weak: #e6f4fa;
+  --docs-cyan-weak: #dff6f9;
+  --docs-blue-weak: #e4eff9;
+  --docs-sun-weak: #fbf3d6;
   --docs-r: 20px;
   --docs-r-sm: 12px;
   --docs-sans:
@@ -66,39 +73,40 @@ header .nextra-navbar-blur {
   backdrop-filter: none !important;
 }
 
-header > nav {
+/* 문서 상단 바 전용 규칙이다. MINT `Header`(<header><nav aria-label="주요 메뉴">)에는 걸리지 않게 제외한다. */
+header > nav:not([aria-label="주요 메뉴"]) {
   height: 62px;
   max-width: calc(var(--docs-container) + var(--docs-gutter) * 2) !important;
   gap: 0;
   padding-inline: var(--docs-gutter) !important;
 }
 
-header > nav > a:first-child img {
+header > nav:not([aria-label="주요 메뉴"]) > a:first-child img {
   display: block;
   height: 24px;
   width: auto;
 }
 
 /* 상단 탭: 오른쪽(아이콘 앞)에 모은다. 지금 탭은 검정 굵게, 나머지는 회색 */
-header > nav > div:has(> a) {
+header > nav:not([aria-label="주요 메뉴"]) > div:has(> a) {
   gap: 40px;
   margin-right: 72px;
   padding: 0;
 }
 
-header > nav > div:has(> a) > a {
+header > nav:not([aria-label="주요 메뉴"]) > div:has(> a) > a {
   color: var(--docs-text3);
   font-size: 15px;
   font-weight: 500;
   line-height: 22px;
 }
 
-header > nav > div:has(> a) > a[aria-current] {
+header > nav:not([aria-label="주요 메뉴"]) > div:has(> a) > a[aria-current] {
   font-weight: 700;
 }
 
-header > nav > div:has(> a) > a:hover,
-header > nav > div:has(> a) > a[aria-current] {
+header > nav:not([aria-label="주요 메뉴"]) > div:has(> a) > a:hover,
+header > nav:not([aria-label="주요 메뉴"]) > div:has(> a) > a[aria-current] {
   color: var(--docs-text);
 }
 
@@ -133,6 +141,18 @@ aside.nextra-sidebar > div {
   /* Nextra가 스크롤 영역 위아래에 거는 흐림(그라데이션 마스크)을 끈다. 맨 위 활성 항목 배경이 흐려지지 않게 */
   mask-image: none !important;
   -webkit-mask-image: none !important;
+}
+
+/* Nextra는 사이드바 안쪽 래퍼와 목록의 폭을 인라인 style로 JS가 정해 둔다. 모바일 폭(사이드바가 숨겨진 상태)에서
+   처음 열었거나 모바일 메뉴를 연 채 창을 키우면 이 값이 0px로 굳어서, 데스크톱 폭에서 글자가 한 글자씩 줄바꿈된다.
+   폭을 CSS로 고정한다(부모 폭을 채움, 지금 212px). 모바일 메뉴(`nextra-mobile-nav`)에는 걸리지 않는다 */
+aside.nextra-sidebar [class*="transform-gpu"] {
+  width: 100% !important;
+}
+
+/* 안쪽 목록(ul)에도 같은 인라인 width가 걸린다 */
+aside.nextra-sidebar [class*="transform-gpu"] ul[style*="width"] {
+  width: 100% !important;
 }
 
 /* 항목 사이 4px: 지금 항목·마우스를 올린 항목의 배경이 옆 항목과 붙지 않게 */
@@ -1272,7 +1292,7 @@ main > .docs-panel {
     overflow-x: auto;
   }
 
-  header > nav {
+  header > nav:not([aria-label="주요 메뉴"]) {
     padding-inline: 16px;
   }
 
@@ -1298,20 +1318,27 @@ main > .docs-panel {
   display: flex;
   flex-direction: column;
   width: 100%;
-  max-width: calc(var(--docs-container) + var(--docs-gutter) * 2);
-  margin: 0 auto;
-  padding: 0 var(--docs-gutter);
+  /* 최대 폭과 좌우 여백은 바깥 문서 틀(헤더와 같은 컨테이너)이 이미 준다. 여기서 또 주면 헤더보다 안쪽으로 들어간다 */
 }
 
 .docs-home__hero {
+  position: relative;
+  isolation: isolate;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
+  /* 영상이 보이도록 글자 아래로 높이를 더 준다. 영상 원본 높이(720)를 넘으면 화질이 깨지므로 720을 넘지 않는다 */
+  min-height: clamp(600px, calc(100vh - 64px), 720px);
   padding-top: 100px;
-  text-align: center;
+  text-align: left;
 }
 
 /* 카드의 배경 전환과 Viewake의 등장 전환을 함께 유지한다. */
+/* 히어로 영상이 100vw로 컨테이너 밖까지 깔려서, 스크롤바 폭만큼 가로 스크롤이 생기지 않게 한다 */
+body:has(.docs-home) {
+  overflow-x: clip;
+}
+
 .docs-home [data-viewake] {
   transition-property: opacity, transform, filter, background-color;
   transition-duration:
@@ -1350,70 +1377,45 @@ main > .docs-panel {
   margin-top: 32px;
   padding: 0 20px;
   border-radius: 999px;
-  background: var(--docs-surface);
-  color: var(--docs-text);
+  background: var(--docs-sky-weak);
+  color: var(--docs-sky-deep);
   font-size: 14px;
   font-weight: 700;
   line-height: 20px;
+  transition: background 0.15s;
 }
 
 .docs-home__cta:hover {
-  background: var(--docs-surface2);
+  background: #d3ebf5;
 }
 
-/* 흐르는 띠: 폭 1600(컨테이너보다 넓게), 두 줄 사이 12, 칸 사이 20. 양 끝 300px은 흰색으로 흐려진다 */
-.docs-home__marquee {
+/* 영상(1280×720): 화면 오른쪽 아래에 붙고 글자는 왼쪽에 둔다. 폭은 화면의 62%이고 원본보다 키우지 않는다(키우면 화질이 깨진다).
+   영상 배경(약 #f6f6f6)은 밝기 보정으로 사이트의 흰색에 맞춰서 영상과 사이트 사이에 경계가 보이지 않는다.
+   왼쪽·위·아래 가장자리는 흰색으로 흐려지고, 오른쪽은 화면 끝이라 그대로 둔다 */
+.docs-home__video {
+  position: absolute;
+  z-index: -1;
+  top: 0;
+  bottom: 0;
+  right: calc(50% - 50vw);
   display: flex;
-  flex-direction: column;
-  gap: 12px;
-  /* 컨테이너(1400)보다 넓어서, 가운데 정렬은 flex의 align-self로 양쪽으로 넘치게 한다(margin: auto는 오른쪽으로만 넘친다).
-     좁은 화면에서는 스크롤바 폭을 빼고 화면 안에 들어온다 */
-  align-self: center;
-  width: min(1600px, 100vw - 32px);
-  margin: 60px 0 0;
+  width: min(62vw, 1100px);
+  /* 오른쪽 아래 모서리가 기준: 영상의 오른쪽 끝·아래 끝을 히어로 오른쪽 아래에 붙인다 */
+  align-items: flex-end;
   overflow: hidden;
-  mask-image: linear-gradient(
-    to right,
-    transparent,
-    #000 300px,
-    #000 calc(100% - 300px),
-    transparent
-  );
 }
 
-.docs-home__track {
-  display: flex;
-  width: max-content;
-  animation: docs-marquee 60s linear infinite;
-}
-
-.docs-home__track[data-reverse] {
-  animation-direction: reverse;
-}
-
-.docs-home__set {
-  display: flex;
-  gap: 20px;
-  padding-right: 20px;
-}
-
-.docs-home__tile {
-  height: 144px;
-  flex-shrink: 0;
-  border-radius: 24px;
-  background: var(--docs-surface);
-}
-
-@keyframes docs-marquee {
-  to {
-    transform: translateX(-50%);
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .docs-home__track {
-    animation: none;
-  }
+.docs-home__video-media {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  /* 영상 배경의 옅은 회색(약 246)을 흰색(255)으로 끌어올린다 */
+  filter: brightness(1.04) contrast(1.04);
+  mask-image:
+    linear-gradient(to right, transparent, #000 28%),
+    linear-gradient(to bottom, transparent, #000 10%, #000 94%, transparent);
+  mask-composite: intersect;
 }
 
 .docs-home__section {
@@ -1526,14 +1528,18 @@ a.docs-home__card:hover {
     line-height: 48px;
   }
 
-  .docs-home__marquee {
-    mask-image: linear-gradient(
-      to right,
-      transparent,
-      #000 40px,
-      #000 calc(100% - 40px),
-      transparent
-    );
+  /* 모바일: 글자 아래(맨 아래)에 영상이 화면 폭으로 깔린다 */
+  .docs-home__hero {
+    min-height: 640px;
+  }
+
+  .docs-home__video {
+    top: auto;
+    width: 100vw;
+  }
+
+  .docs-home__video-media {
+    mask-image: linear-gradient(to bottom, transparent, #000 14%, #000 86%, transparent);
   }
 }
 
@@ -1544,6 +1550,8 @@ a.docs-home__card:hover {
   height: 36px;
   align-items: center;
   justify-content: center;
+  /* 돋보기 그림(14px)의 오른쪽 끝이 컨테이너 오른쪽 끝에 맞도록, 버튼 안쪽 여백(11px)만큼 밀어낸다 */
+  margin-right: -11px;
   border-radius: 10px;
   color: var(--docs-text2);
   cursor: pointer;
@@ -1774,6 +1782,7 @@ main > h1 + p + .docs-figure {
 
 /* 문서 푸터: 본문 칸 아래 구분선 + 저작권 + More information */
 .docs-footer {
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -1787,6 +1796,19 @@ main > h1 + p + .docs-figure {
 
 .docs-footer details {
   position: relative;
+}
+
+/* 마스코트(960×495, 초록 배경 이미지를 크로마키로 투명 처리): 몸통 아랫선이 이미지 높이의 약 81.9% 지점이라, 위로 그만큼 올려 경계선에 맞춘다.
+   가운데에 두고 눌리지 않게 한다. 마우스·키보드 동작에 끼지 않는 장식이다 */
+.docs-footer__mascot {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 100px;
+  height: auto;
+  transform: translate(-50%, -81.86%);
+  pointer-events: none;
+  user-select: none;
 }
 
 .docs-footer summary {
@@ -2271,4 +2293,28 @@ main > .docs-page-link + p {
 .docs-calendar .docs-dodont__stage {
   height: auto;
   padding: 16px;
+}
+
+/* Header는 자체 좌우 여백(모바일 20)을 가지므로 미리보기의 중첩 여백을 없애 폭 전체를 쓰게 한다. */
+.docs-header .docs-sandbox__stage,
+.docs-header .docs-example__preview {
+  min-width: 0;
+  padding: 24px 0;
+}
+
+.docs-header .docs-example__stage {
+  flex-wrap: nowrap;
+}
+
+.docs-header .docs-dodont {
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr));
+}
+
+.docs-header .docs-dodont figure {
+  min-width: 0;
+}
+
+.docs-header .docs-dodont__stage {
+  height: auto;
+  padding: 16px 0;
 }
