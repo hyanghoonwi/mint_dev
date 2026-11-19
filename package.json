@@ -1,5 +1,5 @@
 {
-  "name": "mint-monorepo",
+  "name": "cryptolabs-design-system",
   "private": true,
   "workspaces": [
     "packages/*"
