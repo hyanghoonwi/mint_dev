@@ -21,7 +21,7 @@ export default async function DocsLayout({ children }: { children: ReactNode }) 
       navbar={navbar}
       footer={null}
       pageMap={await getPageMap()}
-      docsRepositoryBase="https://github.com/hyanghoonwi/mint_dev/blob/main/packages/docs-next"
+      docsRepositoryBase="https://github.com/futurewiz-rms/cryptolabs-design-system/blob/main/packages/docs"
       editLink={null}
       feedback={{ content: null }}
       darkMode={false}

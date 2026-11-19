@@ -25,7 +25,7 @@ docs는 개발 서버 시작과 빌드 전에 core를 자동으로 빌드합니�
 반복되는 컴포넌트·예시 파일은 일부만 표시하고, 빌드 결과는 별도 항목에서 설명합니다.
 
 ```text
-MINT/
+cryptolabs-design-system/
 ├── packages/                    # npm workspace 패키지와 문서 참고 자료
 │   ├── core/                    # 실제 배포하는 Mint 라이브러리
 │   ├── storybook/               # 개발자가 컴포넌트를 확인하는 샌드박스

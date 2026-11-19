@@ -2,7 +2,7 @@
 // Storybook 주소는 빌드할 때 STORYBOOK_URL로 정한다. Docker 이미지는 같은 서버의 `/storybook/`으로,
 // 지정하지 않으면(로컬 개발) `npm run storybook`이 띄우는 http://localhost:6006으로 간다.
 const storybookUrl = process.env.STORYBOOK_URL ?? "http://localhost:6006";
-const githubUrl = "https://github.com/futurewiz-rms/MINT";
+const githubUrl = "https://github.com/futurewiz-rms/cryptolabs-design-system";
 
 function StorybookIcon() {
   return (
