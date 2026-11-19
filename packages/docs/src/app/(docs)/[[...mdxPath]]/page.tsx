@@ -9,6 +9,8 @@ type Props = { params: Promise<{ mdxPath?: string[] }> };
 export async function generateMetadata(props: Props) {
   const params = await props.params;
   const { metadata } = await importPage(params.mdxPath ?? []);
+  // 첫 화면(`/`)은 제목에 "- CryptoLabs Design System" 접미사를 또 붙이지 않고 그대로 쓴다
+  if (!params.mdxPath?.length) return { ...metadata, title: { absolute: String(metadata.title) } };
   return metadata;
 }
 

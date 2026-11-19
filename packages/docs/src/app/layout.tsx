@@ -7,8 +7,8 @@ import "viewake/styles.css";
 import "./docs.css";
 
 export const metadata = {
-  // 탭 제목: 첫 화면은 "CryptoLabs Design System", 나머지는 "{페이지 제목} - CryptoLabs Design System"
-  title: { default: "CryptoLabs Design System", template: "%s - CryptoLabs Design System" },
+  // 탭 제목: 첫 화면은 "CryptoLabs Design System - Mint", 나머지는 "{페이지 제목} - CryptoLabs Design System"
+  title: { default: "CryptoLabs Design System - Mint", template: "%s - CryptoLabs Design System" },
   description: "CryptoLabs의 모든 화면을 같은 언어로",
 };
 
