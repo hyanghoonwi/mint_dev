@@ -117,7 +117,7 @@ export function SelectGuide() {
       bad={
         <Select
           size="md"
-          label="어떤 시장에서 거래하시겠어요? 아래에서 하나를 골라 주세요"
+          label="거래하려는 시장을 골라 주세요"
           options={options}
           defaultValue="krw"
         />

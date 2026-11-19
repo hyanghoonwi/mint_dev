@@ -16,6 +16,11 @@ const items = [
   { label: "에어드랍", href: "#" },
 ];
 
+const guideItems = [
+  { label: "홈", href: "#", active: true },
+  { label: "마켓", href: "#" },
+];
+
 export function HeaderPlayground() {
   return (
     <Playground
@@ -49,6 +54,8 @@ export function HeaderPlayground() {
 
 /** Header 사용 가이드 그림 */
 export function HeaderGuide() {
+  // 그림 칸이 좁아서 메뉴를 둘만 둔다(창 폭이 태블릿 이상이면 메뉴가 펼쳐져 알약이 넓어진다)
+  const items = guideItems;
   return (
     <DoDont
       good={

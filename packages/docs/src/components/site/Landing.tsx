@@ -1,46 +1,6 @@
 import type { ReactNode } from "react";
 import Link from "next/link";
 
-/** 소개 페이지의 첫 화면(시안의 히어로 카드) */
-export function Hero() {
-  return (
-    <section className="docs-hero">
-      {/* 밝은 배경용(white)과 어두운 배경용(ink) 심볼을 테마에 맞게 보여 준다 */}
-      <img
-        className="docs-hero__symbol docs-only-light"
-        src="/brand/mint_symbol_white.svg"
-        alt=""
-        width={64}
-        height={64}
-      />
-      <img
-        className="docs-hero__symbol docs-only-dark"
-        src="/brand/mint_symbol_ink.svg"
-        alt=""
-        width={64}
-        height={64}
-      />
-      <h1 className="docs-hero__title">
-        크립토랩의 모든 화면을
-        <br />
-        같은 언어로
-      </h1>
-      <p className="docs-hero__lead">
-        CryptoLab Design System은 한국경제TV 크립토랩의 디자인 시스템입니다. 시세와 차트, 커뮤니티를
-        만드는 데 필요한 파운데이션과 컴포넌트를 한곳에서 확인하세요.
-      </p>
-      <div className="docs-hero__actions">
-        <Link className="docs-btn docs-btn--solid" href="/getting-started">
-          시작하기
-        </Link>
-        <Link className="docs-btn docs-btn--outline" href="/components/overview">
-          컴포넌트 보기
-        </Link>
-      </div>
-    </section>
-  );
-}
-
 interface LinkCardItem {
   title: string;
   description: string;
@@ -163,7 +123,7 @@ export function DocsFooter() {
           decoding="async"
         />
       </div>
-      <span>© 2026 CryptoLab Design System</span>
+      <span>© 2026 CryptoLabs Design System</span>
       <details>
         <summary>More information</summary>
         <ul>

@@ -1,8 +1,8 @@
-# MINT Design System
+# Mint Design System
 
-> Mint to Coin, Coin to CryptoLab
+> Mint to Coin, Coin to CryptoLabs
 
-크립토랩 서비스의 Next.js(App Router) 반응형 사이트를 위한 디자인 시스템입니다.
+CryptoLabs 서비스의 Next.js(App Router) 반응형 사이트를 위한 디자인 시스템입니다.
 React 19, TypeScript, Tailwind CSS 4를 사용하며, npm workspaces로 라이브러리·Storybook·문서 사이트를 함께 관리합니다.
 
 이 문서는 프로젝트를 인수인계받는 개발자가 **폴더의 역할과 작업 시작 위치**를 빠르게 찾기 위한 안내입니다.
@@ -27,7 +27,7 @@ docs는 개발 서버 시작과 빌드 전에 core를 자동으로 빌드합니�
 ```text
 MINT/
 ├── packages/                    # npm workspace 패키지와 문서 참고 자료
-│   ├── core/                    # 실제 배포하는 MINT 라이브러리
+│   ├── core/                    # 실제 배포하는 Mint 라이브러리
 │   ├── storybook/               # 개발자가 컴포넌트를 확인하는 샌드박스
 │   ├── docs/                    # 라이브러리 사용자를 위한 문서 웹사이트
 │   └── docs_ref/                # 로컬 문서 시안 참고 자료(아래 참고 사항 확인)
@@ -153,13 +153,12 @@ packages/docs/
 │   ├── components/              # 문서 사이트 공용 UI
 │   │   ├── site/                # Home·Catalog·Foundations·Playground 등 화면 조각
 │   │   ├── Example.tsx          # 예시 실행 화면과 같은 파일의 코드 표시
-│   │   ├── NavParts.tsx         # 문서 내비게이션 UI
 │   │   └── SearchModal.tsx      # Pagefind 검색 모달
 │   ├── examples/                # 페이지 슬러그별 실행 가능한 TSX 예시
 │   └── prismTheme.ts            # 코드 표시용 구문 강조 테마
 ├── public/                      # 사이트에서 제공하는 정적 파일
-│   ├── brand/                   # 브랜드 이미지 자산
-│   └── img/                     # 문서용 이미지 자산
+│   ├── img/                     # 문서용 이미지 자산(푸터 마스코트 등)
+│   └── video/                   # 첫 화면 히어로 영상과 포스터
 ├── scripts/                     # 문서 빌드 전후 처리
 │   ├── sync-changelog.mjs       # core 변경 이력을 MDX 문서로 동기화
 │   ├── check-sidebar-order.mjs  # 컴포넌트 사이드바의 알파벳 정렬 검사
@@ -251,6 +250,6 @@ npm run docs        # 문서 개발 화면: http://localhost:3000
 - **core 변경은 Storybook·docs·사용 가이드까지 같은 작업에서 반영합니다.** 자세한 체크리스트는 루트 `AGENTS.md`에 있습니다.
 - 루트 `AGENTS.md`는 저장소 개발 규칙이고, `core/AGENTS.md`와 `core/guide/`는 라이브러리를 사용하는 쪽을 위한 문서입니다.
 - core는 Next.js 서버·클라이언트 양쪽에서 사용합니다. `"use client"` 기준과 빌드 결과 보존 검사를 확인합니다.
-- 반응형은 CSS로 처리하고 `tablet:`·`desktop:` 구간과 MINT 토큰을 사용합니다.
+- 반응형은 CSS로 처리하고 `tablet:`·`desktop:` 구간과 Mint 토큰을 사용합니다.
 - 아이콘·토큰 유틸리티·docs 변경 이력은 생성물을 직접 고치지 않고 원본을 수정합니다.
 - 배포 대상은 `@futurewiz-rms/mint`이며 GitHub Packages를 사용합니다. 현재 배포는 수동이며, 절차와 버전·CHANGELOG 정책은 루트 `AGENTS.md`를 확인합니다.

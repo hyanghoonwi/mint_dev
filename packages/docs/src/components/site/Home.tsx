@@ -44,7 +44,7 @@ const principles = [
 const faqs = [
   {
     q: "누가 쓸 수 있나요?",
-    a: "CryptoLab Design System은 사내 패키지(GitHub Packages)로 배포합니다. 패키지 읽기 권한이 있는 GitHub 계정으로 설치할 수 있어요.",
+    a: "CryptoLabs Design System은 사내 패키지(GitHub Packages)로 배포합니다. 패키지 읽기 권한이 있는 GitHub 계정으로 설치할 수 있어요.",
   },
   {
     q: "Next.js 서버 컴포넌트에서 쓸 수 있나요?",
@@ -73,12 +73,12 @@ export function Home() {
           <HeroVideo />
         </div>
         <h1 className="docs-home__title" data-viewake="fade-up">
-          CryptoLab
+          CryptoLabs
           <br />
           Design System
         </h1>
         <p className="docs-home__lead" data-viewake="fade-up" data-viewake-delay="200">
-          크립토랩의 모든 화면을 같은 언어로 만들기 위한 디자인 시스템이에요. 같은 컴포넌트와 같은
+          CryptoLabs의 모든 화면을 같은 언어로 만들기 위한 디자인 시스템이에요. 같은 컴포넌트와 같은
           토큰으로 화면을 만들어요.
         </p>
         <Link

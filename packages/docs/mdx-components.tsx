@@ -5,7 +5,6 @@ import Example from "./src/components/Example";
 import {
   DocsFooter,
   Figure,
-  Hero,
   LinkButtons,
   LinkCards,
   ListRows,
@@ -130,7 +129,6 @@ export function useMDXComponents(components?: MDXComponents) {
     pre: DocsPre,
     Callout,
     Example,
-    Hero,
     LinkCards,
     Principles,
     Figure,

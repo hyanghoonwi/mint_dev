@@ -2,13 +2,15 @@ import type { ReactNode } from "react";
 import { Layout, Navbar } from "nextra-theme-docs";
 import { getPageMap } from "nextra/page-map";
 import { OverlayProvider } from "@futurewiz-rms/mint";
+import { NavLinks } from "../../components/NavLinks";
 import { SearchModal } from "../../components/SearchModal";
 
 const navbar = (
   <Navbar
-    logo={<span style={{ fontSize: 16, fontWeight: 700 }}>CryptoLab Design System</span>}
+    logo={<span style={{ fontSize: 16, fontWeight: 700 }}>CryptoLabs Design System</span>}
     logoLink="/"
   >
+    <NavLinks />
     <SearchModal />
   </Navbar>
 );
